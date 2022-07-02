@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-feature android:name="android.hardware.nfc" />
    <application
-        android:label="鹊桥erp"
+        android:label="财客通"
         android:name="com.coscx.ckt.MyFlutterApplication"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
