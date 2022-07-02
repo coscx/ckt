@@ -1,0 +1,118 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.coscx.ckt">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:remove="android:maxSdkVersion"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:remove="android:maxSdkVersion"/>
+    <uses-permission android:name="android.permission.CAMERA" tools:remove="android:maxSdkVersion"/>
+    <!--粗略定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--精确定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--用于写入缓存数据到扩展存储卡-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-feature android:name="android.hardware.nfc" />
+   <application
+        android:label="鹊桥erp"
+        android:name="com.coscx.ckt.MyFlutterApplication"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+       android:requestLegacyExternalStorage="true"
+        tools:replace="android:label,android:icon,android:allowBackup"
+       >
+       <uses-library
+           android:name="org.apache.http.legacy"
+           android:required="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+       <activity
+           android:name="com.example.flt_im_plugin.VOIPVoiceActivity"
+           android:screenOrientation="portrait"
+           android:label="voip" >
+       </activity>
+       <activity
+           android:name="com.example.flt_im_plugin.VOIPVideoActivity"
+           android:screenOrientation="portrait"
+           android:label="voip" >
+       </activity>
+       <activity
+           android:name="com.yalantis.ucrop.UCropActivity"
+           android:screenOrientation="portrait"
+           android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+       <!-- ** Umeng Start ** -->
+       <meta-data
+           android:name="UMENG_APPKEY"
+           android:value="5fec7e1cadb42d58269648d8" /> <!-- Channel ID用来标识App的推广渠道，作为推送消息时给用户分组的一个维度。 -->
+       <!-- Under tag is umeng_analysis_with_push plugin define -->
+       <meta-data
+           android:name="UMENG_SECRET"
+           android:value="9aa304c3f2ff5e98734edb2784b43700" />
+       <meta-data
+           android:name="UMENG_CHANNEL"
+           android:value="Umeng" />
+       <!-- huawei push参数声明 -->
+       <!-- huawei start -->
+       <meta-data
+           android:name="com.huawei.hms.client.appid"
+           android:value="appid=103680303" />
+       <!-- huawei end -->
+       <!--vivo push参数声明 -->
+       <!-- vivo start-->
+       <meta-data
+           android:name="com.vivo.push.app_id"
+           android:value="000000000" />
+       <meta-data
+           android:name="com.vivo.push.api_key"
+           android:value="oooooooooooooooooooooooooooooooo" />
+       <!-- VIVO end-->
+       <!-- XiaoMi start-->
+       <!-- Under tag is umeng_analysis_with_push plugin define -->
+       <!-- 因 Android 会将数字的 meta-data 识别为 Number 类型
+       所以数字形式的 meta-data 请在加前缀 "\ " 或定义到 strings.xml 中以识别为 String -->
+       <meta-data
+           android:name="com.xiaomi.push.app_id"
+           android:value="\2882303761520152534" />
+       <meta-data
+           android:name="com.xiaomi.push.app_key"
+           android:value="\5132015237534" />
+       <!-- XiaoMi end-->
+       <!-- ** Umeng End ** -->
+       <meta-data
+           android:name="com.baidu.lbsapi.API_KEY"
+           android:value="3fcovLraCVi0jKrouSN1gvLgNmx81kf9" />
+       <meta-data
+           android:name="com.amap.api.v2.apikey"
+           android:value="98a76d026d36629273b5b8c62ff13177"/>
+    </application>
+</manifest>

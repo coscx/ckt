@@ -1,0 +1,144 @@
+name: flutter_ckt
+description: ckt Flutter application.
+
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flt_im_plugin:
+    git:
+      url: https://github.com/coscx/lat.git
+  umeng_analytics_with_push:
+    git: https://github.com/coscx/umeng_push.git
+  flutter_2d_amap:
+    git:
+      url: https://github.com/coscx/flutter_2d_amap.git
+  flutter_my_picker_null_safety:
+    git: https://github.com/coscx/flutter_my_picker_null_safety.git
+  flutter_gifimage:
+    git: https://github.com/coscx/flutter_gifimage.git
+  photo_view:
+    git:
+      url: https://github.com/bluefireteam/photo_view
+      ref: master
+  another_xlider: ^1.1.0
+  adaptive_action_sheet: ^2.0.1
+  badges: ^2.0.2
+  bot_toast: ^4.0.2
+  cupertino_icons: ^1.0.4
+  cookie_jar: ^3.0.1
+  crypto: ^3.0.1
+  connectivity: ^3.0.6 #网络状态
+  city_pickers: ^1.0.1
+  custom_pop_up_menu: ^1.2.4
+  direct_select_flutter: ^1.1.1
+  dio: ^4.0.6
+  dio_cookie_manager: ^2.0.0
+  device_info: ^2.0.3
+  date_time_picker: ^2.1.0
+  dropdown_search: ^2.0.1
+  encrypt: ^5.0.1
+  event_bus: ^2.0.0
+  equatable: ^2.0.3
+  extended_image: ^6.2.1
+  emoji_picker_flutter: ^1.3.0
+  flutter_spinkit: ^5.1.0 #loading
+  flutter_markdown: ^0.6.9 #NO
+  flutter_star: ^1.0.2 # 星星组件
+  flutter_xupdate: ^2.0.2
+  flutter_local_notifications: ^9.4.0 #NO
+  card_swiper: ^2.0.4
+  flare_flutter: ^3.0.2
+  flutter_image_compress: ^1.1.0
+  flutter_picker: ^2.0.3
+  flutter_pickers: ^2.1.9
+  timeline_list: ^0.0.6
+  refresh_loadmore: ^2.0.5
+  fluwx_no_pay: ^3.9.0
+  flutter_screenutil: ^5.5.3+2
+  fluttertoast: ^8.0.9
+  flutter_easyloading: ^3.0.5
+  flutter_cache_manager: ^3.3.0
+  flutter_svg: ^1.0.3
+  flui_nullsafety: ^3.0.0
+  get: ^4.6.5
+  gzx_dropdown_menu: ^3.1.0
+  getwidget: ^2.0.5
+  intl: ^0.17.0
+  image_picker: ^0.8.5
+  image_gallery_saver: ^1.7.1
+  image_cropper: ^1.5.1
+  just_audio: ^0.9.20
+  loading_animations: ^2.2.0
+  lottie: ^1.2.2
+  left_scroll_actions: ^2.1.0
+  logger: ^1.1.0
+  multi_image_picker: ^4.8.1
+  menu_button: ^1.4.2+1
+  overlay_support: ^1.2.1
+  pull_to_refresh_flutter3: ^2.0.1
+  package_info: ^2.0.2
+  path_provider: ^2.0.9
+  permission_handler: ^9.2.0
+  qr_flutter: ^4.0.0
+  record: ^3.0.4
+  radial_menu: ^0.0.1
+  shared_preferences: ^2.0.13
+  share: ^2.0.4
+  sentry: ^6.4.0
+  sqflite: ^2.0.2 #数据库
+  select_form_field: ^2.2.0
+  soundpool: ^2.3.0
+  syncfusion_flutter_sliders: ^20.1.48
+  syncfusion_flutter_barcodes: ^20.1.55
+  swipe_image_gallery: ^0.5.1
+  toggle_rotate: ^1.0.1
+  uni_links: ^0.5.1
+  url_launcher: ^6.0.20 # url
+  video_player: ^2.3.0
+  video_thumbnail: ^0.5.0
+  vibration: ^1.7.4-nullsafety.0
+  w_popup_menu: ^1.0.0
+  webview_flutter: ^3.0.2
+  wechat_assets_picker: ^7.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/packages/images/
+    - assets/packages/lottie_flutter/
+    - assets/images/default/
+    - assets/images/icon/
+    - assets/images/login/
+    - assets/images/figure/
+  fonts:
+    - family: Avenir
+      fonts:
+        - asset: assets/fonts/Avenir-Book.ttf
+          weight: 400 # normal
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+    - family: Iconfont
+      fonts:
+        - asset: assets/fonts/iconfonterp.ttf
+    - family: TolyIcon
+      fonts:
+        - asset: assets/fonts/iconfont.ttf

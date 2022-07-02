@@ -1,0 +1,44 @@
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    repositories {
+//        google()
+//        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+
+        maven { url 'https://jitpack.io' }
+
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+//        google()
+//        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+
+
+        maven { url 'https://jitpack.io' }
+        maven {url 'http://developer.huawei.com/repo'}
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
