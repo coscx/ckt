@@ -73,7 +73,6 @@ dependencies:
   gzx_dropdown_menu: ^3.1.0
   getwidget: ^2.0.5
   intl: ^0.17.0
-  image_picker: ^0.8.5
   image_gallery_saver: ^1.7.1
   image_cropper: ^1.5.1
   just_audio: ^0.9.20

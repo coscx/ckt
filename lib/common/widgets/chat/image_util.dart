@@ -1,17 +1,44 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ImageUtil {
   /*
   * 从相机取图片
   */
-  static Future getCameraImage() async {
-    return await ImagePicker().pickImage(source: ImageSource.camera);
+  static Future getCameraImage(BuildContext context) async {
+    List<AssetEntity> asset = <AssetEntity>[];
+    var assets =  await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        textDelegate: const AssetPickerTextDelegate(),
+        maxAssets: 1,
+        selectedAssets: asset,
+        pickerTheme: AssetPicker.themeData(
+          Colors.lightBlueAccent,
+          light: true,
+        ),
+      ),
+    );
+    return assets;
   }
 
   /*
   * 从相册取图片
   */
-  static Future getGalleryImage() async {
-    return await ImagePicker().pickImage(source: ImageSource.gallery);
+  static Future getGalleryImage(BuildContext context) async {
+    List<AssetEntity> asset = <AssetEntity>[];
+    var assets =  await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        textDelegate: const AssetPickerTextDelegate(),
+        maxAssets: 1,
+        selectedAssets: asset,
+        pickerTheme: AssetPicker.themeData(
+          Colors.lightBlueAccent,
+          light: true,
+        ),
+      ),
+    );
+    return assets;
   }
 }

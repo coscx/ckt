@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flt_im_plugin/conversion.dart';
@@ -9,13 +8,10 @@ import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../pages/group_chat/logic.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'popupwindow_widget.dart';
 import 'voice.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:image_picker/image_picker.dart';
 import '../dy_behavior_null.dart';
 import '../delete_category_dialog.dart';
 import '../more_widgets.dart';
@@ -279,7 +275,7 @@ class _ChatInputViewState extends State<ChatInputView> {
     List<Widget> _widgets = [];
     _widgets
         .add(MoreWidgets.buildIcon(Icons.insert_photo, '相册', o: (res) async {
-      var imageFile = await ImageUtil.getGalleryImage();
+      var imageFile = await ImageUtil.getGalleryImage(context);
       _willBuildImageMessage(imageFile);
     }));
     _widgets.add(MoreWidgets.buildIcon(Icons.camera_alt, '拍摄',
@@ -287,7 +283,7 @@ class _ChatInputViewState extends State<ChatInputView> {
                 onCallBack: (type, file) async {
               if (type == 1) {
                 //相机取图片
-                _willBuildImageMessage(file as XFile);
+                //_willBuildImageMessage(file as XFile);
               } else if (type == 2) {
                 //相机拍视频
                 _buildVideoMessage(file as Map<String, dynamic>);
@@ -644,15 +640,18 @@ class _ChatInputViewState extends State<ChatInputView> {
     isShowSend = false;
   }
 
-  _willBuildImageMessage(XFile imageFile) {
-    if (imageFile.path.isEmpty) {
+  _willBuildImageMessage(List<AssetEntity> imageFiles) async {
+    var  imageFile =  imageFiles.first;
+    File? file = await imageFile.file;
+
+    if (file!.path.isEmpty) {
       return;
     }
-    _buildImageMessage(imageFile, false);
+    _buildImageMessage(file, false);
     return;
   }
 
-  _buildImageMessage(XFile file, bool sendOriginalImage) async {
+  _buildImageMessage(File file, bool sendOriginalImage) async {
     var content = await file.readAsBytes();
 
     widget.sendImageClick(content);

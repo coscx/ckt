@@ -4,19 +4,14 @@ import 'dart:io';
 import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
-import 'package:flutter_ckt/pages/user_detail/logic.dart';
 import 'package:flutter_ckt/pages/user_detail/widget/tag.dart';
 import 'package:flutter_ckt/pages/user_detail/widget/widget_node_panel.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
-
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import '../../../../common/utils/common.dart';
 import '../../../../common/widgets/circle_text.dart';
 import '../../../../common/widgets/delete_category_dialog.dart';
@@ -2551,81 +2546,46 @@ Widget _buildLinkTo(BuildContext context, Data userdetail,
           showToastRed(context, "暂无权限", true);
           return;
         }
-        //_getPermission(context);
-        // List<Asset> images = <Asset>[];
-        // List<Asset> resultList = <Asset>[];
-        //
-        // try {
-        //   resultList = await MultiImagePicker.pickImages(
-        //     // 选择图片的最大数量
-        //     maxImages: 1,
-        //     // 是否支持拍照
-        //     enableCamera: true,
-        //     materialOptions: MaterialOptions(
-        //         // 显示所有照片，值为 false 时显示相册
-        //         startInAllView: false,
-        //         allViewTitle: '所有照片',
-        //         actionBarColor: '#2196F3',
-        //         textOnNothingSelected: '没有选择照片'),
-        //   );
-        // } on Exception catch (e) {
-        //   e.toString();
-        // }
-        // //if (!mounted) return;
-        // images = (resultList == null) ? [] : resultList;
-        // // 上传照片时一张一张上传
-        // for (int i = 0; i < images.length; i++) {
-        //   // 获取 ByteData
-        //   ByteData byteData = await images[i].getByteData(quality: 100);
-        //
-        //   EasyLoading.show();
-        //   try {
-        //     var resultConnectList =
-        //         await IssuesApi.uploadPhoto("1", byteData, _loading);
-        //     // debugPrint(resultConnectList['data']);
-        //
-        //     var result = await IssuesApi.editCustomer(
-        //         userdetail['info']['uuid'], "1", resultConnectList['data']);
-        //     if (result['code'] == 200) {
-        //       BlocProvider.of<DetailBloc>(context).add(UploadImgSuccessEvent(
-        //           userdetail, resultConnectList['data'], result['data']));
-        //       showToast(context, "上传成功", false);
-        //       callSetState("photo", true);
-        //     } else {
-        //       showToast(context, result['message'], false);
-        //     }
-        //   } on DioError catch (e) {
-        //     var dd = e.response.data;
-        //     EasyLoading.showSuccess(dd['message']);
-        //     //showToast(context,dd['message'],false);
-        //   }
-        //   EasyLoading.dismiss();
-        // }
-        final pickedImage = await ImagePicker()
-            .getImage(source: ImageSource.gallery, imageQuality: 50);
-        File? imageFile = pickedImage != null ? File(pickedImage.path) : null;
-        if (imageFile != null) {
+        List<AssetEntity> asset = <AssetEntity>[];
+        var assets =  await AssetPicker.pickAssets(
+          context,
+          pickerConfig: AssetPickerConfig(
+            textDelegate: const AssetPickerTextDelegate(),
+            maxAssets: 1,
+            selectedAssets: asset,
+            pickerTheme: AssetPicker.themeData(
+              Colors.lightBlueAccent,
+              light: true,
+            ),
+          ),
+        );
+        var  imageFile =  assets!.first;
+        File? file = await imageFile.file;
+        // final pickedImage = await ImagePicker()
+        //     .getImage(source: ImageSource.gallery, imageQuality: 50);
+        // File? imageFile = pickedImage != null ? File(pickedImage.path) : null;
+        if (file?.path != null) {
           File? croppedFile = await ImageCropper().cropImage(
               aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 2),
-              sourcePath: imageFile.path,
+              sourcePath: file!.path,
               aspectRatioPresets: Platform.isAndroid
                   ? [
-                      CropAspectRatioPreset.square,
-                      CropAspectRatioPreset.ratio3x2,
-                      CropAspectRatioPreset.original,
-                      CropAspectRatioPreset.ratio4x3,
-                      CropAspectRatioPreset.ratio16x9
-                    ]
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
                   : [
-                      CropAspectRatioPreset.original,
-                      CropAspectRatioPreset.square,
-                      CropAspectRatioPreset.ratio3x2,
-                      CropAspectRatioPreset.ratio4x3,
-                      CropAspectRatioPreset.ratio5x3,
-                      CropAspectRatioPreset.ratio5x4,
-                      CropAspectRatioPreset.ratio7x5,
-                      CropAspectRatioPreset.ratio16x9
-                    ],
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
               androidUiSettings: const AndroidUiSettings(
                   hideBottomControls: true,
                   toolbarTitle: '图片裁剪',
@@ -2637,9 +2597,8 @@ Widget _buildLinkTo(BuildContext context, Data userdetail,
                 title: '图片裁剪',
               ));
           if (croppedFile != null) {
-            imageFile = croppedFile;
             final logic = Get.find<OAUserDetailLogic>();
-            logic.uploadPhoto(imageFile.path);
+            logic.uploadPhoto(croppedFile.path);
           }
         }
       }));

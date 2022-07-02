@@ -19,7 +19,7 @@ class PopupWindowUtil {
                 title:  const Text("拍照"),
                 onTap: () async {
                   Navigator.pop(context);
-                  ImageUtil.getCameraImage().then((image) {
+                  ImageUtil.getCameraImage(context).then((image) {
                     if (onCallBack != null) {
                       onCallBack(image);
                     }
@@ -32,7 +32,7 @@ class PopupWindowUtil {
                 title:  const Text("相册"),
                 onTap: () async {
                   Navigator.pop(context);
-                  ImageUtil.getGalleryImage().then((image) {
+                  ImageUtil.getGalleryImage(context).then((image) {
                     if (onCallBack != null) {
                       onCallBack(image);
                     }
@@ -59,7 +59,7 @@ class PopupWindowUtil {
                 title: const Text("拍照片"),
                 onTap: () async {
                   Navigator.pop(context);
-                  ImageUtil.getCameraImage().then((image) {
+                  ImageUtil.getCameraImage(context).then((image) {
                     if (onCallBack != null) {
                       onCallBack(1, image);
                     }
