@@ -283,10 +283,10 @@ class _ChatInputViewState extends State<ChatInputView> {
                 onCallBack: (type, file) async {
               if (type == 1) {
                 //相机取图片
-                //_willBuildImageMessage(file as XFile);
+                _willBuildCameraImageMessage(file as AssetEntity);
               } else if (type == 2) {
                 //相机拍视频
-                _buildVideoMessage(file as Map<String, dynamic>);
+                _buildVideoMessage(file as AssetEntity);
               }
             })));
     _widgets.add(MoreWidgets.buildIcon(Icons.videocam, '在线通话',
@@ -639,7 +639,16 @@ class _ChatInputViewState extends State<ChatInputView> {
     controller.clear();
     isShowSend = false;
   }
+  _willBuildCameraImageMessage(AssetEntity imageFiles) async {
+    var  imageFile =  imageFiles;
+    File? file = await imageFile.file;
 
+    if (file!.path.isEmpty) {
+      return;
+    }
+    _buildImageMessage(file, false);
+    return;
+  }
   _willBuildImageMessage(List<AssetEntity> imageFiles) async {
     var  imageFile =  imageFiles.first;
     File? file = await imageFile.file;
@@ -665,7 +674,7 @@ class _ChatInputViewState extends State<ChatInputView> {
     controller.clear();
   }
 
-  _buildVideoMessage(Map file) {
+  _buildVideoMessage(AssetEntity file) {
     controller.clear();
   }
 

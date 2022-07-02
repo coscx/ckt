@@ -72,7 +72,11 @@ class PopupWindowUtil {
                 title:  const Text("拍视频"),
                 onTap: () async {
                   Navigator.pop(context);
-
+                  ImageUtil.getCameraVideo(context).then((image) {
+                    if (onCallBack != null) {
+                      onCallBack(2, image);
+                    }
+                  });
                 },
               ),
             ],

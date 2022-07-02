@@ -108,7 +108,7 @@ dependencies:
   w_popup_menu: ^1.0.0
   webview_flutter: ^3.0.2
   wechat_assets_picker: ^7.3.2
-
+  wechat_camera_picker: ^3.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

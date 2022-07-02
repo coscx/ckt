@@ -57,6 +57,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.3"
+  bindings_compatible:
+    dependency: transitive
+    description:
+      name: bindings_compatible
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -71,6 +78,41 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.2"
+  camera:
+    dependency: transitive
+    description:
+      name: camera
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.9.8+1"
+  camera_android:
+    dependency: transitive
+    description:
+      name: camera_android
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.9.8+3"
+  camera_avfoundation:
+    dependency: transitive
+    description:
+      name: camera_avfoundation
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.9.8+2"
+  camera_platform_interface:
+    dependency: transitive
+    description:
+      name: camera_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.0"
+  camera_web:
+    dependency: transitive
+    description:
+      name: camera_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.1+6"
   card_swiper:
     dependency: "direct main"
     description:
@@ -155,6 +197,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.3+1"
   crypto:
     dependency: "direct main"
     description:
@@ -948,6 +997,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.0"
   radial_menu:
     dependency: "direct main"
     description:
@@ -1142,6 +1198,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   string_scanner:
     dependency: transitive
     description:
@@ -1431,6 +1494,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "7.3.2"
+  wechat_camera_picker:
+    dependency: "direct main"
+    description:
+      name: wechat_camera_picker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.4.0"
   win32:
     dependency: transitive
     description:
