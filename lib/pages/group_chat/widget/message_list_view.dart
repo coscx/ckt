@@ -128,9 +128,19 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
             itemBuilder: (BuildContext context, int index) {
               String uuid = "";
               if (Platform.isIOS) {
-                uuid = widget.messageList[index].content!['uuid'];
+                if (widget.messageList[index].type == MessageType.MESSAGE_REVOKE){
+                  uuid = widget.messageList[index].content!['msgid'];
+                }else{
+                  uuid = widget.messageList[index].content!['uuid'];
+                }
+
               } else {
-                uuid = widget.messageList[index].content!['uUID'];
+
+                if (widget.messageList[index].type == MessageType.MESSAGE_REVOKE){
+                  uuid = widget.messageList[index].content!['msgid'];
+                }else{
+                  uuid = widget.messageList[index].content!['uUID'];
+                }
               }
 
               if (index == widget.messageList.length - 1) {
