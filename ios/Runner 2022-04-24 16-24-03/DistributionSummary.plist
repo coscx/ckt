@@ -1390,7 +1390,7 @@
 			<key>entitlements</key>
 			<dict>
 				<key>application-identifier</key>
-				<string>43UR8XNTHX.com.coscx.erp</string>
+				<string>43UR8XNTHX.com.coscx.ckt</string>
 				<key>aps-environment</key>
 				<string>production</string>
 				<key>com.apple.developer.team-identifier</key>
@@ -1407,7 +1407,7 @@
 				<key>dateExpires</key>
 				<string>2023/4/24</string>
 				<key>name</key>
-				<string>iOS Team Ad Hoc Provisioning Profile: com.coscx.erp</string>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.coscx.ckt</string>
 			</dict>
 			<key>team</key>
 			<dict>
