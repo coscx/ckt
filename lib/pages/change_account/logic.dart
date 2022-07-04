@@ -1,3 +1,4 @@
+import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flutter_ckt/common/entities/login/account.dart';
 import 'package:get/get.dart';
 
@@ -25,16 +26,17 @@ class ChangeAccountLogic extends GetxController {
      update();
   }
   changeAccount(Account result) async {
-    await StorageService.to.setString("im_sender", result.imSender);
-    await StorageService.to.setString("name", result.name);
-    await StorageService.to.setString("uuid", result.uuid);
-    await StorageService.to.setString("openid", result.openid);
-    await StorageService.to.setString("user_token", result.userToken);
-    await StorageService.to.setString("fresh_token", result.freshToken);
-    await StorageService.to.setString("memberId", result.memberid);
-    await StorageService.to.setString("im_token", result.imToken);
-    await StorageService.to.setString("avatar", result.avatar);
-    await StorageService.to.setString("roleId", result.roleid);
-    Get.offAndToNamed(AppRoutes.ChangeJump);
+
+
+    FltImPlugin im = FltImPlugin();
+    im.logout();
+    Future.delayed(const Duration(milliseconds: 1)).then((e) async {
+      await StorageService.to.remove("im_token");
+      await StorageService.to.remove("memberId");
+      await StorageService.to.remove("token");
+      await StorageService.to.remove("user_token");
+      await StorageService.to.remove("user_profile");
+      Get.offAllNamed(AppRoutes.ChangeJump,arguments: result);
+    });
   }
 }
