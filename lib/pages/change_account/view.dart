@@ -243,162 +243,9 @@ class ChangeAccountPage extends StatelessWidget {
     }).toList();
   }
 
-  Widget _buildAddAccount() {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15.w),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
-                      height: 120.h,
-                      child: Image.asset(
-                          "assets/images/default/ic_user_male.png"),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("MSTAR",
-                            style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.normal)),
-                        Text("13355088996",
-                            style: TextStyle(
-                                color: Color(0xffaaaaaa),
-                                fontSize: 27.sp,
-                                fontWeight: FontWeight.normal)),
-                      ],
-                    ),
-
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(right: 20.w, top: 28.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 5.w),
-                            width: 20.w,
-                            height: 20.w,
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                    5))),
-                          ),
-                          Text("当前使用",
-                              style: TextStyle(
-                                  color: Color(0xff000000),
-                                  fontSize: 26.sp,
-                                  fontWeight: FontWeight.normal)),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-
-          ],
-        )
-    );
-  }
-
-  Widget _buildAddAccount1() {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15.w),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
-                      height: 120.h,
-                      child: Image.asset(
-                          "assets/images/default/ic_user_female.png"),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("MSTAR",
-                            style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.normal)),
-                        Text("13355088996",
-                            style: TextStyle(
-                                color: Color(0xffaaaaaa),
-                                fontSize: 27.sp,
-                                fontWeight: FontWeight.normal)),
-                      ],
-                    ),
-
-                  ],
-                ),
-              ],
-            ),
-            logic.manage.value == false ? Container(
-              padding: EdgeInsets.only(right: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.w),
-                      ),
-                      side: BorderSide(width: 0, color: Colors.redAccent,),
-                    ),
-                    child: Container(
-                      child: Text("清除", style: TextStyle(fontFamily: "PingFang",
-                          fontSize: 30.sp,
-                          color: Colors.white),),
-                      padding: EdgeInsets.only(
-                          top: 0.h, left: 0.w, bottom: 0.h, right: 0.w),
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ) : Container(),
-          ],
-        )
-    );
-  }
 
   Widget _buildAddAccount2() {
-    return logic.manage.value == true ? GestureDetector(
-      onTap: (){
-        Get.offAllNamed(AppRoutes.LOGIN);
-      },
+    return logic.manage.value == true ? Container(
       child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -412,11 +259,16 @@ class ChangeAccountPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
-                        height: 120.h,
-                        child: Image.asset("assets/images/ckt/add-image.png"),
+                      GestureDetector(
+                        onTap: (){
+                          Get.offAllNamed(AppRoutes.LOGIN);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
+                          height: 120.h,
+                          child: Image.asset("assets/images/ckt/add-image.png"),
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
