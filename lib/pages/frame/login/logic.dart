@@ -110,6 +110,7 @@ class LoginLogic extends GetxController {
       await StorageService.to.setString("avatar", result.data!.user.avatar);
       await StorageService.to.setString("roleId", result.data!.user.idcardVerified.toString());
       await UserStore.to.saveProfile(result);
+      await UserStore.to.saveAccount(result);
       await UserStore.to.setToken(result.data!.token.accessToken);
       EasyLoading.dismiss();
 
@@ -141,7 +142,8 @@ class LoginLogic extends GetxController {
       await StorageService.to.setString("im_token", result.data!.imToken);
       await StorageService.to.setString("avatar", result.data!.user.avatar);
       await StorageService.to.setString("roleId", result.data!.user.idcardVerified.toString());
-      await  UserStore.to.saveProfile(result);
+      await UserStore.to.saveProfile(result);
+      await UserStore.to.saveAccount(result);
       await UserStore.to.setToken(result.data!.token.accessToken);
       EasyLoading.dismiss();
       if (result.data!.user.messageCount == 1) {

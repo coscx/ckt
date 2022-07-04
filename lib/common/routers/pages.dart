@@ -4,6 +4,12 @@ import 'package:flutter_ckt/pages/add_vip/view.dart';
 import 'package:flutter_ckt/pages/amap/binding.dart';
 import 'package:flutter_ckt/pages/amap/view.dart';
 import 'package:flutter_ckt/pages/application/index.dart';
+import 'package:flutter_ckt/pages/calcucation/binding.dart';
+import 'package:flutter_ckt/pages/calcucation/view.dart';
+import 'package:flutter_ckt/pages/change_account/binding.dart';
+import 'package:flutter_ckt/pages/change_account/view.dart';
+import 'package:flutter_ckt/pages/change_jump/binding.dart';
+import 'package:flutter_ckt/pages/change_jump/view.dart';
 import 'package:flutter_ckt/pages/create_user/binding.dart';
 import 'package:flutter_ckt/pages/create_user/view.dart';
 import 'package:flutter_ckt/pages/distribute/binding.dart';
@@ -241,7 +247,24 @@ class AppPages {
         binding: PublicBinding(),
         transition: Transition.rightToLeft
     ),
-
+    GetPage(
+        name: AppRoutes.Calcucation,
+        page: () => CalcucationPage(),
+        binding: CalcucationBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.ChangeAccount,
+        page: () => ChangeAccountPage(),
+        binding: ChangeAccountBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.ChangeJump,
+        page: () => ChangeJumpPage(),
+        binding: ChangeJumpBinding(),
+        transition: Transition.rightToLeft
+    ),
 
   ];
 

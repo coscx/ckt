@@ -4,6 +4,7 @@ import 'package:flutter_ckt/common/utils/iconfont.dart';
 import 'package:flutter_ckt/common/values/values.dart';
 import 'package:flutter_ckt/common/widgets/unit_bottom_bar.dart';
 import 'package:flutter_ckt/common/widgets/widgets.dart';
+import 'package:flutter_ckt/pages/calcucation/view.dart';
 
 import 'package:flutter_ckt/pages/conversion/view.dart';
 import 'package:flutter_ckt/pages/flow_page/view.dart';
@@ -46,7 +47,7 @@ class ApplicationPage extends GetView<ApplicationController> {
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         HomePage(),
-        FlowPage(),
+        CalcucationPage(),
         ConversionPage(),
         MinePage(),
       ],

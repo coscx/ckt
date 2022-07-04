@@ -59,6 +59,8 @@ T? asT<T extends Object?>(dynamic value, [T? defaultValue]) {
   return defaultValue;
 }
 
+
+
 class LoginEntity {
   LoginEntity({
      this.status,

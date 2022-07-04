@@ -30,4 +30,7 @@ class AppRoutes {
   static const AboutUs = '/about_us';
   static const Public = '/public';
   static const Follow = '/follow';
+  static const Calcucation = '/calcucation';
+  static const ChangeAccount = '/change_account';
+  static const ChangeJump = '/change_jump';
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:flutter_ckt/common/apis/apis.dart';
+import 'package:flutter_ckt/common/entities/login/account.dart';
 import 'package:flutter_ckt/common/services/services.dart';
 import 'package:flutter_ckt/common/values/values.dart';
 import 'package:get/get.dart';
@@ -11,13 +13,17 @@ class UserStore extends GetxController {
 
   // 是否登录
   final _isLogin = false.obs;
+
   // 令牌 token
   String token = '';
+
   // 用户 profile
   final _profile = LoginEntity().obs;
 
   bool get isLogin => _isLogin.value;
+
   LoginEntity get profile => _profile.value;
+
   bool get hasToken => token.isNotEmpty;
 
   @override
@@ -50,6 +56,60 @@ class UserStore extends GetxController {
   Future<void> saveProfile(LoginEntity profile) async {
     _isLogin.value = true;
     StorageService.to.setString(STORAGE_USER_PROFILE_KEY, jsonEncode(profile));
+  }
+
+  Future<void> saveAccount(LoginEntity result) async {
+    var profileOffline = StorageService.to.getString(STORAGE_USER_ACCOUNT_KEY);
+    if (profileOffline.isNotEmpty) {
+      var data = AccountData.fromJson(jsonDecode(profileOffline));
+      data.account?.removeWhere((element) => element.memberid == result.data!.user.id.toString());
+      data.account?.add(Account(
+          imSender: result.data!.user.id.toString(),
+          name: result.data!.user.relname,
+          uuid: result.data!.user.uuid,
+          openid: result.data!.user.openid,
+          userToken: result.data!.token.accessToken,
+          freshToken: result.data!.token.refreshToken,
+          memberid: result.data!.user.id.toString(),
+          imToken: result.data!.imToken,
+          avatar: result.data!.user.avatar,
+          roleid: result.data!.user.idcardVerified.toString()));
+      StorageService.to.setString(STORAGE_USER_ACCOUNT_KEY, jsonEncode(data));
+    }else{
+      var data = <Account>[];
+      data.add(Account(
+          imSender: result.data!.user.id.toString(),
+          name: result.data!.user.relname,
+          uuid: result.data!.user.uuid,
+          openid: result.data!.user.openid,
+          userToken: result.data!.token.accessToken,
+          freshToken: result.data!.token.refreshToken,
+          memberid: result.data!.user.id.toString(),
+          imToken: result.data!.imToken,
+          avatar: result.data!.user.avatar,
+          roleid: result.data!.user.idcardVerified.toString()));
+      var b=  AccountData(account: data);
+      StorageService.to.setString(STORAGE_USER_ACCOUNT_KEY, jsonEncode(b));
+    }
+  }
+
+  AccountData? getAccount() {
+    var profileOffline = StorageService.to.getString(STORAGE_USER_ACCOUNT_KEY);
+    if (profileOffline.isNotEmpty) {
+      return AccountData.fromJson(jsonDecode(profileOffline));
+    }
+    return null;
+  }
+
+  bool removeAccount(String id) {
+    var profileOffline = StorageService.to.getString(STORAGE_USER_ACCOUNT_KEY);
+    if (profileOffline.isNotEmpty) {
+      var data = AccountData.fromJson(jsonDecode(profileOffline));
+      data.account?.removeWhere((element) => element.memberid == id.toString());
+      StorageService.to.setString(STORAGE_USER_ACCOUNT_KEY, jsonEncode(data));
+      return true;
+    }
+    return false;
   }
 
   // 注销

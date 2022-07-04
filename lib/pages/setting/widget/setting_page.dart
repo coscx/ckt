@@ -77,10 +77,15 @@ class SettingPages extends StatelessWidget {
                 // ),
                 //
                 // Divider(),
-                // SizedBox(
-                //   height: 40.h,
-                // ),
+                SizedBox(
+                  height: 40.h,
+                ),
+                buildChangeButton(context, "切换账号", Colors.blue),
+                SizedBox(
+                  height: 20.h,
+                ),
                 buildButton(context, "退出登录", Colors.blue),
+
               ],
             ),
           )),
@@ -127,7 +132,10 @@ class SettingPages extends StatelessWidget {
             _exit(context);
           },
           child:
-              Text(txt, style: TextStyle(fontSize: 33.sp, color: Colors.white)),
+              Container(child: Text(txt, style: TextStyle(fontSize: 33.sp, color: Colors.white)),
+              padding: EdgeInsets.only(top: 10.h,left: 55.w,bottom:10.h,right: 55.w),
+
+              ),
           style: ElevatedButton.styleFrom(
               onPrimary: Colors.white,
               primary: Theme.of(context).primaryColor,
@@ -138,7 +146,28 @@ class SettingPages extends StatelessWidget {
       ],
     );
   }
+  Widget buildChangeButton(BuildContext context, String txt, MaterialColor color) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(AppRoutes.ChangeAccount);
+          },
+          child:
+          Container(child: Text(txt, style: TextStyle(fontSize: 33.sp, color: Colors.white)),
+            padding: EdgeInsets.only(top: 10.h,left: 55.w,bottom:10.h,right: 55.w),
 
+          ),
+          style: ElevatedButton.styleFrom(
+              onPrimary: Colors.white,
+              primary: Theme.of(context).primaryColor,
+              shadowColor: Colors.black12,
+              shape: StadiumBorder(),
+              padding: EdgeInsets.symmetric(horizontal: 65.w, vertical: 15.h)),
+        ),
+      ],
+    );
+  }
   Widget _buildShowBg(BuildContext context) =>
        SwitchListTile(
                 value: showBackGround,

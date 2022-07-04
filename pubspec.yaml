@@ -120,6 +120,7 @@ flutter:
     - assets/images/icon/
     - assets/images/login/
     - assets/images/figure/
+    - assets/images/ckt/
   fonts:
     - family: Avenir
       fonts:
@@ -137,3 +138,6 @@ flutter:
     - family: TolyIcon
       fonts:
         - asset: assets/fonts/iconfont.ttf
+    - family: PingFang
+      fonts:
+        - asset: assets/fonts/PingFang_simple_normal.ttf

@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 class TolyIcon {
-
     TolyIcon._();
 static const IconData icon_common = const IconData( 0xe634, fontFamily: "TolyIcon");
 static const IconData icon_see = const IconData( 0xe608, fontFamily: "TolyIcon");
