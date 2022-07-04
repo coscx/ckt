@@ -43,18 +43,16 @@ class LoginPage extends StatelessWidget {
 
   Widget arcBackground() {
     return ArcBackground(
-      image: const AssetImage("assets/images/caver.webp"),
+      image: const AssetImage("assets/images/background.webp"),
       child: Padding(
         padding: EdgeInsets.all(100.w),
         child: Container(
+          height: 280.h,
             padding: EdgeInsets.all(20.w),
             decoration: BoxDecoration(
                 color: Colors.white.withAlpha(0), shape: BoxShape.rectangle),
-            child: Image.asset(
-              "assets/images/login_top.png",
-              width: 400.w,
-              height: 200.h,
-            )),
+            child: Container()
+        ),
       ),
     );
   }
@@ -72,10 +70,10 @@ class LoginPage extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                "ERP系统登录",
-                style: TextStyle(fontSize: 40.sp),
-              ),
+              // Text(
+              //   "ERP系统登录",
+              //   style: TextStyle(fontSize: 40.sp),
+              // ),
               SizedBox(
                 height: 10.h,
               ),
@@ -150,7 +148,7 @@ class LoginPage extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   text: TextSpan(
-                      text: "请使用前同意",
+                      text: "登录即代表同意",
                       style: TextStyle(color: Colors.grey[600]),
                       children: [
                         TextSpan(
