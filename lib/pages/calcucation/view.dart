@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ckt/common/routers/names.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -67,6 +68,8 @@ class CalcucationPage extends StatelessWidget {
                                         ),
                                         SizedBox(height: 40.h,),
                                         _buildButton(),
+
+                                        _buildToQuotaList(),
                                       ],
                                     ),
                                   ),
@@ -80,7 +83,20 @@ class CalcucationPage extends StatelessWidget {
               )));
     });
   }
+Widget  _buildToQuotaList(){
+    return Container(
+      padding: EdgeInsets.only(top: 100.h,),
+      child: GestureDetector(
+        onTap: (){
+           Get.toNamed(AppRoutes.CalcucationList);
+        },
+        child: Container(
+          child: Text("历史测算记录",style: TextStyle(fontFamily: "PingFang",fontSize: 30.sp,color: Color(0xffDE2821)),
+        ),
 
+      )),
+    );
+}
   Widget _buildButton(){
   return  Row(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +115,9 @@ class CalcucationPage extends StatelessWidget {
               padding: EdgeInsets.only(top: 28.h,left: 55.w,bottom:28.h,right: 55.w),
 
             ),
-            onPressed: () {},
+            onPressed: () {
+                   Get.toNamed(AppRoutes.CalcucationPrepare,arguments: {"name":logic.usernameController.text,"mobile":logic.passwordController.text});
+            },
           ),
       ),
      SizedBox(width: 40.w,),

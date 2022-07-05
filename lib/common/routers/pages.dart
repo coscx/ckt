@@ -6,6 +6,9 @@ import 'package:flutter_ckt/pages/amap/view.dart';
 import 'package:flutter_ckt/pages/application/index.dart';
 import 'package:flutter_ckt/pages/calcucation/binding.dart';
 import 'package:flutter_ckt/pages/calcucation/view.dart';
+import 'package:flutter_ckt/pages/calcucation_detail/binding.dart';
+import 'package:flutter_ckt/pages/calcucation_detail/view.dart';
+import 'package:flutter_ckt/pages/calcucation_prepare/view.dart';
 import 'package:flutter_ckt/pages/change_account/binding.dart';
 import 'package:flutter_ckt/pages/change_account/view.dart';
 import 'package:flutter_ckt/pages/change_jump/binding.dart';
@@ -53,6 +56,9 @@ import 'package:flutter_ckt/pages/user_detail/binding.dart';
 import 'package:flutter_ckt/pages/user_detail/view.dart';
 import 'package:get/get.dart';
 import '../../pages/add_vip/binding.dart';
+import '../../pages/calcucation_prepare/binding.dart';
+import '../../pages/calcucation_result/binding.dart';
+import '../../pages/calcucation_result/view.dart';
 import '../../pages/home/binding.dart';
 import '../../pages/oa/person/follow/view.dart';
 import '../../pages/oa/person/public/binding.dart';
@@ -263,6 +269,24 @@ class AppPages {
         name: AppRoutes.ChangeJump,
         page: () => ChangeJumpPage(),
         binding: ChangeJumpBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.CalcucationList,
+        page: () => CalcucationDetailPage(),
+        binding: CalcucationDetailBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.CalcucationPrepare,
+        page: () => CalcucationPreparePage(),
+        binding: CalcucationPrepareBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.CalcucationResult,
+        page: () => CalcucationResultPage(),
+        binding: CalcucationResultBinding(),
         transition: Transition.rightToLeft
     ),
 

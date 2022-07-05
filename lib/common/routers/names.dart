@@ -33,4 +33,7 @@ class AppRoutes {
   static const Calcucation = '/calcucation';
   static const ChangeAccount = '/change_account';
   static const ChangeJump = '/change_jump';
+  static const CalcucationList = '/calcucation_list';
+  static const CalcucationPrepare = '/calcucation_prepare';
+  static const CalcucationResult = '/calcucation_result';
 }

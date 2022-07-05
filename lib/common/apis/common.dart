@@ -17,6 +17,7 @@ import 'package:flutter_ckt/common/entities/flow/wx_article.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
+import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,6 +29,7 @@ import '../entities/home/common.dart';
 import '../entities/home/only_store.dart';
 import '../entities/home/search_erp.dart';
 import '../entities/loan/loan.dart';
+import '../entities/loan/quota.dart';
 import '../entities/mine/mine.dart';
 import '../utils/loan_http.dart';
 import '../utils/new_common_http.dart';
@@ -48,6 +50,20 @@ class CommonAPI {
       data: {"loan_id":id},
     );
     return LoanDetail.fromJson(response);
+  }
+  static Future<Quota> GetAppQuotaCalculation(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAppQuotaCalculation',
+      data: data,
+    );
+    return Quota.fromJson(response);
+  }
+  static Future<QuotaList> GetCalcucationList(int page,int user_id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetCalcucationList',
+      data: {"page":page,"user_id":user_id},
+    );
+    return QuotaList.fromJson(response);
   }
   /// 登录
   static Future<AppVersionEntity> getVersion() async {
