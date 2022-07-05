@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../common/utils/common.dart';
 import 'logic.dart';
 
 class CalcucationResultPage extends StatelessWidget {
@@ -164,9 +165,8 @@ Widget _buildContent(CalcucationResultLogic logic){
       Container(
         padding: EdgeInsets.only(
             top: 10.w, bottom: 20.h, left: 50.w),
-        child: Text(logic.result,
+        child: Text(formatNum(logic.result),
             style: TextStyle(
-
                 fontSize: 120.sp,
                 color: Colors.white)),
       ),
@@ -197,7 +197,6 @@ Widget _buildContent(CalcucationResultLogic logic){
                 right: 50.h, left: 50.w,top: 80.h,bottom: 60.h),
             width: ScreenUtil().screenWidth,
             decoration: BoxDecoration(
-
               borderRadius:
               BorderRadius.circular(15.w),
             ),

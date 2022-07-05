@@ -69,6 +69,7 @@ dependencies:
   get: ^4.6.5
   gzx_dropdown_menu: ^3.1.0
   getwidget: ^2.0.5
+  group_radio_button: ^1.2.0
   intl: ^0.17.0
   image_gallery_saver: ^1.7.1
   image_cropper: ^1.5.1

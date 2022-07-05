@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ckt/common/routers/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 
 import '../../common/widgets/dy_behavior_null.dart';
 import 'logic.dart';
@@ -70,6 +70,9 @@ class CalcucationPreparePage extends StatelessWidget {
                                                     "万元",
                                                     logic.applyMoneyFieldNode,
                                                     logic.applyMoneyController),
+                                                Obx(() {
+                                                  return _buildRadio(true,"申请年数");
+                                                }),
                                                 buildCommonInput(
                                                     true,
                                                     "房屋市场金额",
@@ -77,6 +80,7 @@ class CalcucationPreparePage extends StatelessWidget {
                                                     "万元",
                                                     logic.houseValueFieldNode,
                                                     logic.houseValueController),
+
                                                 buildCommonInput(
                                                     false,
                                                     "工资收入",
@@ -209,7 +213,7 @@ class CalcucationPreparePage extends StatelessWidget {
                                                     right: 55.w),
                                               ),
                                               onPressed: () {
-                                                 logic.getResult();
+                                                logic.getResult();
                                               },
                                             ),
                                           ),
@@ -222,6 +226,48 @@ class CalcucationPreparePage extends StatelessWidget {
     );
   }
 
+  Widget _buildRadio(bool isRequire,String title){
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 30.w, bottom: 5.h),
+            child: Row(
+              children: [
+                isRequire
+                    ? Text("*",
+                    style: TextStyle(
+                        fontSize: 30.sp, color: Colors.redAccent))
+                    : Container(),
+                Text(title,
+                    style: TextStyle(fontSize: 30.sp, color: Colors.black)),
+              ],
+            )),
+
+        Container(
+          margin: EdgeInsets.only(
+              left: 20.w, right: 20.w),
+          child: RadioGroup<
+              String>.builder(
+            groupValue: logic
+                .verticalGroupValue
+                .value,
+            onChanged: (value) {
+              logic.verticalGroupValue
+                  .value = value!;
+            },
+            items: logic.status,
+            direction: Axis.horizontal,
+            activeColor: Colors.redAccent,
+            textStyle: TextStyle(fontSize: 30.sp, color: Colors.black),
+            itemBuilder: (item) =>
+                RadioButtonBuilder(
+                  item,
+                ),
+          ),
+        ),
+      ],
+    );
+  }
   Widget buildCommonInput(bool isRequire, String title, String hintText,
       String endTitle, FocusNode focusNode, TextEditingController controller) {
     return Container(

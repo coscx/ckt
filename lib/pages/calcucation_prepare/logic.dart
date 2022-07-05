@@ -36,7 +36,9 @@ class CalcucationPrepareLogic extends GetxController {
 
   final onetimeGiveDateController = TextEditingController(text: '');
   FocusNode onetimeGiveDateFieldNode= FocusNode();
+  var verticalGroupValue = "8年".obs;
 
+  List<String> status = ["8年", "5年", "3年"];
   setFocus(){
     applyMoneyFieldNode.unfocus();
     houseValueFieldNode.unfocus();
@@ -48,16 +50,32 @@ class CalcucationPrepareLogic extends GetxController {
     onetimeGiveMoneyFieldNode.unfocus();
     onetimeGiveDateFieldNode.unfocus();
   }
+  int getGroup(String g){
+    if(g=="8年"){
+      return 8;
+    }
+    if(g=="5年"){
+      return 5;
+    }
+    if(g=="3年"){
+      return 3;
+    }
+    return 0;
+  }
+
+
    getResult() async {
+
+
      var r = Get.arguments;
      Map<String,dynamic> data ={
        "user_id":182,
        "name":r["name"],
        "mobile":r["mobile"],
-       "apply_month":8,
+       "apply_month":getGroup(verticalGroupValue.value),
        "apply_money":applyMoneyController.text,
        "house_market_value":houseValueController.text,
-
+       "income":incomeController.text
      };
      Quota result =  await CommonAPI.GetAppQuotaCalculation(data);
      setFocus();
