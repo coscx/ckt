@@ -32,6 +32,8 @@ class MinePage extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverAppBar(
+                  leadingWidth: 0,
+                  leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
                   backgroundColor: Colors.white,
                   expandedHeight: 220.h,
                   flexibleSpace: FlexibleSpaceBar(
@@ -385,22 +387,48 @@ class MinePage extends StatelessWidget {
                         margin: EdgeInsets.only(top: 40.h),
                         child: Column(
                           children: <Widget>[
-                            GestureDetector(
-                              onTap: () async {
-                                var ss = await StorageService.to.getString(
-                                    "openid");
-                                if (ss == "") {
-                                  logic.bindWxOnTap();
-                                } else {
-                                  _bindWx(context, "");
-                                }
-                              },
-                              child: MenuItem(
-                                icon: "assets/packages/images/login_wechat.svg",
-                                title: logic.bind,
+                            // GestureDetector(
+                            //   onTap: () async {
+                            //     var ss = await StorageService.to.getString(
+                            //         "openid");
+                            //     if (ss == "") {
+                            //       logic.bindWxOnTap();
+                            //     } else {
+                            //       _bindWx(context, "");
+                            //     }
+                            //   },
+                            //   child: MenuItem(
+                            //     icon: "assets/packages/images/login_wechat.svg",
+                            //     title: logic.bind,
+                            //   ),
+                            // ),
+                            Container(
+                              color: Colors.white,
+                              margin: EdgeInsets.only(top: 0.h),
+                              child: Column(
+                                children: <Widget>[
+
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Get.toNamed(AppRoutes.ChangeAccount);
+                                    },
+                                    child: NewMenuItem(
+                                      icon: "assets/images/exchange.png",
+                                      title: "账号切换",
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      _exit(context);
+                                    },
+                                    child: NewMenuItem(
+                                      icon: "assets/images/logout.png",
+                                      title: "退出登录",
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-
 
                           ],
                         ),
@@ -414,7 +442,36 @@ class MinePage extends StatelessWidget {
         })
     );
   }
+  _exit(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (ctx) => Dialog(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.w))),
+          child: Container(
+            width: 100.w,
+            child: DeleteCategoryDialog(
+              title: '退出登录',
+              content: '是否确定继续执行?',
+              onSubmit: () {
 
+                Future.delayed(const Duration(milliseconds: 1)).then((e) async {
+                  await StorageService.to.remove("im_token");
+                  await StorageService.to.remove("memberId");
+                  await StorageService.to.remove("token");
+                  await StorageService.to.remove("user_token");
+                  await StorageService.to.remove("user_profile");
+                  Get.offAllNamed(AppRoutes.LOGIN);
+                });
+                // Navigator.of(context).pushAndRemoveUntil(
+                //     new MaterialPageRoute(builder: (context) => LoginPage()
+                //     ), (route) => route == null);
+              },
+            ),
+          ),
+        ));
+  }
   _bindWx(BuildContext context, String img) {
     showDialog(
         context: context,
@@ -570,4 +627,59 @@ class MenuItem extends StatelessWidget {
       ),
     );
   }
+}
+class NewMenuItem extends StatelessWidget {
+  NewMenuItem({ required this.icon, required this.title, this.onPressed});
+
+  final String icon;
+  final String title;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding:  EdgeInsets.only(
+              left: 40.w,
+              top: 0.h,
+              right: 40.w,
+              bottom: 10.h,
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding:  EdgeInsets.only(
+                    right: 30.w,
+                  ),
+                  child: Image.asset(
+                    icon,
+                    width: 90.w,
+                    // color: Colors.black54,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(color: Colors.black87, fontSize: 32.sp),
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right,
+                  color: Colors.black12,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding:  EdgeInsets.only(left: 40.w, right: 40.w, top: 26.h),
+            child: Container(),
+          )
+        ],
+      ),
+    );
+  }
+
 }

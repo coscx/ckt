@@ -155,10 +155,8 @@ class _FinPageState extends State<FinPages> {
               //backgroundColor: Colors.transparent, //把scaffold的背景色改成透明
               elevation: 0,
               //去掉Appbar底部阴影
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+              leadingWidth: 0,
+              leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
               titleSpacing: 170.w,
               title: Text("我的客户",
                   style: TextStyle(

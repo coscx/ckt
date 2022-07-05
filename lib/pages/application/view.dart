@@ -11,6 +11,7 @@ import 'package:flutter_ckt/pages/flow_page/view.dart';
 import 'package:flutter_ckt/pages/home/view.dart';
 import 'package:flutter_ckt/pages/main/index.dart';
 import 'package:flutter_ckt/pages/mine/view.dart';
+import 'package:flutter_ckt/pages/other/fine/view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,7 @@ class ApplicationPage extends GetView<ApplicationController> {
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
-        HomePage(),
+        FinePage(),
         CalcucationPage(),
         ConversionPage(),
         MinePage(),

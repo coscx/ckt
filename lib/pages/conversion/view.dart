@@ -40,7 +40,7 @@ class ConversionPage extends StatelessWidget {
                         fontWeight: FontWeight.bold)),
               ],
             ),
-            //leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
+            leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
             backgroundColor: Colors.white,
             elevation: 0,
             //去掉Appbar底部阴影
