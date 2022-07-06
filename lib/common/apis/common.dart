@@ -75,8 +75,8 @@ class CommonAPI {
   }
   static Future<LoginEntity> login(String username, String password) async {
     var data = {'username': username, 'password': password};
-    var response = await NewERPHttpUtil().post(
-      '/api/v1/auth/login',
+    var response = await NewLoanHttpUtil().post(
+      '/api/CktAppLogin',
       data: data,
     );
     return LoginEntity.fromJson(response);
@@ -359,7 +359,7 @@ class CommonAPI {
     return CommonResult.fromJson(response);
   }
   static Future<CommonResult> getUserStatus() async {
-    var response = await NewERPHttpUtil().post(
+    var response = await NewLoanHttpUtil().post(
       '/api/GetUserStatus',
       queryParameters: {},
     );

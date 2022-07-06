@@ -8,6 +8,8 @@ import 'package:flutter_ckt/pages/calcucation/binding.dart';
 import 'package:flutter_ckt/pages/calcucation/view.dart';
 import 'package:flutter_ckt/pages/calcucation_detail/binding.dart';
 import 'package:flutter_ckt/pages/calcucation_detail/view.dart';
+import 'package:flutter_ckt/pages/calcucation_exact/binding.dart';
+import 'package:flutter_ckt/pages/calcucation_exact/view.dart';
 import 'package:flutter_ckt/pages/calcucation_prepare/view.dart';
 import 'package:flutter_ckt/pages/change_account/binding.dart';
 import 'package:flutter_ckt/pages/change_account/view.dart';
@@ -289,7 +291,12 @@ class AppPages {
         binding: CalcucationResultBinding(),
         transition: Transition.rightToLeft
     ),
-
+    GetPage(
+        name: AppRoutes.CalcucationExact,
+        page: () => CalcucationExactPage(),
+        binding: CalcucationExactBinding(),
+        transition: Transition.rightToLeft
+    ),
   ];
 
   // static final unknownRoute = GetPage(

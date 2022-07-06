@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../common/apis/common.dart';
@@ -8,7 +10,7 @@ import 'state.dart';
 
 class CalcucationPrepareLogic extends GetxController {
   final CalcucationPrepareState state = CalcucationPrepareState();
-
+  ScrollController scrollController = ScrollController();
 
   final applyMoneyController = TextEditingController(text: '');
   FocusNode applyMoneyFieldNode = FocusNode();
@@ -66,6 +68,32 @@ class CalcucationPrepareLogic extends GetxController {
 
    getResult() async {
 
+     if (applyMoneyController.text==""){
+       Fluttertoast.showToast(
+           msg: "请填写申请金额" ,
+           toastLength: Toast.LENGTH_SHORT,
+           gravity: ToastGravity.CENTER,
+           timeInSecForIosWeb: 2,
+           backgroundColor: Colors.black.withAlpha(100),
+           textColor: Colors.white,
+           fontSize: 14.0);
+       scrollController.jumpTo(0);
+       applyMoneyFieldNode.requestFocus();
+       return;
+     }
+     if (houseValueController.text==""){
+       Fluttertoast.showToast(
+           msg: "请填写房产市场金额" ,
+           toastLength: Toast.LENGTH_SHORT,
+           gravity: ToastGravity.CENTER,
+           timeInSecForIosWeb: 2,
+           backgroundColor: Colors.black.withAlpha(100),
+           textColor: Colors.white,
+           fontSize: 14.0);
+       scrollController.jumpTo(0);
+       houseValueFieldNode.requestFocus();
+       return;
+     }
 
      var r = Get.arguments;
      Map<String,dynamic> data ={
@@ -75,7 +103,16 @@ class CalcucationPrepareLogic extends GetxController {
        "apply_month":getGroup(verticalGroupValue.value),
        "apply_money":applyMoneyController.text,
        "house_market_value":houseValueController.text,
-       "income":incomeController.text
+       "income":incomeController.text,
+
+       "mortgage_monthly_repayment":houseLoanController.text,
+       "car_mortgage_monthly_repayment":carLoanController.text,
+       "house_mortgage_loan_balance":loanRemainController.text,
+       "large_special_scale_monthly":bigSpecialController.text,
+
+       "onetime_repayment_money1":onetimeGiveMoneyController.text,
+       "onetime_repayment_amount1":onetimeGiveDateController.text,
+
      };
      Quota result =  await CommonAPI.GetAppQuotaCalculation(data);
      setFocus();

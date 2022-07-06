@@ -12,7 +12,8 @@ class CalcucationLogic extends GetxController {
   @override
   void onInit() {
     usernameController.text= StorageService.to.getString("name");
-    passwordController.text= StorageService.to.getString("memberId");
+    passwordController.text= StorageService.to.getString("mobile");
+
     update();
     super.onInit();
   }

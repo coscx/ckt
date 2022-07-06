@@ -35,7 +35,7 @@ class LoginLogic extends GetxController {
   }
   @override
   void onInit() {
-    wxInit();
+    //wxInit();
     super.onInit();
   }
   //查看用户协议
@@ -96,32 +96,33 @@ class LoginLogic extends GetxController {
     return false;
   }
   Future<bool> login(String username, String password) async {
-    EasyLoading.show();
+    EasyLoading.show(maskType:EasyLoadingMaskType.none );
     var result = await CommonAPI.login(username, password);
     if (result.code == 200) {
-      await StorageService.to.setString("im_sender", result.data!.user.id.toString());
-      await StorageService.to.setString("name", result.data!.user.relname);
-      await StorageService.to.setString("uuid", result.data!.user.uuid);
-      await StorageService.to.setString("openid", result.data!.user.openid);
-      await StorageService.to.setString("user_token", result.data!.token.accessToken);
-      await StorageService.to.setString("fresh_token", result.data!.token.refreshToken);
-      await StorageService.to.setString("memberId", result.data!.user.id.toString());
+      await StorageService.to.setString("im_sender", result.data!.user!.id.toString());
+      await StorageService.to.setString("name", result.data!.user!.relname);
+      await StorageService.to.setString("uuid", result.data!.user!.uuid);
+      await StorageService.to.setString("openid", result.data!.user!.openid);
+      await StorageService.to.setString("user_token", result.data!.token!.accessToken);
+      await StorageService.to.setString("fresh_token", result.data!.token!.refreshToken);
+      await StorageService.to.setString("memberId", result.data!.user!.id.toString());
       await StorageService.to.setString("im_token", result.data!.imToken);
-      await StorageService.to.setString("avatar", result.data!.user.avatar);
-      await StorageService.to.setString("roleId", result.data!.user.idcardVerified.toString());
+      await StorageService.to.setString("avatar", result.data!.user!.avatar);
+      await StorageService.to.setString("roleId", result.data!.user!.idcardVerified.toString());
+      await StorageService.to.setString("mobile", result.data!.user!.mobile);
       await UserStore.to.saveProfile(result);
       await UserStore.to.saveAccount(result);
-      await UserStore.to.setToken(result.data!.token.accessToken);
+      await UserStore.to.setToken(result.data!.token!.accessToken);
       EasyLoading.dismiss();
 
-      if (result.data!.user.messageCount == 1) {
+      if (result.data!.user!.messageCount == 1) {
         Get.offAndToNamed(AppRoutes.OAApplication);
       }else{
         Get.offAndToNamed(AppRoutes.Application);
       }
       return true;
     }else{
-      showToastRed(Get.context!, result.message!, false);
+      showToastRed(Get.context!, result.msg, false);
     }
     EasyLoading.dismiss();
     //debugPrint(result.toJson().toString());
@@ -132,21 +133,22 @@ class LoginLogic extends GetxController {
     EasyLoading.show();
     var result = await CommonAPI.wxLogin(code);
     if (result.code == 200) {
-      await StorageService.to.setString("im_sender", result.data!.user.id.toString());
-      await StorageService.to.setString("name", result.data!.user.relname);
-      await StorageService.to.setString("uuid", result.data!.user.uuid);
-      await StorageService.to.setString("openid", result.data!.user.openid);
-      await StorageService.to.setString("user_token", result.data!.token.accessToken);
-      await StorageService.to.setString("fresh_token", result.data!.token.refreshToken);
-      await StorageService.to.setString("memberId", result.data!.user.id.toString());
+      await StorageService.to.setString("im_sender", result.data!.user!.id.toString());
+      await StorageService.to.setString("name", result.data!.user!.relname);
+      await StorageService.to.setString("uuid", result.data!.user!.uuid);
+      await StorageService.to.setString("openid", result.data!.user!.openid);
+      await StorageService.to.setString("user_token", result.data!.token!.accessToken);
+      await StorageService.to.setString("fresh_token", result.data!.token!.refreshToken);
+      await StorageService.to.setString("memberId", result.data!.user!.id.toString());
       await StorageService.to.setString("im_token", result.data!.imToken);
-      await StorageService.to.setString("avatar", result.data!.user.avatar);
-      await StorageService.to.setString("roleId", result.data!.user.idcardVerified.toString());
+      await StorageService.to.setString("avatar", result.data!.user!.avatar);
+      await StorageService.to.setString("roleId", result.data!.user!.idcardVerified.toString());
+      await StorageService.to.setString("mobile", result.data!.user!.mobile);
       await UserStore.to.saveProfile(result);
       await UserStore.to.saveAccount(result);
-      await UserStore.to.setToken(result.data!.token.accessToken);
+      await UserStore.to.setToken(result.data!.token!.accessToken);
       EasyLoading.dismiss();
-      if (result.data!.user.messageCount == 1) {
+      if (result.data!.user!.messageCount == 1) {
         Get.offAndToNamed(AppRoutes.OAApplication);
       }else{
         Get.offAndToNamed(AppRoutes.Application);

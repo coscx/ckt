@@ -104,7 +104,9 @@ class Account {
     required this.imToken,
     required this.avatar,
     required this.roleid,
+    required this.mobile,
     required this.messageCount,
+
   });
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
@@ -126,6 +128,7 @@ class Account {
     json.containsKey('im_token') ? asT<String>(json['im_token'])! : '',
     avatar: json.containsKey('avatar') ? asT<String>(json['avatar'])! : '',
     roleid: json.containsKey('roleId') ? asT<String>(json['roleId'])! : '',
+    mobile: json.containsKey('mobile') ? asT<String>(json['mobile'])! : '',
     messageCount: json.containsKey('message_count') ? asT<int>(json['message_count'])! : 0,
   );
 
@@ -139,6 +142,7 @@ class Account {
   String imToken;
   String avatar;
   String roleid;
+  String mobile;
   int messageCount;
   @override
   String toString() {
@@ -156,6 +160,7 @@ class Account {
     'im_token': imToken,
     'avatar': avatar,
     'roleId': roleid,
+    'mobile': mobile,
     'message_count': messageCount,
   };
 }

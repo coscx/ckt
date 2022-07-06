@@ -273,17 +273,7 @@ class NewLoanHttpUtil {
         cancelToken: cancelToken,
       );
       EasyLoading.dismiss();
-      var res =  CommonResult.fromJson(response.data);
-      if (res.code !=200){
-        Fluttertoast.showToast(
-            msg: res.msg! ,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.black.withAlpha(100),
-            textColor: Colors.white,
-            fontSize: 14.0);
-      }
+
       return response.data;
   }
 

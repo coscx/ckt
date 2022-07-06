@@ -29,6 +29,7 @@ class UserStore extends GetxController {
       imToken: "",
       avatar: "",
       roleid: "",
+      mobile: "",
       messageCount: 0
   ).obs;
 
@@ -59,17 +60,18 @@ class UserStore extends GetxController {
   Future<void> saveProfile(LoginEntity result) async {
     _isLogin.value = true;
     var account =Account(
-        imSender: result.data!.user.id.toString(),
-        name: result.data!.user.relname,
-        uuid: result.data!.user.uuid,
-        openid: result.data!.user.openid,
-        userToken: result.data!.token.accessToken,
-        freshToken: result.data!.token.refreshToken,
-        memberid: result.data!.user.id.toString(),
+        imSender: result.data!.user!.id.toString(),
+        name: result.data!.user!.relname,
+        uuid: result.data!.user!.uuid,
+        openid: result.data!.user!.openid,
+        userToken: result.data!.token!.accessToken,
+        freshToken: result.data!.token!.refreshToken,
+        memberid: result.data!.user!.id.toString(),
         imToken: result.data!.imToken,
-        avatar: result.data!.user.avatar,
-        roleid: result.data!.user.idcardVerified.toString(),
-        messageCount: result.data!.user.messageCount,
+        avatar: result.data!.user!.avatar,
+        roleid: result.data!.user!.idcardVerified.toString(),
+        messageCount: result.data!.user!.messageCount,
+        mobile: result.data!.user!.mobile.toString(),
     );
     StorageService.to.setString(STORAGE_USER_PROFILE_KEY, jsonEncode(account));
   }
@@ -81,34 +83,37 @@ class UserStore extends GetxController {
     var profileOffline = StorageService.to.getString(STORAGE_USER_ACCOUNT_KEY);
     if (profileOffline.isNotEmpty) {
       var data = AccountData.fromJson(jsonDecode(profileOffline));
-      data.account?.removeWhere((element) => element.memberid == result.data!.user.id.toString());
+      data.account?.removeWhere((element) => element.memberid == result.data!.user!.id.toString());
       data.account?.add(Account(
-          imSender: result.data!.user.id.toString(),
-          name: result.data!.user.relname,
-          uuid: result.data!.user.uuid,
-          openid: result.data!.user.openid,
-          userToken: result.data!.token.accessToken,
-          freshToken: result.data!.token.refreshToken,
-          memberid: result.data!.user.id.toString(),
+          imSender: result.data!.user!.id.toString(),
+          name: result.data!.user!.relname,
+          uuid: result.data!.user!.uuid,
+          openid: result.data!.user!.openid,
+          userToken: result.data!.token!.accessToken,
+          freshToken: result.data!.token!.refreshToken,
+          memberid: result.data!.user!.id.toString(),
           imToken: result.data!.imToken,
-          avatar: result.data!.user.avatar,
-          roleid: result.data!.user.idcardVerified.toString(),
-          messageCount: result.data!.user.messageCount,));
+          avatar: result.data!.user!.avatar,
+          roleid: result.data!.user!.idcardVerified.toString(),
+          mobile: result.data!.user!.mobile.toString(),
+          messageCount: result.data!.user!.messageCount,
+      ));
       StorageService.to.setString(STORAGE_USER_ACCOUNT_KEY, jsonEncode(data));
     }else{
       var data = <Account>[];
       data.add(Account(
-          imSender: result.data!.user.id.toString(),
-          name: result.data!.user.relname,
-          uuid: result.data!.user.uuid,
-          openid: result.data!.user.openid,
-          userToken: result.data!.token.accessToken,
-          freshToken: result.data!.token.refreshToken,
-          memberid: result.data!.user.id.toString(),
+          imSender: result.data!.user!.id.toString(),
+          name: result.data!.user!.relname,
+          uuid: result.data!.user!.uuid,
+          openid: result.data!.user!.openid,
+          userToken: result.data!.token!.accessToken,
+          freshToken: result.data!.token!.refreshToken,
+          memberid: result.data!.user!.id.toString(),
           imToken: result.data!.imToken,
-          avatar: result.data!.user.avatar,
-          roleid: result.data!.user.idcardVerified.toString(),
-          messageCount: result.data!.user.messageCount
+          avatar: result.data!.user!.avatar,
+          roleid: result.data!.user!.idcardVerified.toString(),
+          mobile: result.data!.user!.mobile.toString(),
+          messageCount: result.data!.user!.messageCount
       ));
       var b=  AccountData(account: data);
       StorageService.to.setString(STORAGE_USER_ACCOUNT_KEY, jsonEncode(b));

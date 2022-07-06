@@ -137,7 +137,9 @@ Widget  _buildToQuotaList(){
             child: Text("精准测算",style: TextStyle(fontFamily: "PingFang",fontSize: 30.sp,color: Colors.white),),
             padding: EdgeInsets.only(top: 28.h,left: 55.w,bottom:28.h,right: 55.w),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(AppRoutes.CalcucationExact,arguments: {"name":logic.usernameController.text,"mobile":logic.passwordController.text});
+          },
         ),
       ),
     ],

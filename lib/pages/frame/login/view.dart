@@ -101,87 +101,88 @@ class LoginPage extends StatelessWidget {
                           : TolyIcon.icon_hide))
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Checkbox(
-                      value: logic.autoLogin,
-                      //shape: CircleBorder(),//这里就是实现圆形的设置
-                      onChanged: (e) {
-                        logic.autoLogin = !logic.autoLogin;
-                        logic.update();
-                      }),
-                  Text(
-                    "自动登录",
-                    style: TextStyle(
-                        color: const Color(0xff444444), fontSize: 30.sp),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                      onTap: () {
-                        _register(context);
-                      },
-                      child: Text(
-                        "如何注册?",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 25.sp,
-                            decoration: TextDecoration.underline),
-                      ))
-                ],
-              ),
+              // Row(
+              //   children: <Widget>[
+              //     Checkbox(
+              //         value: logic.autoLogin,
+              //         //shape: CircleBorder(),//这里就是实现圆形的设置
+              //         onChanged: (e) {
+              //           logic.autoLogin = !logic.autoLogin;
+              //           logic.update();
+              //         }),
+              //     Text(
+              //       "自动登录",
+              //       style: TextStyle(
+              //           color: const Color(0xff444444), fontSize: 30.sp),
+              //     ),
+              //     const Spacer(),
+              //     GestureDetector(
+              //         onTap: () {
+              //           _register(context);
+              //         },
+              //         child: Text(
+              //           "如何注册?",
+              //           style: TextStyle(
+              //               color: Colors.blue,
+              //               fontSize: 25.sp,
+              //               decoration: TextDecoration.underline),
+              //         ))
+              //   ],
+              // ),
+              Container(height: 20.h,),
               _buildBtn(context),
-               Obx(() {
-                return logic.showWx.value ?buildOtherLogin(): Container();
-              }) ,
-              //const CircularProgressIndicator()
-              Container(
-                padding:
-                EdgeInsets.only(left: 20.w, right: 0.w, top: 100.h),
-                child: Row(
-                  children: <Widget>[
-                    Checkbox(
-                        value: logic.privacy,
-                        shape: const CircleBorder(),//这里就是实现圆形的设置
-                        onChanged: (e) {
-                          logic.privacy = !logic.privacy;
-                          logic.update();
-                        }),
-                RichText(
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  text: TextSpan(
-                      text: "登录即代表同意",
-                      style: TextStyle(color: Colors.grey[600]),
-                      children: [
-                        TextSpan(
-                          text: "《用户协议》",
-                          style: const TextStyle(color: Colors.blue),
-                          recognizer: logic.registProtocolRecognizer
-                            ..onTap = () {
-                              //打开用户协议
-                              logic.openUserProtocol(context);
-                            },
-                        ),
-                        TextSpan(
-                          text: "与",
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                        TextSpan(
-                          text: "《隐私政策》",
-                          style: const TextStyle(color: Colors.blue),
-                          recognizer: logic.privacyProtocolRecognizer
-                            ..onTap = () {
-                              //打开用户协议
-                              logic.openPrivateProtocol(context);
-                            },
-                        ),
-
-                      ]),
-                )
-
-                  ],
-                ),
-              ),
+              //  Obx(() {
+              //   return logic.showWx.value ?buildOtherLogin(): Container();
+              // }) ,
+              // //const CircularProgressIndicator()
+              // Container(
+              //   padding:
+              //   EdgeInsets.only(left: 20.w, right: 0.w, top: 100.h),
+              //   child: Row(
+              //     children: <Widget>[
+              //       Checkbox(
+              //           value: logic.privacy,
+              //           shape: const CircleBorder(),//这里就是实现圆形的设置
+              //           onChanged: (e) {
+              //             logic.privacy = !logic.privacy;
+              //             logic.update();
+              //           }),
+              //   RichText(
+              //     overflow: TextOverflow.ellipsis,
+              //     maxLines: 2,
+              //     text: TextSpan(
+              //         text: "登录即代表同意",
+              //         style: TextStyle(color: Colors.grey[600]),
+              //         children: [
+              //           TextSpan(
+              //             text: "《用户协议》",
+              //             style: const TextStyle(color: Colors.blue),
+              //             recognizer: logic.registProtocolRecognizer
+              //               ..onTap = () {
+              //                 //打开用户协议
+              //                 logic.openUserProtocol(context);
+              //               },
+              //           ),
+              //           TextSpan(
+              //             text: "与",
+              //             style: TextStyle(color: Colors.grey[600]),
+              //           ),
+              //           TextSpan(
+              //             text: "《隐私政策》",
+              //             style: const TextStyle(color: Colors.blue),
+              //             recognizer: logic.privacyProtocolRecognizer
+              //               ..onTap = () {
+              //                 //打开用户协议
+              //                 logic.openPrivateProtocol(context);
+              //               },
+              //           ),
+              //
+              //         ]),
+              //   )
+              //
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ],
@@ -225,10 +226,10 @@ class LoginPage extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(35.w))),
           color: Colors.blue,
           onPressed: () {
-            if (!logic.privacy) {
-              toastInfo(msg: '请勾选同意用户协议与隐私政策');
-              return;
-            }
+            // if (!logic.privacy) {
+            //   toastInfo(msg: '请勾选同意用户协议与隐私政策');
+            //   return;
+            // }
             if (logic.usernameController.text.isEmpty) {
               toastInfo(msg: '请输入账号');
               return;
