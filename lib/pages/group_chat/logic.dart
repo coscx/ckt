@@ -89,13 +89,33 @@ class GroupChatLogic extends GetxController {
         e.content!['text'] = (e.content!['text']);
         return e;
       }).toList();
-      messageList.addAll(messages);
+      messageList.addAll(removeElement(messages));
       update();
     } catch (err) {
       print(err);
     }
   }
+  List<Message> removeElement(List<Message> cc){
+    List<Message> dd =<Message>[];
+    for(int i=0;i<cc.length;i++){
+      var  e= cc[i];
+      int m=0;
+      for(int j=0;j<dd.length;j++){
+       var  f= dd[j];
+       if (e.content!['uUID'] ==f.content!['uUID']){
+         m=1;
+         break;
+       }
 
+      }
+      if (m==1){
+       continue;
+      }
+      dd.add(e);
+    }
+   return dd;
+
+  }
   void sendTextMessage(String content) async {
     Map? result = await im.sendGroupTextMessage(
       secret: false,

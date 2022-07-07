@@ -10,9 +10,7 @@ import 'logic.dart';
 
 class CalcucationExactPage extends StatelessWidget {
   final logic = Get.find<CalcucationExactLogic>();
-  final state = Get
-      .find<CalcucationExactLogic>()
-      .state;
+  final state = Get.find<CalcucationExactLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +44,21 @@ class CalcucationExactPage extends StatelessWidget {
                           child: ScrollConfiguration(
                               behavior: DyBehaviorNull(),
                               child: SingleChildScrollView(
-                                controller:  logic.scrollController,
+                                  controller: logic.scrollController,
                                   physics: AlwaysScrollableScrollPhysics(),
                                   child: Container(
                                     padding: EdgeInsets.only(top: 30.h),
                                     child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
+                                            CrossAxisAlignment.stretch,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         children: <Widget>[
                                           Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -73,9 +71,13 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入申请金额",
                                                     "万元",
                                                     logic.applyMoneyFieldNode,
-                                                    logic.applyMoneyController,[
-                                                    FilteringTextInputFormatter(RegExp("^100|[1-9]\\d{0,1}(?:\\.\\d{1,2})?\$"), allow: true),
-                                                    //MyNumberTextInputFormatter(digit: 2)
+                                                    logic.applyMoneyController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp(
+                                                              "^100|[1-9]\\d{0,1}(?:\\.\\d{1,2})?\$"),
+                                                          allow: true),
+                                                      //MyNumberTextInputFormatter(digit: 2)
                                                     ]),
                                                 Obx(() {
                                                   return _buildRadio(
@@ -101,7 +103,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -114,9 +116,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入工资收入",
                                                     "元",
                                                     logic.incomeFieldNode,
-                                                    logic.incomeController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.incomeController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     false,
@@ -124,9 +129,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入个人经营收入",
                                                     "元",
                                                     logic.operateFieldNode,
-                                                    logic.operateController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.operateController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     false,
@@ -134,19 +142,26 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入公司分红",
                                                     "元",
                                                     logic.companyDueFieldNode,
-                                                    logic.companyDueController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.companyDueController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 buildCommonInput(
                                                     false,
                                                     "房屋租赁收入",
                                                     "请输入房屋租赁收入",
                                                     "元",
                                                     logic.houseRentFieldNode,
-                                                    logic.houseRentController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.houseRentController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     false,
@@ -154,9 +169,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入营运车辆承包收入",
                                                     "元",
                                                     logic.runCarFieldNode,
-                                                    logic.runCarController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.runCarController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 Container(
                                                   height: 20.h,
@@ -178,13 +196,14 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
                                             //height: 1100.h,
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 buildCommonInput(
                                                     false,
@@ -192,9 +211,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入近12个月内月日均余额",
                                                     "元",
                                                     logic.day12FieldNode,
-                                                    logic.day12Controller,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.day12Controller, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 Container(
                                                     padding: EdgeInsets.only(
@@ -207,16 +229,19 @@ class CalcucationExactPage extends StatelessWidget {
                                                         style: TextStyle(
                                                             fontSize: 22.sp,
                                                             color:
-                                                            Colors.grey))),
+                                                                Colors.grey))),
                                                 buildCommonInput(
                                                     false,
                                                     "时点余额",
                                                     "请输入时点余额",
                                                     "元",
                                                     logic.hourDotFieldNode,
-                                                    logic.hourDotController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.hourDotController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 Container(
                                                     padding: EdgeInsets.only(
@@ -229,7 +254,7 @@ class CalcucationExactPage extends StatelessWidget {
                                                         style: TextStyle(
                                                             fontSize: 22.sp,
                                                             color:
-                                                            Colors.grey))),
+                                                                Colors.grey))),
                                                 Container(
                                                   height: 20.h,
                                                 ),
@@ -251,7 +276,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -264,19 +289,26 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入房产市场金额",
                                                     "万元",
                                                     logic.houseValueFieldNode,
-                                                    logic.houseValueController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.houseValueController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 buildCommonInput(
                                                     false,
                                                     "按揭贷款余额",
                                                     "请输入按揭贷款余额",
                                                     "元",
                                                     logic.loanFieldNode,
-                                                    logic.loanController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.loanController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     true,
@@ -284,11 +316,14 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入共有人数",
                                                     "人",
                                                     logic.totalPersonFieldNode,
-                                                    logic
-                                                        .totalPersonController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.totalPersonController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 Container(
                                                   height: 20.h,
                                                 ),
@@ -310,7 +345,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -323,11 +358,14 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入其他收入金额",
                                                     "元",
                                                     logic.otherIncomeFieldNode,
-                                                    logic
-                                                        .otherIncomeController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.otherIncomeController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 Container(
                                                   height: 20.h,
                                                 ),
@@ -349,7 +387,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -362,9 +400,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入房贷月还款额",
                                                     "元",
                                                     logic.houseLoanFieldNode,
-                                                    logic.houseLoanController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.houseLoanController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 Container(
                                                   height: 20.h,
@@ -387,7 +428,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -400,9 +441,12 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入金额",
                                                     "元",
                                                     logic.allLoanFieldNode,
-                                                    logic.allLoanController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.allLoanController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     false,
@@ -410,20 +454,28 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "请输入余额",
                                                     "元",
                                                     logic.bigSpecialFieldNode,
-                                                    logic.bigSpecialController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.bigSpecialController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 buildCommonInput(
                                                     false,
                                                     "贷记卡和准贷记卡近6个月平均使用额度",
                                                     "请输入余额",
                                                     "元",
                                                     logic.credit6UseFieldNode,
-                                                    logic.credit6UseController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                    logic.credit6UseController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 buildCommonInput(
                                                     false,
                                                     "贷记卡和准贷记卡近6个月平均使用额度",
@@ -431,10 +483,14 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "元",
                                                     logic.credit6NoUseFieldNode,
                                                     logic
-                                                        .credit6NoUseController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
-                                                ]),
+                                                        .credit6NoUseController,
+                                                    [
+                                                      FilteringTextInputFormatter(
+                                                          RegExp("[0-9.]"),
+                                                          allow: true),
+                                                      MyNumberTextInputFormatter(
+                                                          digit: 2)
+                                                    ]),
                                                 Container(
                                                   height: 20.h,
                                                 ),
@@ -460,13 +516,13 @@ class CalcucationExactPage extends StatelessWidget {
                                                   style: TextStyle(
                                                       fontSize: 22.sp,
                                                       color:
-                                                      Colors.redAccent))),
+                                                          Colors.redAccent))),
                                           Obx(() {
                                             return Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
-                                                BorderRadius.circular(15.w),
+                                                    BorderRadius.circular(15.w),
                                               ),
                                               margin: EdgeInsets.only(
                                                   left: 30.w, right: 30.w),
@@ -481,10 +537,14 @@ class CalcucationExactPage extends StatelessWidget {
                                                       logic
                                                           .onetimeGiveMoney1FieldNode,
                                                       logic
-                                                          .onetimeGiveMoney1Controller,[
-                                                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                    MyNumberTextInputFormatter(digit: 2)
-                                                  ]),
+                                                          .onetimeGiveMoney1Controller,
+                                                      [
+                                                        FilteringTextInputFormatter(
+                                                            RegExp("[0-9.]"),
+                                                            allow: true),
+                                                        MyNumberTextInputFormatter(
+                                                            digit: 2)
+                                                      ]),
                                                   buildCommonInput(
                                                       false,
                                                       "期数1",
@@ -493,10 +553,14 @@ class CalcucationExactPage extends StatelessWidget {
                                                       logic
                                                           .onetimeGiveDate1FieldNode,
                                                       logic
-                                                          .onetimeGiveDate1Controller,[
-                                                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                    MyNumberTextInputFormatter(digit: 2)
-                                                  ]),
+                                                          .onetimeGiveDate1Controller,
+                                                      [
+                                                        FilteringTextInputFormatter(
+                                                            RegExp("[0-9.]"),
+                                                            allow: true),
+                                                        MyNumberTextInputFormatter(
+                                                            digit: 2)
+                                                      ]),
                                                   Visibility(
                                                     visible: logic.v2.value,
                                                     child: Column(
@@ -509,10 +573,15 @@ class CalcucationExactPage extends StatelessWidget {
                                                             logic
                                                                 .onetimeGiveMoney2FieldNode,
                                                             logic
-                                                                .onetimeGiveMoney2Controller,[
-                                                          FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                          MyNumberTextInputFormatter(digit: 2)
-                                                        ]),
+                                                                .onetimeGiveMoney2Controller,
+                                                            [
+                                                              FilteringTextInputFormatter(
+                                                                  RegExp(
+                                                                      "[0-9.]"),
+                                                                  allow: true),
+                                                              MyNumberTextInputFormatter(
+                                                                  digit: 2)
+                                                            ]),
                                                         buildCommonInput(
                                                             false,
                                                             "期数2",
@@ -521,10 +590,15 @@ class CalcucationExactPage extends StatelessWidget {
                                                             logic
                                                                 .onetimeGiveDate2FieldNode,
                                                             logic
-                                                                .onetimeGiveDate2Controller,[
-                                                          FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                          MyNumberTextInputFormatter(digit: 2)
-                                                        ]),
+                                                                .onetimeGiveDate2Controller,
+                                                            [
+                                                              FilteringTextInputFormatter(
+                                                                  RegExp(
+                                                                      "[0-9.]"),
+                                                                  allow: true),
+                                                              MyNumberTextInputFormatter(
+                                                                  digit: 2)
+                                                            ]),
                                                       ],
                                                     ),
                                                   ),
@@ -540,10 +614,15 @@ class CalcucationExactPage extends StatelessWidget {
                                                             logic
                                                                 .onetimeGiveMoney3FieldNode,
                                                             logic
-                                                                .onetimeGiveMoney3Controller,[
-                                                          FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                          MyNumberTextInputFormatter(digit: 2)
-                                                        ]),
+                                                                .onetimeGiveMoney3Controller,
+                                                            [
+                                                              FilteringTextInputFormatter(
+                                                                  RegExp(
+                                                                      "[0-9.]"),
+                                                                  allow: true),
+                                                              MyNumberTextInputFormatter(
+                                                                  digit: 2)
+                                                            ]),
                                                         buildCommonInput(
                                                             false,
                                                             "期数3",
@@ -552,14 +631,22 @@ class CalcucationExactPage extends StatelessWidget {
                                                             logic
                                                                 .onetimeGiveDate3FieldNode,
                                                             logic
-                                                                .onetimeGiveDate3Controller,[
-                                                          FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                          MyNumberTextInputFormatter(digit: 2)
-                                                        ]),
+                                                                .onetimeGiveDate3Controller,
+                                                            [
+                                                              FilteringTextInputFormatter(
+                                                                  RegExp(
+                                                                      "[0-9.]"),
+                                                                  allow: true),
+                                                              MyNumberTextInputFormatter(
+                                                                  digit: 2)
+                                                            ]),
                                                       ],
                                                     ),
                                                   ),
-                                                  (logic.v2.value&&logic.v3.value) ?Container():_buildAdd(),
+                                                  (logic.v2.value &&
+                                                          logic.v3.value)
+                                                      ? Container()
+                                                      : _buildAdd(),
                                                   Container(
                                                     height: 20.h,
                                                   ),
@@ -575,7 +662,7 @@ class CalcucationExactPage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 30.w, right: 30.w),
@@ -587,24 +674,26 @@ class CalcucationExactPage extends StatelessWidget {
                                                     "到期一次性还本抵扣金额",
                                                     "请输入金额",
                                                     "元",
-                                                    logic
-                                                        .repayFieldNode,
-                                                    logic
-                                                        .repayController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.repayFieldNode,
+                                                    logic.repayController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 buildCommonInput(
                                                     false,
                                                     "申请人名下状态为非正常(不含房贷)的担保余额",
                                                     "请输入按揭贷款余额",
                                                     "元",
-                                                    logic
-                                                        .guaranteeFieldNode,
-                                                    logic
-                                                        .guaranteeController,[
-                                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                                                  MyNumberTextInputFormatter(digit: 2)
+                                                    logic.guaranteeFieldNode,
+                                                    logic.guaranteeController, [
+                                                  FilteringTextInputFormatter(
+                                                      RegExp("[0-9.]"),
+                                                      allow: true),
+                                                  MyNumberTextInputFormatter(
+                                                      digit: 2)
                                                 ]),
                                                 Container(
                                                   height: 20.h,
@@ -621,16 +710,16 @@ class CalcucationExactPage extends StatelessWidget {
                                                 bottom: 80.h),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(15.w),
+                                                  BorderRadius.circular(15.w),
                                             ),
                                             child: OutlinedButton(
                                               style: OutlinedButton.styleFrom(
                                                 backgroundColor:
-                                                Color(0xffDE2821),
+                                                    Color(0xffDE2821),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      70.w),
+                                                      BorderRadius.circular(
+                                                          70.w),
                                                 ),
                                                 side: BorderSide(
                                                     width: 0,
@@ -696,8 +785,8 @@ class CalcucationExactPage extends StatelessWidget {
               children: [
                 isRequire
                     ? Text("*",
-                    style:
-                    TextStyle(fontSize: 30.sp, color: Colors.redAccent))
+                        style:
+                            TextStyle(fontSize: 30.sp, color: Colors.redAccent))
                     : Container(),
                 Text(title,
                     style: TextStyle(fontSize: 30.sp, color: Colors.black)),
@@ -714,18 +803,23 @@ class CalcucationExactPage extends StatelessWidget {
             direction: Axis.horizontal,
             activeColor: Colors.redAccent,
             textStyle: TextStyle(fontSize: 30.sp, color: Colors.black),
-            itemBuilder: (item) =>
-                RadioButtonBuilder(
-                  item,
-                ),
+            itemBuilder: (item) => RadioButtonBuilder(
+              item,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget buildCommonInput(bool isRequire, String title, String hintText,
-      String endTitle, FocusNode focusNode, TextEditingController controller,List<TextInputFormatter> formatter) {
+  Widget buildCommonInput(
+      bool isRequire,
+      String title,
+      String hintText,
+      String endTitle,
+      FocusNode focusNode,
+      TextEditingController controller,
+      List<TextInputFormatter> formatter) {
     return Container(
       padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
       child: Column(
@@ -738,8 +832,8 @@ class CalcucationExactPage extends StatelessWidget {
                 children: [
                   isRequire
                       ? Text("*",
-                      style: TextStyle(
-                          fontSize: 30.sp, color: Colors.redAccent))
+                          style: TextStyle(
+                              fontSize: 30.sp, color: Colors.redAccent))
                       : Container(),
                   Text(title,
                       style: TextStyle(fontSize: 30.sp, color: Colors.black)),
@@ -754,7 +848,7 @@ class CalcucationExactPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.w),
                   ),
                   margin:
-                  EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                      EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                   child: Row(
                     children: <Widget>[
                       Padding(
@@ -779,11 +873,25 @@ class CalcucationExactPage extends StatelessWidget {
                             border: InputBorder.none,
                             hintText: hintText,
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 30.sp),
+                                TextStyle(color: Colors.grey, fontSize: 30.sp),
                           ),
-
                         ),
-                      )
+                      ),
+                      // Offstage(
+                      //   offstage: controller.text.isEmpty?true:false,
+                      //   child: GestureDetector(
+                      //     onTap: (){
+                      //         controller.clear();
+                      //     },
+                      //     child: Container(
+                      //       margin: EdgeInsets.only(right: 10.w),
+                      //       width: 45.w,
+                      //       height: 45.h,
+                      //       child: Icon(Icons.cancel,color: Color(0xffbbbbbb),size: 40.sp,),
+                      //     ),
+                      //   ),
+                      //
+                      // )
                     ],
                   ),
                 ),
@@ -795,7 +903,7 @@ class CalcucationExactPage extends StatelessWidget {
                     children: [
                       Text(endTitle,
                           style:
-                          TextStyle(fontSize: 30.sp, color: Colors.black)),
+                              TextStyle(fontSize: 30.sp, color: Colors.black)),
                     ],
                   )),
             ],

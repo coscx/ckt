@@ -67,7 +67,7 @@ class ConversionLogic extends GetxController {
         }
         if(e.message?.sender!=""){
 
-          var name = StorageService.to.getString("peer_"+e.cid.toString());
+          var name = StorageService.to.getString("peer_"+e.message!.sender.toString());
           if (name == "") {
 
           } else {
@@ -157,7 +157,7 @@ class ConversionLogic extends GetxController {
         }
         if(e.message?.sender!=""){
 
-          var name = StorageService.to.getString("peer_"+e.cid.toString());
+          var name = StorageService.to.getString("peer_"+e.message!.sender.toString());
           if (name == "") {
 
           } else {
@@ -195,7 +195,7 @@ class ConversionLogic extends GetxController {
           var result = await CommonAPI.getMemberInfo(e.message!.sender);
           if (result.code== 200) {
             if(result.data!=null){
-              await StorageService.to.setString("peer_"+e.cid.toString(),result.data!.name);
+              await StorageService.to.setString("peer_"+e.message!.sender.toString(),result.data!.name);
               e.memId=result.data!.name;
 
             }
