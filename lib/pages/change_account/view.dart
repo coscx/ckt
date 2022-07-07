@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../common/routers/names.dart';
 import '../../common/services/storage.dart';
 import '../../common/widgets/dy_behavior_null.dart';
+import '../../common/widgets/extend_image.dart';
 import 'logic.dart';
 
 class ChangeAccountPage extends StatelessWidget {
@@ -141,7 +142,9 @@ class ChangeAccountPage extends StatelessWidget {
                                   bottom: 20.h),
                               height: 120.h,
                               child: e.avatar != ""
-                                  ? Image.network(e.avatar)
+                                  ? Container(
+                                  width: 100.w,
+                                  child: getCacheImage(e.avatar))
                                   : Image.asset(
                                   "assets/images/default/ic_user_male.png"),
                             ),

@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/routers/names.dart';
 import '../../common/widgets/delete_category_dialog.dart';
+import '../../common/widgets/extend_image.dart';
 import 'logic.dart';
 
 class MinePage extends StatelessWidget {
@@ -76,10 +77,13 @@ class MinePage extends StatelessWidget {
                                     child: Container(
                                       width: 90.h,
                                       height: 90.h,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                          logic.userHead,
-                                          fit: BoxFit.cover,
+                                      child: Container(
+                                        child: ClipOval(
+                                          child: Container(
+                                            child: getCacheImage(
+                                              logic.userHead,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       //backgroundColor: Colors.white,

@@ -69,28 +69,28 @@ class _CustomImageDemoState extends State<CustomCacheImage>
                       _controller.reset();
                       //remove memory cached
                       state.imageProvider.evict();
-                      return GestureDetector(
+                      return Container(
                         child: Stack(
                           fit: StackFit.expand,
                           children: <Widget>[
                             Image.asset(
-                              'assets/images/logo.png',
+                              'assets/images/gallery.png',
                               fit: BoxFit.fill,
                             ),
-                            const Positioned(
-                              bottom: 0.0,
-                              left: 0.0,
+                             Positioned(
+                              top: 30.h,
+                              left: 15.w,
                               right: 0.0,
                               child: Text(
-                                '加载失败,点击重试',
-                                textAlign: TextAlign.center,
+                                '加载失败',
+                                style: TextStyle(fontSize: 18.sp,color: Colors.white),
                               ),
                             )
                           ],
                         ),
-                        onTap: () {
-                          state.reLoadImage();
-                        },
+                        // onTap: () {
+                        //   state.reLoadImage();
+                        // },
                       );
                   }
                 },

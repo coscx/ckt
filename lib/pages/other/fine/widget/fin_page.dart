@@ -65,6 +65,7 @@ class _FinPageState extends State<FinPages> {
     var d = await CommonAPI.getLoanList(page,groupValue);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
+      if (mounted)
       setState((){});
     }
   }

@@ -19,12 +19,13 @@ class GroupPage extends StatefulWidget {
   final List<Message> messageList;
   final Conversion model;
   final String memId;
-
+  final String title;
   const GroupPage({
     required this.messageList,
     Key? key,
     required this.model,
     required this.memId,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -61,17 +62,13 @@ class _GroupPageState extends State<GroupPage> {
         child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
-                titleSpacing: 220.w,
-                leadingWidth: 100.w,
-                title: Row(
-                  children: [
-                    Text(widget.model.cid!,
+                centerTitle: true, // 标题居中
+                title: Text(widget.title,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 40.sp,
                             fontWeight: FontWeight.bold)),
-                  ],
-                ),
+
                 //leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
                 backgroundColor: Colors.white,
                 elevation: 0,

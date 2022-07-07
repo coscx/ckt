@@ -23,6 +23,7 @@ class ChangeJumpLogic extends GetxController {
       await StorageService.to.setString("im_token", result.imToken);
       await StorageService.to.setString("avatar", result.avatar);
       await StorageService.to.setString("roleId", result.roleid);
+      await StorageService.to.setString("mobile", result.mobile);
       await UserStore.to.setToken(result.userToken);
       await UserStore.to.saveAccountProfile(result);
       Get.toNamed(AppRoutes.Application);

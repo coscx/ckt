@@ -16,6 +16,7 @@ import 'package:flutter_ckt/common/entities/detail/viewcall.dart';
 import 'package:flutter_ckt/common/entities/flow/wx_article.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
+import 'package:flutter_ckt/common/entities/im/group.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
@@ -365,7 +366,20 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
-
+  static Future<Group> getGroupInfo(String id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetGroupInfo',
+      data: {"id":id},
+    );
+    return Group.fromJson(response);
+  }
+  static Future<Group> getMemberInfo(String id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetMemberInfo',
+      data: {"id":id},
+    );
+    return Group.fromJson(response);
+  }
 
 
   static Future<WxArticleEntity> wxArticle(  int page, final List<SelectItem> selectItems) async {

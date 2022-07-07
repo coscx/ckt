@@ -13,7 +13,7 @@ class GroupChatPage extends StatelessWidget {
     return GetBuilder<GroupChatLogic>(builder: (logic) {
       return GroupPage(messageList: logic.messageList,
         memId: logic.memId,
-        model: logic.model,);
+        model: logic.model,title: logic.model.name!,);
     });
   }
 }

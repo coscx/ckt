@@ -117,7 +117,7 @@ class ConversionPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.w),
       ),
       margin: EdgeInsets.only(right: 20.h, left: 20.w),
-      padding: EdgeInsets.only( left: 40.w),
+      padding: EdgeInsets.only( left: 30.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,7 +352,6 @@ class ConversionPage extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.w),
           ),
-
           padding: EdgeInsets.only( left: 30.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -377,7 +376,7 @@ class ConversionPage extends StatelessWidget {
                               "assets/packages/images/chat_hi.png")
                               .image
                               : Image.asset(
-                              "assets/packages/images/chat_notice.png")
+                              "assets/images/ckt/team.png")
                               .image),
                     ),
                   )
@@ -402,7 +401,7 @@ class ConversionPage extends StatelessWidget {
                                 "assets/packages/images/chat_hi.png")
                                 .image
                                 : Image.asset(
-                                "assets/packages/images/chat_notice.png")
+                                "assets/images/ckt/team.png")
                                 .image),
                       ),
                     ),
@@ -420,7 +419,7 @@ class ConversionPage extends StatelessWidget {
                             conversation.type ==
                                 ConversionType.CONVERSATION_PEER
                                 ? conversation.cid!
-                                : conversation.cid! + "群",
+                                : (conversation.name ==""? conversation.cid! + "群" : conversation.name!),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -463,7 +462,7 @@ class ConversionPage extends StatelessWidget {
                                   ? "你撤回了一条消息"
                                   : conversation.message!.sender +
                                   "撤回了一条消息")
-                                  : (conversation.message!.sender +
+                                  : (conversation.memId! +
                                   ":" +
                                   ((conversation.detail!.contains(
                                       'assets/images/face') ||
