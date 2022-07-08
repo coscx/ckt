@@ -135,12 +135,10 @@ class PeerChatLogic extends GetxController {
       receiver: model.cid!,
       uuid: uuid,
     );
-
     revokeMessageLocalDelete(uuid,result!);
     update();
   }
   setMessageFlag(Map result){
-
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     messageList.insert(0, message);
     for (var i = 0; i < messageList.length; i++) {
@@ -148,11 +146,9 @@ class PeerChatLogic extends GetxController {
         messageList[i].flags = 1;
       }
     }
-
     update();
   }
   revokeMessageLocalDelete(String uuid, Map result){
-
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     for (var i = 0; i < messageList.length; i++) {
       String uuids ;
