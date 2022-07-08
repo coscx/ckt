@@ -36,7 +36,6 @@ import 'package:flutter_ckt/pages/oa/person/binding.dart';
 import 'package:flutter_ckt/pages/oa/person/follow/binding.dart';
 import 'package:flutter_ckt/pages/oa/person/view.dart';
 import 'package:flutter_ckt/pages/oa/user_detail/binding.dart';
-import 'package:flutter_ckt/pages/oa/user_detail/logic.dart';
 import 'package:flutter_ckt/pages/oa/user_detail/view.dart';
 import 'package:flutter_ckt/pages/oa/work/binding.dart';
 import 'package:flutter_ckt/pages/oa/work/view.dart';
@@ -46,7 +45,6 @@ import 'package:flutter_ckt/pages/other/webview/binding.dart';
 import 'package:flutter_ckt/pages/other/webview/view.dart';
 import 'package:flutter_ckt/pages/peer_chat/binding.dart';
 import 'package:flutter_ckt/pages/peer_chat/view.dart';
-import 'package:flutter_ckt/common/widgets/chat/chat_input_view.dart';
 import 'package:flutter_ckt/pages/search/binding.dart';
 import 'package:flutter_ckt/pages/search/view.dart';
 import 'package:flutter_ckt/pages/search_appoint/view.dart';
@@ -61,6 +59,8 @@ import '../../pages/add_vip/binding.dart';
 import '../../pages/calcucation_prepare/binding.dart';
 import '../../pages/calcucation_result/binding.dart';
 import '../../pages/calcucation_result/view.dart';
+import '../../pages/friend/binding.dart';
+import '../../pages/friend/view.dart';
 import '../../pages/home/binding.dart';
 import '../../pages/oa/person/follow/view.dart';
 import '../../pages/oa/person/public/binding.dart';
@@ -111,8 +111,6 @@ class AppPages {
         RouteAuthMiddleware(priority: 1),
       ],
     ),
-
-
     GetPage(
       name: AppRoutes.Home,
       page: () => HomePage(),
@@ -124,7 +122,6 @@ class AppPages {
       binding: UserDetailBinding(),
         transition: Transition.noTransition
     ),
-
     GetPage(
         name: AppRoutes.BuyVip,
         page: () => AddVipPage(),
@@ -295,6 +292,12 @@ class AppPages {
         name: AppRoutes.CalcucationExact,
         page: () => CalcucationExactPage(),
         binding: CalcucationExactBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.Friend,
+        page: () => FriendPage(),
+        binding: FriendBinding(),
         transition: Transition.rightToLeft
     ),
   ];

@@ -3,6 +3,7 @@ import 'package:flt_im_plugin/conversion.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ckt/common/routers/routes.dart';
 import 'package:flutter_ckt/pages/conversion/widget/date.dart';
 import 'package:flutter_ckt/pages/conversion/widget/dialog_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,11 +45,16 @@ class ConversionPage extends StatelessWidget {
             backgroundColor: Colors.white,
             elevation: 0,
             actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right:40.w,top: 0.h),
-                width: 50.w,
-                child: Image.asset(
-                    "assets/images/ckt/user_set.png"),
+              GestureDetector(
+                onTap: (){
+                  Get.toNamed(AppRoutes.Friend);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right:40.w,top: 0.h),
+                  width: 50.w,
+                  child: Image.asset(
+                      "assets/images/ckt/user_set.png"),
+                ),
               ),
             ],
           ),

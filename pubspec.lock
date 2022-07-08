@@ -363,7 +363,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8f9d0fd1727300935323d2b90f105a1c1a74110b"
+      resolved-ref: "4185467384f064200f06d547385382a011d49436"
       url: "https://github.com/coscx/lat.git"
     source: git
     version: "1.0.0"
@@ -702,7 +702,7 @@ packages:
     source: hosted
     version: "1.3.0"
   lpinyin:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: lpinyin
       url: "https://pub.flutter-io.cn"

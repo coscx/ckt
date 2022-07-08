@@ -99,17 +99,18 @@ class GroupChatLogic extends GetxController {
     List<Message> dd =<Message>[];
     for(int i=0;i<cc.length;i++){
       var  e= cc[i];
-      int m=0;
-      for(int j=0;j<dd.length;j++){
-       var  f= dd[j];
-       if (e.content!['uUID'] ==f.content!['uUID']){
-         m=1;
-         break;
-       }
-
-      }
-      if (m==1){
-       continue;
+      if(e.type !=MessageType.MESSAGE_REVOKE){
+        int m=0;
+        for(int j=0;j<dd.length;j++){
+          var  f= dd[j];
+          if (e.content!['uuid'] ==f.content!['uuid']){
+            m=1;
+            break;
+          }
+        }
+        if (m==1){
+          continue;
+        }
       }
       dd.add(e);
     }
@@ -127,12 +128,7 @@ class GroupChatLogic extends GetxController {
   }
   void sendRevokeMessage(Message entity) async {
     String uuid ;
-    if (Platform.isAndroid == true) {
-      //im.deletePeerMessage(id:entity.content['uUID']);
-      uuid=  entity.content!['uUID'];
-    } else {
-      uuid =entity.content!['uuid'];
-    }
+    uuid =entity.content!['uuid'];
     Map? result = await im.sendGroupRevokeMessage(
       secret: false,
       sender: model.memId!,
@@ -179,10 +175,10 @@ class GroupChatLogic extends GetxController {
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     for (var i = 0; i < messageList.length; i++) {
       String uuids ;
-      if (Platform.isAndroid == true) {
-        uuids=  messageList[i].content!['uUID'];
+      if (messageList[i].type ==MessageType.MESSAGE_REVOKE) {
+        uuids=  messageList[i].content!['msgid'];
       } else {
-        uuids =messageList[i].content!['uuid'];
+        uuids = messageList[i].content!['uuid'];
       }
       if (uuids == uuid) {
         var f = messageList[i];

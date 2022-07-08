@@ -121,12 +121,7 @@ class _MessageListViewState extends State<MessageListView> {
                 EdgeInsets.only(left: 10.w, right: 10.w, top: 0, bottom: 0),
             itemBuilder: (BuildContext context, int index) {
               String uuid ="";
-              if(Platform.isIOS){
-                 uuid = widget.messageList[index].content!['uuid'];
-              }else{
-                 uuid = widget.messageList[index].content!['uUID'];
-              }
-
+              uuid = widget.messageList[index].content!['uuid'];
               if (index == widget.messageList.length - 1) {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
                 globalKeyMap[uuid] = key;

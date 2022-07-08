@@ -139,7 +139,7 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
                 if (widget.messageList[index].type == MessageType.MESSAGE_REVOKE){
                   uuid = widget.messageList[index].content!['msgid'];
                 }else{
-                  uuid = widget.messageList[index].content!['uUID'];
+                  uuid = widget.messageList[index].content!['uuid'];
                 }
               }
 

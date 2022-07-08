@@ -29,6 +29,7 @@ import '../entities/erp_user.dart';
 import '../entities/home/common.dart';
 import '../entities/home/only_store.dart';
 import '../entities/home/search_erp.dart';
+import '../entities/loan/friend.dart';
 import '../entities/loan/loan.dart';
 import '../entities/loan/quota.dart';
 import '../entities/mine/mine.dart';
@@ -380,7 +381,13 @@ class CommonAPI {
     );
     return Group.fromJson(response);
   }
-
+  static Future<Friend> getGroupMembers(int page) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetGroupMembers',
+      data: {"currentPage":page},
+    );
+    return Friend.fromJson(response);
+  }
 
   static Future<WxArticleEntity> wxArticle(  int page, final List<SelectItem> selectItems) async {
     Map<String, dynamic> searchParm = {};

@@ -128,12 +128,7 @@ class PeerChatLogic extends GetxController {
   }
   void sendRevokeMessage(Message entity) async {
     String uuid ;
-    if (Platform.isAndroid == true) {
-      //im.deletePeerMessage(id:entity.content['uUID']);
-      uuid=  entity.content!['uUID'];
-    } else {
-      uuid =entity.content!['uuid'];
-    }
+    uuid =entity.content!['uuid'];
     Map? result = await im.sendRevokeMessage(
       secret: false,
       sender: model.memId!,
@@ -161,11 +156,7 @@ class PeerChatLogic extends GetxController {
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     for (var i = 0; i < messageList.length; i++) {
       String uuids ;
-      if (Platform.isAndroid == true) {
-        uuids=  messageList[i].content!['uUID'];
-      } else {
-        uuids =messageList[i].content!['uuid'];
-      }
+      uuids =messageList[i].content!['uuid'];
       if (uuids == uuid) {
         var f = messageList[i];
         message.timestamp = f.timestamp;

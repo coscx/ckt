@@ -78,6 +78,7 @@ dependencies:
   lottie: ^1.2.2
   left_scroll_actions: ^2.1.0
   logger: ^1.1.0
+  lpinyin: ^2.0.2
   multi_image_picker: ^4.8.1
   menu_button: ^1.4.2+1
   overlay_support: ^1.2.1
@@ -123,6 +124,7 @@ flutter:
     - assets/images/login/
     - assets/images/figure/
     - assets/images/ckt/
+    - assets/images/friend/
   fonts:
     - family: Avenir
       fonts:

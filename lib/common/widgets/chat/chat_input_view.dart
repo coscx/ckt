@@ -197,13 +197,7 @@ class _ChatInputViewState extends State<ChatInputView> {
                   content: '是否确定继续执行?',
                   onSubmit: () {
                     FltImPlugin im = FltImPlugin();
-                    if (Platform.isAndroid == true) {
-                      //im.deletePeerMessage(id:entity.content['uUID']);
-
-                    } else {
-                      im.deletePeerMessage(id: entity.content!['uuid']);
-                    }
-
+                    im.deletePeerMessage(id: entity.content!['uuid']);
                     Navigator.of(context).pop();
                   },
                 ),

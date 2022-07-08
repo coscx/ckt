@@ -99,7 +99,6 @@ class _GroupPageState extends State<GroupPage> {
                       debugPrint("onItemLongClick");
                     },
                   onMenuItemClick: (entity,key) {
-
                     if (key ==0){
                       var logic = Get.find<GroupChatLogic>();
                       logic.sendRevokeMessage(entity as Message);

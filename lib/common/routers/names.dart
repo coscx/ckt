@@ -37,4 +37,5 @@ class AppRoutes {
   static const CalcucationPrepare = '/calcucation_prepare';
   static const CalcucationExact = '/calcucation_exact';
   static const CalcucationResult = '/calcucation_result';
+  static const Friend = '/friend';
 }
