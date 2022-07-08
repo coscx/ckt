@@ -161,7 +161,6 @@ class PeerChatLogic extends GetxController {
       }else{
         uuids = messageList[i].content!['uuid'];
       }
-      uuids =messageList[i].content!['uuid'];
       if (uuids == uuid) {
         var f = messageList[i];
         message.timestamp = f.timestamp;
