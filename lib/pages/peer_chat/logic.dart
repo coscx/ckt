@@ -156,6 +156,11 @@ class PeerChatLogic extends GetxController {
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     for (var i = 0; i < messageList.length; i++) {
       String uuids ;
+      if (messageList[i].type ==MessageType.MESSAGE_REVOKE){
+        uuids = messageList[i].content!['msgid'];
+      }else{
+        uuids = messageList[i].content!['uuid'];
+      }
       uuids =messageList[i].content!['uuid'];
       if (uuids == uuid) {
         var f = messageList[i];
