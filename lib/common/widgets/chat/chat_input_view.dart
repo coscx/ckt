@@ -37,7 +37,7 @@ class ChatInputView extends StatefulWidget {
   final ScrollController scrollController;
   final Voice voice;
   final Function(String content) sendTextClick;
-  final Function(Uint8List  content) sendImageClick;
+  final Function(String  content) sendImageClick;
   final Function(File file, int length) sendVoiceClick;
   const ChatInputView(
       {Key? key,
@@ -655,9 +655,7 @@ class _ChatInputViewState extends State<ChatInputView> {
   }
 
   _buildImageMessage(File file, bool sendOriginalImage) async {
-    var content = await file.readAsBytes();
-
-    widget.sendImageClick(content);
+    widget.sendImageClick(file.path);
     isShowTools = false;
     controller.clear();
   }
@@ -792,6 +790,7 @@ class _ChatInputViewState extends State<ChatInputView> {
     widget.voice.startRecord((p1, p2) {
       voiceFilePath = p1;
       audioIconPath = p2;
+      if(mounted)
       setState(() {});
     });
   }

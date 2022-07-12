@@ -59,25 +59,25 @@ T? asT<T extends Object?>(dynamic value, [T? defaultValue]) {
   return defaultValue;
 }
 
-class Group {
-  Group({
+class Step {
+  Step({
     required this.code,
     required this.data,
     required this.msg,
   });
 
-  factory Group.fromJson(Map<String, dynamic> json) => Group(
+  factory Step.fromJson(Map<String, dynamic> json) => Step(
     code: json.containsKey('code') ? asT<int>(json['code'])! : 0,
     data: json.containsKey('data')
         ? json['data'] == null
         ? null
-        : GroupData.fromJson(asT<Map<String, dynamic>>(json['data'])!)
+        : StepData.fromJson(asT<Map<String, dynamic>>(json['data'])!)
         : null,
     msg: json.containsKey('msg') ? asT<String>(json['msg'])! : '',
   );
 
   int code;
-  GroupData? data;
+  StepData? data;
   String msg;
 
   @override
@@ -92,47 +92,80 @@ class Group {
   };
 }
 
-class GroupData {
-  GroupData({
-    required this.id,
-    required this.name,
-    required this.mobile,
-    required this.result,
-    required this.userId,
-    required this.addTime,
-    required this.sex,
+class StepData {
+  StepData({
+    required this.currentPage,
+    required this.data,
+    required this.lastPage,
+    required this.total,
   });
 
-  factory GroupData.fromJson(Map<String, dynamic> json) => GroupData(
-    id: json.containsKey('id') ? asT<int>(json['id'])! : 0,
-    name: json.containsKey('name') ? asT<String>(json['name'])! : '',
-    mobile: json.containsKey('mobile') ? asT<String>(json['mobile'])! : '',
-    result: json.containsKey('result') ? asT<String>(json['result'])! : '',
-    userId: json.containsKey('user_id') ? asT<int>(json['user_id'])! : 0,
-    addTime:
-    json.containsKey('add_time') ? asT<String>(json['add_time'])! : '',
-    sex: json.containsKey('sex') ? asT<int>(json['sex'])! : 0,
-  );
+  factory StepData.fromJson(Map<String, dynamic> json) {
+    final List<StepDataData>? data =
+    json['data'] is List ? <StepDataData>[] : null;
+    if (data != null) {
+      for (final dynamic item in json['data']!) {
+        if (item != null) {
+          tryCatch(() {
+            data.add(StepDataData.fromJson(asT<Map<String, dynamic>>(item)!));
+          });
+        }
+      }
+    }
+    return StepData(
+      currentPage: json.containsKey('current_page')
+          ? asT<int>(json['current_page'])!
+          : 0,
+      data: data,
+      lastPage:
+      json.containsKey('last_page') ? asT<int>(json['last_page'])! : 0,
+      total: json.containsKey('total') ? asT<int>(json['total'])! : 0,
+    );
+  }
 
-  int id;
-  String name;
-  String mobile;
-  String result;
-  int userId;
-  String addTime;
-  int sex;
+  int currentPage;
+  List<StepDataData>? data;
+  int lastPage;
+  int total;
+
   @override
   String toString() {
     return jsonEncode(this);
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-    'id': id,
-    'name': name,
-    'mobile': mobile,
-    'result': result,
-    'user_id': userId,
-    'add_time': addTime,
-    'sex': sex,
+    'current_page': currentPage,
+    'data': data,
+    'last_page': lastPage,
+    'total': total,
+  };
+}
+
+class StepDataData {
+  StepDataData({
+    required this.num,
+    required this.label,
+    required this.status,
+  });
+
+  factory StepDataData.fromJson(Map<String, dynamic> json) => StepDataData(
+    num: json.containsKey('num') ? asT<int>(json['num'])! : 0,
+    label: json.containsKey('label') ? asT<String>(json['label'])! : '',
+    status: json.containsKey('status') ? asT<int>(json['status'])! : 0,
+  );
+
+  int num;
+  String label;
+  int status;
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'num': num,
+    'label': label,
+    'status': status,
   };
 }

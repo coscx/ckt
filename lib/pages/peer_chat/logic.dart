@@ -6,6 +6,8 @@ import 'package:flt_im_plugin/conversion.dart';
 import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
+import 'package:flutter_ckt/common/apis/common.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'state.dart';
@@ -107,22 +109,27 @@ class PeerChatLogic extends GetxController {
     setMessageFlag(result!);
   }
 
-  void sendImgMessage(Uint8List content) async {
-    Map? result = await im.sendImageMessage(
+  void sendImgMessage(String path) async {
+    EasyLoading.show(status: "上传中",maskType: EasyLoadingMaskType.none);
+    var url = await CommonAPI.uploadAppFile(1, path);
+    Map? result = await im.sendFlutterImageMessage(
       secret: false,
       sender: model.memId!,
       receiver: model.cid!,
-      image: content,
+      path: url.data!,
+      thumbPath: url.data!
     );
     setMessageFlag(result!);
   }
 
   sendVoiceMessage(File file, int length) async {
-    Map? result = await im.sendAudioMessage(
+    //EasyLoading.show(status: "上传中",maskType: EasyLoadingMaskType.none);
+    var url = await CommonAPI.uploadAppFile(1, file.path);
+    Map? result = await im.sendFlutterAudioMessage(
         secret: false,
         sender: model.memId!,
         receiver: model.cid!,
-        path: file.path,
+        path: url.data!,
         second: length);
     setMessageFlag(result!);
   }
@@ -165,4 +172,5 @@ class PeerChatLogic extends GetxController {
     }
     update();
   }
+
 }

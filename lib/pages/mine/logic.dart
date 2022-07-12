@@ -17,7 +17,7 @@ class MineLogic extends GetxController {
   String connect="0";
   @override
   void onInit() {
-    init();
+    //init();
     super.onInit();
   }
  void init()async{

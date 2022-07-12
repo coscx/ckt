@@ -15,7 +15,6 @@ class ChangeAccountLogic extends GetxController {
  @override
   void onInit() {
    var data  = UserStore.to.getAccount();
-    print(data);
     account.addAll(data!.account!);
     super.onInit();
   }
@@ -26,8 +25,6 @@ class ChangeAccountLogic extends GetxController {
      update();
   }
   changeAccount(Account result) async {
-
-
     FltImPlugin im = FltImPlugin();
     im.logout();
     Future.delayed(const Duration(milliseconds: 1)).then((e) async {

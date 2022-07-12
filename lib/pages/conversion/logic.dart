@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../common/apis/common.dart';
+import '../../common/utils/chat_util.dart';
 import 'state.dart';
 
 class ConversionLogic extends GetxController {
@@ -59,23 +60,18 @@ class ConversionLogic extends GetxController {
         .toList();
     conversions.map((e) async {
       if (e.type == ConversionType.CONVERSATION_GROUP) {
-        var name = StorageService.to.getString("group_"+e.cid.toString());
-        if (name == "") {
-
-        } else {
-          e.name = name;
+        if (e.cid! !=""){
+          e.name =await getGroupName(e.cid!);
         }
-        if(e.message?.sender!=""){
-
-          var name = StorageService.to.getString("peer_"+e.message!.sender.toString());
-          if (name == "") {
-
-          } else {
-            e.memId = name;
-          }
+        if (e.message?.sender != "") {
+          e.memId = await getPeerName(e.message!.sender);
+          e.sex = getPeerSex(e.message!.sender);
         }
-      } else {
-
+      } else if (e.type == ConversionType.CONVERSATION_PEER) {
+        if (e.cid! !=""){
+          e.name =await getPeerName(e.cid!);
+          e.sex = getPeerSex(e.cid!);
+        }
       }
       return e;
     }).toList();
@@ -129,7 +125,7 @@ class ConversionLogic extends GetxController {
         {"memId": memberId, "cid": msg.cid, "name": msg.name});
     if (msg.type == ConversionType.CONVERSATION_GROUP) {
       receiveMsgFresh();
-      var name = StorageService.to.getString("group_"+msg.cid.toString());
+      var name = StorageService.to.getString("group_" + msg.cid.toString());
       if (name != "") {
         model.name = name;
       }
@@ -137,6 +133,10 @@ class ConversionLogic extends GetxController {
     }
     if (msg.type == ConversionType.CONVERSATION_PEER) {
       receiveMsgFresh();
+      var name = StorageService.to.getString("peer_" + msg.cid.toString());
+      if (name != "") {
+        model.name = name;
+      }
       Get.toNamed(AppRoutes.Peer, arguments: model);
     }
   }
@@ -149,65 +149,52 @@ class ConversionLogic extends GetxController {
         .toList();
     conversions.map((e) async {
       if (e.type == ConversionType.CONVERSATION_GROUP) {
-        var name = StorageService.to.getString("group_"+e.cid.toString());
-        if (name == "") {
-
-        } else {
-          e.name = name;
+        if (e.cid! !=""){
+          e.name =await getGroupName(e.cid!);
         }
-        if(e.message?.sender!=""){
-
-          var name = StorageService.to.getString("peer_"+e.message!.sender.toString());
-          if (name == "") {
-
-          } else {
-            e.memId= name;
-          }
+        if (e.message?.sender != "") {
+          e.memId = await getPeerName(e.message!.sender);
+          e.sex = getPeerSex(e.message!.sender);
         }
-      } else {
-
+      } else if (e.type == ConversionType.CONVERSATION_PEER) {
+        if (e.cid! !=""){
+          e.name =await getPeerName(e.cid!);
+          e.sex = getPeerSex(e.cid!);
+        }
       }
       return e;
     }).toList();
 
     state.conversion.clear();
     state.conversion.addAll(conversions);
-
   }
+
   Future<void> _init() async {
     FltImPlugin im = FltImPlugin();
     Map? response = await im.getConversations();
     var conversions = ValueUtil.toArr(response!["data"])
         .map((e) => Conversion.fromMap(ValueUtil.toMap(e)))
         .toList();
-    for (int i=0;i<conversions.length;i++){
+    for (int i = 0; i < conversions.length; i++) {
       var e = conversions[i];
       if (e.type == ConversionType.CONVERSATION_GROUP) {
-        var result = await CommonAPI.getGroupInfo(e.cid!);
-        if (result.code== 200) {
-          if(result.data!=null){
-            await StorageService.to.setString("group_"+e.cid.toString(),result.data!.name);
-            e.name =result.data!.name;
-          }
+        if (e.cid! !=""){
+          e.name =await getGroupName(e.cid!);
         }
-        if(e.message?.sender!=""){
-
-          var result = await CommonAPI.getMemberInfo(e.message!.sender);
-          if (result.code== 200) {
-            if(result.data!=null){
-              await StorageService.to.setString("peer_"+e.message!.sender.toString(),result.data!.name);
-              e.memId=result.data!.name;
-
-            }
-          }
+        if (e.message?.sender != "") {
+          e.memId = await getPeerName(e.message!.sender);
+          e.sex = getPeerSex(e.message!.sender);
         }
-      } else if (e.type == ConversionType.CONVERSATION_PEER){
-
-
+      } else if (e.type == ConversionType.CONVERSATION_PEER) {
+        if (e.cid! !=""){
+          e.name = await getPeerName(e.cid!);
+          e.sex = getPeerSex(e.cid!);
+        }
       }
     }
     state.conversion.clear();
     state.conversion.addAll(conversions);
-
   }
+
+
 }

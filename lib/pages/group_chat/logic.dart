@@ -7,6 +7,9 @@ import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:get/get.dart';
 
+import '../../common/apis/common.dart';
+import '../../common/services/storage.dart';
+import '../../common/utils/chat_util.dart';
 import 'state.dart';
 
 class GroupChatLogic extends GetxController {
@@ -41,8 +44,10 @@ class GroupChatLogic extends GetxController {
           .toList()
           .reversed
           .toList();
-      messages.map((e) {
+      messages.map((e) async {
         e.content!['text'] = (e.content!['text']);
+        e.sendInfo?.name = await getPeerName(e.sender);
+        e.sendInfo?.identifier= getPeerSex(e.sender).toString();
         return e;
       }).toList();
       messageList.clear();
@@ -85,8 +90,10 @@ class GroupChatLogic extends GetxController {
           .toList()
           .reversed
           .toList();
-      messages.map((e) {
+      messages.map((e) async {
         e.content!['text'] = (e.content!['text']);
+        e.sendInfo?.name = await getPeerName(e.sender);
+        e.sendInfo?.identifier= getPeerSex(e.sender).toString();
         return e;
       }).toList();
       messageList.addAll(removeElement(messages));
@@ -138,12 +145,14 @@ class GroupChatLogic extends GetxController {
     revokeMessageLocalDelete(uuid,result!);
     update();
   }
-  void sendImgMessage(Uint8List content) async {
-    Map? result = await im.sendGroupImageMessage(
+  void sendImgMessage(String path) async {
+    var url = await CommonAPI.uploadAppFile(1, path);
+    Map? result = await im.sendFlutterGroupImageMessage(
       secret: false,
       sender: model.memId!,
       receiver: model.cid!,
-      image: content,
+      path: url.data!,
+      thumbPath: url.data!,
     );
     setMessageFlag(result!);
   }
@@ -188,4 +197,6 @@ class GroupChatLogic extends GetxController {
     }
     update();
   }
+
+
 }

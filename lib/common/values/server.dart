@@ -1,7 +1,7 @@
 
 const SERVER_API_URL = 'https://yapi.ducafecat.tech/mock/11';
 
-const NEW_ERP_SERVER_API_URL = 'https://erptest.queqiaochina.com';
+const NEW_ERP_SERVER_API_URL = 'http://192.168.1.230:8888';
 
 
 const IM_SERVER_HOST_URL = "mm.3dsqq.com";

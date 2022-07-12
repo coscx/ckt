@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 
 class CustomCacheImage extends StatefulWidget {
@@ -45,9 +46,12 @@ class _CustomImageDemoState extends State<CustomCacheImage>
                   switch (state.extendedImageLoadState) {
                     case LoadState.loading:
                       _controller.reset();
-                      return Image.asset(
-                        'assets/images/default/ic_user_none_round.png',
-                        fit: BoxFit.cover,
+                      return Container(
+                        width: 50.w,
+                        child: Lottie.asset(
+                          'assets/packages/lottie_flutter/97443-loading-gray.json',
+                          fit: BoxFit.cover,
+                        ),
                       );
                     case LoadState.completed:
                       _controller.forward();

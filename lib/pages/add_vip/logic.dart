@@ -155,6 +155,3 @@ class AddVipLogic extends GetxController {
   }
 
 }
-update(){
-  update();
-}

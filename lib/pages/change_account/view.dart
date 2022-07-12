@@ -58,7 +58,9 @@ class ChangeAccountPage extends StatelessWidget {
                     ],
                     //bottom: bar(),
                   ),
-                  body: Column(
+                  body: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child:Column(
                     children: [
                       _buildTopLogos(),
                       _buildTopTitle(),
@@ -78,7 +80,7 @@ class ChangeAccountPage extends StatelessWidget {
                               )
                           )),
                     ],
-                  )
+                  ))
               );
             }),
           )),
@@ -158,7 +160,7 @@ class ChangeAccountPage extends StatelessWidget {
                                       fontSize: 30.sp,
                                       fontWeight: FontWeight.normal)),
                               Text(
-                                  e.memberid != "" ? e.memberid : "13355088996",
+                                  e.mobile != "" ? e.mobile : "13355088996",
                                   style: TextStyle(
                                       color: Color(0xffaaaaaa),
                                       fontSize: 27.sp,

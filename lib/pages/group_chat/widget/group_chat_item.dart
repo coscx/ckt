@@ -207,7 +207,7 @@ class GroupChatItemWidgetState extends State<GroupChatItemWidget> {
                         margin: EdgeInsets.only(left: 5.w, right: 0.w, bottom: 0.h, top: 0.h),
                         //width: 20.w,
                         child:Text(
-                          entity.sender,
+                          entity.sendInfo!.name==""?entity.sender :entity.sendInfo!.name,
                           style:  TextStyle(color: Colors.black, fontSize: 32.sp),
                         ),
                       ),

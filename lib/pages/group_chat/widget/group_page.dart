@@ -122,9 +122,9 @@ class _GroupPageState extends State<GroupPage> {
                   voice: voice, sendVoiceClick: (File file, int length) {
                   var logic = Get.find<GroupChatLogic>();
                   logic.sendVoiceMessage(file,length);
-                }, sendImageClick: (Uint8List content) {
+                }, sendImageClick: (String path) {
                   var logic = Get.find<GroupChatLogic>();
-                  logic.sendImgMessage(content);
+                  logic.sendImgMessage(path);
                 }, sendTextClick: (String content) {
                   final logic = Get.find<GroupChatLogic>();
                   logic.sendTextMessage(content);

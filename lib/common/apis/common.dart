@@ -17,8 +17,12 @@ import 'package:flutter_ckt/common/entities/flow/wx_article.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
 import 'package:flutter_ckt/common/entities/im/group.dart';
+import 'package:flutter_ckt/common/entities/loan/channel.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
+import 'package:flutter_ckt/common/entities/loan/saleman.dart';
+import 'package:flutter_ckt/common/entities/loan/saleman_detail.dart';
+import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,6 +36,8 @@ import '../entities/home/search_erp.dart';
 import '../entities/loan/friend.dart';
 import '../entities/loan/loan.dart';
 import '../entities/loan/quota.dart';
+import '../entities/loan/staff.dart';
+import '../entities/loan/step.dart';
 import '../entities/mine/mine.dart';
 import '../utils/loan_http.dart';
 import '../utils/new_common_http.dart';
@@ -67,7 +73,149 @@ class CommonAPI {
     );
     return QuotaList.fromJson(response);
   }
-  /// 登录
+  static Future<CommonResult> uploadAppFile( int type, String path) async {
+    MultipartFile multipartFile = MultipartFile.fromFileSync(
+      path,
+      // 文件名
+      filename: 'some-file-name.jpg',
+      // 文件类型
+      contentType: MediaType("image", "jpg"),
+    );
+    FormData formData = FormData.fromMap({
+      // 后端接口的参数名称
+      "resource": multipartFile
+    });
+    Map<String, dynamic> params = Map();
+    params['type'] = type;
+
+    var response = await NewLoanHttpUtil().post(
+      '/api/UploadAppFile' ,
+      data: formData, queryParameters: params,
+    );
+    return CommonResult.fromJson(response);
+  }
+  static Future<SaleManGrid> getSaleManGrid() async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManGrid',
+      data: {},
+    );
+    return SaleManGrid.fromJson(response);
+  }
+
+  static Future<SaleMan> getSaleManMyUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManMyUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+  static Future<SaleMan> getManageMyUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageMyUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+  static Future<SaleMan> getAdministrativeMyUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeMyUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+
+  static Future<SaleMan> getSuperMyUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperMyUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+  static Future<SaleMan> getSuperAllUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperAllUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+  static Future<SaleMan> getManageAllUserList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageAllUserList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
+
+  static Future<Channels> getSuperChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperChannel',
+      data: data,
+    );
+    return Channels.fromJson(response);
+  }
+  static Future<Channels> getSaleManChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManChannel',
+      data: data,
+    );
+    return Channels.fromJson(response);
+  }
+  static Future<Channels> getManageChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageChannel',
+      data: data,
+    );
+    return Channels.fromJson(response);
+  }
+  static Future<Step> getStep(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetStep',
+      data: data,
+    );
+    return Step.fromJson(response);
+  }
+  static Future<Staff> getStaff(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetStaff',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> changeSaleManStepStatus(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ChangeSaleManStepStatus',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> changeSaleBaseInfo(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ChangeSaleBaseInfo',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<SaleManDetail> getSaleManDetail(int id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManDetail',
+      data: {"id":id},
+    );
+    return SaleManDetail.fromJson(response);
+  }
+  static Future<SaleManDetail> getAdministrativeAuditList(int id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeAuditList',
+      data: {"id":id},
+    );
+    return SaleManDetail.fromJson(response);
+  }
+  static Future<SaleMan> getManageAbandonList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageAbandonList',
+      data: data,
+    );
+    return SaleMan.fromJson(response);
+  }
   static Future<AppVersionEntity> getVersion() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/auth/version',
@@ -388,6 +536,10 @@ class CommonAPI {
     );
     return Friend.fromJson(response);
   }
+
+
+
+
 
   static Future<WxArticleEntity> wxArticle(  int page, final List<SelectItem> selectItems) async {
     Map<String, dynamic> searchParm = {};

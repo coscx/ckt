@@ -80,7 +80,7 @@ class ConversionPage extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12.w),
                       ),
-                      margin: EdgeInsets.only(right: 20.h, left: 20.w),
+                      margin: EdgeInsets.only(right: 0.h, left: 0.w),
 
                       child: Obx(()=>_buildContent(context)),
                     )),
@@ -200,8 +200,6 @@ class ConversionPage extends StatelessWidget {
                                style: TextStyle(
                                    color: Colors.grey, fontSize: 26.sp)),
                          )
-
-
                        ],
                      ),
                   ],
@@ -299,8 +297,8 @@ class ConversionPage extends StatelessWidget {
                   ),
                   child: Column(children: <Widget>[
                     Container(
-                      height: ScreenUtil().setHeight(90),
-                      width: ScreenUtil().setWidth(90),
+                      height: 90.h,
+                      width: 90.w,
                       alignment: FractionalOffset.topLeft,
                       child: Image.asset(
                           "assets/packages/images/ic_visitor.webp"),
@@ -370,16 +368,19 @@ class ConversionPage extends StatelessWidget {
                       ? Container(
                     margin: EdgeInsets.only(left: 0.w, top: 7.h),
                     padding: EdgeInsets.all(10.w),
-                    height: 92.h,
+                    height: 82.h,
                     width: 92.w,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.w),
                       color: Colors.white,
                       // image url 去要到自己的服务器上去请求回来再赋值，这里使用一张默认值即可
                       image: DecorationImage(
+                        fit: BoxFit.cover,
                           image: conversation.type ==
                               ConversionType.CONVERSATION_PEER
-                              ? Image.asset(
-                              "assets/packages/images/chat_hi.png")
+                              ? conversation.sex ==0 ? Image.asset(
+                              "assets/images/default/ic_user_male.png").image:Image.asset(
+                              "assets/images/default/ic_user_female.png")
                               .image
                               : Image.asset(
                               "assets/images/ckt/team.png")
@@ -403,8 +404,9 @@ class ConversionPage extends StatelessWidget {
                         image: DecorationImage(
                             image: conversation.type ==
                                 ConversionType.CONVERSATION_PEER
-                                ? Image.asset(
-                                "assets/packages/images/chat_hi.png")
+                                ? conversation.sex ==0 ? Image.asset(
+                                "assets/images/default/ic_user_male.png").image:Image.asset(
+                                "assets/images/default/ic_user_female.png")
                                 .image
                                 : Image.asset(
                                 "assets/images/ckt/team.png")
@@ -413,7 +415,7 @@ class ConversionPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 25.w, top: 0),
+                    margin: EdgeInsets.only(left: 20.w, top: 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -424,7 +426,7 @@ class ConversionPage extends StatelessWidget {
                           child: Text(
                             conversation.type ==
                                 ConversionType.CONVERSATION_PEER
-                                ? conversation.cid!
+                                ? ((conversation.name ==""? conversation.cid! + "" : conversation.name!))
                                 : (conversation.name ==""? conversation.cid! + "群" : conversation.name!),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

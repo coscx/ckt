@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/routers/names.dart';
+import '../../../../common/utils/log_util.dart';
+import '../../../../common/utils/logger.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
 import '../../../../common/widgets/empty_page.dart';
 import '../../../../common/widgets/my_scroll_physics.dart';
@@ -62,6 +64,17 @@ class _FinPageState extends State<FinPages> {
   }
 
   _df() async {
+    Map<String,dynamic> data = {};
+    var f = await CommonAPI.getSaleManMyUserList(data);
+    var g = await CommonAPI.getSaleManChannel(data);
+    var h = await CommonAPI.getStep(data);
+    var i = await CommonAPI.getStaff(data);
+    var j = await CommonAPI.changeSaleManStepStatus(data);
+    var k = await CommonAPI.changeSaleBaseInfo(data);
+    var l = await CommonAPI.getSaleManDetail(189);
+    var m = await CommonAPI.getSaleManGrid();
+
+
     var d = await CommonAPI.getLoanList(page,groupValue);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
