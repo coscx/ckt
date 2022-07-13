@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ckt/pages/peer_chat/widget/peer_chat_item.dart';
 import 'package:flutter_ckt/common/widgets/chat/time_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import '../../../common/widgets/chat/voice.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
 import '../../conversion/widget/colors.dart';
 import '../../../common/widgets/chat/functions.dart';
+import '../logic.dart';
 
 class MessageListView extends StatefulWidget {
   final List<Message> messageList;
@@ -17,6 +21,7 @@ class MessageListView extends StatefulWidget {
   final OnItemClick onItemClick;
   final OnMenuItemClick onMenuItemClick;
   final VoidCallback bodyClick;
+  final VoidCallback loadMore;
   final String tfSender;
   final ScrollController scrollController;
   final Voice voice;
@@ -27,6 +32,7 @@ class MessageListView extends StatefulWidget {
       required this.onItemLongClick,
       required this.onItemClick,
       required this.bodyClick,
+      required this.loadMore,
       required this.tfSender,
       required this.scrollController,
       required this.voice,
@@ -40,6 +46,7 @@ class MessageListView extends StatefulWidget {
 class _MessageListViewState extends State<MessageListView> {
   Map<String, GlobalKey<PeerChatItemWidgetState>> globalKeyMap = {};
   bool isLoading = false;
+  var logic = Get.find<PeerChatLogic>();
   @override
   void initState() {
     widget.scrollController.addListener(() {
@@ -48,20 +55,21 @@ class _MessageListViewState extends State<MessageListView> {
       }
       if (widget.scrollController.position.pixels >=
           widget.scrollController.position.maxScrollExtent + 100.h) {
-        if (isLoading) {
+        if(logic.finish){
           return;
         }
 
-        if (mounted) {
+        if (!isLoading) {
           setState(() {
             isLoading = true;
           });
         }
 
-        Future.delayed(const Duration(milliseconds: 150), () {
+        Future.delayed(const Duration(milliseconds: 5), () {
           onRefresh();
           if (mounted) {
             setState(() {
+              widget.loadMore();
               isLoading = false;
             });
           }
@@ -71,7 +79,10 @@ class _MessageListViewState extends State<MessageListView> {
     super.initState();
   }
 
-  Future<void> onRefresh() async {}
+  Future<void> onRefresh() async {
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,21 +132,15 @@ class _MessageListViewState extends State<MessageListView> {
                 EdgeInsets.only(left: 10.w, right: 10.w, top: 0, bottom: 0),
             itemBuilder: (BuildContext context, int index) {
               String uuid ="";
-              if (widget.messageList[index].type ==MessageType.MESSAGE_REVOKE){
-                uuid = widget.messageList[index].content!['msgid'];
-              }else{
-                uuid = widget.messageList[index].content!['uuid'];
-              }
-
+              uuid = widget.messageList[index].content!['uuid'];
               if (index == widget.messageList.length - 1) {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
                 globalKeyMap[uuid] = key;
                 return Column(
                   children: <Widget>[
-                    Visibility(
-                      visible: !isLoading,
+                    Container(
                       child:
-                          _loadMoreWidget(widget.messageList.length % 20 == 0),
+                          _loadMoreWidget(widget.messageList.length % 20 == 0 && widget.messageList.length >= 20),
                     ),
                     _messageListViewItem(
                         key,
@@ -274,7 +279,14 @@ class _MessageListViewState extends State<MessageListView> {
   //加载中的圈圈
   Widget _loadMoreWidget(bool haveMore) {
     if (haveMore) {
-      return Container();
+      if (isLoading){
+        return Container(
+            width: 50.w,
+            child: Lottie.asset("assets/packages/lottie_flutter/97443-loading-gray.json"));
+      }else{
+        return Container();
+      }
+
     } else {
       //当没有更多数据可以加载的时候，
       return Center(

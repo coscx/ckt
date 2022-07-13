@@ -127,22 +127,7 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
                 EdgeInsets.only(left: 10.w, right: 10.w, top: 0, bottom: 0),
             itemBuilder: (BuildContext context, int index) {
               String uuid = "";
-              if (Platform.isIOS) {
-                if (widget.messageList[index].type == MessageType.MESSAGE_REVOKE){
-                  uuid = widget.messageList[index].content!['msgid'];
-                }else{
-                  uuid = widget.messageList[index].content!['uuid'];
-                }
-
-              } else {
-
-                if (widget.messageList[index].type == MessageType.MESSAGE_REVOKE){
-                  uuid = widget.messageList[index].content!['msgid'];
-                }else{
-                  uuid = widget.messageList[index].content!['uuid'];
-                }
-              }
-
+              uuid = widget.messageList[index].content!['uuid'];
               if (index == widget.messageList.length - 1) {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
                 globalKeyMap[uuid] = key;

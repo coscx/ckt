@@ -99,7 +99,6 @@ class PeerChatItemWidgetState extends State<PeerChatItemWidget> {
 
   Widget _chatItemWidget(Message entity, OnItemClick onResend, OnItemClick onItemClick,OnItemClick onItemLongClick,String tfSender) {
     if (entity.type == MessageType.MESSAGE_REVOKE) {
-      //文本
       return buildRevokeWidget(entity,tfSender);
     }
     if (entity.sender == tfSender) {
@@ -274,13 +273,10 @@ class PeerChatItemWidgetState extends State<PeerChatItemWidget> {
       }
 
     } else if (entity.type == MessageType.MESSAGE_IMAGE) {
-      //文本
       widget = buildImageWidget(entity,tfSender);
     }else if (entity.type == MessageType.MESSAGE_AUDIO) {
-      //文本
       widget = buildVoiceWidget(entity,tfSender);
     }else if (entity.type == MessageType.MESSAGE_REVOKE) {
-      //文本
       widget = buildRevokeWidget(entity,tfSender);
     } else {
       widget = ClipRRect(

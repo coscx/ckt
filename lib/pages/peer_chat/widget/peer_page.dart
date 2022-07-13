@@ -108,6 +108,10 @@ class _PeerPageState extends State<PeerPage> {
                   tfSender: widget.model.memId!,
                   scrollController: scrollController,
                   voice: voice,
+                  loadMore: () {
+                    var logic = Get.find<PeerChatLogic>();
+                    logic.eventLoadMoreMessage();
+                  },
                 ),
                 Divider(height: 1.h),
                 ChatInputView(
