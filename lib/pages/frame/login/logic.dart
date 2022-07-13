@@ -108,7 +108,9 @@ class LoginLogic extends GetxController {
       await StorageService.to.setString("memberId", result.data!.user!.id.toString());
       await StorageService.to.setString("im_token", result.data!.imToken);
       await StorageService.to.setString("avatar", result.data!.user!.avatar);
-      await StorageService.to.setString("roleId", result.data!.user!.idcardVerified.toString());
+      await StorageService.to.setString("roleId", result.data!.user!.roleId.toString());
+      await StorageService.to.setString("roleName", result.data!.user!.roleName.toString());
+      await StorageService.to.setString("roleKey", result.data!.user!.roleKey.toString());
       await StorageService.to.setString("mobile", result.data!.user!.mobile);
       await UserStore.to.saveProfile(result);
       await UserStore.to.saveAccount(result);
@@ -142,7 +144,9 @@ class LoginLogic extends GetxController {
       await StorageService.to.setString("memberId", result.data!.user!.id.toString());
       await StorageService.to.setString("im_token", result.data!.imToken);
       await StorageService.to.setString("avatar", result.data!.user!.avatar);
-      await StorageService.to.setString("roleId", result.data!.user!.idcardVerified.toString());
+      await StorageService.to.setString("roleId", result.data!.user!.roleId.toString());
+      await StorageService.to.setString("roleName", result.data!.user!.roleName.toString());
+      await StorageService.to.setString("roleKey", result.data!.user!.roleKey.toString());
       await StorageService.to.setString("mobile", result.data!.user!.mobile);
       await UserStore.to.saveProfile(result);
       await UserStore.to.saveAccount(result);

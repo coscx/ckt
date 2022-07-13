@@ -1,3 +1,5 @@
+import 'package:flt_im_plugin/message.dart';
+
 import '../apis/common.dart';
 import '../services/storage.dart';
 
@@ -34,4 +36,26 @@ Future<String> getGroupName(String id) async {
     }
   }
   return name;
+}
+List<Message> removeElement(List<Message> cc){
+  List<Message> dd =<Message>[];
+  for(int i=0;i<cc.length;i++){
+    var  e= cc[i];
+    if(e.type !=MessageType.MESSAGE_REVOKE){
+      int m=0;
+      for(int j=0;j<dd.length;j++){
+        var  f= dd[j];
+        if (e.content!['uuid'] ==f.content!['uuid']){
+          m=1;
+          break;
+        }
+      }
+      if (m==1){
+        continue;
+      }
+    }
+    dd.add(e);
+  }
+  return dd;
+
 }

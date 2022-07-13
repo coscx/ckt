@@ -106,7 +106,9 @@ class Account {
     required this.roleid,
     required this.mobile,
     required this.messageCount,
-
+    required this.roleId,
+    required this.roleName,
+    required this.roleKey
   });
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
@@ -130,6 +132,9 @@ class Account {
     roleid: json.containsKey('roleId') ? asT<String>(json['roleId'])! : '',
     mobile: json.containsKey('mobile') ? asT<String>(json['mobile'])! : '',
     messageCount: json.containsKey('message_count') ? asT<int>(json['message_count'])! : 0,
+    roleName: json.containsKey('role_name') ? asT<String>(json['role_name'])! : '',
+    roleId: json.containsKey('role_id') ? asT<int>(json['role_id'])! : 0,
+    roleKey: json.containsKey('role_key') ? asT<String>(json['role_key'])! : '',
   );
 
   String imSender;
@@ -144,6 +149,9 @@ class Account {
   String roleid;
   String mobile;
   int messageCount;
+  int roleId;
+  String roleName;
+  String roleKey;
   @override
   String toString() {
     return jsonEncode(this);
@@ -162,5 +170,8 @@ class Account {
     'roleId': roleid,
     'mobile': mobile,
     'message_count': messageCount,
+    'role_id': roleId,
+    'role_name': roleName,
+    'role_key':roleKey
   };
 }

@@ -171,6 +171,9 @@ class User {
     required this.avatar,
     required this.idcardVerified,
     required this.messageCount,
+    required this.roleId,
+    required this.roleName,
+    required this.roleKey,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -193,6 +196,9 @@ class User {
     messageCount: json.containsKey('message_count')
         ? asT<int>(json['message_count'])!
         : 0,
+    roleName: json.containsKey('role_name') ? asT<String>(json['role_name'])! : '',
+    roleId: json.containsKey('role_id') ? asT<int>(json['role_id'])! : 0,
+    roleKey: json.containsKey('role_key') ? asT<String>(json['role_key'])! : '',
   );
 
   String accessToken;
@@ -205,7 +211,9 @@ class User {
   String avatar;
   int idcardVerified;
   int messageCount;
-
+  int roleId;
+  String roleName;
+  String roleKey;
   @override
   String toString() {
     return jsonEncode(this);
@@ -222,5 +230,8 @@ class User {
     'avatar': avatar,
     'idcard_verified': idcardVerified,
     'message_count': messageCount,
+    'role_id': roleId,
+    'role_name': roleName,
+    'role_key': roleKey,
   };
 }

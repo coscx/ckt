@@ -112,7 +112,10 @@ class _GroupPageState extends State<GroupPage> {
                     tfSender: widget.model.memId!,
                     scrollController: scrollController,
                   voice: voice,
-
+                  loadMore: () {
+                    var logic = Get.find<GroupChatLogic>();
+                    logic.eventLoadMoreMessage();
+                  },
                 ),
                 Divider(height: 1.h),
                 ChatInputView(

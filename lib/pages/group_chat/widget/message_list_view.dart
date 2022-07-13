@@ -7,11 +7,15 @@ import 'package:flutter_ckt/common/widgets/chat/time_util.dart';
 import 'package:flutter_ckt/pages/group_chat/widget/group_chat_item.dart';
 import 'package:flutter_ckt/pages/peer_chat/widget/peer_chat_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../common/widgets/chat/functions.dart';
 import '../../../common/widgets/chat/voice.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
 import '../../conversion/widget/colors.dart';
+import '../logic.dart';
 
 class GroupMessageListView extends StatefulWidget {
   final List<Message> messageList;
@@ -20,6 +24,7 @@ class GroupMessageListView extends StatefulWidget {
   final OnItemClick onItemClick;
   final OnMenuItemClick onMenuItemClick;
   final VoidCallback bodyClick;
+  final VoidCallback loadMore;
   final String tfSender;
   final ScrollController scrollController;
   final Voice voice;
@@ -31,6 +36,7 @@ class GroupMessageListView extends StatefulWidget {
       required this.onItemLongClick,
       required this.onItemClick,
       required this.bodyClick,
+      required this.loadMore,
       required this.tfSender,
       required this.scrollController,
       required this.voice,
@@ -45,7 +51,7 @@ class GroupMessageListView extends StatefulWidget {
 class _GroupMessageListViewState extends State<GroupMessageListView> {
   Map<String, GlobalKey<PeerChatItemWidgetState>> globalKeyMap = {};
   bool isLoading = false;
-
+  var logic = Get.find<GroupChatLogic>();
   @override
   void initState() {
     widget.scrollController.addListener(() {
@@ -54,20 +60,21 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
       }
       if (widget.scrollController.position.pixels >=
           widget.scrollController.position.maxScrollExtent + 100.h) {
-        if (isLoading) {
+        if(logic.finish){
           return;
         }
 
-        if (mounted) {
+        if (!isLoading) {
           setState(() {
             isLoading = true;
           });
         }
 
-        Future.delayed(const Duration(milliseconds: 150), () {
+        Future.delayed(const Duration(milliseconds: 5), () {
           onRefresh();
           if (mounted) {
             setState(() {
+              widget.loadMore();
               isLoading = false;
             });
           }
@@ -133,10 +140,9 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
                 globalKeyMap[uuid] = key;
                 return Column(
                   children: <Widget>[
-                    Visibility(
-                      visible: !isLoading,
+                    Container(
                       child:
-                          _loadMoreWidget(widget.messageList.length % 20 == 0),
+                      _loadMoreWidget(widget.messageList.length % 20 == 0 && widget.messageList.length >= 20),
                     ),
                     _messageListViewItem(
                         key,
@@ -281,9 +287,18 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
   //加载中的圈圈
   Widget _loadMoreWidget(bool haveMore) {
     if (haveMore) {
-      return Container();
+      if (isLoading){
+        return Container(
+            width: 50.w,
+            child: Lottie.asset("assets/packages/lottie_flutter/97443-loading-gray.json"));
+      }else{
+        return Container();
+      }
+
     } else {
-      //当没有更多数据可以加载的时候，
+     if (widget.messageList.length < 20){
+       return Container();
+     }
       return Center(
         child: Text(
           "没有更多数据了",

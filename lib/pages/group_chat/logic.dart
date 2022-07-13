@@ -18,7 +18,7 @@ class GroupChatLogic extends GetxController {
   Conversion model = Get.arguments;
   String memId = "";
   List<Message> messageList = <Message>[];
-
+  bool finish = false;
   @override
   void onInit() {
     eventFirstLoadMessage();
@@ -102,28 +102,35 @@ class GroupChatLogic extends GetxController {
       print(err);
     }
   }
-  List<Message> removeElement(List<Message> cc){
-    List<Message> dd =<Message>[];
-    for(int i=0;i<cc.length;i++){
-      var  e= cc[i];
-      if(e.type !=MessageType.MESSAGE_REVOKE){
-        int m=0;
-        for(int j=0;j<dd.length;j++){
-          var  f= dd[j];
-          if (e.content!['uuid'] ==f.content!['uuid']){
-            m=1;
-            break;
-          }
-        }
-        if (m==1){
-          continue;
-        }
+  Future<void> eventLoadMoreMessage() async {
+    try {
+      Map<String, dynamic> messageMap = {};
+      FltImPlugin im = FltImPlugin();
+      var res = await im.createGroupConversion(
+        currentUID: model.memId!,
+        groupUID: model.cid!,
+      );
+      var localId = messageList.last.msgLocalID.toString();
+      Map? response = await im.loadEarlierData(messageID: localId);
+      var messages = ValueUtil.toArr(response!["data"])
+          .map((e) => Message.fromMap(ValueUtil.toMap(e)))
+          .toList();
+      messages.map((e) {
+        e.content!['text'] = (e.content!['text']);
+        return e;
+      }).toList();
+      if (messages.length == 0) {
+        finish = true;
+        return;
       }
-      dd.add(e);
+      messages.addAll(messageList.reversed.toList());
+      messageList = removeElement(messages.reversed.toList());
+      update();
+    } catch (err) {
+      print(err);
     }
-   return dd;
-
   }
+
   void sendTextMessage(String content) async {
     Map? result = await im.sendGroupTextMessage(
       secret: false,

@@ -6,6 +6,7 @@ import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
+import 'package:flutter_ckt/common/utils/chat_util.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
@@ -92,7 +93,7 @@ class PeerChatLogic extends GetxController {
         e.content!['text'] = (e.content!['text']);
         return e;
       }).toList();
-      messageList.addAll(messages);
+      messageList.addAll(removeElement(messages));
       update();
     } catch (err) {
       print(err);
@@ -120,7 +121,7 @@ class PeerChatLogic extends GetxController {
         finish = true;
       }
       messages.addAll(messageList.reversed.toList());
-      messageList = messages.reversed.toList();
+      messageList = removeElement(messages.reversed.toList());
       update();
     } catch (err) {
       print(err);

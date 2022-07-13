@@ -18,7 +18,6 @@ class ChangeAccountLogic extends GetxController {
     account.addAll(data!.account!);
     super.onInit();
   }
-
   removeAccount( Account account1) async {
      account.removeWhere((element) => element.memberid == account1.memberid);
      UserStore.to.removeAccount(account1.memberid);
