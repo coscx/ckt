@@ -8,7 +8,6 @@ import 'package:flt_im_plugin/value_util.dart';
 import 'package:get/get.dart';
 
 import '../../common/apis/common.dart';
-import '../../common/services/storage.dart';
 import '../../common/utils/chat_util.dart';
 import 'state.dart';
 
@@ -175,7 +174,6 @@ class GroupChatLogic extends GetxController {
   }
 
   setMessageFlag(Map result){
-
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     messageList.insert(0, message);
     for (var i = 0; i < messageList.length; i++) {
@@ -187,7 +185,6 @@ class GroupChatLogic extends GetxController {
     update();
   }
   revokeMessageLocalDelete(String uuid, Map result){
-
     var message = Message.fromMap(ValueUtil.toMap(result['data']));
     for (var i = 0; i < messageList.length; i++) {
       String uuids ;

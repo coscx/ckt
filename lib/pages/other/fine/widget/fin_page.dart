@@ -74,7 +74,6 @@ class _FinPageState extends State<FinPages> {
     var l = await CommonAPI.getSaleManDetail(189);
     var m = await CommonAPI.getSaleManGrid();
 
-
     var d = await CommonAPI.getLoanList(page,groupValue);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;

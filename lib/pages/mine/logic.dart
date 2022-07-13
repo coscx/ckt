@@ -17,7 +17,7 @@ class MineLogic extends GetxController {
   String connect="0";
   @override
   void onInit() {
-    //init();
+    init();
     super.onInit();
   }
  void init()async{
@@ -49,18 +49,18 @@ class MineLogic extends GetxController {
      }else{
          bind="已绑定微信";
      }
-     var result = await CommonAPI.getDashBord();
-     if (result.code == 200) {
-       var d = result.data.top;
-
-         lost = d.yesterdayLost.toString();
-         join = d.yesterdayCreate.toString();
-         connect = d.yesterdayConnect.toString();
-
-
-     } else {
-
-     }
+     // var result = await CommonAPI.getDashBord();
+     // if (result.code == 200) {
+     //   var d = result.data.top;
+     //
+     //     lost = d.yesterdayLost.toString();
+     //     join = d.yesterdayCreate.toString();
+     //     connect = d.yesterdayConnect.toString();
+     //
+     //
+     // } else {
+     //
+     // }
     update();
    });
   }
