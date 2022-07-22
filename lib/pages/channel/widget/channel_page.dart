@@ -65,7 +65,7 @@ class _FinPageState extends State<ChannelsPages> {
   }
 
   _df() async {
-    Channels? d = await _getChannels({});
+    Channels? d = await _getChannels({"pageNum":page});
     if (d!=null && d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       setState((){});
@@ -133,10 +133,10 @@ class _FinPageState extends State<ChannelsPages> {
     if (type ==1){
       data ="业务员";
     }
-    if (type ==1){
+    if (type ==2){
       data ="渠道公司";
     }
-    if (type ==1){
+    if (type ==3){
       data ="装修公司";
     }
     return data;
@@ -153,7 +153,7 @@ class _FinPageState extends State<ChannelsPages> {
     return loanData
         .map((e) => GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.Fine);
+                Get.toNamed(AppRoutes.Fine,arguments: e.cnid);
               },
               child: MyChannelContent(
                 cnId: e.cnid,
@@ -188,15 +188,28 @@ class _FinPageState extends State<ChannelsPages> {
               //去掉Appbar底部阴影
               leadingWidth: 0,
               leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
-              titleSpacing: 10.w,
-              title: Text("我的渠道",
-                  style: TextStyle(
-                    fontSize: 38.sp,
-                    decoration: TextDecoration.none,
-                    color: Colors.black,
-                  )),
+              titleSpacing: 30.w,
+              title: Row(
+                children: [
+                  Text("渠道管理",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 48.sp,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
               actions: <Widget>[
-
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(AppRoutes.Friend);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right:40.w,top: 0.h),
+                    width: 50.w,
+                    child: Image.asset(
+                        "assets/images/ckt/user_set.png"),
+                  ),
+                ),
               ],
             ),
             body: Container(
@@ -244,7 +257,7 @@ class _FinPageState extends State<ChannelsPages> {
 // 下拉刷新
   void getData(int status) async {
     page =1;
-    Channels? d = await _getChannels({});
+    Channels? d = await _getChannels({"pageNum":page});
     if ( d!=null &&d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
@@ -257,7 +270,7 @@ class _FinPageState extends State<ChannelsPages> {
     // var result = await IssuesApi.getErpUser();
     // dm = dm1.reversed.toList();
     page =1;
-    Channels? d = await _getChannels({});
+    Channels? d = await _getChannels({"pageNum":page});
     if (d!=null && d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
@@ -272,7 +285,7 @@ class _FinPageState extends State<ChannelsPages> {
   void _onLoading() async {
     //var result = await IssuesApi.getErpUser();
     page=page+1;
-    Channels? d = await _getChannels({});
+    Channels? d = await _getChannels({"pageNum":page});
     if (d!=null && d.data != null && d.data?.data != null) {
       loanData.addAll(d.data!.data!);
       if (d.data!.data!.isEmpty){
@@ -828,46 +841,104 @@ class _MyContentState extends State<MyChannelContent> {
                       children: [
                         Container(
                             margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("渠道名称：",
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
                             child: Text(widget.cnName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 30.sp,
                                     fontWeight: FontWeight.w600))),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 0.h),
-                            child: Text("  "+widget.cnCode+"",
-                                style: TextStyle(
-                                    color: Color(0xff949494),
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.normal))),
-
                       ],
                     ),
 
-                    Text(
-                        "" +
-                            widget.cnUser +
-                            "-"+widget.cnType,
-                        style: TextStyle(
-                            color: Colors.black, fontSize: 30.sp)),
-                    Text("",
-                        style: TextStyle(
-                            color: Colors.grey, fontSize: 25.sp)),
+                    Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("渠道编号：",
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text(widget.cnCode,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+
+                    Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("渠道类型：",
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text(widget.cnType,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+
+                    Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("渠道创建人：",
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text(widget.cnUser,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+
+                    Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("创建时间：",
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.7),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text(widget.time,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+
+                    SizedBox(height: 20.h,)
                   ],
                 ),
               ),
             ],
           ),
-          Column(
-            children: [
-              Container(
-                  margin: EdgeInsets.only(
-                    right: 0.w,
-                  ),
-                  child: Text(widget.time,
-                      style: TextStyle(color: Colors.black, fontSize: 26.sp))),
-            ],
-          ),
+
         ],
       ),
     );

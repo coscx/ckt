@@ -109,7 +109,6 @@ class _AppSearchBarState extends State<AppSearchBar> {
   @override
   void dispose() {
     _controller.dispose();
-    FocusScope.of(context).requestFocus(FocusNode()); //收起键盘
     _focusNode.dispose();
     keyboardSubscription.cancel();
     super.dispose();
