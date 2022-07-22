@@ -242,7 +242,7 @@ class NewERPHttpUtil {
       requestOptions.headers!.addAll(authorization);
     }
 
-    var response = await dio.get(
+    var response =await dio.get(
       path,
       queryParameters: queryParameters,
       options: requestOptions,

@@ -134,7 +134,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                       ),
                       unselectedLabelColor: Color(0xff999999),
                       unselectedLabelStyle:
-                          TextStyle(fontSize: 26.sp, color: Color(0xff999999)),
+                          TextStyle(fontSize: 30.sp, color: Color(0xff999999)),
                       indicatorSize: TabBarIndicatorSize.label,
                       onTap: (index) {
                         _pageController.jumpToPage(index);

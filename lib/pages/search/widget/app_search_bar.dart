@@ -36,7 +36,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
             controller: _controller,
             maxLines: 1,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(top: 22.h),
+              //contentPadding: EdgeInsets.only(top: 0.h),
               hintText: '手机号、用户名、id...',
               hintStyle: TextStyle(
                 fontSize: 28.sp,
@@ -80,7 +80,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
         pressedOpacity: 0.1,
         padding: EdgeInsets.zero,
         color: const Color(0xFFeeeeee),
-        borderRadius: BorderRadius.all(Radius.circular(35.w)),
+        borderRadius: BorderRadius.all(Radius.circular(70.w)),
         onPressed: () {
 
             final logic = Get.find<SearchLogic>();
