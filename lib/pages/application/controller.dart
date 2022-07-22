@@ -43,7 +43,6 @@ class ApplicationController extends GetxController {
   // 底部导航项目
   late final List<BottomNavigationBarItem> bottomTabs;
   late String tfSender;
-
   /// 事件
 
   // tab栏动画

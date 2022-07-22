@@ -128,7 +128,19 @@ class _FinPageState extends State<ChannelsPages> {
       color: color,
     );
   }
-
+  String  getCnType(int type){
+    String data ="";
+    if (type ==1){
+      data ="业务员";
+    }
+    if (type ==1){
+      data ="渠道公司";
+    }
+    if (type ==1){
+      data ="装修公司";
+    }
+    return data;
+  }
   List<GestureDetector> _buildMyItem() {
     if (loanData.isEmpty){
       return [GestureDetector(
@@ -143,12 +155,13 @@ class _FinPageState extends State<ChannelsPages> {
               onTap: () {
                 Get.toNamed(AppRoutes.Fine);
               },
-              child: MyContent(
-                icon: "",
-                name: e.cnname,
-                money: e.cncode,
-                count: "",
-                status: e.cncode,
+              child: MyChannelContent(
+                cnId: e.cnid,
+                cnName: e.cnname,
+                cnCode: e.cncode,
+                cnType: getCnType(e.cntype),
+                cnUser: e.searchvalue.toString(),
+                remark: e.remark,
                 time: e.createtime,
                 color: Colors.white,
               ),
@@ -764,8 +777,30 @@ class MyContent extends StatefulWidget {
   @override
   _MyContentState createState() => _MyContentState();
 }
+class MyChannelContent extends StatefulWidget {
+  final int cnId;
+  final String cnName;
+  final String cnCode;
+  final String cnType;
+  final String cnUser;
+  final String time;
+  final String remark;
+  final Color color;
 
-class _MyContentState extends State<MyContent> {
+  const MyChannelContent(
+      {Key? key, required this.cnId,
+        required this.cnName,
+        required this.cnCode,
+        required this.cnType,
+        required this.cnUser,
+        required this.remark,
+        required this.time,
+        required this.color}) : super(key: key);
+
+  @override
+  _MyContentState createState() => _MyContentState();
+}
+class _MyContentState extends State<MyChannelContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -793,14 +828,14 @@ class _MyContentState extends State<MyContent> {
                       children: [
                         Container(
                             margin: EdgeInsets.only(bottom: 0.h),
-                            child: Text(widget.name,
+                            child: Text(widget.cnName,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 30.sp,
                                     fontWeight: FontWeight.w600))),
                         Container(
                             margin: EdgeInsets.only(bottom: 0.h),
-                            child: Text("  "+widget.status+"",
+                            child: Text("  "+widget.cnCode+"",
                                 style: TextStyle(
                                     color: Color(0xff949494),
                                     fontSize: 30.sp,
@@ -810,9 +845,9 @@ class _MyContentState extends State<MyContent> {
                     ),
 
                     Text(
-                        "金额:  " +
-                            widget.money +
-                            "元",
+                        "" +
+                            widget.cnUser +
+                            "-"+widget.cnType,
                         style: TextStyle(
                             color: Colors.black, fontSize: 30.sp)),
                     Text("",
@@ -827,7 +862,7 @@ class _MyContentState extends State<MyContent> {
             children: [
               Container(
                   margin: EdgeInsets.only(
-                    right: 40.w,
+                    right: 0.w,
                   ),
                   child: Text(widget.time,
                       style: TextStyle(color: Colors.black, fontSize: 26.sp))),
