@@ -1,18 +1,14 @@
-
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_ckt/common/entities/common_result.dart';
 import 'package:flutter_ckt/common/entities/detail/calllog.dart';
 import 'package:flutter_ckt/common/entities/detail/claim_customer.dart';
 import 'package:flutter_ckt/common/entities/detail/connect.dart';
-import 'package:flutter_ckt/common/entities/detail/edit_customer.dart';
 import 'package:flutter_ckt/common/entities/detail/user.dart';
 import 'package:flutter_ckt/common/entities/detail/free_vip.dart';
 import 'package:flutter_ckt/common/entities/detail/store_vip.dart';
 import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
 import 'package:flutter_ckt/common/entities/detail/viewcall.dart';
-
 import 'package:flutter_ckt/common/entities/flow/wx_article.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
@@ -25,11 +21,9 @@ import 'package:flutter_ckt/common/entities/loan/saleman_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../entities/app_version.dart';
 import '../entities/detail/action.dart';
 import '../entities/detail/appoint.dart';
-import '../entities/erp_user.dart';
 import '../entities/home/common.dart';
 import '../entities/home/only_store.dart';
 import '../entities/home/search_erp.dart';

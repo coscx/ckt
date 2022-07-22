@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
+import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/routers/names.dart';
-import '../../../../common/utils/log_util.dart';
-import '../../../../common/utils/logger.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
 import '../../../../common/widgets/empty_page.dart';
 import '../../../../common/widgets/my_scroll_physics.dart';
 import '../../../../common/widgets/refresh.dart';
-import 'custom_dialog.dart';
+import '../../../common/entities/loan/channel.dart';
+import '../../../common/services/storage.dart';
+
 
 class MyItem {
   final String icon;
@@ -33,14 +34,14 @@ class MyItem {
       required this.color});
 }
 
-class FinPages extends StatefulWidget {
-  const FinPages({Key? key}) : super(key: key);
+class ChannelsPages extends StatefulWidget {
+  const ChannelsPages({Key? key}) : super(key: key);
 
   @override
   _FinPageState createState() => _FinPageState();
 }
 
-class _FinPageState extends State<FinPages> {
+class _FinPageState extends State<ChannelsPages> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final ScrollController _scrollControl = ScrollController();
@@ -55,7 +56,7 @@ class _FinPageState extends State<FinPages> {
   var dm1 = <MyItem>[];
   String myName = "";
   bool myValue = false;
-  List<Data> loanData = <Data>[];
+  List<ChannelDataData> loanData = <ChannelDataData>[];
   int page =1;
   @override
   void initState() {
@@ -64,24 +65,28 @@ class _FinPageState extends State<FinPages> {
   }
 
   _df() async {
-    Map<String,dynamic> data = {};
-    // var f = await CommonAPI.getSaleManMyUserList(data);
-    // var g = await CommonAPI.getSaleManChannel(data);
-    // var h = await CommonAPI.getStep(data);
-    // var i = await CommonAPI.getStaff(data);
-    // var j = await CommonAPI.changeSaleManStepStatus(data);
-    // var k = await CommonAPI.changeSaleBaseInfo(data);
-    // var l = await CommonAPI.getSaleManDetail(189);
-    // var m = await CommonAPI.getSaleManGrid();
-
-    var d = await CommonAPI.getLoanList(page,groupValue);
-    if (d.data != null && d.data?.data != null) {
+    Channels? d = await _getChannels({});
+    if (d!=null && d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
-      if (mounted)
       setState((){});
     }
   }
-
+  Future<Channels?> _getChannels( Map<String,dynamic> data) async {
+     String  roleKey = StorageService.to.getString("roleKey");
+     if(roleKey =="super"){
+       var d = await CommonAPI.getSuperChannel(data);
+       return d;
+     }
+     if(roleKey =="salesman"){
+       var d = await CommonAPI.getSaleManChannel(data);
+       return d;
+     }
+     if(roleKey =="director"){
+       var d = await CommonAPI.getManageChannel(data);
+       return d;
+     }
+     return null;
+   }
   MyItem getStatus(Data data) {
     String status = "";
     Color color = const Color(0xffFF6666);
@@ -136,16 +141,16 @@ class _FinPageState extends State<FinPages> {
     return loanData
         .map((e) => GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.FineDetail,arguments: e.loanId);
+                Get.toNamed(AppRoutes.Fine);
               },
               child: MyContent(
-                icon: getStatus(e).icon,
-                name: getStatus(e).name,
-                money: getStatus(e).money,
-                count: getStatus(e).count,
-                status: getStatus(e).status,
-                time: getStatus(e).time,
-                color: getStatus(e).color,
+                icon: "",
+                name: e.cnname,
+                money: e.cncode,
+                count: "",
+                status: e.cncode,
+                time: e.createtime,
+                color: Colors.white,
               ),
             ))
         .toList();
@@ -161,9 +166,29 @@ class _FinPageState extends State<FinPages> {
             ),
           ),
         ),
-        child: Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
+        child: Scaffold(
+            backgroundColor: Color(0xffefefef),
+            //endDrawer: CategoryEndDrawer(),
+            appBar: AppBar(
+              //backgroundColor: Colors.transparent, //把scaffold的背景色改成透明
+              elevation: 0,
+              //去掉Appbar底部阴影
+              leadingWidth: 0,
+              leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
+              titleSpacing: 10.w,
+              title: Text("我的渠道",
+                  style: TextStyle(
+                    fontSize: 38.sp,
+                    decoration: TextDecoration.none,
+                    color: Colors.black,
+                  )),
+              actions: <Widget>[
+
+              ],
+            ),
+            body: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
                   stops: [0, 0.5, 1],
                   colors: [
                     Color(0xffE2F1FF),
@@ -173,81 +198,27 @@ class _FinPageState extends State<FinPages> {
                   begin: Alignment(2, 1),
                   end: Alignment(-2, -1),
                 )),
-            child: Scaffold(
-            backgroundColor: Colors.transparent, //把scaffold的背景色改成透明
-            //endDrawer: CategoryEndDrawer(),
-            appBar: AppBar(
-              backgroundColor: Colors.transparent, //把scaffold的背景色改成透明
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              titleSpacing: 170.w,
-              title: Text("我的客户",
-                  style: TextStyle(
-                    fontSize: 38.sp,
-                    decoration: TextDecoration.none,
-                    color: Colors.black,
-                  )),
-              actions: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return LoginDialog();
-                        });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(right: 40.w),
-                    child: Image.asset(
-                      'assets/images/default/qrcode.png',
-                      color: Colors.blue,
-                      width: 40.w,
-                      height: 40.h,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            body: SizedBox(
+                child: SizedBox(
                   height: ScreenUtil().screenHeight,
                   child: Container(
-                    margin: EdgeInsets.only(top: 30.h),
+                    margin: EdgeInsets.only(top: 0.h),
                     child: Stack(
                       children: [
                         _buildContent(context),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            const MyCard(),
-                            const MyCard1(),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                          ],
-                        ),
-                        _buildHeader(context, groupValue,
-                            (int index, bool value, String name) {
-                          // print(index);
-                          // print(value);
-                          // print(name);
-                          title = name;
-                          setState(() {
-                            myName = name;
-                            myValue = value;
-                            groupValue = index;
-                            if (!value) {
-                              title = "请选择当前状态";
-                              groupValue = -1;
-                            }
-                          });
-                        }, title),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     SizedBox(
+                        //       width: 10.w,
+                        //     ),
+                        //     const MyCard(),
+                        //     const MyCard1(),
+                        //     SizedBox(
+                        //       width: 10.w,
+                        //     ),
+                        //   ],
+                        // ),
+
                       ],
                     ),
                   ),
@@ -260,8 +231,8 @@ class _FinPageState extends State<FinPages> {
 // 下拉刷新
   void getData(int status) async {
     page =1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
-    if (d.data != null && d.data?.data != null) {
+    Channels? d = await _getChannels({});
+    if ( d!=null &&d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
 
@@ -273,8 +244,8 @@ class _FinPageState extends State<FinPages> {
     // var result = await IssuesApi.getErpUser();
     // dm = dm1.reversed.toList();
     page =1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
-    if (d.data != null && d.data?.data != null) {
+    Channels? d = await _getChannels({});
+    if (d!=null && d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
 
@@ -288,8 +259,8 @@ class _FinPageState extends State<FinPages> {
   void _onLoading() async {
     //var result = await IssuesApi.getErpUser();
     page=page+1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
-    if (d.data != null && d.data?.data != null) {
+    Channels? d = await _getChannels({});
+    if (d!=null && d.data != null && d.data?.data != null) {
       loanData.addAll(d.data!.data!);
       if (d.data!.data!.isEmpty){
         _refreshController.loadNoData();
@@ -309,13 +280,13 @@ class _FinPageState extends State<FinPages> {
             opacity: opacity,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40.w),
                       topRight: Radius.circular(40.w))),
-              margin: EdgeInsets.only(top: 200.h),
+              margin: EdgeInsets.only(top: 0.h),
               child: Container(
-                margin: EdgeInsets.only(top: 60.h),
+                margin: EdgeInsets.only(top: 0.h),
                 child: SmartRefresher(
                     physics: const MyScrollPhysics(),
                     enablePullDown: true,
@@ -798,7 +769,13 @@ class _MyContentState extends State<MyContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20.h, left: 40.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.w),
+      ),
+
+      margin: EdgeInsets.only(top: 20.h, left: 40.w,right: 40.w),
+      padding: EdgeInsets.only(top: 20.h, left: 20.w,right: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -806,35 +783,39 @@ class _MyContentState extends State<MyContent> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  SizedBox(
-                      width: 90.w,
-                      height: 90.h,
-                      child: Image.asset(widget.icon))
-                ],
-              ),
+
               Container(
                 margin: EdgeInsets.only(top: 0.h, left: 30.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        margin: EdgeInsets.only(bottom: 0.h),
-                        child: Text(widget.name,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w600))),
+                    Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text(widget.name,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600))),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 0.h),
+                            child: Text("  "+widget.status+"",
+                                style: TextStyle(
+                                    color: Color(0xff949494),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.normal))),
+
+                      ],
+                    ),
+
                     Text(
-                        "贷款金额:  " +
+                        "金额:  " +
                             widget.money +
-                            "万 期数:  " +
-                            widget.count +
-                            "期",
+                            "元",
                         style: TextStyle(
                             color: Colors.black, fontSize: 30.sp)),
-                    Text(widget.time,
+                    Text("",
                         style: TextStyle(
                             color: Colors.grey, fontSize: 25.sp)),
                   ],
@@ -848,8 +829,8 @@ class _MyContentState extends State<MyContent> {
                   margin: EdgeInsets.only(
                     right: 40.w,
                   ),
-                  child: Text(widget.status,
-                      style: TextStyle(color: widget.color, fontSize: 26.sp))),
+                  child: Text(widget.time,
+                      style: TextStyle(color: Colors.black, fontSize: 26.sp))),
             ],
           ),
         ],

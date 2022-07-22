@@ -5,6 +5,7 @@ import 'package:flutter_ckt/common/values/values.dart';
 import 'package:flutter_ckt/common/widgets/unit_bottom_bar.dart';
 import 'package:flutter_ckt/common/widgets/widgets.dart';
 import 'package:flutter_ckt/pages/calcucation/view.dart';
+import 'package:flutter_ckt/pages/channel/view.dart';
 
 import 'package:flutter_ckt/pages/conversion/view.dart';
 import 'package:flutter_ckt/pages/flow_page/view.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_ckt/pages/home/view.dart';
 import 'package:flutter_ckt/pages/main/index.dart';
 import 'package:flutter_ckt/pages/mine/view.dart';
 import 'package:flutter_ckt/pages/other/fine/view.dart';
+import 'package:flutter_ckt/pages/total_user/view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +49,8 @@ class ApplicationPage extends GetView<ApplicationController> {
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
-        FinePage(),
+        TotalUserPage(),
+        ChannelPage(),
         CalcucationPage(),
         ConversionPage(),
         MinePage(),

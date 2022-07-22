@@ -104,7 +104,7 @@ class ApplicationController extends GetxController {
   @override
   Future<void> onInit() async {
     pageController = PageController(initialPage: state.page);
-    tabTitles = ['首页', '微信推文', '消息', '我的'];
+    tabTitles = ['首页','渠道', '计算器', '消息', '我的'];
     bottomTabs = <BottomNavigationBarItem>[
       const BottomNavigationBarItem(
         icon: Icon(
@@ -120,6 +120,18 @@ class ApplicationController extends GetxController {
       ),
       const BottomNavigationBarItem(
         icon: Icon(
+          Iconfont.tag,
+          color: AppColors.tabBarElement,
+        ),
+        activeIcon: Icon(
+          Iconfont.tag,
+          color: AppColors.secondaryElementText,
+        ),
+        label: '渠道',
+        backgroundColor: AppColors.primaryBackground,
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(
           Iconfont.grid,
           color: AppColors.tabBarElement,
         ),
@@ -127,16 +139,16 @@ class ApplicationController extends GetxController {
           Iconfont.grid,
           color: AppColors.secondaryElementText,
         ),
-        label: '微信推文',
+        label: '计算器',
         backgroundColor: AppColors.primaryBackground,
       ),
       const BottomNavigationBarItem(
         icon: Icon(
-          Iconfont.tag,
+          Iconfont.socialtwitter,
           color: AppColors.tabBarElement,
         ),
         activeIcon: Icon(
-          Iconfont.tag,
+          Iconfont.socialtwitter,
           color: AppColors.secondaryElementText,
         ),
         label: '消息',

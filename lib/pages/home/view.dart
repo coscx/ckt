@@ -6,6 +6,7 @@ import 'package:flutter_ckt/pages/home/widget/gzx_filter_goods_page.dart';
 import 'package:flutter_ckt/pages/home/widget/photo_widget_list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multiselect_scope/multiselect_scope.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/routers/names.dart';
@@ -13,13 +14,16 @@ import '../../common/widgets/dy_behavior_null.dart';
 import '../../common/widgets/my_scroll_physics.dart';
 import '../../common/widgets/empty_page.dart';
 import '../../common/widgets/refresh.dart';
+import '../search/widget/app_search_bar.dart';
 import 'logic.dart';
 
 class HomePage extends StatelessWidget {
   final logic = Get.find<HomeLogic>();
-  final state = Get.find<HomeLogic>().state;
 
-   HomePage({Key? key}) : super(key: key);
+  final state = Get
+      .find<HomeLogic>()
+      .state;
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,113 +35,134 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        child: Obx(()=>Scaffold(
-            key: logic.scaffoldKey,
-            endDrawer: GZXFilterGoodsPage(
-              selectItems: logic.selectItems,
-            ),
-            appBar: AppBar(
-              titleSpacing: 20.w,
-              leadingWidth: 0,
-              title: Row(
-                children: [
-                  Text(logic.title,
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 48.sp,
-                          fontWeight: FontWeight.bold)),
-                    logic.totalCount == ""
-                      ? Container()
-                      : Container(
-                      padding: EdgeInsets.only(left: 20.w),
-                        child: Row(
-                          children: [
-                            Text('共:',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w200)),
-                            Text(logic.totalCount,
-                                style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.normal))
-                          ],
-                        ),
+        child:
+            GetBuilder<HomeLogic>(builder: (logic) {
+              return Scaffold(
+                  key: logic.scaffoldKey,
+                  endDrawer: GZXFilterGoodsPage(
+                    selectItems: logic.selectItems,
+                  ),
+                  // appBar: AppBar(
+                  //   titleSpacing: 20.w,
+                  //   leadingWidth: 0,
+                  //   title: Row(
+                  //     children: [
+                  //       Text(logic.title,
+                  //           style: TextStyle(
+                  //               color: Theme.of(context).primaryColor,
+                  //               fontSize: 48.sp,
+                  //               fontWeight: FontWeight.bold)),
+                  //         logic.totalCount == ""
+                  //           ? Container()
+                  //           : Container(
+                  //           padding: EdgeInsets.only(left: 20.w),
+                  //             child: Row(
+                  //               children: [
+                  //                 Text('共:',
+                  //                 style: TextStyle(
+                  //                     color: Colors.black,
+                  //                     fontSize: 30.sp,
+                  //                     fontWeight: FontWeight.w200)),
+                  //                 Text(logic.totalCount,
+                  //                     style: TextStyle(
+                  //                         color: Colors.redAccent,
+                  //                         fontSize: 30.sp,
+                  //                         fontWeight: FontWeight.normal))
+                  //               ],
+                  //             ),
+                  //           ),
+                  //
+                  //     ],
+                  //   ),
+                  //   //leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
+                  //   backgroundColor: Colors.white,
+                  //   elevation: 0,
+                  //   //去掉Appbar底部阴影
+                  //   actions: <Widget>[
+                  //     IconButton(
+                  //       icon: const Icon(
+                  //         Icons.search,
+                  //         color: Colors.black87,
+                  //       ),
+                  //       onPressed: () {
+                  //         Get.toNamed(AppRoutes.SearchUser,arguments: 0);
+                  //       },
+                  //     ),
+                  //     SizedBox(width: 20.w),
+                  //
+                  //   ],
+                  //
+                  //   //bottom: bar(),
+                  // ),
+                  body: GestureDetector(
+                     child:Container(
+                      decoration: BoxDecoration(
+                        //背景
+                        color: const Color.fromRGBO(247, 247, 247, 100),
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(0.h)),
+                        //设置四周边框
+                        //border: new Border.all(width: 1, color: Colors.red),
                       ),
-
-                ],
-              ),
-              //leading:const Text('Demo',style: TextStyle(color: Colors.black, fontSize: 15)),
-              backgroundColor: Colors.white,
-              elevation: 0,
-              //去掉Appbar底部阴影
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.black87,
-                  ),
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.SearchUser,arguments: 0);
-                  },
-                ),
-                SizedBox(width: 20.w),
-
-              ],
-
-              //bottom: bar(),
-            ),
-            body:  Container(
-                  decoration:  BoxDecoration(
-                    //背景
-                    color: const Color.fromRGBO(247, 247, 247, 100),
-                    //设置四周圆角 角度
-                    borderRadius: BorderRadius.all(Radius.circular(0.h)),
-                    //设置四周边框
-                    //border: new Border.all(width: 1, color: Colors.red),
-                  ),
-                  child: Stack(
-                      children: <Widget>[
-                        //BlocBuilder<GlobalBloc, GlobalState>(builder: _buildBackground),
-                        Container(
-                          padding: EdgeInsets.only(top: 180.h),
-                          child: ScrollConfiguration(
-                              behavior: DyBehaviorNull(),
-                              child: SmartRefresher(
-                                physics: const MyScrollPhysics(),
-                                enablePullDown: true,
-                                enablePullUp: true,
-                                header: DYrefreshHeader(),
-                                footer: DYrefreshFooter(),
-                                controller: logic.refreshController,
-                                onRefresh: logic.onRefresh,
-                                onLoading: logic.onLoading,
-                                child: CustomScrollView(
-                                  controller: logic.scrollController,
+                      child: Stack(
+                        children: <Widget>[
+                          //BlocBuilder<GlobalBloc, GlobalState>(builder: _buildBackground),
+                          Container(
+                            padding: EdgeInsets.only(top: 180.h),
+                            child: ScrollConfiguration(
+                                behavior: DyBehaviorNull(),
+                                child: SmartRefresher(
                                   physics: const BouncingScrollPhysics(),
-                                  slivers: <Widget>[
-                                    _buildContent(context),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 80.h),
-                          child: _buildHead(context),
-                        ),
-                        Bar(
-                          selectItems: logic.selectItems,
-                          roleId: logic.roleId,
-                          scaffoldState: logic.scaffoldKey,
-                        ),
-                      ],
-                    )
-                )
-        ))
+                                  enablePullDown: logic.ff ? true :false,
+                                  enablePullUp: logic.ff ? true :false,
+                                  header: DYrefreshHeader(),
+                                  footer: DYrefreshFooter(),
+                                  controller: logic.refreshController,
+                                  onRefresh: logic.onRefresh,
+                                  onLoading: logic.onLoading,
+                                  child: CustomScrollView(
+                                    controller: logic.scrollController,
+                                    physics: const BouncingScrollPhysics(),
+                                    slivers: <Widget>[
+                                      _buildContent(context),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                          // Container(
+                          //   padding: EdgeInsets.only(top: 80.h),
+                          //   child: _buildHead(context),
+                          // ),
+                          // Positioned(
+                          //     top: -11.h,
+                          //     right: 0,
+                          //     child: Container(child: Text("123"),)
+                          // ),
+                          Container(
+                              padding: EdgeInsets.only(top: 90.h),
+                              child: _buildSliverAppBar()
+                          ),
+                          Bar(
+                            selectItems: logic.selectItems,
+                            roleId: logic.roleId,
+                            scaffoldState: logic.scaffoldKey,
+                          ),
+                        ],
+                      )
+                  ))
+              );
+            })
     );
   }
-  Widget _buildHead(BuildContext context ) {
+
+
+  Widget _buildSliverAppBar() {
+    return Container(
+        padding: EdgeInsets.only(left: 40.w, right: 40.w),
+        child: AppSearchBar(isAppoint: 1,));
+  }
+
+  Widget _buildHead(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
@@ -162,11 +187,11 @@ class HomePage extends StatelessWidget {
           //selectedColor: Colors.green,
           //pressedColor: Colors.blue,
           //borderColor: Colors.red,
-          groupValue: logic.sex.value == 0 ? 1 : logic.sex.value ,
+          groupValue: logic.sex == 0 ? 1 : logic.sex,
           onValueChanged: _onValueChanged,
           padding: EdgeInsets.only(right: 0.w),
           children: {
-            1: logic.sex.value == 1
+            1: logic.sex == 1
                 ? Padding(
               padding: EdgeInsets.only(left: 50.w, right: 40.w),
               child: Text("男",
@@ -180,7 +205,7 @@ class HomePage extends StatelessWidget {
                   fontSize: 30.sp,
                   color: Colors.blue,
                 )),
-            2: logic.sex.value == 2
+            2: logic.sex == 2
                 ? Padding(
               padding: EdgeInsets.only(left: 50.w, right: 40.w),
               child: Text("女",
@@ -214,35 +239,37 @@ class HomePage extends StatelessWidget {
             //print(e);
             var ccMode = 0;
             if (e == '全部') {
-              logic.currentPhotoMode.value =0;
+              logic.currentPhotoMode = 0;
               ccMode = 10;
             }
             if (e == '我的') {
-              logic.currentPhotoMode.value =2;
+              logic.currentPhotoMode = 2;
               ccMode = 2;
             }
             if (e == '良缘') {
-              logic.currentPhotoMode.value =1;
+              logic.currentPhotoMode = 1;
               ccMode = 1;
             }
             if (e == '公海') {
-              logic.currentPhotoMode.value =3;
+              logic.currentPhotoMode = 3;
               ccMode = 3;
             }
 
 
-              logic.roleId = ccMode;
-              logic.onRefresh();
+            logic.roleId = ccMode;
+            logic.onRefresh();
           },
           onCanceled: () => debugPrint('onCanceled'),
         )
       ],
     );
   }
+
   void _onValueChanged(int value) {
-    logic.sex.value = value;
+    logic.sex = value;
     logic.onSexChange();
   }
+
   List<PopupMenuItem<String>> buildItems() {
     final map = {
       "全部": Icons.margin,
@@ -252,53 +279,54 @@ class HomePage extends StatelessWidget {
     };
     return map.keys
         .toList()
-        .map((e) => PopupMenuItem<String>(
-        value: e,
-        child: Row(
-          //spacing: 10.w,
-          children: <Widget>[
-            Icon(
-              map[e],
-              color: Colors.blue,
-            ),
-            Text(e),
-          ],
-        )))
+        .map((e) =>
+        PopupMenuItem<String>(
+            value: e,
+            child: Row(
+              //spacing: 10.w,
+              children: <Widget>[
+                Icon(
+                  map[e],
+                  color: Colors.blue,
+                ),
+                Text(e),
+              ],
+            )))
         .toList();
   }
 
   Widget buildHeadTxt(BuildContext context) {
-    if (logic.currentPhotoMode.value == 0) {
+    if (logic.currentPhotoMode == 0) {
       return SizedBox(
         width: 70.w,
-        child: Text("全部",style: TextStyle(
+        child: Text("全部", style: TextStyle(
           fontSize: 30.sp,
           color: Colors.black,
         )),
       );
     }
-    if (logic.currentPhotoMode.value == 2) {
+    if (logic.currentPhotoMode == 2) {
       return SizedBox(
         width: 70.w,
-        child: Text("我的",style: TextStyle(
+        child: Text("我的", style: TextStyle(
           fontSize: 30.sp,
           color: Colors.black,
         )),
       );
     }
-    if (logic.currentPhotoMode.value == 1) {
+    if (logic.currentPhotoMode == 1) {
       return SizedBox(
         width: 70.w,
-        child: Text("良缘",style: TextStyle(
+        child: Text("良缘", style: TextStyle(
           fontSize: 30.sp,
           color: Colors.black,
         )),
       );
     }
-    if (logic.currentPhotoMode.value == 3) {
+    if (logic.currentPhotoMode == 3) {
       return SizedBox(
         width: 70.w,
-        child: Text("公海",style: TextStyle(
+        child: Text("公海", style: TextStyle(
           fontSize: 30.sp,
           color: Colors.black,
         )),
@@ -306,51 +334,61 @@ class HomePage extends StatelessWidget {
     }
     return SizedBox(
       width: 70.w,
-      child: Text("全部",style: TextStyle(
+      child: Text("全部", style: TextStyle(
         fontSize: 30.sp,
         color: Colors.black,
       )),
     );
   }
-  Widget _buildContent(BuildContext context) {
 
-      if (logic.state.homeUser.isEmpty) return SliverToBoxAdapter(child: EmptyPage());
-      return logic.state.homeUser.isNotEmpty
-          ? SliverList(
-        delegate: SliverChildBuilderDelegate(
-                (_, int index) => PhotoWidgetListItem( photo: logic.state.homeUser[index]),
-            childCount: logic.state.homeUser.length),
-      )
-          : SliverToBoxAdapter(
-          child: Center(
-            child: Container(
-              alignment: FractionalOffset.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.airplay,
-                      color: Colors.orangeAccent, size: 200.sp),
-                  Container(
-                    padding: EdgeInsets.only(top: 16.h),
-                    child: Text(
-                      "暂时没有用户了",
-                      style: TextStyle(
-                        fontSize: 40.sp,
-                        color: Colors.orangeAccent,
-                      ),
+  Widget _buildContent(BuildContext context) {
+    if (logic.state.homeUser.isEmpty)
+      return SliverToBoxAdapter(child: EmptyPage());
+    return logic.state.homeUser.isNotEmpty
+        ? SliverList(
+          delegate: SliverChildBuilderDelegate(
+                  (_, int index) {
+                return PhotoWidgetListItem(
+                  photo: logic.state.homeUser[index],
+                  isSelect: logic.getSelectCheckbox(index),
+                  onChange: (bool d,int index,int position) {
+                    logic.setSelectCheckbox(d,index,position);
+                  }, index: index, allSelect: logic.allSelect,);
+              },
+              childCount: logic.state.homeUser.length),
+        )
+        : SliverToBoxAdapter(
+        child: Center(
+          child: Container(
+            alignment: FractionalOffset.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.airplay,
+                    color: Colors.orangeAccent, size: 200.sp),
+                Container(
+                  padding: EdgeInsets.only(top: 16.h),
+                  child: Text(
+                    "暂时没有用户了",
+                    style: TextStyle(
+                      fontSize: 40.sp,
+                      color: Colors.orangeAccent,
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          ));
+          ),
+        ));
   }
 }
+
 class Bar extends StatelessWidget implements PreferredSizeWidget {
   final List<SelectItem> selectItems;
   final int roleId;
-  final  GlobalKey<ScaffoldState> scaffoldState;
+  final GlobalKey<ScaffoldState> scaffoldState;
+
   const Bar({Key? key,
     required this.selectItems,
     required this.roleId,
@@ -363,7 +401,7 @@ class Bar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20.w, right: 20.w),
+      padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 10.h),
       child: Column(
         children: [
           Expanded(

@@ -38,4 +38,5 @@ class AppRoutes {
   static const CalcucationExact = '/calcucation_exact';
   static const CalcucationResult = '/calcucation_result';
   static const Friend = '/friend';
+  static const Channel = '/channel';
 }

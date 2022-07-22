@@ -25,7 +25,7 @@ dependencies:
     git: https://github.com/bluefireteam/photo_view
   umeng_analytics_with_push:
     git: https://github.com/coscx/umeng_push.git
-  another_xlider: ^1.1.0
+  another_xlider: ^1.1.2
   adaptive_action_sheet: ^2.0.1
   badges: ^2.0.2
   bot_toast: ^4.0.2
@@ -81,6 +81,7 @@ dependencies:
   lpinyin: ^2.0.2
   multi_image_picker: ^4.8.1
   menu_button: ^1.4.2+1
+  multiselect_scope: ^0.2.0
   overlay_support: ^1.2.1
   pull_to_refresh_flutter3: ^2.0.1
   package_info: ^2.0.2

@@ -254,136 +254,136 @@ class MinePage extends StatelessWidget {
                         ),
                       ),
 
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.w),
-                            color: Colors.white,
-                            boxShadow: [BoxShadow(color: Color(0x19000000),
-                                offset: Offset(0.5, 0.5),
-                                blurRadius: 1.5,
-                                spreadRadius: 1.5), BoxShadow(
-                                color: Colors.white)
-                            ],
-                          ),
-                          margin: EdgeInsets.fromLTRB(30.w, 40.h, 30.w, 0),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.w),
-                              child: Container(
-
-                                margin: EdgeInsets.fromLTRB(30.w, 0.h, 30.w, 0),
-
-                                child: Row(
-
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-//                交叉轴的布局方式，对于column来说就是水平方向的布局方式
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  //就是字child的垂直布局方向，向上还是向下
-                                  verticalDirection: VerticalDirection.down,
-                                  children: <Widget>[
-                                    // SizedBox(
-                                    //   width: ScreenUtil().setWidth(10.w),
-                                    // ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          // Navigator.pushNamed(context, UnitRouter.create_user_page);
-                                          Get.toNamed(AppRoutes.CreateUser);
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                            //top: 20.h,
-                                            // bottom: 15.h,
-
-                                          ),
-                                          child: Column(children: <Widget>[
-                                            Container(
-                                              height: 150.h,
-                                              width: 150.w,
-                                              alignment: FractionalOffset
-                                                  .topLeft,
-                                              child: Lottie.asset(
-                                                  'assets/packages/lottie_flutter/85263-plus-sky-theme.json'),
-                                            ),
-
-
-                                          ]),
-                                        )),
-
-
-                                    GestureDetector(
-                                        onTap: () {
-                                          //Navigator.pushNamed(context, UnitRouter.select_page);
-
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                          ),
-                                          child: Column(children: <Widget>[
-                                            Container(
-                                              height: 150.h,
-                                              width: 150.w,
-                                              alignment: FractionalOffset
-                                                  .topLeft,
-                                              child: Lottie.asset(
-                                                  'assets/packages/lottie_flutter/98042-robot.json'),
-                                            ),
-
-                                          ]),
-                                        )),
-
-                                    GestureDetector(
-                                        onTap: () {
-
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                            top: 0.h,
-                                            bottom: 0.h,
-
-                                          ),
-                                          child: Column(children: <Widget>[
-                                            Container(
-                                              height: 150.h,
-                                              width: 150.w,
-                                              alignment: FractionalOffset
-                                                  .topLeft,
-                                              child: Lottie.asset(
-                                                  'assets/packages/lottie_flutter/97568-graph.json'),
-                                            ),
-
-                                          ]),
-                                        )
-
-                                    ),
-
-                                    GestureDetector(
-                                      onTap: () {
-
-
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                          // top: 10.h,
-                                          // bottom: 10.h,
-
-                                        ),
-                                        child: Column(children: <Widget>[
-                                          Container(
-                                            height: 150.h,
-                                            width: 150.w,
-                                            alignment: FractionalOffset.topLeft,
-                                            child: Lottie.asset(
-                                                'assets/packages/lottie_flutter/97577-instagram.json'),
-                                          ),
-
-                                        ]),
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ))),
+//                       Container(
+//                           decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.circular(10.w),
+//                             color: Colors.white,
+//                             boxShadow: [BoxShadow(color: Color(0x19000000),
+//                                 offset: Offset(0.5, 0.5),
+//                                 blurRadius: 1.5,
+//                                 spreadRadius: 1.5), BoxShadow(
+//                                 color: Colors.white)
+//                             ],
+//                           ),
+//                           margin: EdgeInsets.fromLTRB(30.w, 40.h, 30.w, 0),
+//                           child: ClipRRect(
+//                               borderRadius: BorderRadius.circular(10.w),
+//                               child: Container(
+//
+//                                 margin: EdgeInsets.fromLTRB(30.w, 0.h, 30.w, 0),
+//
+//                                 child: Row(
+//
+//                                   mainAxisAlignment: MainAxisAlignment
+//                                       .spaceBetween,
+//                                   mainAxisSize: MainAxisSize.max,
+// //                交叉轴的布局方式，对于column来说就是水平方向的布局方式
+//                                   crossAxisAlignment: CrossAxisAlignment.center,
+//                                   //就是字child的垂直布局方向，向上还是向下
+//                                   verticalDirection: VerticalDirection.down,
+//                                   children: <Widget>[
+//                                     // SizedBox(
+//                                     //   width: ScreenUtil().setWidth(10.w),
+//                                     // ),
+//                                     GestureDetector(
+//                                         onTap: () {
+//                                           // Navigator.pushNamed(context, UnitRouter.create_user_page);
+//                                           Get.toNamed(AppRoutes.CreateUser);
+//                                         },
+//                                         child: Container(
+//                                           padding: const EdgeInsets.only(
+//                                             //top: 20.h,
+//                                             // bottom: 15.h,
+//
+//                                           ),
+//                                           child: Column(children: <Widget>[
+//                                             Container(
+//                                               height: 150.h,
+//                                               width: 150.w,
+//                                               alignment: FractionalOffset
+//                                                   .topLeft,
+//                                               child: Lottie.asset(
+//                                                   'assets/packages/lottie_flutter/85263-plus-sky-theme.json'),
+//                                             ),
+//
+//
+//                                           ]),
+//                                         )),
+//
+//
+//                                     GestureDetector(
+//                                         onTap: () {
+//                                           //Navigator.pushNamed(context, UnitRouter.select_page);
+//
+//                                         },
+//                                         child: Container(
+//                                           padding: EdgeInsets.only(
+//                                           ),
+//                                           child: Column(children: <Widget>[
+//                                             Container(
+//                                               height: 150.h,
+//                                               width: 150.w,
+//                                               alignment: FractionalOffset
+//                                                   .topLeft,
+//                                               child: Lottie.asset(
+//                                                   'assets/packages/lottie_flutter/98042-robot.json'),
+//                                             ),
+//
+//                                           ]),
+//                                         )),
+//
+//                                     GestureDetector(
+//                                         onTap: () {
+//
+//                                         },
+//                                         child: Container(
+//                                           padding: EdgeInsets.only(
+//                                             top: 0.h,
+//                                             bottom: 0.h,
+//
+//                                           ),
+//                                           child: Column(children: <Widget>[
+//                                             Container(
+//                                               height: 150.h,
+//                                               width: 150.w,
+//                                               alignment: FractionalOffset
+//                                                   .topLeft,
+//                                               child: Lottie.asset(
+//                                                   'assets/packages/lottie_flutter/97568-graph.json'),
+//                                             ),
+//
+//                                           ]),
+//                                         )
+//
+//                                     ),
+//
+//                                     GestureDetector(
+//                                       onTap: () {
+//
+//
+//                                       },
+//                                       child: Container(
+//                                         padding: const EdgeInsets.only(
+//                                           // top: 10.h,
+//                                           // bottom: 10.h,
+//
+//                                         ),
+//                                         child: Column(children: <Widget>[
+//                                           Container(
+//                                             height: 150.h,
+//                                             width: 150.w,
+//                                             alignment: FractionalOffset.topLeft,
+//                                             child: Lottie.asset(
+//                                                 'assets/packages/lottie_flutter/97577-instagram.json'),
+//                                           ),
+//
+//                                         ]),
+//                                       ),
+//                                     ),
+//
+//                                   ],
+//                                 ),
+//                               ))),
 
 
                       Container(

@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flt_im_plugin/conversion.dart';
 import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:get/get.dart';
-
 import '../../common/apis/common.dart';
 import '../../common/utils/chat_util.dart';
 import 'state.dart';

@@ -6,6 +6,7 @@ import 'package:flutter_ckt/pages/user_detail/view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:multiselect_scope/multiselect_scope.dart';
 
 import '../../../common/entities/home/search_erp.dart';
 import '../../../common/routers/names.dart';
@@ -16,9 +17,12 @@ import '../../../common/widgets/extend_image.dart';
 
 class PhotoWidgetListItem extends StatelessWidget {
   final Data photo;
-
+  final bool isSelect;
+  final Function(bool,int,int) onChange;
+  final int index;
+  final bool allSelect;
   PhotoWidgetListItem({Key? key,
-    required this.photo,
+    required this.photo, required this.isSelect,  required this.onChange, required this.index, required this.allSelect,
   }) : super(key: key);
 
   final List<int> colors = Cons.tabColors;
@@ -39,41 +43,43 @@ class PhotoWidgetListItem extends StatelessWidget {
                   //color: Theme.of(context).primaryColor.withAlpha(33),
                   //shape: true ? TechnoShapeBorder(color: Theme.of(context).primaryColor.withAlpha(100)) : null,
                   decoration:  BoxDecoration(
-//背景
                     color: const Color.fromRGBO(255, 255, 255, 100),
-                    //设置四周圆角 角度
                     borderRadius: BorderRadius.all(Radius.circular(20.h)),
-                    //设置四周边框
                     //border:  Border.all(width: 1, color: Colors.red),
                   ),
                   child: Container(
+                    height: 200.h,
                       padding: EdgeInsets.only(
                           top: 10.h, bottom: 10.h, left: 10.w, right: 10.w),
                       decoration:  BoxDecoration(
-//背景
                         color: const Color.fromRGBO(255, 255, 255, 100),
-                        //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(20.h)),
-                        //设置四周边框
                         //border:  Border.all(width: 1, color: Colors.red),
                       ),
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // BlocProvider.of<DetailBloc>(context)
-                              //     .add(FetchWidgetDetail(photo));
-                              // Navigator.pushNamed(
-                              //     context, UnitRouter.widget_detail);
-                              Get.toNamed(AppRoutes.Detail,arguments: photo.uuid);
-                            },
-                            child: buildContent(context),
+                      child:
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // BlocProvider.of<DetailBloc>(context)
+                                  //     .add(FetchWidgetDetail(photo));
+                                  // Navigator.pushNamed(
+                                  //     context, UnitRouter.widget_detail);
+                                  allSelect ? onChange(false,index,1):Get.toNamed(AppRoutes.Detail,arguments: photo.uuid);
+                                  //Get.toNamed(AppRoutes.Detail,arguments: photo.uuid);
+                                },
+                                child: buildContent(context),
+                              ),
+                              //buildMiddle(context),
+                            ],
                           ),
-                          //buildMiddle(context),
-                        ],
-                      ))),
+
+                  )
+                ),
               // _buildCollectTag(Theme.of(context).primaryColor, showBadge)
-            ])),
+            ]
+          )
+        ),
       ),
     );
   }
@@ -90,6 +96,12 @@ class PhotoWidgetListItem extends StatelessWidget {
           children: [
             Row(
               children: <Widget>[
+                allSelect ?  Checkbox(
+                    value: isSelect,
+                    shape: const CircleBorder(),//这里就是实现圆形的设置
+                    onChanged: (e) {
+                      onChange(e!,index,0);
+                    }):Container(),
                 buildLeading(),
                 Expanded(
                   child: Container(

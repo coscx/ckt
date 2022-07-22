@@ -15,6 +15,8 @@ import 'package:flutter_ckt/pages/change_account/binding.dart';
 import 'package:flutter_ckt/pages/change_account/view.dart';
 import 'package:flutter_ckt/pages/change_jump/binding.dart';
 import 'package:flutter_ckt/pages/change_jump/view.dart';
+import 'package:flutter_ckt/pages/channel/binding.dart';
+import 'package:flutter_ckt/pages/channel/view.dart';
 import 'package:flutter_ckt/pages/create_user/binding.dart';
 import 'package:flutter_ckt/pages/create_user/view.dart';
 import 'package:flutter_ckt/pages/distribute/binding.dart';
@@ -298,6 +300,12 @@ class AppPages {
         name: AppRoutes.Friend,
         page: () => FriendPage(),
         binding: FriendBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.Channel,
+        page: () => ChannelPage(),
+        binding: ChannelBinding(),
         transition: Transition.rightToLeft
     ),
   ];

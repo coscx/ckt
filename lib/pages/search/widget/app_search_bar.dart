@@ -28,7 +28,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
           width: ScreenUtil().screenWidth * 0.65,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(100.w)),
-              color: const Color(0xFFf8f8f8)),
+              color: const Color(0xFFeeeeee)),
           child: TextField(
             textAlign: TextAlign.start,
             autofocus: false,
@@ -79,7 +79,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
         ),),
         pressedOpacity: 0.1,
         padding: EdgeInsets.zero,
-        color: const Color(0xFFf8f8f8),
+        color: const Color(0xFFeeeeee),
         borderRadius: BorderRadius.all(Radius.circular(35.w)),
         onPressed: () {
 
