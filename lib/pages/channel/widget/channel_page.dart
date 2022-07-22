@@ -153,7 +153,7 @@ class _FinPageState extends State<ChannelsPages> {
     return loanData
         .map((e) => GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.Fine,arguments: e.cnid);
+                Get.toNamed(AppRoutes.Fine,arguments: {"cn_id":e.cnid,"title":e.cnname});
               },
               child: MyChannelContent(
                 cnId: e.cnid,

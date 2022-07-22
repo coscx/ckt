@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
+import 'package:flutter_ckt/common/services/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -57,8 +58,14 @@ class _FinPageState extends State<FinPages> {
   bool myValue = false;
   List<Data> loanData = <Data>[];
   int page =1;
+  String userId = StorageService.to.getString("memberId");
+  Map ff =Get.arguments;
+  int cnId =0 ;
+  String titles ="我的客户";
   @override
   void initState() {
+    cnId= ff["cn_id"];
+    titles= ff["title"];
     _df();
     super.initState();
   }
@@ -74,7 +81,7 @@ class _FinPageState extends State<FinPages> {
     // var l = await CommonAPI.getSaleManDetail(189);
     // var m = await CommonAPI.getSaleManGrid();
 
-    var d = await CommonAPI.getLoanList(page,groupValue);
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       if (mounted)
@@ -184,7 +191,7 @@ class _FinPageState extends State<FinPages> {
                 onPressed: () => Navigator.of(context).pop(),
               ),
               titleSpacing: 170.w,
-              title: Text("我的客户",
+              title: Text(titles,
                   style: TextStyle(
                     fontSize: 38.sp,
                     decoration: TextDecoration.none,
@@ -260,7 +267,7 @@ class _FinPageState extends State<FinPages> {
 // 下拉刷新
   void getData(int status) async {
     page =1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
@@ -273,7 +280,7 @@ class _FinPageState extends State<FinPages> {
     // var result = await IssuesApi.getErpUser();
     // dm = dm1.reversed.toList();
     page =1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
     if (d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
       _refreshController.resetNoData();
@@ -288,7 +295,7 @@ class _FinPageState extends State<FinPages> {
   void _onLoading() async {
     //var result = await IssuesApi.getErpUser();
     page=page+1;
-    var d = await CommonAPI.getLoanList(page,groupValue);
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
     if (d.data != null && d.data?.data != null) {
       loanData.addAll(d.data!.data!);
       if (d.data!.data!.isEmpty){

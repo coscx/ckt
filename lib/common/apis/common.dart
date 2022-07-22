@@ -39,10 +39,10 @@ import '../utils/new_common_http.dart';
 /// 用户
 class CommonAPI {
 
-  static Future<Loan> getLoanList(int page,int status) async {
+  static Future<Loan> getLoanList(int page,int status,String userId,int cnId) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetLoanCheckList',
-      data: {"user_id":74,"currentPage":page,"status":status},
+      data: {"user_id":userId,"cn_id":cnId,"currentPage":page,"status":status},
     );
     return Loan.fromJson(response);
   }
