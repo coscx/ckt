@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/pages/friend/view.dart';
@@ -6,10 +8,16 @@ import 'package:flutter_ckt/pages/other/fine/view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:just_bottom_sheet/drag_zone_position.dart';
+import 'package:just_bottom_sheet/just_bottom_sheet.dart';
+import 'package:just_bottom_sheet/just_bottom_sheet_configuration.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/services/storage.dart';
+import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
 import '../../home/logic.dart';
+import '../../home/widget/gzx_filter_goods_page.dart';
 
 class DiscoveryPage extends StatefulWidget {
   @override
@@ -23,6 +31,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
   bool selected = false;
   late TabController _tabController;
   PageController _pageController = PageController(initialPage: 0);
+  ScrollController scrollController=ScrollController();
   var pageList = [];
   String title = "选择";
   var subPage = [];
@@ -162,7 +171,167 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                               title,
                               style: TextStyle(fontSize: 18),
                             )),
+                      ),
+
+                      GestureDetector(
+                        onTap: (){
+                          // showModalBottomSheet(
+                          //     context: context,
+                          //     builder: (builder) {
+                          //       return PhotoShareBottomSheet();
+                          //     });
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   builder: (context) {
+                          //     return StatefulBuilder(
+                          //       builder: (context, setStateBottomSheet) {
+                          //         return GestureDetector(
+                          //           onTap: () {
+                          //             return null;
+                          //           },
+                          //           child: Container(     //
+                          //             decoration: BoxDecoration(
+                          //                 borderRadius: BorderRadius.only(
+                          //                   topLeft: Radius.circular(8),
+                          //                   topRight: Radius.circular(8),
+                          //                 ),
+                          //                 color: Colors.white),
+                          //             height: ScreenUtil().screenHeight,
+                          //             padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          //             child: PhotoShareBottomSheet(),
+                          //           ),
+                          //         );
+                          //       },
+                          //     );
+                          //   },
+                          //   backgroundColor: Color.fromARGB(0, 255, 255, 0),
+                          // );
+                          // showCupertinoModalBottomSheet(
+                          //   expand: false,
+                          //   bounce: false,
+                          //   context: context,
+                          //   duration: const Duration(milliseconds: 200),
+                          //   backgroundColor: Colors.white,
+                          //   builder: (context) => PhotoShareBottomSheet(),
+                          // );
+                          showJustBottomSheet(
+                            context: context,
+                            dragZoneConfiguration: JustBottomSheetDragZoneConfiguration(
+                              dragZonePosition: DragZonePosition.inside,
+
+                              child: Container(
+                                color:Colors.white,
+                                //borderRadius: BorderRadius.circular(6.w),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: Container(
+                                    height: 4,
+                                    width: 30,
+                                    color: Theme.of(context).brightness == Brightness.light
+                                        ? Colors.grey[300]
+                                        : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            configuration: JustBottomSheetPageConfiguration(
+                              height: ScreenUtil().screenHeight/1.2,
+                              builder: (context) {
+                                // return SingleChildScrollView(
+                                //     physics: const BouncingScrollPhysics(),
+                                //     child: Column(children: <Widget>[
+                                //
+                                //       Wrap(
+                                //         spacing: 40.w,
+                                //         runSpacing: 0.w,
+                                //         children: <Widget>[
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //           buildButton("...",
+                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+                                //         ],
+                                //       ),
+                                //       // SizedBox(
+                                //       //   height: 100.h,
+                                //       // ),
+                                //     ]));
+
+                                return GZXFilterGoodsPage(
+                                  selectItems: [],
+                                );
+                              },
+                              scrollController: scrollController,
+                              closeOnScroll: true,
+                              cornerRadius: 60.w,
+                              backgroundColor: Colors.white,
+                              backgroundImageFilter: null
+                            ),
+                          );
+                         },
+                        child: Container(
+                            padding: EdgeInsets.only(right: 40),
+                            child: Text(
+                              "筛选",
+                              style: TextStyle(fontSize: 18),
+                            )),
                       )
+
                     ]),
                     Expanded(
                       child: PageView.builder(
@@ -174,6 +343,56 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                     )
                   ],
                 ))));
+  }
+  Widget buildButton(String name, String url,String bg) {
+    return Stack(
+      children: [
+        Container(
+            color: Colors.white,
+            height: 160.h,
+            width: 130.w,
+            child: Column(children: <Widget>[
+              SizedBox(
+                height: 2.h,
+              ),
+              Image.asset(bg),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(name,
+                  style: TextStyle(
+                      color: Colors.black.withAlpha(88),
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.w400)),
+              SizedBox(
+                height: 0.h,
+              )
+            ])),
+        Container(
+            color: Colors.white,
+            height: 160.h,
+            width: 130.w,
+            child: Column(children: <Widget>[
+              SizedBox(
+                height: 2.h,
+              ),
+              Image.asset(url),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(name,
+                  style: TextStyle(
+                      color: Colors.black.withAlpha(88),
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.w400)),
+              SizedBox(
+                height: 0.h,
+              )
+            ])),
+
+
+      ],
+    );
   }
 }
 

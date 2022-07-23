@@ -59,13 +59,15 @@ class _FinPageState extends State<FinPages> {
   List<Data> loanData = <Data>[];
   int page =1;
   String userId = StorageService.to.getString("memberId");
-  Map ff =Get.arguments;
+  var ff =Get.arguments;
   int cnId =0 ;
   String titles ="我的客户";
   @override
   void initState() {
-    cnId= ff["cn_id"];
-    titles= ff["title"];
+    if  (ff!=null) {
+      cnId = ff["cn_id"];
+      titles = ff["title"];
+    }
     _df();
     super.initState();
   }

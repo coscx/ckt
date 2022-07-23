@@ -39,10 +39,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              width: ScreenUtil().screenWidth * 0.65,
+              width: ScreenUtil().screenWidth * 0.7,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100.w)),
-                  color: const Color(0xFFeeeeee)),
+                  color: const Color(0xFFeeeeee).withOpacity(0.5)),
               child: TextField(
                 textAlign: TextAlign.start,
                 autofocus: false,
@@ -68,7 +68,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
                       : Container(),
                   prefixIcon: const Icon(
                     Icons.search,
-                    color: Color(0xFF444444),
+                    color: Colors.green,
                   ),
                   border: InputBorder.none,
                 ),
@@ -93,7 +93,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
         ),
         pressedOpacity: 0.1,
         padding: EdgeInsets.zero,
-        color: const Color(0xFFeeeeee),
+        color: const Color(0xFFeeeeee).withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(70.w)),
         onPressed: () {
           final logic = Get.find<SearchLogic>();

@@ -158,7 +158,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildSliverAppBar() {
     return Container(
-        padding: EdgeInsets.only(left: 40.w, right: 40.w),
+        padding: EdgeInsets.only(left: 20.w, right: 20.w),
         child: AppSearchBar(isAppoint: 1,));
   }
 
