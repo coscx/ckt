@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
+import 'package:flutter_ckt/common/entities/loan/step.dart';
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,8 +53,8 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   String store = "";
   String storeName = "选择门店";
   String userName = "选择用户";
-  List<String> dataString = <String>[];
-  List<String>? selectedDataString;
+  List<SelectItem> dataString = <SelectItem>[];
+  List<SelectItem>? selectedDataString;
   @override
   void initState() {
     super.initState();
@@ -63,12 +64,6 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   }
 
   _init() async {
-
-    dataString.add("aaa");
-    dataString.add("bbb");
-
-
-
     for (int i = 1; i < fromLevel.length; i++) {
       SelectItem ff = SelectItem();
       ff.id = i.toString();
@@ -131,20 +126,20 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
         storeId = widget.selectItems[j].id!;
       }
     }
-    var results = await CommonAPI.getErpUsers(storeId);
+    var results = await CommonAPI.getSuperStep({});
     if (results.code == 200) {
-      List<ErpUser> da = results.data;
+      List<StepDataData> da = results.data!.data!;
       for (var value in da) {
-        UserItem ff = UserItem();
-        ff.id = value.id.toString();
-        ff.type = 8;
-        ff.name = value.relname;
-        ff.index = 0;
+        SelectItem ff = SelectItem();
+        ff.id = value.status.toString();
+        ff.type = value.num;
+        ff.name = value.label;
         ff.isSelect = false;
-        pickerUserItem.add(ff);
-        pickerUserData.add(value.relname);
+        dataString.add(ff);
       }
-    } else {}
+    } else {
+
+    }
     setState(() {});
   }
 
@@ -626,16 +621,19 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                           '客户婚姻状况', false, _valueMarriage, widget.selectItems),
                       buildBirthday("生日选择"),
                        buildUser("红娘选择"),
-                      Container(
+                      dataString.length==0? Container() :Container(
                         padding: EdgeInsets.only(
                             left: 40.w, top: 0.h, right: 40.w, bottom: 0.h),
-                        child: CustomMultiSelectField<String>(
+                        child: CustomMultiSelectField<SelectItem>(
                           title: "请选择操作步骤",
                           items: dataString,
                           enableAllOptionSelect: true,
                           onSelectionDone: _onCountriesSelectionComplete,
                           itemAsString: (item) {
-                            return item.toString();
+                            return item.name.toString();
+                          },
+                          dropDownItemAsString: (item) {
+                            return item.name.toString()+"("+item.type.toString()+")";
                           }
                         ),
                       ),

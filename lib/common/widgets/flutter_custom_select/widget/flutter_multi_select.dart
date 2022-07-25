@@ -10,6 +10,7 @@ class CustomMultiSelectField<T> extends StatefulWidget
   final String title;
   final InputDecoration? decoration;
   final String Function(dynamic T)? itemAsString;
+  final String Function(dynamic T)? dropDownItemAsString;
   final String? Function(List<T>)? validator;
   final void Function(List<T>)? onSelectionDone;
   final List<T>? initialValue;
@@ -29,6 +30,7 @@ class CustomMultiSelectField<T> extends StatefulWidget
     this.itemAsString,
     this.selectedItemColor = Colors.redAccent,
     this.enableAllOptionSelect = false,
+    this.dropDownItemAsString,
   }) : super(key: key);
 
   @override
@@ -162,13 +164,21 @@ class _CustomMultiSelectFieldState<T> extends State<CustomMultiSelectField<T>> {
       ],
     );
   }
-
+  String _dropdownItemAsString(T? data) {
+    if (data == null) {
+      return "";
+    } else if (widget.dropDownItemAsString != null) {
+      return widget.dropDownItemAsString!(data);
+    } else {
+      return data.toString();
+    }
+  }
   List<CustomMultiSelectDropdownItem<T>> _getDropdownItems(
       {required List<T> list}) {
     List<CustomMultiSelectDropdownItem<T>> _list =
         <CustomMultiSelectDropdownItem<T>>[];
     for (T _item in list) {
-      _list.add(CustomMultiSelectDropdownItem(_item, _item.toString()));
+      _list.add(CustomMultiSelectDropdownItem(_item, _dropdownItemAsString(_item).toString()));
     }
     return _list;
   }
