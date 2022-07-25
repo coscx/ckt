@@ -49,7 +49,11 @@ class _CustomMultiSelectFieldState<T> extends State<CustomMultiSelectField<T>> {
     _customMultiSelectDropdownItem = _getDropdownItems(list: widget.items);
     super.initState();
   }
-
+  @override
+  void didUpdateWidget(covariant CustomMultiSelectField<T> oldWidget) {
+    _controller.text = widget.title;
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,7 +132,7 @@ class _CustomMultiSelectFieldState<T> extends State<CustomMultiSelectField<T>> {
                         ? item.buttonText.length < 2
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 3),
+                                    vertical: 10, horizontal: 4),
                                 child: Chip(
                                   label: Text(
                                     item.buttonText,
@@ -142,7 +146,7 @@ class _CustomMultiSelectFieldState<T> extends State<CustomMultiSelectField<T>> {
                             : Container(
                                 padding: const EdgeInsets.all(8),
                                 margin: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 3),
+                                    vertical: 10, horizontal: 4),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20),

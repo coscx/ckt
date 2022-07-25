@@ -10,7 +10,7 @@ class FriendLogic extends GetxController {
 
 
   void onTap(int? id ,String? name) {
-
+    if (id ==null) return;
     var memberId = StorageService.to.getString("memberId");
     final Conversion model = Conversion.fromMap(
         {"memId": memberId, "cid": id!, "name": name});

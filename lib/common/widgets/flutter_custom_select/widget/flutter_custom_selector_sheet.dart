@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../dy_behavior_null.dart';
 import '../utils/enum.dart';
 import '../utils/flutter_custom_select_item.dart';
 import '../utils/utils.dart';
@@ -71,7 +72,9 @@ class CustomBottomSheetSelector<T> {
                               ),
                             ),
                           ),
-                          Flexible(
+                      ScrollConfiguration(
+                      behavior: DyBehaviorNull(),
+                      child: Flexible(
                             child: ListView(
                               shrinkWrap: true,
                               physics: const AlwaysScrollableScrollPhysics(),
@@ -216,7 +219,7 @@ class CustomBottomSheetSelector<T> {
                                 ),
                               ],
                             ),
-                          ),
+                          )),
                           const SizedBox(
                             height: 4,
                           ),

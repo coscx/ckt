@@ -68,6 +68,7 @@ class _FinPageState extends State<ChannelsPages> {
     Channels? d = await _getChannels({"pageNum":page});
     if (d!=null && d.data != null && d.data?.data != null) {
       loanData = d.data!.data!;
+      if(mounted)
       setState((){});
     }
   }
