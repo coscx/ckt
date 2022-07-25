@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/home/erp_user.dart';
-
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +11,7 @@ import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/only_store.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
+import '../../../common/widgets/flutter_custom_select/widget/flutter_multi_select.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
@@ -32,7 +32,6 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   final logic = Get.find<HomeLogic>();
   int minValue = 18;
   int maxValue = 80;
-  final List<SelectItem> _value = [];
   final List<SelectItem> _valueFrom = [];
   final List<SelectItem> _valueEducation = [];
   final List<SelectItem> _valueIncome = [];
@@ -53,7 +52,8 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   String store = "";
   String storeName = "选择门店";
   String userName = "选择用户";
-
+  List<String> dataString = <String>[];
+  List<String>? selectedDataString;
   @override
   void initState() {
     super.initState();
@@ -63,6 +63,12 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   }
 
   _init() async {
+
+    dataString.add("aaa");
+    dataString.add("bbb");
+
+
+
     for (int i = 1; i < fromLevel.length; i++) {
       SelectItem ff = SelectItem();
       ff.id = i.toString();
@@ -174,55 +180,6 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
     }
     debugPrint("-----------");
   }
-
-  // Widget _buildGroup(List<SelectItem> sel) {
-  //   for (int i = 0; i < _value.length; i++) {
-  //     for (int j = 0; j < sel.length; j++) {
-  //       if (sel[j].type == _value[i].type && sel[j].id == _value[i].id) {
-  //         _value[i].isSelect = true;
-  //       }
-  //     }
-  //   }
-  //
-  //   return Column(
-  //     children: <Widget>[
-  //       Row(
-  //         children: <Widget>[
-  //           SizedBox(
-  //             width: 12.w,
-  //           ),
-  //           Expanded(
-  //             child: Text('来源渠道',
-  //                 style: TextStyle(fontSize: 26.sp, color: const Color(0xFF6a6a6a))),
-  //           ),
-  //           GestureDetector(
-  //             onTap: () {
-  //               setState(() {
-  //                 _isHideValue1 = !_isHideValue1;
-  //               });
-  //             },
-  //             child: Icon(
-  //               _isHideValue1
-  //                   ? Icons.keyboard_arrow_down
-  //                   : Icons.keyboard_arrow_up,
-  //               color: Colors.grey,
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             width: 12.w,
-  //           ),
-  //         ],
-  //       ),
-  //       _typeGridWidget(_value, 0),
-  //       Container(
-  //           margin: EdgeInsets.only(top: 12.h),
-  //           decoration: BoxDecoration(
-  //               border: Border(
-  //                   bottom: BorderSide(
-  //                       width: 2.w, color: GZXColors.mainBackgroundColor)))),
-  //     ],
-  //   );
-  // }
 
   Widget buildBirthday(String title) {
     for (int j = 0; j < widget.selectItems.length; j++) {
@@ -640,7 +597,10 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                       width: 2.w, color: GZXColors.mainBackgroundColor))))
     ]);
   }
-
+  void _onCountriesSelectionComplete(value) {
+    selectedDataString?.addAll(value);
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -665,7 +625,20 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                       _buildGroup1(
                           '客户婚姻状况', false, _valueMarriage, widget.selectItems),
                       buildBirthday("生日选择"),
-                      // buildUser("红娘选择")
+                       buildUser("红娘选择"),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 40.w, top: 0.h, right: 40.w, bottom: 0.h),
+                        child: CustomMultiSelectField<String>(
+                          title: "请选择操作步骤",
+                          items: dataString,
+                          enableAllOptionSelect: true,
+                          onSelectionDone: _onCountriesSelectionComplete,
+                          itemAsString: (item) {
+                            return item.toString();
+                          }
+                        ),
+                      ),
                       //buildStore("门店选择")
                       //buildRangerSlider("年龄选择")
                     ]),

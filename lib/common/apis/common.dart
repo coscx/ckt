@@ -140,13 +140,7 @@ class CommonAPI {
     return SaleMan.fromJson(response);
   }
 
-  static Future<Channels> getSuperChannel(Map<String,dynamic> data) async {
-    var response = await NewLoanHttpUtil().post(
-      '/api/GetSuperChannel',
-      data: data,
-    );
-    return Channels.fromJson(response);
-  }
+
   static Future<Channels> getSaleManChannel(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManChannel',
@@ -161,20 +155,103 @@ class CommonAPI {
     );
     return Channels.fromJson(response);
   }
-  static Future<Step> getStep(Map<String,dynamic> data) async {
+  static Future<Channels> getAdministrativeChannel(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
-      '/api/GetStep',
+      '/api/GetAdministrativeChannel',
+      data: data,
+    );
+    return Channels.fromJson(response);
+  }
+  static Future<Channels> getSuperChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperChannel',
+      data: data,
+    );
+    return Channels.fromJson(response);
+  }
+
+  static Future<Step> getSaleManStep(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManStep',
       data: data,
     );
     return Step.fromJson(response);
   }
-  static Future<Staff> getStaff(Map<String,dynamic> data) async {
+  static Future<Step> getManageStep(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
-      '/api/GetStaff',
+      '/api/GetManageStep',
+      data: data,
+    );
+    return Step.fromJson(response);
+  }
+  static Future<Step> getAdministrativeStep(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeStep',
+      data: data,
+    );
+    return Step.fromJson(response);
+  }
+  static Future<Step> getSuperStep(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperStep',
+      data: data,
+    );
+    return Step.fromJson(response);
+  }
+
+
+  static Future<Staff> getSaleManStaff(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSaleManStaff',
       data: data,
     );
     return Staff.fromJson(response);
   }
+  static Future<Staff> getManageStaff(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageStaff',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> geAdministrativeStaff(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeStaff',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> getSuperStaff(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperStaff',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+
+
+  static Future<Staff> getManageEmployees(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageEmployees',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> geAdministrativeEmployees(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeEmployees',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> getSuperEmployees(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperEmployees',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+
   static Future<Staff> changeSaleManStepStatus(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ChangeSaleManStepStatus',
