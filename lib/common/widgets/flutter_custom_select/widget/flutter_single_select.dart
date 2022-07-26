@@ -12,21 +12,23 @@ class CustomSingleSelectField<T> extends StatefulWidget
   final InputDecoration? decoration;
   final String? Function(String?)? validator;
   final void Function(dynamic value)? onSelectionDone;
+  final void Function(dynamic value)? onSelectionCancel;
   final T? initialValue;
   final Color selectedItemColor;
   final List<T> items;
-
+  final String Function(dynamic T)? dropDownItemAsString;
   CustomSingleSelectField({
     Key? key,
     required this.items,
     required this.title,
     required this.onSelectionDone,
+    required this.onSelectionCancel,
     this.width,
     this.itemAsString,
     this.decoration,
     this.validator,
     this.initialValue,
-    this.selectedItemColor = Colors.redAccent,
+    this.selectedItemColor = Colors.redAccent, this.dropDownItemAsString,
   }) : super(key: key);
 
   @override
@@ -67,6 +69,10 @@ class _CustomSingleSelectFieldState<T>
           selectedItem = result[selectedList]!.first;
           _controller.text = _selectedItemAsString(selectedItem);
           setState(() {});
+        }else{
+          if (widget.onSelectionCancel != null) {
+            widget.onSelectionCancel!(1);
+          }
         }
       },
       child: SizedBox(
@@ -116,13 +122,21 @@ class _CustomSingleSelectFieldState<T>
       return data.toString();
     }
   }
-
+  String _dropdownItemAsString(T? data) {
+    if (data == null) {
+      return "";
+    } else if (widget.dropDownItemAsString != null) {
+      return widget.dropDownItemAsString!(data);
+    } else {
+      return data.toString();
+    }
+  }
   List<CustomMultiSelectDropdownItem<T>> _getDropdownItems(
       {required List<T> list}) {
     List<CustomMultiSelectDropdownItem<T>> _list =
         <CustomMultiSelectDropdownItem<T>>[];
     for (T _item in list) {
-      _list.add(CustomMultiSelectDropdownItem(_item, _item.toString()));
+      _list.add(CustomMultiSelectDropdownItem(_item, _dropdownItemAsString(_item).toString()));
     }
     return _list;
   }

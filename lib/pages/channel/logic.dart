@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/pages/channel/view.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -19,6 +22,7 @@ class ChannelLogic extends GetxController {
   final ScrollController scrollControl = ScrollController();
   TextEditingController appointController = TextEditingController();
   FocusNode remarkFieldNode = FocusNode();
+  late StreamSubscription<bool> keyboardSubscription;
   bool show = false;
   double heights = 80.h;
   double closeHeights = 80.h;
@@ -34,6 +38,12 @@ class ChannelLogic extends GetxController {
   int page =1;
   @override
   void onInit() {
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      if (!visible){
+        remarkFieldNode.unfocus();
+      }
+    });
     _init();
     super.onInit();
   }
@@ -107,7 +117,11 @@ class ChannelLogic extends GetxController {
     refreshController.loadComplete();
     update();
   }
-
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    super.dispose();
+  }
 }
 class MyItem {
   final String icon;

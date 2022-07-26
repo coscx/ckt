@@ -282,7 +282,7 @@ class CustomBottomSheetSelector<T> {
                                 horizontal: 20, vertical: 10),
                             child: const Center(
                               child: Text(
-                                "Cancel",
+                                "取消",
                                 style: TextStyle(
                                   // color: pink,
                                   // fontFamily: fontsFamily.MontserratMedium,

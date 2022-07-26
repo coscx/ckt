@@ -20,6 +20,7 @@ import '../../../common/widgets/bottom_picker/bottom_picker.dart';
 import '../../../common/widgets/bottom_picker/resources/arrays.dart';
 import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
+import '../../../common/widgets/flutter_custom_select/widget/flutter_single_select.dart';
 import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
@@ -70,6 +71,7 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   String channelName = "选择渠道";
   String title = "请选择操作步骤";
   List<SelectItem> dataString = <SelectItem>[];
+  List<SelectItem> channelSelect = <SelectItem>[];
   List<SelectItem>? selectedDataString;
 
   @override
@@ -81,6 +83,19 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   }
 
   _init() async {
+    SelectItem channel1 = SelectItem();
+    channel1.id = 1.toString();
+    channel1.type = 1;
+    channel1.name = "渠道公司";
+    channel1.isSelect = false;
+    channelSelect.add(channel1);
+
+    SelectItem channel2 = SelectItem();
+    channel2.id = 2.toString();
+    channel2.type = 2;
+    channel2.name = "装修公司";
+    channel2.isSelect = false;
+    channelSelect.add(channel2);
     for (int i = 1; i < fromLevel.length; i++) {
       SelectItem ff = SelectItem();
       ff.id = i.toString();
@@ -1366,6 +1381,9 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
       ),
     );
   }
+
+
+
 }
 
 class DateRange extends StatefulWidget {

@@ -11,6 +11,8 @@ import '../../../../common/widgets/refresh.dart';
 import '../../../common/entities/loan/loan.dart';
 
 
+import '../../common/entities/home/common.dart';
+import '../../common/widgets/flutter_custom_select/widget/flutter_single_select.dart';
 import 'logic.dart';
 
 class ChannelPage extends StatelessWidget {
@@ -54,8 +56,8 @@ class ChannelPage extends StatelessWidget {
               ),
               actions: <Widget>[
                 GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.Friend);
+                  onTap: () async {
+                    await appointDialog(context);
                   },
                   child: Container(
                     padding: EdgeInsets.only(right: 40.w, top: 0.h),
@@ -113,7 +115,202 @@ class ChannelPage extends StatelessWidget {
   Future<bool> _whenPop(BuildContext context) async {
     return true;
   }
+  Widget buildBottomPop(){
 
+    List<SelectItem> channelSelect = <SelectItem>[];
+    SelectItem channel1 = SelectItem();
+    channel1.id = 1.toString();
+    channel1.type = 1;
+    channel1.name = "渠道公司";
+    channel1.isSelect = false;
+    channelSelect.add(channel1);
+
+    SelectItem channel2 = SelectItem();
+    channel2.id = 2.toString();
+    channel2.type = 2;
+    channel2.name = "装修公司";
+    channel2.isSelect = false;
+    channelSelect.add(channel2);
+    return Container(
+      child: Row(
+        children: [
+           Container(
+              width: 120.w,
+              padding:
+              EdgeInsets.only(left: 20.w, top: 0.h, right: 0.w, bottom: 0.h),
+              alignment: Alignment.centerLeft,
+              child: Text("渠道：",
+                  style:
+                  TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
+            ),
+          Expanded(
+          child:Container(
+            width: ScreenUtil().screenWidth,
+            padding: EdgeInsets.only(
+                left: 0.w, top: 0.h, right: 40.w, bottom: 0.h),
+            child: CustomSingleSelectField<SelectItem>(
+                title: "渠道类型",
+                items: channelSelect,
+                onSelectionDone: (data){
+                  FocusScope.of(Get.context!).requestFocus(FocusNode()); //收起键盘
+                },
+                onSelectionCancel: (data){
+                  FocusScope.of(Get.context!).requestFocus(FocusNode()); //收起键盘
+                },
+                itemAsString: (item) {
+                  return item.name.toString();
+                },
+                dropDownItemAsString: (item) {
+                  return item.name.toString()+"("+item.type.toString()+")";
+                }
+            ),
+          )),
+        ],
+      ),
+    );
+
+  }
+  Future<bool> appointDialog(BuildContext context) async {
+    final logic = Get.find<ChannelLogic>();
+    var result = await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (ctx) => StatefulBuilder(builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              logic.remarkFieldNode.unfocus();
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: ScreenUtil().screenWidth * 0.95,
+                  height: 500.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12.w)),
+                  ),
+                  child: SingleChildScrollView(
+                    //alignment: Alignment.bottomCenter,
+                    //maxHeight: 700.h,
+                    child: Stack(
+                      //alignment: AlignmentDirectional.topCenter,
+                      children: <Widget>[
+
+                        Positioned(
+                          top: 30.h,
+                          right: 30.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Image.asset(
+                              'assets/images/btn_close_black.png',
+                              width: 40.w,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 30.h,
+                          left: 270.w,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Text("添加渠道",
+                                style:
+                                TextStyle(fontSize: 36.sp, color:  Colors.black,fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.w,
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: 20.w,right: 20.w,top: 200.h),
+                            child: buildBottomPop()),
+                        SizedBox(
+                          height: 10.w,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20.w,right:50.w,top: 100.h),
+                          //width: 300.w,
+                          height: 80.h,
+                          child: Row(
+                            children: [
+
+                              Container(
+                                width: 120.w,
+                                padding:
+                                EdgeInsets.only(left: 20.w, top: 0.h, right: 0.w, bottom: 0.h),
+                                alignment: Alignment.centerLeft,
+                                child: Text("名称：",
+                                    style:
+                                    TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: logic.appointController,
+                                  focusNode: logic.remarkFieldNode,
+                                  style: const TextStyle(color: Colors.black),
+                                  minLines: 7,
+                                  maxLines: 7,
+                                  cursorColor: Colors.blue,
+                                  //cursorRadius: Radius.circular(40.h),
+                                  cursorWidth: 3.w,
+                                  showCursor: true,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
+                                    hintText: "请输入...",
+                                    hintStyle:
+                                    const TextStyle(color: Colors.blue),
+                                    border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
+                                    enabledBorder:  OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(40.h)),
+                                        borderSide:
+                                        BorderSide(color: Colors.blue),
+                                    ),
+                                  ),
+                                  onChanged: (v) {},
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+
+                        Container(
+                          width: ScreenUtil().screenWidth,
+                          height: 80.h,
+                          margin:
+                          EdgeInsets.only(top: 300.h,left: 40.w,right: 40.w),
+                          child: RaisedButton(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(40.h))),
+                            color: Colors.lightBlue,
+                            onPressed: () {
+
+                              Navigator.of(context).pop(true);
+                            },
+                            child: Text("提交",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 36.sp)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+          );
+        }));
+    return result;
+  }
 
   Widget _buildContent(BuildContext context) =>
       WillPopScope(
@@ -629,114 +826,4 @@ class _MyContentState extends State<MyChannelContent> {
     );
   }
 
-  Future<bool> appointDialog() async {
-    final logic = Get.find<ChannelLogic>();
-    var result = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (ctx) => StatefulBuilder(builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              logic.remarkFieldNode.unfocus();
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: ScreenUtil().screenWidth * 0.95,
-                  height: 700.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(12.w)),
-                  ),
-                  child: SingleChildScrollView(
-                    //alignment: Alignment.bottomCenter,
-                    //maxHeight: 700.h,
-                    child: Stack(
-                      alignment: AlignmentDirectional.topCenter,
-                      children: <Widget>[
-                        // Positioned(
-                        //   top: 20.h,
-                        //   child: Image.asset(
-                        //     'assets/images/login_top.png',
-                        //     width: 220.w,
-                        //   ),
-                        // ),
-
-                        Positioned(
-                          top: 30.h,
-                          right: 30.h,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop(false);
-                            },
-                            child: Image.asset(
-                              'assets/images/btn_close_black.png',
-                              width: 40.w,
-                            ),
-                          ),
-                        ),
-
-                              SizedBox(
-                                height: 10.w,
-                              ),
-                              Container(
-                                width: 300.w,
-                                height: 200.h,
-                                child: TextField(
-                                  controller: logic.appointController,
-                                  focusNode: logic.remarkFieldNode,
-                                  style: const TextStyle(color: Colors.black),
-                                  minLines: 7,
-                                  maxLines: 7,
-                                  cursorColor: Colors.blue,
-                                  cursorRadius: Radius.circular(3.w),
-                                  cursorWidth: 3.w,
-                                  showCursor: true,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(10.w),
-                                    hintText: "请输入...",
-                                    hintStyle:
-                                    const TextStyle(color: Colors.blue),
-                                    border: const OutlineInputBorder(),
-                                    enabledBorder: const OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.blue)),
-                                  ),
-                                  onChanged: (v) {},
-                                ),
-                              ),
-
-
-
-                              Padding(
-                                padding:
-                                EdgeInsets.only(top: 10.h, bottom: 0.h),
-                                child: RaisedButton(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.w))),
-                                  color: Colors.lightBlue,
-                                  onPressed: () {
-
-                                    Navigator.of(context).pop(true);
-                                  },
-                                  child: Text("提交",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 36.sp)),
-                                ),
-                              ),
-                      ],
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-          );
-        }));
-    return result;
-  }
 }
