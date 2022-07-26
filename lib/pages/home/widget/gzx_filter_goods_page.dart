@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/step.dart';
+import 'package:flutter_ckt/common/routers/names.dart';
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -767,53 +768,56 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                   left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
               child: ElevatedButton(
                 onPressed: () {
-                  Picker(
-                      squeeze: 1.45,
-                      magnification: 1.2,
-                      height: 500.h,
-                      selecteds: [userId],
-                      itemExtent: 40,
-                      selectionOverlay:
-                      const CupertinoPickerDefaultSelectionOverlay(
-                        background: Colors.transparent,
-                      ),
-                      cancelText: "取消",
-                      confirmText: "确定",
-                      selectedTextStyle:
-                      TextStyle(fontSize: 40.sp, color: Colors.redAccent),
-                      textStyle:
-                      TextStyle(fontSize: 25.sp, color: Colors.black),
-                      adapter:
-                      PickerDataAdapter<String>(pickerdata: pickerUserData),
-                      changeToFirst: true,
-                      hideHeader: false,
-                      onConfirm: (Picker picker, List value) {
-                        debugPrint(value.toString());
-                        debugPrint(picker.adapter.text);
-                        setState(() {
-                          store = pickerUserItem[value[0]].id!;
-                          storeName = pickerUserItem[value[0]].name!;
-                          int j = 0;
-                          for (int i = 0; i < widget.selectItems.length; i++) {
-                            if (widget.selectItems[i].type == 8) {
-                              j = 1;
-                              widget.selectItems[i].id =
-                                  pickerUserItem[value[0]].id;
-                              widget.selectItems[i].name =
-                                  pickerUserItem[value[0]].name;
-                              break;
-                            }
-                          }
-
-                          if (j == 0) {
-                            SelectItem s = SelectItem();
-                            s.type = 8;
-                            s.name = pickerUserItem[value[0]].name;
-                            s.id = pickerUserItem[value[0]].id;
-                            widget.selectItems.add(s);
-                          }
-                        });
-                      }).showModal(context); //_scaffoldKey.currentState);
+                  Get.toNamed(AppRoutes.SelectResult)?.then((value) {
+                    print(value);
+                  });
+                  // Picker(
+                  //     squeeze: 1.45,
+                  //     magnification: 1.2,
+                  //     height: 500.h,
+                  //     selecteds: [userId],
+                  //     itemExtent: 40,
+                  //     selectionOverlay:
+                  //     const CupertinoPickerDefaultSelectionOverlay(
+                  //       background: Colors.transparent,
+                  //     ),
+                  //     cancelText: "取消",
+                  //     confirmText: "确定",
+                  //     selectedTextStyle:
+                  //     TextStyle(fontSize: 40.sp, color: Colors.redAccent),
+                  //     textStyle:
+                  //     TextStyle(fontSize: 25.sp, color: Colors.black),
+                  //     adapter:
+                  //     PickerDataAdapter<String>(pickerdata: pickerUserData),
+                  //     changeToFirst: true,
+                  //     hideHeader: false,
+                  //     onConfirm: (Picker picker, List value) {
+                  //       debugPrint(value.toString());
+                  //       debugPrint(picker.adapter.text);
+                  //       setState(() {
+                  //         store = pickerUserItem[value[0]].id!;
+                  //         storeName = pickerUserItem[value[0]].name!;
+                  //         int j = 0;
+                  //         for (int i = 0; i < widget.selectItems.length; i++) {
+                  //           if (widget.selectItems[i].type == 8) {
+                  //             j = 1;
+                  //             widget.selectItems[i].id =
+                  //                 pickerUserItem[value[0]].id;
+                  //             widget.selectItems[i].name =
+                  //                 pickerUserItem[value[0]].name;
+                  //             break;
+                  //           }
+                  //         }
+                  //
+                  //         if (j == 0) {
+                  //           SelectItem s = SelectItem();
+                  //           s.type = 8;
+                  //           s.name = pickerUserItem[value[0]].name;
+                  //           s.id = pickerUserItem[value[0]].id;
+                  //           widget.selectItems.add(s);
+                  //         }
+                  //       });
+                  //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
                   channelName == "" ? " " : channelName,
