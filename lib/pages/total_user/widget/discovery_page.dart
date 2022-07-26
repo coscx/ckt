@@ -13,6 +13,7 @@ import 'package:just_bottom_sheet/just_bottom_sheet.dart';
 import 'package:just_bottom_sheet/just_bottom_sheet_configuration.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../../common/entities/home/common.dart';
 import '../../../common/services/storage.dart';
 import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
@@ -35,7 +36,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
   var pageList = [];
   String title = "选择";
   var subPage = [];
-
+  List<SelectItem> selectItems =<SelectItem>[];
   @override
   void initState() {
     super.initState();
@@ -166,10 +167,10 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                           });
                         },
                         child: Container(
-                            padding: EdgeInsets.only(right: 40),
+                            padding: EdgeInsets.only(right: 40.w),
                             child: Text(
                               title,
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 38.sp),
                             )),
                       ),
 
@@ -313,7 +314,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                                 //     ]));
 
                                 return GZXFilterGoodsPage(
-                                  selectItems: [],
+                                  selectItems: selectItems,
                                 );
                               },
                               scrollController: scrollController,
@@ -325,10 +326,10 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                           );
                          },
                         child: Container(
-                            padding: EdgeInsets.only(right: 40),
+                            padding: EdgeInsets.only(right: 60.w),
                             child: Text(
                               "筛选",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 38.sp),
                             )),
                       )
 

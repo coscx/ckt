@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
                         children: <Widget>[
                           //BlocBuilder<GlobalBloc, GlobalState>(builder: _buildBackground),
                           Container(
-                            padding: EdgeInsets.only(top: 180.h),
+                            padding: EdgeInsets.only(top: 130.h),
                             child: ScrollConfiguration(
                                 behavior: DyBehaviorNull(),
                                 child: SmartRefresher(
@@ -139,14 +139,14 @@ class HomePage extends StatelessWidget {
                           //     child: Container(child: Text("123"),)
                           // ),
                           Container(
-                              padding: EdgeInsets.only(top: 90.h),
+                              padding: EdgeInsets.only(top: 30.h),
                               child: _buildSliverAppBar()
                           ),
-                          Bar(
-                            selectItems: logic.selectItems,
-                            roleId: logic.roleId,
-                            scaffoldState: logic.scaffoldKey,
-                          ),
+                          // Bar(
+                          //   selectItems: logic.selectItems,
+                          //   roleId: logic.roleId,
+                          //   scaffoldState: logic.scaffoldKey,
+                          // ),
                         ],
                       )
                   ))

@@ -13,8 +13,8 @@ class SelectItem {
   String? id;
   bool? isSelect;
   int? type;
-
-  SelectItem({ this.name,  this.id,  this.isSelect,  this.type});
+  int? num;
+  SelectItem({ this.name,  this.id,  this.isSelect,  this.type,this.num});
 }
 
 class StoreItem {

@@ -9,6 +9,7 @@ import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/entities/home/common.dart';
@@ -56,7 +57,11 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
   DateTime endBirthDay = DateTime.parse("2004-01-01 00:00:00");
   String startBirthDayTitle = "";
   String endBirthDayTitle = "请选择";
-  String dateRangeTitle ="请选择日期";
+
+  String fromUserName = "选择用户";
+  String currentUserName = "选择用户";
+  String userChannelName = "选择渠道";
+
   String startBirthDayValue = "";
   String endBirthDayValue = "";
   String store = "";
@@ -144,7 +149,8 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
       for (var value in da) {
         SelectItem ff = SelectItem();
         ff.id = value.status.toString();
-        ff.type = value.num;
+        ff.num = value.num;
+        ff.type = 99;
         ff.name = value.label + "(" + value.num.toString() + ")";
         ff.isSelect = false;
         dataString.add(ff);
@@ -370,136 +376,8 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
       ],
     );
   }
-  Widget buildDateRange(String title) {
-    for (int j = 0; j < widget.selectItems.length; j++) {
-      if (widget.selectItems[j].type == 5) {
-        startBirthDayTitle = widget.selectItems[j].id!;
-        startBirthDayValue = widget.selectItems[j].id!;
-      }
-      if (widget.selectItems[j].type == 6) {
-        endBirthDayTitle = widget.selectItems[j].id!;
-        endBirthDayValue = widget.selectItems[j].id!;
-      }
-    }
 
-    return Column(
-      children: [
-        Container(
-          padding:
-          EdgeInsets.only(left: 10.w, top: 10.h, right: 0.w, bottom: 0.h),
-          alignment: Alignment.centerLeft,
-          child: Text(title,
-              style:
-              TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                  left: 50.w, top: 0.h, right: 0.w, bottom: 0.h),
-              child: ElevatedButton(
-                onPressed: () {
-                  showCustomDateRangePicker(
-                    context,
-                    dismissible: true,
-                    minimumDate: DateTime.utc(2012),
-                    maximumDate: DateTime.now().add(const Duration(days: 365)),
-                    endDate: endDate,
-                    startDate: startDate,
-                    onApplyClick: (start, end) {
-                      setState(() {
-                        endDate = end;
-                        startDate = start;
 
-                        endBirthDay = end;
-                        endBirthDayTitle = endBirthDay.year.toString() +
-                            "-" +
-                            endBirthDay.month.toString() +
-                            "-" +
-                            endBirthDay.day.toString();
-                        endBirthDayValue = endBirthDayTitle;
-                        startBirthDay = start;
-                        startBirthDayTitle = startBirthDay.year.toString() +
-                            "-" +
-                            startBirthDay.month.toString() +
-                            "-" +
-                            startBirthDay.day.toString();
-                        int j = 0;
-                        for (int i = 0; i < widget.selectItems.length; i++) {
-                          if (widget.selectItems[i].type == 6) {
-                            j = 1;
-                            widget.selectItems[i].id = endBirthDayValue;
-                            break;
-                          }
-                        }
-
-                        if (j == 0) {
-                          SelectItem s = SelectItem();
-                          s.type = 6;
-                          s.id = endBirthDayValue;
-                          widget.selectItems.add(s);
-                        }
-
-                        startBirthDayValue = startBirthDayTitle;
-                        dateRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
-
-                        int h = 0;
-                        for (int i = 0; i < widget.selectItems.length; i++) {
-                          if (widget.selectItems[i].type == 5) {
-                            h = 1;
-                            widget.selectItems[i].id = startBirthDayValue;
-                            break;
-                          }
-                        }
-
-                        if (h == 0) {
-                          SelectItem s = SelectItem();
-                          s.type = 5;
-                          s.id = startBirthDayValue;
-                          widget.selectItems.add(s);
-                        }
-
-                      });
-                    },
-                    onCancelClick: () {
-                      setState(() {
-                        endDate = null;
-                        startDate = null;
-                      });
-                    },
-                  );
-                },
-                child: Text(
-                  dateRangeTitle == "" ? " " : dateRangeTitle,
-                  style: TextStyle(
-                      fontSize: 30.sp,
-                      color:
-                      endBirthDayValue == "" ? Colors.black : Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: endBirthDayValue == ""
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
-                    shadowColor: Colors.black12,
-                    shape: const StadiumBorder(),
-                    padding:
-                    EdgeInsets.symmetric(horizontal: 35.w, vertical: 10.h)),
-              ),
-            ),
-          ],
-        ),
-        Container(
-            margin: EdgeInsets.only(top: 12.h),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 2.w, color: GZXColors.mainBackgroundColor))))
-      ],
-    );
-  }
   Widget buildStore(String title) {
     int storeId = 0;
     for (int j = 0; j < widget.selectItems.length; j++) {
@@ -601,26 +479,17 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
     );
   }
 
-  Widget buildUser(String title) {
+  Widget buildFromUser(String title) {
     int userId = 0;
     int selectUserId = 0;
     for (int j = 0; j < widget.selectItems.length; j++) {
-      if (widget.selectItems[j].type == 8) {
+      if (widget.selectItems[j].type == 9) {
         selectUserId = int.parse(widget.selectItems[j].id!);
-        userName = widget.selectItems[j].name!;
+        fromUserName = widget.selectItems[j].name!;
         break;
       }
     }
 
-    for (int j = 0; j < pickerUserItem.length; j++) {
-      if (pickerUserItem[j].id == selectUserId.toString()) {
-        break;
-      }
-      userId++;
-    }
-    if (selectUserId == 0) {
-      userId = 0;
-    }
     return Column(
       children: [
         Container(
@@ -637,31 +506,63 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                  left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
+                  left: 10.w, top: 0.h, right: 10.w, bottom: 0.h),
               child: ElevatedButton(
                 onPressed: () {
+                  showCupertinoModalBottomSheet(
+                    expand: false,
+                    bounce: false,
+                    context: context,
+                    duration: const Duration(milliseconds: 200),
+                    backgroundColor: Colors.white,
+                    builder: (context) => SelectPage(type:1,onResendClick: (data) {
+                      print(data);
+                              store = data['id'].toString();
+                              storeName = data['name'];
+                              int j = 0;
+                              for (int i = 0; i < widget.selectItems.length; i++) {
+                                if (widget.selectItems[i].type == 9) {
+                                  j = 1;
+                                  widget.selectItems[i].id =
+                                  data['id'].toString();
+                                  widget.selectItems[i].name =
+                                  data['name'];
+                                  break;
+                                }
+                              }
 
-                  BottomPicker.date(
-                      initialDateTime: DateTime(1990,6,1),
-                      height: 600.h,
-                      buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
-                      buttonSingleColor: Colors.green,
-                      displayButtonIcon: false,
-                      buttonText: "确定",
-                      title:  "选择出生年月",
-                      titleStyle: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize:  38.sp,
-                          color: Colors.black
-                      ),
-                      onChange: (index) {
-                        print(index);
-                      },
-                      onSubmit: (index) {
-                        print(index);
-                      },
-                      bottomPickerTheme: BottomPickerTheme.plumPlate
-                  ).show(context);
+                              if (j == 0) {
+                                SelectItem s = SelectItem();
+                                s.type = 9;
+                                s.name = data['name'];
+                                s.id = data['id'].toString();
+                                widget.selectItems.add(s);
+                              }
+                      if (mounted)
+                        setState((){});
+                    },),
+                  );
+                  // BottomPicker.date(
+                  //     initialDateTime: DateTime(1990,6,1),
+                  //     height: 600.h,
+                  //     buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
+                  //     buttonSingleColor: Colors.green,
+                  //     displayButtonIcon: false,
+                  //     buttonText: "确定",
+                  //     title:  "选择出生年月",
+                  //     titleStyle: TextStyle(
+                  //         fontWeight: FontWeight.normal,
+                  //         fontSize:  38.sp,
+                  //         color: Colors.black
+                  //     ),
+                  //     onChange: (index) {
+                  //       print(index);
+                  //     },
+                  //     onSubmit: (index) {
+                  //       print(index);
+                  //     },
+                  //     bottomPickerTheme: BottomPickerTheme.plumPlate
+                  // ).show(context);
 
                   // Picker(
                   //     squeeze: 1.45,
@@ -712,14 +613,14 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  userName == "" ? " " : userName,
+                  fromUserName ?? "" ,
                   style: TextStyle(
                       fontSize: 30.sp,
-                      color: userName == "选择用户" ? Colors.black : Colors.white),
+                      color: fromUserName == "选择用户" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                     onPrimary: Colors.white,
-                    primary: userName == "选择用户"
+                    primary: fromUserName == "选择用户"
                         ? Colors.grey.withAlpha(33)
                         : Colors.blue,
                     shadowColor: Colors.black12,
@@ -733,11 +634,331 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
       ],
     );
   }
+
+  Widget buildCurrentUser(String title) {
+    int userId = 0;
+    int selectUserId = 0;
+    for (int j = 0; j < widget.selectItems.length; j++) {
+      if (widget.selectItems[j].type == 10) {
+        selectUserId = int.parse(widget.selectItems[j].id!);
+        currentUserName = widget.selectItems[j].name!;
+        break;
+      }
+    }
+
+    for (int j = 0; j < pickerUserItem.length; j++) {
+      if (pickerUserItem[j].id == selectUserId.toString()) {
+        break;
+      }
+      userId++;
+    }
+    if (selectUserId == 0) {
+      userId = 0;
+    }
+    return Column(
+      children: [
+        Container(
+          padding:
+          EdgeInsets.only(left: 10.w, top: 10.h, right: 0.w, bottom: 0.h),
+          alignment: Alignment.centerLeft,
+          child: Text(title,
+              style:
+              TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
+              child: ElevatedButton(
+                onPressed: () {
+                  showCupertinoModalBottomSheet(
+                    expand: false,
+                    bounce: false,
+                    context: context,
+                    duration: const Duration(milliseconds: 200),
+                    backgroundColor: Colors.white,
+                    builder: (context) => SelectPage(type:2,onResendClick: (data) {
+                      print(data);
+                      store = data['id'].toString();
+                      storeName = data['name'];
+                      int j = 0;
+                      for (int i = 0; i < widget.selectItems.length; i++) {
+                        if (widget.selectItems[i].type == 10) {
+                          j = 1;
+                          widget.selectItems[i].id =
+                          data['id'].toString();
+                          widget.selectItems[i].name =
+                          data['name'];
+                          break;
+                        }
+                      }
+
+                      if (j == 0) {
+                        SelectItem s = SelectItem();
+                        s.type = 10;
+                        s.name = data['name'];
+                        s.id = data['id'].toString();
+                        widget.selectItems.add(s);
+                      }
+                      if (mounted)
+                      setState((){});
+                    },),
+                  );
+                  // BottomPicker.date(
+                  //     initialDateTime: DateTime(1990,6,1),
+                  //     height: 600.h,
+                  //     buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
+                  //     buttonSingleColor: Colors.green,
+                  //     displayButtonIcon: false,
+                  //     buttonText: "确定",
+                  //     title:  "选择出生年月",
+                  //     titleStyle: TextStyle(
+                  //         fontWeight: FontWeight.normal,
+                  //         fontSize:  38.sp,
+                  //         color: Colors.black
+                  //     ),
+                  //     onChange: (index) {
+                  //       print(index);
+                  //     },
+                  //     onSubmit: (index) {
+                  //       print(index);
+                  //     },
+                  //     bottomPickerTheme: BottomPickerTheme.plumPlate
+                  // ).show(context);
+
+                  // Picker(
+                  //     squeeze: 1.45,
+                  //     magnification: 1.2,
+                  //     height: 500.h,
+                  //     selecteds: [userId],
+                  //     itemExtent: 40,
+                  //     selectionOverlay:
+                  //         const CupertinoPickerDefaultSelectionOverlay(
+                  //       background: Colors.transparent,
+                  //     ),
+                  //     cancelText: "取消",
+                  //     confirmText: "确定",
+                  //     selectedTextStyle:
+                  //         TextStyle(fontSize: 40.sp, color: Colors.redAccent),
+                  //     textStyle:
+                  //         TextStyle(fontSize: 25.sp, color: Colors.black),
+                  //     adapter:
+                  //         PickerDataAdapter<String>(pickerdata: pickerUserData),
+                  //     changeToFirst: true,
+                  //     hideHeader: false,
+                  //     onConfirm: (Picker picker, List value) {
+                  //       debugPrint(value.toString());
+                  //       debugPrint(picker.adapter.text);
+                  //       setState(() {
+                  //         store = pickerUserItem[value[0]].id!;
+                  //         storeName = pickerUserItem[value[0]].name!;
+                  //         int j = 0;
+                  //         for (int i = 0; i < widget.selectItems.length; i++) {
+                  //           if (widget.selectItems[i].type == 8) {
+                  //             j = 1;
+                  //             widget.selectItems[i].id =
+                  //                 pickerUserItem[value[0]].id;
+                  //             widget.selectItems[i].name =
+                  //                 pickerUserItem[value[0]].name;
+                  //             break;
+                  //           }
+                  //         }
+                  //
+                  //         if (j == 0) {
+                  //           SelectItem s = SelectItem();
+                  //           s.type = 8;
+                  //           s.name = pickerUserItem[value[0]].name;
+                  //           s.id = pickerUserItem[value[0]].id;
+                  //           widget.selectItems.add(s);
+                  //         }
+                  //       });
+                  //     }).showModal(context); //_scaffoldKey.currentState);
+                },
+                child: Text(
+                  currentUserName ?? "" ,
+                  style: TextStyle(
+                      fontSize: 30.sp,
+                      color: currentUserName == "选择用户" ? Colors.black : Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: currentUserName == "选择用户"
+                        ? Colors.grey.withAlpha(33)
+                        : Colors.blue,
+                    shadowColor: Colors.black12,
+                    shape: const StadiumBorder(),
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 35.w, vertical: 10.h)),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+  Widget buildUserChannel(String title) {
+    int userId = 0;
+    int selectUserId = 0;
+    for (int j = 0; j < widget.selectItems.length; j++) {
+      if (widget.selectItems[j].type == 11) {
+        selectUserId = int.parse(widget.selectItems[j].id!);
+        userChannelName = widget.selectItems[j].name!;
+        break;
+      }
+    }
+
+    return Column(
+      children: [
+        Container(
+          padding:
+          EdgeInsets.only(left: 10.w, top: 10.h, right: 0.w, bottom: 0.h),
+          alignment: Alignment.centerLeft,
+          child: Text(title,
+              style:
+              TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
+              child: ElevatedButton(
+                onPressed: () {
+                  showCupertinoModalBottomSheet(
+                    expand: false,
+                    bounce: false,
+                    context: context,
+                    duration: const Duration(milliseconds: 200),
+                    backgroundColor: Colors.white,
+                    builder: (context) => SelectPage(type:3,onResendClick: (data) {
+                      print(data);
+                      store = data['id'].toString();
+                      storeName = data['name'];
+                      int j = 0;
+                      for (int i = 0; i < widget.selectItems.length; i++) {
+                        if (widget.selectItems[i].type == 11) {
+                          j = 1;
+                          widget.selectItems[i].id =
+                              data['id'].toString();
+                          widget.selectItems[i].name =
+                          data['name'];
+                          break;
+                        }
+                      }
+
+                      if (j == 0) {
+                        SelectItem s = SelectItem();
+                        s.type = 11;
+                        s.name = data['name'];
+                        s.id = data['id'].toString();
+                        widget.selectItems.add(s);
+                      }
+                      if (mounted)
+                        setState((){});
+                    },),
+                  );
+                  // BottomPicker.date(
+                  //     initialDateTime: DateTime(1990,6,1),
+                  //     height: 600.h,
+                  //     buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
+                  //     buttonSingleColor: Colors.green,
+                  //     displayButtonIcon: false,
+                  //     buttonText: "确定",
+                  //     title:  "选择出生年月",
+                  //     titleStyle: TextStyle(
+                  //         fontWeight: FontWeight.normal,
+                  //         fontSize:  38.sp,
+                  //         color: Colors.black
+                  //     ),
+                  //     onChange: (index) {
+                  //       print(index);
+                  //     },
+                  //     onSubmit: (index) {
+                  //       print(index);
+                  //     },
+                  //     bottomPickerTheme: BottomPickerTheme.plumPlate
+                  // ).show(context);
+
+                  // Picker(
+                  //     squeeze: 1.45,
+                  //     magnification: 1.2,
+                  //     height: 500.h,
+                  //     selecteds: [userId],
+                  //     itemExtent: 40,
+                  //     selectionOverlay:
+                  //         const CupertinoPickerDefaultSelectionOverlay(
+                  //       background: Colors.transparent,
+                  //     ),
+                  //     cancelText: "取消",
+                  //     confirmText: "确定",
+                  //     selectedTextStyle:
+                  //         TextStyle(fontSize: 40.sp, color: Colors.redAccent),
+                  //     textStyle:
+                  //         TextStyle(fontSize: 25.sp, color: Colors.black),
+                  //     adapter:
+                  //         PickerDataAdapter<String>(pickerdata: pickerUserData),
+                  //     changeToFirst: true,
+                  //     hideHeader: false,
+                  //     onConfirm: (Picker picker, List value) {
+                  //       debugPrint(value.toString());
+                  //       debugPrint(picker.adapter.text);
+                  //       setState(() {
+                  //         store = pickerUserItem[value[0]].id!;
+                  //         storeName = pickerUserItem[value[0]].name!;
+                  //         int j = 0;
+                  //         for (int i = 0; i < widget.selectItems.length; i++) {
+                  //           if (widget.selectItems[i].type == 8) {
+                  //             j = 1;
+                  //             widget.selectItems[i].id =
+                  //                 pickerUserItem[value[0]].id;
+                  //             widget.selectItems[i].name =
+                  //                 pickerUserItem[value[0]].name;
+                  //             break;
+                  //           }
+                  //         }
+                  //
+                  //         if (j == 0) {
+                  //           SelectItem s = SelectItem();
+                  //           s.type = 8;
+                  //           s.name = pickerUserItem[value[0]].name;
+                  //           s.id = pickerUserItem[value[0]].id;
+                  //           widget.selectItems.add(s);
+                  //         }
+                  //       });
+                  //     }).showModal(context); //_scaffoldKey.currentState);
+                },
+                child: Text(
+                  userChannelName ?? "" ,
+                  style: TextStyle(
+                      fontSize: 30.sp,
+                      color: userChannelName == "选择渠道" ? Colors.black : Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: userChannelName == "选择渠道"
+                        ? Colors.grey.withAlpha(33)
+                        : Colors.blue,
+                    shadowColor: Colors.black12,
+                    shape: const StadiumBorder(),
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 35.w, vertical: 10.h)),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
   Widget buildChannel(String title) {
     int userId = 0;
     int selectUserId = 0;
     for (int j = 0; j < widget.selectItems.length; j++) {
-      if (widget.selectItems[j].type == 8) {
+      if (widget.selectItems[j].type == 10) {
         selectUserId = int.parse(widget.selectItems[j].id!);
         userName = widget.selectItems[j].name!;
         break;
@@ -781,7 +1002,7 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                     context: context,
                     duration: const Duration(milliseconds: 200),
                     backgroundColor: Colors.white,
-                    builder: (context) => SelectPage(onResendClick: (data) {
+                    builder: (context) => SelectPage(type:3,onResendClick: (data) {
                         print(data);
                     },),
                   );
@@ -1004,12 +1225,12 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
 
                   _buildGroupStep(
                       '操作步骤', false, dataString, widget.selectItems),
-                  buildDateRange("放款时间"),
-                  buildDateRange("获取时间"),
+                  DateRange(title: "操作时间", selectItems: widget.selectItems,startIndex: 5,endIndex: 6,),
+                  DateRange(title: "获取时间", selectItems: widget.selectItems,startIndex: 7,endIndex: 8,),
                   //buildBirthday("生日选择"),
-                  buildUser("所属员工"),
-                  buildUser("当前员工"),
-                  buildChannel("来源渠道"),
+                  buildFromUser("所属员工"),
+                  buildCurrentUser("当前员工"),
+                  buildUserChannel("来源渠道"),
                   // dataString.length==0? Container() :Container(
                   //
                   //   child: Row(
@@ -1146,3 +1367,154 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
     );
   }
 }
+
+class DateRange extends StatefulWidget {
+  final List<SelectItem> selectItems;
+  final String title;
+  final int startIndex;
+  final int endIndex;
+  DateRange({Key? key, required this.selectItems, required this.title, required this.startIndex, required this.endIndex}) : super(key: key);
+
+  @override
+  State<DateRange> createState() => _DateRangeState();
+}
+
+class _DateRangeState extends State<DateRange> {
+
+  String startBirthDayTitle = "";
+  String endBirthDayTitle = "请选择";
+  DateTime? startDate;
+  DateTime? endDate;
+  String dateBirthRangeTitle ="请选择日期";
+  String startBirthDayValue = "";
+  String endBirthDayValue = "";
+
+  @override
+  Widget build(BuildContext context) {
+    for (int j = 0; j < widget.selectItems.length; j++) {
+      if (widget.selectItems[j].type == widget.startIndex) {
+       startBirthDayTitle = widget.selectItems[j].id!;
+       startBirthDayValue = widget.selectItems[j].id!;
+       startDate = DateTime.parse(widget.selectItems[j].id!);
+      }
+      if (widget.selectItems[j].type == widget.endIndex) {
+        endBirthDayTitle = widget.selectItems[j].id!;
+        endBirthDayValue = widget.selectItems[j].id!;
+        endDate = DateTime.parse(widget.selectItems[j].id!);
+      }
+    }
+    if (startBirthDayTitle !="")
+    dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
+    return Column(
+      children: [
+        Container(
+          padding:
+          EdgeInsets.only(left: 10.w, top: 10.h, right: 0.w, bottom: 0.h),
+          alignment: Alignment.centerLeft,
+          child: Text(widget.title,
+              style:
+              TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                  left: 10.w, top: 0.h, right: 10.w, bottom: 0.h),
+              child: ElevatedButton(
+                onPressed: () {
+                  showCustomDateRangePicker(
+                    context,
+                    dismissible: true,
+                    minimumDate: DateTime.utc(2012),
+                    maximumDate: DateTime.now().add(const Duration(days: 365)),
+                    endDate: endDate,
+                    startDate: startDate,
+                    onApplyClick: (start, end) {
+                      setState(() {
+                        endDate = end;
+                        startDate = start;
+
+                        startBirthDayValue = DateFormat("yyyy-MM-dd").format(start);
+                        endBirthDayValue = DateFormat("yyyy-MM-dd").format(end);
+
+                        endBirthDayTitle = startBirthDayValue;
+                        startBirthDayTitle = endBirthDayValue;
+
+                        dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
+                        int j = 0;
+                        for (int i = 0; i < widget.selectItems.length; i++) {
+                          if (widget.selectItems[i].type == widget.endIndex) {
+                            j = 1;
+                            widget.selectItems[i].id = endBirthDayValue;
+                            break;
+                          }
+                        }
+
+                        if (j == 0) {
+                          SelectItem s = SelectItem();
+                          s.type = widget.endIndex;
+                          s.id = endBirthDayValue;
+                          widget.selectItems.add(s);
+                        }
+
+
+
+                        int h = 0;
+                        for (int i = 0; i < widget.selectItems.length; i++) {
+                          if (widget.selectItems[i].type == widget.startIndex) {
+                            h = 1;
+                            widget.selectItems[i].id = startBirthDayValue;
+                            break;
+                          }
+                        }
+
+                        if (h == 0) {
+                          SelectItem s = SelectItem();
+                          s.type = widget.startIndex;
+                          s.id = startBirthDayValue;
+                          widget.selectItems.add(s);
+                        }
+
+                      });
+                    },
+                    onCancelClick: () {
+                      setState(() {
+                        endDate = null;
+                        startDate = null;
+                      });
+                    },
+                  );
+                },
+                child: Text(
+                  dateBirthRangeTitle == "" ? " " : dateBirthRangeTitle,
+                  style: TextStyle(
+                      fontSize: 30.sp,
+                      color:
+                      endBirthDayValue == "" ? Colors.black : Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: endBirthDayValue == ""
+                        ? Colors.grey.withAlpha(33)
+                        : Colors.blue,
+                    shadowColor: Colors.black12,
+                    shape: const StadiumBorder(),
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 35.w, vertical: 10.h)),
+              ),
+            ),
+          ],
+        ),
+        Container(
+            margin: EdgeInsets.only(top: 12.h),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 2.w, color: GZXColors.mainBackgroundColor))))
+      ],
+    );
+  }
+}
+

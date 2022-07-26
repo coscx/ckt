@@ -13,7 +13,7 @@ class FriendLogic extends GetxController {
     if (id ==null) return;
     var memberId = StorageService.to.getString("memberId");
     final Conversion model = Conversion.fromMap(
-        {"memId": memberId, "cid": id!, "name": name});
+        {"memId": memberId, "cid": id, "name": name});
     Get.toNamed(AppRoutes.Peer, arguments: model);
 
   }
