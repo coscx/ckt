@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/step.dart';
 import 'package:flutter_ckt/common/routers/names.dart';
+import 'package:flutter_ckt/pages/select_result/view.dart';
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/only_store.dart';
@@ -15,7 +17,9 @@ import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
 import '../../../common/widgets/bottom_picker/bottom_picker.dart';
 import '../../../common/widgets/bottom_picker/resources/arrays.dart';
+import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
+import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
@@ -768,9 +772,19 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                   left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(AppRoutes.SelectResult)?.then((value) {
-                    print(value);
-                  });
+                  // Get.toNamed(AppRoutes.SelectResult)?.then((value) {
+                  //   print(value);
+                  // });
+                  showCupertinoModalBottomSheet(
+                    expand: false,
+                    bounce: false,
+                    context: context,
+                    duration: const Duration(milliseconds: 200),
+                    backgroundColor: Colors.white,
+                    builder: (context) => SelectPage(onResendClick: (data) {
+                        print(data);
+                    },),
+                  );
                   // Picker(
                   //     squeeze: 1.45,
                   //     magnification: 1.2,

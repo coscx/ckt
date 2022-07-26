@@ -11,6 +11,6 @@ class SelectResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectPage();
+    return SelectPage(onResendClick: (data) {  },);
   }
 }

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/widgets/extend_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:lpinyin/lpinyin.dart';
 import '../../../common/apis/common.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
-import '../logic.dart';
-import 'child_page.dart';
 import 'select_result_data.dart';
 import 'index_bar.dart';
 
@@ -17,14 +14,14 @@ class _SelectCell extends StatelessWidget {
   final String? name; //昵称
   final String? groupTitle; //组头标题
   final String? imageAssets; //本地图片地址
+  final Function(dynamic) onResendClick;
   const _SelectCell(
-  {this.imageUrl, this.name, this.groupTitle, this.imageAssets,this.id});
+  {this.imageUrl, this.name, this.groupTitle, this.imageAssets,this.id, required this.onResendClick});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        final logic = Get.find<SelectResultLogic>();
-        logic.onTap(id,name);
+        onResendClick({"id":id,"name":name});
       },
       child: Column(
         children: [
@@ -101,7 +98,8 @@ class _SelectCell extends StatelessWidget {
 }
 
 class SelectPage extends StatefulWidget {
-  const SelectPage({Key? key}) : super(key: key);
+  final Function(dynamic) onResendClick;
+  const SelectPage({Key? key, required this.onResendClick}) : super(key: key);
 
   @override
   _SelectPageState createState() => _SelectPageState();
@@ -184,12 +182,7 @@ class _SelectPageState extends State<SelectPage> {
   }
 
   Widget _itemForRow(BuildContext context, int index) {
-    if (index < _headerData.length) {
-      return _SelectCell(
-        imageAssets: _headerData[index].imageAssets,
-        name: _headerData[index].name,
-      );
-    } else {
+
       bool isShowT = index - _headerData.length > 0 &&
           _listDatas[index - _headerData.length].indexLetter ==
               _listDatas[index - _headerData.length - 1].indexLetter;
@@ -198,7 +191,12 @@ class _SelectPageState extends State<SelectPage> {
           imageUrl: _listDatas[index - 0].imageUrl,
           imageAssets: _listDatas[index - 0].sex ==0 ?'assets/images/default/ic_user_male.png' :'assets/images/default/ic_user_female.png',
           name: _listDatas[index - 0].name,
-          groupTitle: isShowT ? null : _listDatas[index - 0].indexLetter);
-    }
+          groupTitle: isShowT ? null : _listDatas[index - 0].indexLetter
+        , onResendClick: (data) {
+        widget.onResendClick(data);
+        Navigator.pop(context);
+       },
+      );
+
   }
 }

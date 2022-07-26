@@ -53,6 +53,7 @@ import 'package:flutter_ckt/pages/search_appoint/view.dart';
 import 'package:flutter_ckt/pages/search_flow/binding.dart';
 import 'package:flutter_ckt/pages/search_flow/view.dart';
 import 'package:flutter_ckt/pages/select_result/binding.dart';
+import 'package:flutter_ckt/pages/select_result/view.dart';
 import 'package:flutter_ckt/pages/select_result/widget/select_result_page.dart';
 import 'package:flutter_ckt/pages/setting/binding.dart';
 import 'package:flutter_ckt/pages/setting/view.dart';
@@ -313,7 +314,7 @@ class AppPages {
 
     GetPage(
         name: AppRoutes.SelectResult,
-        page: () => SelectPage(),
+        page: () => SelectResultPage(),
         binding: SelectResultBinding(),
         transition: Transition.rightToLeft
     ),
