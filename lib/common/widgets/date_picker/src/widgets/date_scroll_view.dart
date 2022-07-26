@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/widgets/date_picker/scroll_date_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../models/date_picker_options.dart';
 import '../models/date_picker_scroll_view_options.dart';
@@ -61,7 +62,7 @@ class DateScrollView extends StatelessWidget {
       textDirection: Directionality.of(context),
     );
     _painter.layout();
-    return _painter.size.width + 30.0;
+    return _painter.size.width + 60.w;
   }
 
   @override
@@ -73,6 +74,8 @@ class DateScrollView extends StatelessWidget {
           margin: scrollViewOptions.margin,
           width: _getScrollViewWidth(context),
           child: ListWheelScrollView.useDelegate(
+            useMagnifier: false,
+            magnification: 1,
             itemExtent: options.itemExtent,
             diameterRatio: options.diameterRatio,
             controller: controller,
@@ -109,11 +112,30 @@ class DateScrollView extends StatelessWidget {
     return ff;
 
   }
+  String _getDay(dynamic dd){
+    String ff =dd.toString();
+    if(isYearScrollView==true){
+
+    }else if(isMonthScrollView==true){
+      int s = int.parse(ff);
+      if (s <10){
+        ff = "0"+ff;
+      }
+    }else{
+      int s = int.parse(ff);
+      if (s <10){
+        ff = "0"+ff;
+      }
+
+    }
+    return ff;
+  }
+
   Widget _buildDateView({required int index}) {
     return Container(
       alignment: scrollViewOptions.alignment,
       child: Text(
-        '${dates[index]}${scrollViewOptions.label}'+_getRule(),
+        '${_getDay(dates[index])}${scrollViewOptions.label}'+' '+_getRule(),
         style: selectedIndex == index ? scrollViewOptions.selectedTextStyle : scrollViewOptions.textStyle,
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'resources/arrays.dart';
 import 'resources/context_extension.dart';
 import 'widgets/bottom_picker_button.dart';
@@ -381,21 +383,21 @@ class _BottomPickerState extends State<BottomPicker> {
       height: widget.height ?? context.bottomPickerHeight,
       decoration: BoxDecoration(
         color: widget.backgroundColor,
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
+        borderRadius:  BorderRadius.only(
+          topRight: Radius.circular(40.w),
+          topLeft: Radius.circular(40.w),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding:  EdgeInsets.all(16.w),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: 20,
+              padding:  EdgeInsets.only(
+                left: 40.w,
+                right: 40.w,
+                top: 40.h,
+                bottom: 40.h,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -425,6 +427,9 @@ class _BottomPickerState extends State<BottomPicker> {
                       onDateChanged: (DateTime date) {
                         selectedDateTime = date;
                         widget.onChange?.call(date);
+                        setState((){
+                          widget.initialDateTime= date;
+                        });
                       },
                       use24hFormat: widget.use24hFormat,
                       dateOrder: widget.dateOrder,
@@ -432,14 +437,14 @@ class _BottomPickerState extends State<BottomPicker> {
                     ),
             ),
             if (widget.displaySubmitButton)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
+              Container(
+                margin:  EdgeInsets.only(
+                  left: 30.w,right: 30.w
                 ),
-                child: Row(
-                  mainAxisAlignment: widget.buttonAlignement,
-                  children: [
+                padding:  EdgeInsets.only(
+                    top: 40.w,bottom: 40.w
+                ),
+                child:
                     BottomPickerButton(
                       onClick: () {
                         widget.onSubmit?.call(
@@ -456,8 +461,8 @@ class _BottomPickerState extends State<BottomPicker> {
                       displayIcon: widget.displayButtonIcon,
                       solidColor: widget.buttonSingleColor,
                     ),
-                  ],
-                ),
+
+
               ),
           ],
         ),

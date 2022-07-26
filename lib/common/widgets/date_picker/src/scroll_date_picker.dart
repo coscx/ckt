@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/widgets/date_picker/scroll_date_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'models/date_picker_options.dart';
 import 'models/date_picker_scroll_view_options.dart';
 import 'widgets/date_scroll_view.dart';
@@ -207,7 +208,7 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
     _initDateScrollView();
     switch (widget.locale.languageCode) {
       case ko:
-        return [_yearScrollView,Container(width: 40,) ,_monthScrollView,Container(width: 40,) , _dayScrollView];
+        return [_yearScrollView,Container(width: 90.w,) ,_monthScrollView,Container(width: 90.w,) , _dayScrollView];
       case vi:
       case id:
       case th:
@@ -248,12 +249,12 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
               ),
               widget.indicator ??
                   Container(
-                    padding: EdgeInsets.only(top: 10,bottom: 10,left: 20,right: 20),
-                    margin: EdgeInsets.only(top: 10,bottom: 10,left: 35,right: 35),
+                    //padding: EdgeInsets.only(top: 10.h,bottom: 10.h,left: 40.w,right: 40.w),
+                    margin: EdgeInsets.only(top: 10.h,bottom: 10.h,left: 40.w,right: 40.w),
                     height: widget.options.itemExtent,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.15),
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius:  BorderRadius.all(Radius.circular(16.w)),
                     ),
                   ),
               Expanded(

@@ -637,7 +637,8 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                 onPressed: () {
 
                   BottomPicker.date(
-                      height: 500.h,
+                      initialDateTime: DateTime(1990,6,1),
+                      height: 600.h,
                       buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
                       buttonSingleColor: Colors.green,
                       displayButtonIcon: false,

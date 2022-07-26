@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../resources/arrays.dart';
 import 'package:flutter/material.dart';
 
@@ -32,9 +34,9 @@ class BottomPickerButton extends StatelessWidget {
         onClick.call();
       },
       child: Container(
-        height: 50,
+        height: 90.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(50.h),
           color: solidColor,
           gradient: solidColor == null
               ? LinearGradient(
@@ -46,17 +48,11 @@ class BottomPickerButton extends StatelessWidget {
                 )
               : null,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 150,right: 150),
+        child: Container(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (text != null) Text(text!, style: textStyle),
-              if (displayIcon)
-                Icon(
-                  Icons.done,
-                  color: iconColor,
-                  size: 20,
-                ),
             ],
           ),
         ),
