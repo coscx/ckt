@@ -43,7 +43,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       this._overlayEntry = this._createOverlayEntry();
-      Overlay.of(context)?.insert(this._overlayEntry);
+
     });
 
     String roleKey = StorageService.to.getString("roleKey");
@@ -80,6 +80,13 @@ class _DiscoveryPageState extends State<DiscoveryPage>
     _tabController =
         TabController(initialIndex: 0, vsync: this, length: pageList.length);
   }
+  showMyMenu(){
+    Overlay.of(context)?.insert(this._overlayEntry);
+  }
+  hideMyMenu(){
+    this._overlayEntry.remove();
+  }
+
   OverlayEntry _createOverlayEntry() {
 
     RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -91,19 +98,31 @@ class _DiscoveryPageState extends State<DiscoveryPage>
           children: [
             Positioned(
               left: offset.dx,
-              top: offset.dy + 80.h,
+              top: MediaQuery.of(context).padding.top,
               width: size.width,
               child: Material(
                 color: Colors.white,
                 child: Container(
                   color: Colors.white,
                   padding: EdgeInsets.only(left: 40.w,right: 40.w),
-                  height: 70.h,
+                  height:  AppBar().preferredSize.height,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        child: Text('取消'),
+                      GestureDetector(
+                        onTap: (){
+                          hideMyMenu();
+                          selected =false;
+                          bool gg = Get.isRegistered<HomeLogic>();
+                          if (gg) {
+                            var peerChatLogic = Get.find<HomeLogic>();
+                            peerChatLogic.setAllSelect(selected);
+                          }
+                          setState((){});
+                        },
+                        child: Container(
+                          child: Text('取消'),
+                        ),
                       ),
                       Container(
                         child: Text('全选'),
@@ -174,7 +193,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
           ),
         ),
         child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             appBar: DarkAppBar(),
             body: ScrollConfiguration(
                 behavior: DyBehaviorNull(),
@@ -185,7 +204,7 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                       Expanded(
                           child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        color: Colors.transparent,
+                        color: Colors.white,
                         child: TabBar(
                           labelColor: Color(0xFF0a0f1e),
                           indicatorColor: Color(0xffFF7E98),
@@ -232,181 +251,80 @@ class _DiscoveryPageState extends State<DiscoveryPage>
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            selected = !selected;
-                            selected ? title = "取消" : title = "选择";
+                            selected = true;
+                            //selected ? title = "取消" : title = "选择";
+                            title = "选择";
                             bool gg = Get.isRegistered<HomeLogic>();
                             if (gg) {
                               var peerChatLogic = Get.find<HomeLogic>();
                               peerChatLogic.setAllSelect(selected);
                             }
+                            showMyMenu();
                           });
                         },
                         child: Container(
-                            padding: EdgeInsets.only(right: 40.w),
+                            padding: EdgeInsets.only(right: 60.w),
                             child: Text(
                               title,
                               style: TextStyle(fontSize: 38.sp),
                             )),
                       ),
 
-                      GestureDetector(
-                        onTap: (){
-                          // showModalBottomSheet(
-                          //     context: context,
-                          //     builder: (builder) {
-                          //       return PhotoShareBottomSheet();
-                          //     });
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   builder: (context) {
-                          //     return StatefulBuilder(
-                          //       builder: (context, setStateBottomSheet) {
-                          //         return GestureDetector(
-                          //           onTap: () {
-                          //             return null;
-                          //           },
-                          //           child: Container(     //
-                          //             decoration: BoxDecoration(
-                          //                 borderRadius: BorderRadius.only(
-                          //                   topLeft: Radius.circular(8),
-                          //                   topRight: Radius.circular(8),
-                          //                 ),
-                          //                 color: Colors.white),
-                          //             height: ScreenUtil().screenHeight,
-                          //             padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          //             child: PhotoShareBottomSheet(),
-                          //           ),
-                          //         );
-                          //       },
-                          //     );
-                          //   },
-                          //   backgroundColor: Color.fromARGB(0, 255, 255, 0),
-                          // );
-                          // showCupertinoModalBottomSheet(
-                          //   expand: false,
-                          //   bounce: false,
-                          //   context: context,
-                          //   duration: const Duration(milliseconds: 200),
-                          //   backgroundColor: Colors.white,
-                          //   builder: (context) => PhotoShareBottomSheet(),
-                          // );
-                          showJustBottomSheet(
-                            context: context,
-                            dragZoneConfiguration: JustBottomSheetDragZoneConfiguration(
-                              dragZonePosition: DragZonePosition.inside,
-
-                              child: Container(
-                                color:Colors.white,
-                                //borderRadius: BorderRadius.circular(6.w),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: Container(
-                                    height: 4,
-                                    width: 30,
-                                    color: Theme.of(context).brightness == Brightness.light
-                                        ? Colors.grey[300]
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            configuration: JustBottomSheetPageConfiguration(
-                              height: ScreenUtil().screenHeight/1.2,
-                              builder: (context) {
-                                // return SingleChildScrollView(
-                                //     physics: const BouncingScrollPhysics(),
-                                //     child: Column(children: <Widget>[
-                                //
-                                //       Wrap(
-                                //         spacing: 40.w,
-                                //         runSpacing: 0.w,
-                                //         children: <Widget>[
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //           buildButton("...",
-                                //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
-                                //         ],
-                                //       ),
-                                //       // SizedBox(
-                                //       //   height: 100.h,
-                                //       // ),
-                                //     ]));
-
-                                return GZXFilterGoodsPage(
-                                  selectItems: selectItems,
-                                );
-                              },
-                              scrollController: scrollController,
-                              closeOnScroll: true,
-                              cornerRadius: 60.w,
-                              backgroundColor: Colors.white,
-                              backgroundImageFilter: null
-                            ),
-                          );
-                         },
-                        child: Container(
-                            padding: EdgeInsets.only(right: 60.w),
-                            child: Text(
-                              "筛选",
-                              style: TextStyle(fontSize: 38.sp),
-                            )),
-                      )
+                      // GestureDetector(
+                      //   onTap: (){
+                      //
+                      //     // showModalBottomSheet(
+                      //     //     context: context,
+                      //     //     builder: (builder) {
+                      //     //       return PhotoShareBottomSheet();
+                      //     //     });
+                      //     // showModalBottomSheet(
+                      //     //   context: context,
+                      //     //   builder: (context) {
+                      //     //     return StatefulBuilder(
+                      //     //       builder: (context, setStateBottomSheet) {
+                      //     //         return GestureDetector(
+                      //     //           onTap: () {
+                      //     //             return null;
+                      //     //           },
+                      //     //           child: Container(     //
+                      //     //             decoration: BoxDecoration(
+                      //     //                 borderRadius: BorderRadius.only(
+                      //     //                   topLeft: Radius.circular(8),
+                      //     //                   topRight: Radius.circular(8),
+                      //     //                 ),
+                      //     //                 color: Colors.white),
+                      //     //             height: ScreenUtil().screenHeight,
+                      //     //             padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      //     //             child: PhotoShareBottomSheet(),
+                      //     //           ),
+                      //     //         );
+                      //     //       },
+                      //     //     );
+                      //     //   },
+                      //     //   backgroundColor: Color.fromARGB(0, 255, 255, 0),
+                      //     // );
+                      //     // showCupertinoModalBottomSheet(
+                      //     //   expand: false,
+                      //     //   bounce: false,
+                      //     //   context: context,
+                      //     //   duration: const Duration(milliseconds: 200),
+                      //     //   backgroundColor: Colors.white,
+                      //     //   builder: (context) => PhotoShareBottomSheet(),
+                      //     // );
+                      //     bool gg = Get.isRegistered<HomeLogic>();
+                      //     if (gg) {
+                      //       var peerChatLogic = Get.find<HomeLogic>();
+                      //       peerChatLogic.ss();
+                      //     }
+                      //    },
+                      //   child: Container(
+                      //       padding: EdgeInsets.only(right: 60.w),
+                      //       child: Text(
+                      //         "筛选",
+                      //         style: TextStyle(fontSize: 38.sp),
+                      //       )),
+                      // )
 
                     ]),
                     Expanded(

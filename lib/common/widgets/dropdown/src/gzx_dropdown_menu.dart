@@ -203,7 +203,52 @@ class _GZXDropDownMenuState extends State<GZXDropDownMenu>
               height: _animation == null ? 0 : _animation!.value,
               child: widget.menus[menuIndex].dropDownWidget,
             ),
+
+            // _isShowMask?
+            // Container(
+            //   padding: EdgeInsets.only(left: 50,right: 50),
+            //   color:Colors.white ,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       FlatButton(
+            //         shape: RoundedRectangleBorder(
+            //           side: BorderSide(
+            //             color: Colors.blue,
+            //             width: 1,
+            //           ),
+            //           borderRadius: BorderRadius.circular(10),
+            //         ),
+            //         color: Colors.transparent,
+            //         textColor: Colors.blue,
+            //         child: Text("去补测"),
+            //         onPressed: (){
+            //
+            //         },
+            //       ),
+            //
+            //       FlatButton(
+            //         shape: RoundedRectangleBorder(
+            //           side: BorderSide(
+            //             color: Colors.blue,
+            //             width: 1,
+            //           ),
+            //           borderRadius: BorderRadius.circular(10),
+            //         ),
+            //         color: Colors.transparent,
+            //         textColor: Colors.blue,
+            //         child: Text("去补测"),
+            //         onPressed: (){
+            //
+            //         },
+            //       )
+            //
+            //     ],
+            //   ),
+            // ):Container(),
             _mask(),
+
+
           ],
         ));
   }

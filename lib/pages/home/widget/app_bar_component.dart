@@ -18,8 +18,9 @@ class AppBarComponent extends StatefulWidget {
   final List<SelectItem> selectItems;
   final GlobalKey<ScaffoldState> state;
   final int mode;
+  final Function(dynamic) onItemClick;
    const AppBarComponent({Key? key,
-    required this.selectItems,required this.state, required this.mode,
+    required this.selectItems,required this.state, required this.mode, required this.onItemClick,
   }) : super(key: key);
   @override
   _AppBarComponentState createState() => _AppBarComponentState();
@@ -33,7 +34,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
   final String title = "";
   final Color bgColor = Colors.black;
   final Color textColor = Colors.redAccent;
-  final List<String> _dropDownHeaderItemStrings = ['全部门店', '客户状态', '沟通状态', '筛选'];
+  final List<String> _dropDownHeaderItemStrings = ['操作步骤', '来源渠道', '所属员工', '更多'];
   final List<SortCondition> _brandSortConditions = [];
   final List<SortCondition> _distanceSortConditions = [];
   late SortCondition _selectBrandSortCondition;
@@ -227,10 +228,9 @@ bool getSelect(){
                 color: Colors.white,
                 height: 65.h,
                 items: [
-                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[0],
-                      style: TextStyle(color: (_dropDownHeaderItemStrings[0] =="全部门店" || _dropDownHeaderItemStrings[0] =="全部")?Colors.black:Colors.redAccent)),
-                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[1], style: TextStyle(color: (_dropDownHeaderItemStrings[1] =="客户状态" )?Colors.black:Colors.redAccent)),
-                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[2], style: TextStyle(color: (_dropDownHeaderItemStrings[2] =="沟通状态" )?Colors.black:Colors.redAccent)),
+                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[0], style: TextStyle(color: (_dropDownHeaderItemStrings[0] =="操作步骤" )?Colors.black:Colors.redAccent)),
+                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[1], style: TextStyle(color: (_dropDownHeaderItemStrings[1] =="来源渠道" )?Colors.black:Colors.redAccent)),
+                  GZXDropDownHeaderItem(_dropDownHeaderItemStrings[2], style: TextStyle(color: (_dropDownHeaderItemStrings[2] =="所属员工" )?Colors.black:Colors.redAccent)),
                   GZXDropDownHeaderItem(_dropDownHeaderItemStrings[3], style: TextStyle(color: (getSelect() == false )?Colors.black:Colors.redAccent),
                       iconSize: 30.sp),
                 ],
@@ -238,12 +238,14 @@ bool getSelect(){
                 controller: _dropdownMenuController,
                 onItemTap: (index) {
                   if (index == 3) {
-                    widget.state.currentState?.openEndDrawer();
+                    widget.onItemClick(1);
                     _dropdownMenuController.hide();
                   }
                 },
               ),
             ),
+
+
           ],
         ),
         GZXDropDownMenu(
@@ -251,22 +253,18 @@ bool getSelect(){
           animationMilliseconds: 350,
           menus: [
             GZXDropdownMenuBuilder(
-                dropDownHeight: 62.h * 8.0,
-                dropDownWidget: _buildStoreWidget((selectValue) {
-                  _dropDownHeaderItemStrings[0] = selectValue.name!;
+                dropDownHeight: 62.h * _brandSortConditions.length,
+                dropDownWidget:
+                _buildConditionListWidget(_brandSortConditions, (value) {
+                  _selectBrandSortCondition = value;
+                  _dropDownHeaderItemStrings[1] =
+                  _selectBrandSortCondition.name!;
                   _dropdownMenuController.hide();
                   setState(() {});
-                  if (selectValue.type == 101) {
-                    if (selectValue.id == "1") {
-                      selectValue.id = "0";
-                    } else {
-                      return;
-                    }
-                  }
                   int k = 0;
                   for (int i = 0; i < widget.selectItems.length; i++) {
-                    if (widget.selectItems[i].type == 100) {
-                      widget.selectItems[i].id = selectValue.id.toString();
+                    if (widget.selectItems[i].type == 120) {
+                      widget.selectItems[i].id = value.id.toString();
                       k = 1;
                       break;
                     }
@@ -274,8 +272,8 @@ bool getSelect(){
                   if (k > 0) {
                   } else {
                     SelectItem s = SelectItem();
-                    s.type = 100;
-                    s.id = selectValue.id.toString();
+                    s.type = 120;
+                    s.id = value.id.toString();
                     widget.selectItems.add(s);
                   }
                   logic.onRefresh();

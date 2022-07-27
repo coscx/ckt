@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ckt/pages/home/widget/gzx_filter_goods_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:just_bottom_sheet/drag_zone_position.dart';
+import 'package:just_bottom_sheet/just_bottom_sheet.dart';
+import 'package:just_bottom_sheet/just_bottom_sheet_configuration.dart';
 import 'package:multiselect_scope/multiselect_scope.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -112,5 +117,118 @@ class HomeLogic extends GetxController {
   setAllSelect(bool d ){
     allSelect =d;
     update();
+  }
+
+
+  ss(){
+    showJustBottomSheet(
+      context: Get.context!,
+      dragZoneConfiguration: JustBottomSheetDragZoneConfiguration(
+        dragZonePosition: DragZonePosition.inside,
+
+        child: Container(
+          color:Colors.white,
+          //borderRadius: BorderRadius.circular(6.w),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Container(
+              height: 4,
+              width: 30,
+              color: Theme.of(Get.context!).brightness == Brightness.light
+                  ? Colors.grey[300]
+                  : Colors.white,
+            ),
+          ),
+        ),
+      ),
+      configuration: JustBottomSheetPageConfiguration(
+          height: ScreenUtil().screenHeight/1.2,
+          builder: (context) {
+            // return SingleChildScrollView(
+            //     physics: const BouncingScrollPhysics(),
+            //     child: Column(children: <Widget>[
+            //
+            //       Wrap(
+            //         spacing: 40.w,
+            //         runSpacing: 0.w,
+            //         children: <Widget>[
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //           buildButton("...",
+            //               "assets/packages/images/tab_match.webp","assets/packages/images/tab_match.webp"),
+            //         ],
+            //       ),
+            //       // SizedBox(
+            //       //   height: 100.h,
+            //       // ),
+            //     ]));
+
+            return GZXFilterGoodsPage(
+              selectItems: selectItems,
+            );
+          },
+          scrollController: scrollController,
+          closeOnScroll: true,
+          cornerRadius: 60.w,
+          backgroundColor: Colors.white,
+          backgroundImageFilter: null
+      ),
+    );
   }
 }

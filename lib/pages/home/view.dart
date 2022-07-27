@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
                         children: <Widget>[
                           //BlocBuilder<GlobalBloc, GlobalState>(builder: _buildBackground),
                           Container(
-                            padding: EdgeInsets.only(top: 130.h),
+                            padding: EdgeInsets.only(top: 80.h),
                             child: ScrollConfiguration(
                                 behavior: DyBehaviorNull(),
                                 child: SmartRefresher(
@@ -138,15 +138,17 @@ class HomePage extends StatelessWidget {
                           //     right: 0,
                           //     child: Container(child: Text("123"),)
                           // ),
-                          Container(
-                              padding: EdgeInsets.only(top: 30.h),
-                              child: _buildSliverAppBar()
-                          ),
-                          // Bar(
-                          //   selectItems: logic.selectItems,
-                          //   roleId: logic.roleId,
-                          //   scaffoldState: logic.scaffoldKey,
+                          // Container(
+                          //     padding: EdgeInsets.only(top: 30.h),
+                          //     child: _buildSliverAppBar()
                           // ),
+                          Bar(
+                            selectItems: logic.selectItems,
+                            roleId: logic.roleId,
+                            scaffoldState: logic.scaffoldKey, onItemClick: (data) {
+                              logic.ss();
+                           },
+                          ),
                         ],
                       )
                   ))
@@ -157,9 +159,14 @@ class HomePage extends StatelessWidget {
 
 
   Widget _buildSliverAppBar() {
-    return Container(
-        padding: EdgeInsets.only(left: 20.w, right: 20.w),
-        child: AppSearchBar(isAppoint: 1,));
+    return GestureDetector(
+      onTap: (){
+          Get.toNamed(AppRoutes.Friend);
+      },
+      child: Container(
+          padding: EdgeInsets.only(left: 20.w, right: 20.w),
+          child: AppSearchBar(isAppoint: 1,)),
+    );
   }
 
   Widget _buildHead(BuildContext context) {
@@ -388,11 +395,11 @@ class Bar extends StatelessWidget implements PreferredSizeWidget {
   final List<SelectItem> selectItems;
   final int roleId;
   final GlobalKey<ScaffoldState> scaffoldState;
-
+  final Function(dynamic) onItemClick;
   const Bar({Key? key,
     required this.selectItems,
     required this.roleId,
-    required this.scaffoldState,
+    required this.scaffoldState, required this.onItemClick,
   }) : super(key: key);
 
   @override
@@ -408,7 +415,7 @@ class Bar extends StatelessWidget implements PreferredSizeWidget {
               child: AppBarComponent(
                 selectItems: selectItems,
                 state: scaffoldState,
-                mode: roleId,
+                mode: roleId, onItemClick: (data) { onItemClick(data); },
               )),
         ],
       ),

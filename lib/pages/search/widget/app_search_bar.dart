@@ -39,11 +39,13 @@ class _AppSearchBarState extends State<AppSearchBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              width: ScreenUtil().screenWidth * 0.7,
+             margin: EdgeInsets.only(left: 20.w,right: 20.w),
+              width: ScreenUtil().screenWidth-100.w ,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100.w)),
                   color: const Color(0xFFeeeeee).withOpacity(0.5)),
               child: TextField(
+                readOnly: true,
                 textAlign: TextAlign.start,
                 autofocus: false,
                 //自动聚焦，闪游标
@@ -78,7 +80,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
                   FocusScope.of(context).requestFocus(FocusNode()); //收起键盘
                 },
               )),
-          buildSubmit()
+          //buildSubmit()
         ],
       );
   Widget buildSubmit() {
