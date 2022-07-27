@@ -37,9 +37,15 @@ class _DiscoveryPageState extends State<DiscoveryPage>
   String title = "选择";
   var subPage = [];
   List<SelectItem> selectItems =<SelectItem>[];
+  late OverlayEntry _overlayEntry;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      this._overlayEntry = this._createOverlayEntry();
+      Overlay.of(context)?.insert(this._overlayEntry);
+    });
+
     String roleKey = StorageService.to.getString("roleKey");
     if (roleKey == "super") {
       pageList = [
@@ -73,6 +79,75 @@ class _DiscoveryPageState extends State<DiscoveryPage>
     }
     _tabController =
         TabController(initialIndex: 0, vsync: this, length: pageList.length);
+  }
+  OverlayEntry _createOverlayEntry() {
+
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    var size = renderBox.size;
+    var offset = renderBox.localToGlobal(Offset.zero);
+
+    return OverlayEntry(
+        builder: (context) => Stack(
+          children: [
+            Positioned(
+              left: offset.dx,
+              top: offset.dy + 80.h,
+              width: size.width,
+              child: Material(
+                color: Colors.white,
+                child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.only(left: 40.w,right: 40.w),
+                  height: 70.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text('取消'),
+                      ),
+                      Container(
+                        child: Text('全选'),
+                      ),
+
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: offset.dx,
+              top: offset.dy + size.height + 0.0,
+              width: size.width,
+              child: Material(
+                color: Colors.white,
+                child: Container(
+                  color: Colors.lightBlueAccent,
+                  padding: EdgeInsets.only(left: 40.w,right: 40.w),
+                 height: 70.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text('划分'),
+                      ),
+                      Container(
+                        child: Text('划分'),
+                      ),
+                      Container(
+                        child: Text('划分'),
+                      ),
+                      Container(
+                        child: Text('划分'),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
+    );
   }
 
   _onPageChange(int index) async {
