@@ -3,16 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/widgets/fine/fine.dart';
 import 'package:flutter_ckt/pages/home/widget/app_bar_component.dart';
-import 'package:flutter_ckt/pages/home/widget/gzx_filter_goods_page.dart';
-import 'package:flutter_ckt/pages/home/widget/photo_widget_list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multiselect_scope/multiselect_scope.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/routers/names.dart';
 import '../../common/widgets/dy_behavior_null.dart';
-import '../../common/widgets/my_scroll_physics.dart';
 import '../../common/widgets/empty_page.dart';
 import '../../common/widgets/refresh.dart';
 import '../search/widget/app_search_bar.dart';
@@ -40,9 +36,9 @@ class HomePage extends StatelessWidget {
             GetBuilder<HomeLogic>(builder: (logic) {
               return Scaffold(
                   key: logic.scaffoldKey,
-                  endDrawer: GZXFilterGoodsPage(
-                    selectItems: logic.selectItems,
-                  ),
+                  // endDrawer: GZXFilterGoodsPage(
+                  //   selectItems: logic.selectItems,
+                  // ),
                   // appBar: AppBar(
                   //   titleSpacing: 20.w,
                   //   leadingWidth: 0,
@@ -99,9 +95,9 @@ class HomePage extends StatelessWidget {
                      child:Container(
                       decoration: BoxDecoration(
                         //背景
-                        color: const Color.fromRGBO(247, 247, 247, 100),
+                        color:  Colors.white,
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(0.h)),
+                        // borderRadius: BorderRadius.all(Radius.circular(0.h)),
                         //设置四周边框
                         //border: new Border.all(width: 1, color: Colors.red),
                       ),
@@ -145,10 +141,9 @@ class HomePage extends StatelessWidget {
                           // ),
                           Bar(
                             selectItems: logic.selectItems,
-                            roleId: logic.roleId,
-                            scaffoldState: logic.scaffoldKey, onItemClick: (data) {
-                              logic.ss();
-                           },
+                            onItemClick: (data) {
+                            logic.openSelect(data);
+                          },
                           ),
                         ],
                       )
@@ -350,20 +345,37 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    if (logic.state.homeUser.isEmpty)
+    if (logic.loanData.isEmpty)
       return SliverToBoxAdapter(child: EmptyPage());
-    return logic.state.homeUser.isNotEmpty
+    return logic.loanData.isNotEmpty
         ? SliverList(
           delegate: SliverChildBuilderDelegate(
                   (_, int index) {
-                return PhotoWidgetListItem(
-                  photo: logic.state.homeUser[index],
-                  isSelect: logic.getSelectCheckbox(index),
-                  onChange: (bool d,int index,int position) {
-                    logic.setSelectCheckbox(d,index,position);
-                  }, index: index, allSelect: logic.allSelect,);
+                // return PhotoWidgetListItem(
+                //   photo: logic.loanData[index],
+                //   isSelect: logic.getSelectCheckbox(index),
+                //   onChange: (bool d,int index,int position) {
+                //     logic.setSelectCheckbox(d,index,position);
+                //   }, index: index, allSelect: logic.allSelect,);
+                    var e = logic.loanData[index];
+                    return  FineContent(
+                      icon: getStatus(e).icon,
+                      name: getStatus(e).name,
+                      money: getStatus(e).money,
+                      count: getStatus(e).count,
+                      status: getStatus(e).status,
+                      time: getStatus(e).time,
+                      color: getStatus(e).color,
+                        isSelect: logic.getSelectCheckbox(index),
+                        onChange: (bool d,int index,int position) {
+                          logic.setSelectCheckbox(d,index,position);
+                        },
+                      index: index,
+                      allSelect: logic.allSelect,
+                      id: e.loanid,
+                    );
               },
-              childCount: logic.state.homeUser.length),
+              childCount: logic.loanData.length),
         )
         : SliverToBoxAdapter(
         child: Center(
@@ -390,43 +402,40 @@ class HomePage extends StatelessWidget {
           ),
         ));
   }
-  List<GestureDetector> _buildMyItem() {
-    if (logic.loanData.isEmpty){
-      return [GestureDetector(
-        onTap: () {
-          Get.toNamed(AppRoutes.FineDetail);
-        },
-        child: EmptyPage(),
-      )];
-    }
-    return logic.loanData
-        .map((e) => GestureDetector(
-      onTap: () {
-        Get.toNamed(AppRoutes.FineDetail,arguments: e.loanId);
-      },
-      child: FineContent(
-        icon: getStatus(e).icon,
-        name: getStatus(e).name,
-        money: getStatus(e).money,
-        count: getStatus(e).count,
-        status: getStatus(e).status,
-        time: getStatus(e).time,
-        color: getStatus(e).color,
-      ),
-    ))
-        .toList();
-  }
+  // List<GestureDetector> _buildMyItem() {
+  //   if (logic.loanData.isEmpty){
+  //     return [GestureDetector(
+  //       onTap: () {
+  //         Get.toNamed(AppRoutes.FineDetail);
+  //       },
+  //       child: EmptyPage(),
+  //     )];
+  //   }
+  //   return logic.loanData
+  //       .map((e) => GestureDetector(
+  //     onTap: () {
+  //       Get.toNamed(AppRoutes.FineDetail,arguments: e.loanid);
+  //     },
+  //     child: FineContent(
+  //       icon: getStatus(e).icon,
+  //       name: getStatus(e).name,
+  //       money: getStatus(e).money,
+  //       count: getStatus(e).count,
+  //       status: getStatus(e).status,
+  //       time: getStatus(e).time,
+  //       color: getStatus(e).color,
+  //     ),
+  //   ))
+  //       .toList();
+  // }
 }
 
 class Bar extends StatelessWidget implements PreferredSizeWidget {
   final List<SelectItem> selectItems;
-  final int roleId;
-  final GlobalKey<ScaffoldState> scaffoldState;
   final Function(dynamic) onItemClick;
   const Bar({Key? key,
     required this.selectItems,
-    required this.roleId,
-    required this.scaffoldState, required this.onItemClick,
+    required this.onItemClick,
   }) : super(key: key);
 
   @override
@@ -441,8 +450,7 @@ class Bar extends StatelessWidget implements PreferredSizeWidget {
           Expanded(
               child: AppBarComponent(
                 selectItems: selectItems,
-                state: scaffoldState,
-                mode: roleId, onItemClick: (data) { onItemClick(data); },
+                onItemClick: (data) { onItemClick(data); },
               )),
         ],
       ),

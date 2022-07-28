@@ -29,6 +29,8 @@ import 'package:flutter_ckt/pages/frame/welcome/index.dart';
 import 'package:flutter_ckt/pages/group_chat/binding.dart';
 import 'package:flutter_ckt/pages/group_chat/view.dart';
 import 'package:flutter_ckt/pages/home/view.dart';
+import 'package:flutter_ckt/pages/my_user/binding.dart';
+import 'package:flutter_ckt/pages/my_user/view.dart';
 import 'package:flutter_ckt/pages/oa/about_us/about_us_binding.dart';
 import 'package:flutter_ckt/pages/oa/about_us/about_us_view.dart';
 import 'package:flutter_ckt/pages/oa/application/index.dart';
@@ -318,7 +320,12 @@ class AppPages {
         binding: SelectResultBinding(),
         transition: Transition.rightToLeft
     ),
-
+    GetPage(
+        name: AppRoutes.MyUser,
+        page: () => MyUserPage(),
+        binding: MyUserBinding(),
+        transition: Transition.rightToLeft
+    ),
   ];
 
   // static final unknownRoute = GetPage(

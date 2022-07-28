@@ -5,8 +5,6 @@ import 'package:flutter_ckt/common/entities/loan/step.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
-import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/common.dart';
 import '../../../common/services/storage.dart';
 import '../../../common/widgets/dropdown/src/gzx_dropdown_header.dart';
@@ -30,7 +28,7 @@ class AppBarComponent extends StatefulWidget {
 }
 
 class _AppBarComponentState extends State<AppBarComponent> {
-  final logic = Get.find<HomeLogic>();
+  final logic = Get.find<MyUserLogic>();
   List<CitySelect> firstLevels = <CitySelect>[];
   List<StoreSelect> all = <StoreSelect>[];
   final String title = "";

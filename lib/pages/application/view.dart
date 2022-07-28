@@ -87,9 +87,10 @@ class ApplicationPage extends GetView<ApplicationController> {
             ),
           ),
           child: Scaffold(
-      //appBar: _buildAppBar(),
-      body: _buildPageView(),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+          backgroundColor: Colors.white,
+          //appBar: _buildAppBar(),
+          body: _buildPageView(),
+          bottomNavigationBar: _buildBottomNavigationBar(),
     ),
         ));
   }

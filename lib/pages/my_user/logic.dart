@@ -17,8 +17,8 @@ import '../../common/services/storage.dart';
 import '../select_result/widget/select_result_page.dart';
 import 'state.dart';
 
-class HomeLogic extends GetxController {
-  final HomeState state = HomeState();
+class MyUserLogic extends GetxController {
+  final MyUserState state = MyUserState();
   List<SaleManDataData> loanData = <SaleManDataData>[];
   final List<SelectItem> selectItems = <SelectItem>[];
   final Map<String, bool> items = Map();
@@ -51,17 +51,27 @@ class HomeLogic extends GetxController {
     curPage = 1;
     String roleKey = StorageService.to.getString("roleKey");
     if (roleKey == "super") {
-      var d = await CommonAPI.getSuperAllUserList({});
+      var d = await CommonAPI.getSuperMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
     } else if (roleKey == "director") {
-      var d = await CommonAPI.getManageAllUserList({});
+      var d = await CommonAPI.getManageMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
-    } else {
-      var d = await CommonAPI.getSuperAllUserList({});
+    }else if (roleKey == "salesman") {
+      var d = await CommonAPI.getSaleManMyUserList({});
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    } else if (roleKey == "administration") {
+      var d = await CommonAPI.getAdministrativeMyUserList({});
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    }else {
+      var d = await CommonAPI.getSuperMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
@@ -74,17 +84,27 @@ class HomeLogic extends GetxController {
     curPage = 1;
     String roleKey = StorageService.to.getString("roleKey");
     if (roleKey == "super") {
-      var d = await CommonAPI.getSuperAllUserList({});
+      var d = await CommonAPI.getSuperMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
     } else if (roleKey == "director") {
-      var d = await CommonAPI.getManageAllUserList({});
+      var d = await CommonAPI.getManageMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
-    } else {
-      var d = await CommonAPI.getSuperAllUserList({});
+    }else if (roleKey == "salesman") {
+      var d = await CommonAPI.getSaleManMyUserList({});
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    } else if (roleKey == "administration") {
+      var d = await CommonAPI.getAdministrativeMyUserList({});
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    }else {
+      var d = await CommonAPI.getSuperMyUserList({});
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
@@ -115,6 +135,30 @@ class HomeLogic extends GetxController {
       }
     } else if (roleKey == "director") {
       var d = await CommonAPI.getManageAllUserList({"pageNum":curPage});
+      if (d.data != null && d.data?.data != null) {
+        loanData.addAll(d.data!.data!);
+        p = d.data!.total;
+        if (p > 0) {
+          if (curPage > p) {
+            refreshController.loadNoData();
+            return;
+          }
+        }
+      }
+    }else if (roleKey == "salesman") {
+      var d = await CommonAPI.getSaleManMyUserList({"pageNum":curPage});
+      if (d.data != null && d.data?.data != null) {
+        loanData.addAll(d.data!.data!);
+        p = d.data!.total;
+        if (p > 0) {
+          if (curPage > p) {
+            refreshController.loadNoData();
+            return;
+          }
+        }
+      }
+    }else if (roleKey == "administration") {
+      var d = await CommonAPI.getAdministrativeMyUserList({"pageNum":curPage});
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
         p = d.data!.total;

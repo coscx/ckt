@@ -40,4 +40,5 @@ class AppRoutes {
   static const Friend = '/friend';
   static const Channel = '/channel';
   static const SelectResult = '/select_result';
+  static const MyUser = '/my_user';
 }

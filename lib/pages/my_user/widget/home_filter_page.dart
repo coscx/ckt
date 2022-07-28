@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/step.dart';
-import 'package:flutter_ckt/common/routers/names.dart';
-import 'package:flutter_ckt/pages/select_result/view.dart';
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,35 +9,30 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/only_store.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
-import '../../../common/widgets/bottom_picker/bottom_picker.dart';
-import '../../../common/widgets/bottom_picker/resources/arrays.dart';
-import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
-import '../../../common/widgets/flutter_custom_select/widget/flutter_single_select.dart';
 import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
 
-class GZXFilterGoodsPage extends StatefulWidget {
+class HomesFilterPage extends StatefulWidget {
   final List<SelectItem> selectItems;
-
-  const GZXFilterGoodsPage({
+  final Function onFresh;
+  const HomesFilterPage({
     Key? key,
-    required this.selectItems,
+    required this.selectItems, required this.onFresh,
   }) : super(key: key);
 
   @override
   _GZXFilterGoodsPageState createState() => _GZXFilterGoodsPageState();
 }
 
-class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
-  final logic = Get.find<HomeLogic>();
+class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
+  final logic = Get.find<MyUserLogic>();
   int minValue = 18;
   int maxValue = 80;
   final List<SelectItem> _valueFrom = [];
@@ -1299,34 +1292,18 @@ class _GZXFilterGoodsPageState extends State<GZXFilterGoodsPage> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        widget.selectItems.removeWhere((e) => e.type! < 100);
-
-                        for (int j = 0; j < _valueFrom.length; j++) {
-                          _valueFrom[j].isSelect = false;
-                        }
-                        for (int j = 0; j < _valueEducation.length; j++) {
-                          _valueEducation[j].isSelect = false;
-                        }
-                        for (int j = 0; j < _valueIncome.length; j++) {
-                          _valueIncome[j].isSelect = false;
-                        }
-                        for (int j = 0; j < _valueHouse.length; j++) {
-                          _valueHouse[j].isSelect = false;
-                        }
-                        for (int j = 0; j < _valueMarriage.length; j++) {
-                          _valueMarriage[j].isSelect = false;
-                        }
-                        widget.selectItems
-                            .removeWhere((e) => e.type == 5 || e.type == 6);
+                        dataString =  dataString.map((e) {
+                          e.isSelect = false;
+                          return e;
+                        } ).toList();
                         startBirthDayTitle = "开始日期";
                         endBirthDayTitle = "结束日期";
                         startBirthDayValue = "";
                         endBirthDayValue = "";
-                        widget.selectItems.removeWhere((e) => e.type == 7);
-                        widget.selectItems.removeWhere((e) => e.type == 8);
                         storeName = "选择门店";
                         userName = "选择用户";
                         showToastBottom(context, "重置成功", true);
+                        widget.onFresh();
                         logic.onRefresh();
                       },
                       child: Container(
