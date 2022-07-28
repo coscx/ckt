@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_ckt/common/widgets/fine/fine.dart';
 import 'package:flutter_ckt/pages/home/widget/app_bar_component.dart';
 import 'package:flutter_ckt/pages/home/widget/gzx_filter_goods_page.dart';
 import 'package:flutter_ckt/pages/home/widget/photo_widget_list_item.dart';
@@ -388,6 +389,32 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ));
+  }
+  List<GestureDetector> _buildMyItem() {
+    if (logic.loanData.isEmpty){
+      return [GestureDetector(
+        onTap: () {
+          Get.toNamed(AppRoutes.FineDetail);
+        },
+        child: EmptyPage(),
+      )];
+    }
+    return logic.loanData
+        .map((e) => GestureDetector(
+      onTap: () {
+        Get.toNamed(AppRoutes.FineDetail,arguments: e.loanId);
+      },
+      child: FineContent(
+        icon: getStatus(e).icon,
+        name: getStatus(e).name,
+        money: getStatus(e).money,
+        count: getStatus(e).count,
+        status: getStatus(e).status,
+        time: getStatus(e).time,
+        color: getStatus(e).color,
+      ),
+    ))
+        .toList();
   }
 }
 

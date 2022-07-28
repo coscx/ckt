@@ -15,6 +15,7 @@ import 'state.dart';
 import '../../common/entities/home/search_erp.dart';
 class HomeLogic extends GetxController {
   final HomeState state = HomeState();
+  List<Data> loanData = <Data>[];
   final List<SelectItem> selectItems = <SelectItem>[];
   final Map<String ,bool> items = Map();
   var scaffoldKey =  GlobalKey<ScaffoldState>();
@@ -40,11 +41,12 @@ class HomeLogic extends GetxController {
   }
   // 下拉刷新
   void _loadData() async {
-    var result =
-    await CommonAPI.searchErpUser(curPage.toString(), sex, roleId, 1, selectItems);
-    state.homeUser.addAll(result.data.data) ;
-    getListItemString(state.homeUser);
-    totalCount =result.data.total.toString();
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
+    if (d.data != null && d.data?.data != null) {
+      loanData = d.data!.data!;
+      totalCount =d.data!.total.toString();
+      refreshController.refreshCompleted();
+    }
     update();
     //debugPrint(result.toJson().toString());
   }
@@ -52,39 +54,38 @@ class HomeLogic extends GetxController {
   // 下拉刷新
   void onRefresh() async {
     curPage=1;
-    var result =
-    await CommonAPI.searchErpUser(curPage.toString(), sex, roleId, 1, selectItems);
-    state.homeUser.clear();
-    state.homeUser .addAll(result.data.data) ;
-    getListItemString(state.homeUser);
-    totalCount =result.data.total.toString();
-    //debugPrint(result.toString());
-    refreshController.refreshCompleted();
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
+    if (d.data != null && d.data?.data != null) {
+      loanData = d.data!.data!;
+      totalCount =d.data!.total.toString();
+      refreshController.refreshCompleted();
+    }
+
     update();
   }
   // 下拉刷新
   void onSexChange() async {
-    curPage=1;
-    var result =
-    await CommonAPI.searchErpUser(curPage.toString(), sex, roleId, 1, selectItems);
-    state.homeUser.clear();
-    state.homeUser .addAll(result.data.data) ;
-    getListItemString(state.homeUser);
-    totalCount =result.data.total.toString();
-    //debugPrint(result.toString());
-    refreshController.loadComplete();
-    update();
+    // curPage=1;
+    // var result =
+    // await CommonAPI.searchErpUser(curPage.toString(), sex, roleId, 1, selectItems);
+    // state.homeUser.clear();
+    // state.homeUser .addAll(result.data.data) ;
+    // getListItemString(state.homeUser);
+    // totalCount =result.data.total.toString();
+    // //debugPrint(result.toString());
+    // refreshController.loadComplete();
+    // update();
   }
 
   // 上拉加载
   void onLoading() async {
     curPage++;
-    var result =
-    await CommonAPI.searchErpUser(curPage.toString(),sex, roleId, 1, selectItems);
-    state.homeUser.addAll(result.data.data) ;
-    getListItemString(state.homeUser);
-    totalCount =result.data.total.toString();
-    refreshController.loadComplete();
+    var d = await CommonAPI.getLoanList(page,groupValue,userId,cnId);
+    if (d.data != null && d.data?.data != null) {
+      loanData = d.data!.data!;
+      totalCount =d.data!.total.toString();
+      refreshController.loadComplete();
+    }
     update();
   }
   getListItemString(List<Data> users){
