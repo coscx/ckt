@@ -185,6 +185,24 @@ class _SelectPageState extends State<SelectPage> {
          }
 
        }
+       if (widget.type ==4){
+         var d = await CommonAPI.getSuperDirector({});
+         if (d.data != null && d.data?.data != null) {
+           dr = d.data!.data!.map((e) {
+             return Friends(
+                 imageAssets: 'assets/images/friend/tag.png',
+                 name: e.nickname.toString(),
+                 indexLetter: PinyinHelper.getFirstWordPinyin(e.searchvalue.toString())
+                     .substring(0, 1)
+                     .toUpperCase(),
+                 sex: 0,
+                 id: e.userid);
+           }).toList();
+         }
+
+       }
+
+
     } else if (roleKey == "salesman") {
 
     } else if (roleKey == "director") {

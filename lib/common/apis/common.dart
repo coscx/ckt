@@ -19,6 +19,7 @@ import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
+import 'package:flutter_ckt/common/entities/loan/super_director.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
 import '../entities/app_version.dart';
@@ -169,6 +170,24 @@ class CommonAPI {
     );
     return Channels.fromJson(response);
   }
+
+
+  static Future<SuperDirector> getSuperDirector(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperDirector',
+      data: data,
+    );
+    return SuperDirector.fromJson(response);
+  }
+
+  static Future<SuperDirector> getManageSubordinate(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetManageSubordinate',
+      data: data,
+    );
+    return SuperDirector.fromJson(response);
+  }
+
 
   static Future<Step> getSaleManStep(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(

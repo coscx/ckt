@@ -31,6 +31,12 @@ class MyUserPage extends StatelessWidget {
             GetBuilder<MyUserLogic>(builder: (logic) {
               return Scaffold(
                   key: logic.scaffoldKey,
+                  floatingActionButton: FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: (){
+                      print('FloatingActionButton');
+                    },
+                  ),
                   body: GestureDetector(
                      child:Container(
                       decoration: BoxDecoration(
@@ -40,7 +46,7 @@ class MyUserPage extends StatelessWidget {
                         children: <Widget>[
                           //BlocBuilder<GlobalBloc, GlobalState>(builder: _buildBackground),
                           Container(
-                            padding: EdgeInsets.only(top: 80.h),
+                            padding: EdgeInsets.only(top: 0.h),
                             child: ScrollConfiguration(
                                 behavior: DyBehaviorNull(),
                                 child: SmartRefresher(
@@ -61,12 +67,16 @@ class MyUserPage extends StatelessWidget {
                                   ),
                                 )),
                           ),
-                          Bar(
-                            selectItems: logic.selectItems,
-                            onItemClick: (data) {
-                            logic.openSelect(data);
-                          },
-                          ),
+                          // Container(
+                          //   padding: EdgeInsets.only(top: 20.h),
+                          //   child: _buildHead(context),
+                          // ),
+                          // Bar(
+                          //   selectItems: logic.selectItems,
+                          //   onItemClick: (data) {
+                          //   logic.openSelect(data);
+                          // },
+                         // ),
                         ],
                       )
                   ))
@@ -74,7 +84,61 @@ class MyUserPage extends StatelessWidget {
             })
     );
   }
+  Widget _buildHead(BuildContext context ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      verticalDirection: VerticalDirection.down,
+      children: <Widget>[
 
+        CupertinoSegmentedControl<int>(
+          //unselectedColor: Colors.yellow,
+          //selectedColor: Colors.green,
+          //pressedColor: Colors.blue,
+          //borderColor: Colors.red,
+          groupValue: logic.sex == 0 ? 1 : logic.sex ,
+          onValueChanged: _onValueChanged,
+          padding: EdgeInsets.only(right: 0.w),
+          children: {
+            1: logic.sex == 1
+                ? Padding(
+              padding: EdgeInsets.only(left: 50.w, right: 40.w,top: 10.h,bottom: 10.h),
+              child: Text("未划分用户",
+                  style: TextStyle(
+                    fontSize: 30.sp,
+                    color: Colors.white,
+                  )),
+            )
+                : Text("未划分用户",
+                style: TextStyle(
+                  fontSize: 30.sp,
+                  color: Colors.blue,
+                )),
+            2: logic.sex == 2
+                ? Padding(
+              padding: EdgeInsets.only(left: 50.w, right: 40.w,top: 10.h,bottom: 10.h),
+              child: Text("已划分用户",
+                  style: TextStyle(
+                    fontSize: 30.sp,
+                    color: Colors.white,
+                  )),
+            )
+                : Text("已划分用户",
+                style: TextStyle(
+                  fontSize: 30.sp,
+                  color: Colors.blue,
+                )),
+          },
+        ),
+
+      ],
+    );
+  }
+  void _onValueChanged(int value) {
+    logic.sex = value;
+    logic.onSexChange();
+  }
   Widget _buildContent(BuildContext context) {
     if (logic.loanData.isEmpty)
       return SliverToBoxAdapter(child: EmptyPage());

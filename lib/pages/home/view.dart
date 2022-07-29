@@ -366,9 +366,8 @@ class HomePage extends StatelessWidget {
                       status: getStatus(e).status,
                       time: getStatus(e).time,
                       color: getStatus(e).color,
-                        isSelect: logic.getSelectCheckbox(index),
+                        isSelect: false,
                         onChange: (bool d,int index,int position) {
-                          logic.setSelectCheckbox(d,index,position);
                         },
                       index: index,
                       allSelect: logic.allSelect,

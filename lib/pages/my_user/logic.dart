@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
-import 'package:flutter_ckt/pages/home/widget/home_filter_page.dart';
+import 'package:flutter_ckt/pages/my_user/widget/home_filter_page.dart';
 import 'package:flutter_ckt/pages/total_user/logic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -76,6 +76,9 @@ class MyUserLogic extends GetxController {
         loanData = d.data!.data!;
       }
     }
+    loanData.map((e) {
+      setSelectItem(e);
+    }).toList();
     update();
   }
 
@@ -109,12 +112,17 @@ class MyUserLogic extends GetxController {
         loanData = d.data!.data!;
       }
     }
+    loanData.map((e) {
+      setSelectItem(e);
+    }).toList();
     refreshController.refreshCompleted();
     update();
   }
 
   // 下拉刷新
-  void onSexChange() async {}
+  void onSexChange() async {
+    update();
+  }
 
   // 上拉加载
   void onLoading() async {
@@ -126,8 +134,12 @@ class MyUserLogic extends GetxController {
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
         p = d.data!.total;
+        d.data!.data!.map((e) {
+          setSelectItem(e);
+        }).toList();
         if (p > 0) {
-          if (curPage > p) {
+           double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -137,9 +149,13 @@ class MyUserLogic extends GetxController {
       var d = await CommonAPI.getManageAllUserList({"pageNum":curPage});
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
+        d.data!.data!.map((e) {
+          setSelectItem(e);
+        }).toList();
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -149,9 +165,13 @@ class MyUserLogic extends GetxController {
       var d = await CommonAPI.getSaleManMyUserList({"pageNum":curPage});
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
+        d.data!.data!.map((e) {
+          setSelectItem(e);
+        }).toList();
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -161,9 +181,13 @@ class MyUserLogic extends GetxController {
       var d = await CommonAPI.getAdministrativeMyUserList({"pageNum":curPage});
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
+        d.data!.data!.map((e) {
+          setSelectItem(e);
+        }).toList();
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -173,9 +197,13 @@ class MyUserLogic extends GetxController {
       var d = await CommonAPI.getSuperAllUserList({"pageNum":curPage});
       if (d.data != null && d.data?.data != null) {
         loanData.addAll(d.data!.data!);
+        d.data!.data!.map((e) {
+          setSelectItem(e);
+        }).toList();
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -187,7 +215,11 @@ class MyUserLogic extends GetxController {
   }
 
   getListItemString(List<Data> users) {}
-
+  setSelectItem(SaleManDataData data) {
+      if (!items.containsKey(data.loanid.toString())) {
+        items[data.loanid.toString()] =false;
+      }
+  }
   setSelectCheckbox(bool d, int index, int position) {
     if (position == 1) {
       if (items.containsKey(loanData.elementAt(index).loanid.toString())) {

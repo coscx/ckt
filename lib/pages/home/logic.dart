@@ -107,7 +107,8 @@ class HomeLogic extends GetxController {
         loanData.addAll(d.data!.data!);
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -119,7 +120,8 @@ class HomeLogic extends GetxController {
         loanData.addAll(d.data!.data!);
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -131,7 +133,8 @@ class HomeLogic extends GetxController {
         loanData.addAll(d.data!.data!);
         p = d.data!.total;
         if (p > 0) {
-          if (curPage > p) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
             refreshController.loadNoData();
             return;
           }
@@ -144,74 +147,14 @@ class HomeLogic extends GetxController {
 
   getListItemString(List<Data> users) {}
 
-  setSelectCheckbox(bool d, int index, int position) {
-    if (position == 1) {
-      if (items.containsKey(loanData.elementAt(index).loanid.toString())) {
-        items[loanData.elementAt(index).loanid.toString()] =
-            !items[loanData.elementAt(index).loanid.toString()]!;
-      } else {
-        items[loanData.elementAt(index).loanid.toString()] = true;
-      }
-      update();
-      bool gg = Get.isRegistered<TotalUserLogic>();
-      if (gg) {
-        var totalUserLogic = Get.find<TotalUserLogic>();
-        totalUserLogic.g.currentState?.setState(() {
 
-        });
-      }
-      return;
-    }
-    items[loanData.elementAt(index).loanid.toString()] = d;
-    update();
-    bool gg = Get.isRegistered<TotalUserLogic>();
-    if (gg) {
-      var totalUserLogic = Get.find<TotalUserLogic>();
-      totalUserLogic.g.currentState?.setState(() {
-
-      });
-    }
-  }
-
-  bool getSelectCheckbox(int index) {
-    bool data = false;
-    if (items.containsKey(loanData.elementAt(index).loanid.toString())) {
-      data = items[loanData.elementAt(index).loanid.toString()]!;
-    }
-    return data;
-  }
 
   setDistance(double d) {
     topDistance += d;
     print(topDistance);
   }
 
-  setAllSelect(bool d) {
-    allSelect = d;
-    update();
-  }
-  setAllSelectAll(bool d) {
-    if (d){
-      loanData.map((e) {
-        items[e.loanid.toString()] = true;
-      }).toList();
-    }else{
-      loanData.map((e) {
-        items[e.loanid.toString()] = false;
-      }).toList();
-    }
 
-    update();
-  }
-  int getSelectCount(){
-    int i=0;
-    items.forEach((key, value) {
-     if(value ==true){
-       i++;
-     }
-    });
-    return i;
-  }
 
   openSelect(int data) {
     if (data == 1) {

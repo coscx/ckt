@@ -497,6 +497,9 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
+    if(widget.selectItems.length ==0){
+      fromUserName ="选择用户";
+    }
 
     return Column(
       children: [

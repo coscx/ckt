@@ -136,6 +136,7 @@ class _FineContentState extends State<FineContent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         widget.allSelect
             ? widget.onChange(false, widget.index, 1)
