@@ -74,12 +74,20 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
 
   showMyMenu() {
     Overlay.of(Get.context!)?.insert(this._overlayEntry);
-
+    bool gg = Get.isRegistered<MyUserLogic>();
+    if (gg) {
+      var homeLogic = Get.find<MyUserLogic>();
+      homeLogic.hideAddButtons();
+    }
   }
 
   hideMyMenu() {
     this._overlayEntry.remove();
-
+    bool gg = Get.isRegistered<MyUserLogic>();
+    if (gg) {
+      var homeLogic = Get.find<MyUserLogic>();
+      homeLogic.showAddButtons();
+    }
   }
 
   OverlayEntry _createOverlayEntry() {

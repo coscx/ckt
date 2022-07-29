@@ -32,7 +32,7 @@ class MyUserPage extends StatelessWidget {
             GetBuilder<MyUserLogic>(builder: (logic) {
               return Scaffold(
                   key: logic.scaffoldKey,
-                  floatingActionButton: FloatingActionButton(
+                  floatingActionButton: logic.showAddButton?FloatingActionButton(
                     child: Icon(Icons.add),
                     onPressed: (){
                         SmartDialog.show(
@@ -232,7 +232,7 @@ class MyUserPage extends StatelessWidget {
                           },
                         );
                     },
-                  ),
+                  ):null,
                   body: GestureDetector(
                      child:Container(
                       decoration: BoxDecoration(

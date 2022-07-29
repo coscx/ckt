@@ -31,7 +31,7 @@ class MyUserLogic extends GetxController {
   FocusNode remarkFieldNode = FocusNode();
   TextEditingController appointController1 = TextEditingController();
   FocusNode remarkFieldNode1 = FocusNode();
-
+  bool showAddButton =true;
   String serveType = "1";
   String totalCount = "";
   String title = "客户管理";
@@ -50,6 +50,12 @@ class MyUserLogic extends GetxController {
   void onInit() {
     _loadData();
     super.onInit();
+  }
+  showAddButtons(){
+    showAddButton =true;
+  }
+  hideAddButtons(){
+    showAddButton =false;
   }
   addUser() async {
     var d = await CommonAPI.manageAddUser({"csName":appointController.text,"csPhone":appointController1.text});
