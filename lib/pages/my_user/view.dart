@@ -72,6 +72,7 @@ class MyUserPage extends StatelessWidget {
                                                 top: 30.h,
                                                 right: 30.h,
                                                 child: GestureDetector(
+                                                  behavior: HitTestBehavior.opaque,
                                                   onTap: () {
                                                     logic.remarkFieldNode.unfocus();
                                                     logic.remarkFieldNode1.unfocus();
@@ -102,21 +103,13 @@ class MyUserPage extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Container(
-                                                        margin: EdgeInsets.only(left: 20.w,right:50.w,top: 10.h),
+                                                        margin: EdgeInsets.only(left: 20.w,right:20.w,top: 10.h),
                                                         //width: 300.w,
                                                         height: 80.h,
                                                         child: Row(
                                                           children: [
 
-                                                            Container(
-                                                              width: 150.w,
-                                                              padding:
-                                                              EdgeInsets.only(left: 50.w, top: 20.h, right: 0.w, bottom: 0.h),
-                                                              alignment: Alignment.centerLeft,
-                                                              child: Text("姓名：",
-                                                                  style:
-                                                                  TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
-                                                            ),
+
                                                             Expanded(
                                                               child: TextField(
                                                                 controller: logic.appointController,
@@ -130,7 +123,7 @@ class MyUserPage extends StatelessWidget {
                                                                 showCursor: true,
                                                                 decoration: InputDecoration(
                                                                   contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
-                                                                  hintText: "请输入...",
+                                                                  hintText: "请输入姓名...",
                                                                   hintStyle:
                                                                   const TextStyle(color: Colors.blue),
                                                                   border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
@@ -148,21 +141,13 @@ class MyUserPage extends StatelessWidget {
                                                       ),
 
                                                       Container(
-                                                        margin: EdgeInsets.only(left: 20.w,right:50.w,top: 20.h),
+                                                        margin: EdgeInsets.only(left: 20.w,right:20.w,top: 20.h),
                                                         //width: 300.w,
                                                         height: 80.h,
                                                         child: Row(
                                                           children: [
 
-                                                            Container(
-                                                              width: 150.w,
-                                                              padding:
-                                                              EdgeInsets.only(left: 20.w, top: 0.h, right: 0.w, bottom: 0.h),
-                                                              alignment: Alignment.centerLeft,
-                                                              child: Text("手机号：",
-                                                                  style:
-                                                                  TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
-                                                            ),
+
                                                             Expanded(
                                                               child: TextField(
                                                                 controller: logic.appointController1,
@@ -176,7 +161,7 @@ class MyUserPage extends StatelessWidget {
                                                                 showCursor: true,
                                                                 decoration: InputDecoration(
                                                                   contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
-                                                                  hintText: "请输入...",
+                                                                  hintText: "请输入手机号...",
                                                                   hintStyle:
                                                                   const TextStyle(color: Colors.blue),
                                                                   border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),

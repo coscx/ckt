@@ -7,6 +7,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../common/apis/common.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/services/storage.dart';
+import '../../common/widgets/keep_alive_wrapper.dart';
 import '../friend/view.dart';
 import '../home/view.dart';
 import '../my_user/logic.dart';
@@ -40,31 +41,31 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
     String roleKey = StorageService.to.getString("roleKey");
     if (roleKey == "super") {
       pageList = [
-        HomePage(),
-        MyUserPage(),
+        KeepAliveWrapper(child: HomePage()),
+        KeepAliveWrapper(child: MyUserPage()),
       ];
       subPage = ["全部客户", "我的客户"];
     } else if (roleKey == "salesman") {
       pageList = [
-        MyUserPage(),
+      KeepAliveWrapper(child: MyUserPage()),
       ];
       subPage = ["我的客户"];
     } else if (roleKey == "director") {
       pageList = [
-        HomePage(),
-        MyUserPage(),
-        HomePage(),
+      KeepAliveWrapper(child: HomePage()),
+      KeepAliveWrapper(child: MyUserPage()),
+      KeepAliveWrapper(child: HomePage()),
       ];
       subPage = ["全部客户", "我的客户", "客户放弃"];
     } else if (roleKey == "administration") {
       pageList = [
-        HomePage(),
-        MyUserPage(),
+      KeepAliveWrapper(child: HomePage()),
+    KeepAliveWrapper(child: MyUserPage()),
       ];
       subPage = ["我的客户", "审批管理"];
     } else {
       pageList = [
-        MyUserPage(),
+      KeepAliveWrapper(child: MyUserPage()),
       ];
       subPage = ["我的客户"];
     }
