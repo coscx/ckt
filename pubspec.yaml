@@ -64,6 +64,7 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   flutter_svg: ^1.0.3
   flui_nullsafety: ^3.0.0
+  flutter_smart_dialog: ^4.5.3+7
   get: ^4.6.5
   getwidget: ^2.0.5
   group_radio_button: ^1.2.0

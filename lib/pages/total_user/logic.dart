@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../common/apis/common.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/services/storage.dart';
 import '../friend/view.dart';
 import '../home/view.dart';
 import '../my_user/logic.dart';
 import '../my_user/view.dart';
+import '../oa/user_detail/widget/common_dialog.dart';
 import '../select_result/widget/select_result_page.dart';
 import 'state.dart';
 
@@ -51,7 +53,7 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
       pageList = [
         HomePage(),
         MyUserPage(),
-        FriendPage(),
+        HomePage(),
       ];
       subPage = ["全部客户", "我的客户", "客户放弃"];
     } else if (roleKey == "administration") {
@@ -232,7 +234,6 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
     if (gg) {
       var homeLogic = Get.find<MyUserLogic>();
       homeLogic.setAllSelect(false);
-      homeLogic.setAllSelectAll(false);
     }
     hideMyMenu();
   }
@@ -245,8 +246,17 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
         backgroundColor: Colors.white,
         builder: (context) => SelectPage(
           type: 4,
-          onResendClick: (data) {
+          onResendClick: (data) async {
             print(data);
+            bool gg = Get.isRegistered<MyUserLogic>();
+            if (gg) {
+              var homeLogic = Get.find<MyUserLogic>();
+              var d = await CommonAPI.superDivide({"user_id":homeLogic.getSelectItemString(),"directorId":data["id"]});
+              if (d.code ==200){
+                homeLogic.onRefresh();
+              }
+            }
+
             update();
           },
         ),
@@ -261,8 +271,22 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
       backgroundColor: Colors.white,
       builder: (context) => SelectPage(
         type: 4,
-        onResendClick: (data) {
+        onResendClick: (data) async {
           print(data);
+          bool gg = Get.isRegistered<MyUserLogic>();
+          if (gg) {
+            var homeLogic = Get.find<MyUserLogic>();
+            var d = await CommonAPI.manageDivide({"user_id":homeLogic.getSelectItemString(),"userId":data["id"]});
+            if (d.code ==200){
+              homeLogic.onRefresh();
+            }
+            bool gg = Get.isRegistered<MyUserLogic>();
+            if (gg) {
+              var homeLogic = Get.find<MyUserLogic>();
+              homeLogic.setAllSelectAll(false);
+            }
+            showToast(Get.context!, "划分成功", true);
+          }
           update();
         },
       ),

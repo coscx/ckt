@@ -4,6 +4,7 @@ import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
 import 'package:flutter_ckt/pages/my_user/widget/home_filter_page.dart';
 import 'package:flutter_ckt/pages/total_user/logic.dart';
+import 'package:flutter_ckt/pages/user_detail/widget/common_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:just_bottom_sheet/drag_zone_position.dart';
@@ -16,7 +17,7 @@ import '../../common/entities/home/common.dart';
 import '../../common/services/storage.dart';
 import '../select_result/widget/select_result_page.dart';
 import 'state.dart';
-
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 class MyUserLogic extends GetxController {
   final MyUserState state = MyUserState();
   List<SaleManDataData> loanData = <SaleManDataData>[];
@@ -26,6 +27,11 @@ class MyUserLogic extends GetxController {
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
+  TextEditingController appointController = TextEditingController();
+  FocusNode remarkFieldNode = FocusNode();
+  TextEditingController appointController1 = TextEditingController();
+  FocusNode remarkFieldNode1 = FocusNode();
+
   String serveType = "1";
   String totalCount = "";
   String title = "客户管理";
@@ -44,6 +50,19 @@ class MyUserLogic extends GetxController {
   void onInit() {
     _loadData();
     super.onInit();
+  }
+  addUser() async {
+    var d = await CommonAPI.manageAddUser({"csName":appointController.text,"csPhone":appointController1.text});
+    if(d.code ==200){
+      showToast(Get.context!, d.msg!, false);
+      appointController.text="";
+      appointController1.text="";
+      SmartDialog.dismiss();
+      onRefresh();
+    }else{
+      showToastRed(Get.context!, d.msg!, false);
+    }
+
   }
 
   // 下拉刷新
@@ -288,7 +307,15 @@ class MyUserLogic extends GetxController {
     });
     return i;
   }
-
+  String getSelectItemString(){
+    List<String> ff = <String>[];
+    items.forEach((key, value) {
+      if(value ==true){
+        ff.add(key);
+      }
+    });
+    return ff.join(",");
+  }
   openSelect(int data) {
     if (data == 1) {
       channelWindow();
@@ -410,4 +437,6 @@ class MyUserLogic extends GetxController {
       ),
     );
   }
+
+
 }

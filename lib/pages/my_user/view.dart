@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/widgets/fine/fine.dart';
 import 'package:flutter_ckt/pages/my_user/widget/app_bar_component.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -34,7 +35,202 @@ class MyUserPage extends StatelessWidget {
                   floatingActionButton: FloatingActionButton(
                     child: Icon(Icons.add),
                     onPressed: (){
-                      print('FloatingActionButton');
+                        SmartDialog.show(
+                          backDismiss: false,
+                          clickMaskDismiss: false,
+                          builder: (_) {
+                            return Container(
+                              height: 500.h,
+                              margin: EdgeInsets.only(left: 40.w,right: 40.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              alignment: Alignment.center,
+                              child: StatefulBuilder(builder: (context, state) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    logic.remarkFieldNode.unfocus();
+                                    logic.remarkFieldNode1.unfocus();
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(Radius.circular(12.w)),
+                                        ),
+                                        child: SingleChildScrollView(
+                                          //alignment: Alignment.bottomCenter,
+                                          //maxHeight: 700.h,
+                                          child: Stack(
+                                            //alignment: AlignmentDirectional.topCenter,
+                                            children: <Widget>[
+
+                                              Positioned(
+                                                top: 30.h,
+                                                right: 30.h,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    logic.remarkFieldNode.unfocus();
+                                                    logic.remarkFieldNode1.unfocus();
+                                                    logic.appointController.text="";
+                                                    logic.appointController1.text="";
+                                                    SmartDialog.dismiss();
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/images/btn_close_black.png',
+                                                    width: 40.w,
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 30.h,
+                                                left: 270.w,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                  },
+                                                  child: Text("添加渠道",
+                                                      style:
+                                                      TextStyle(fontSize: 36.sp, color:  Colors.black,fontWeight: FontWeight.w600)),
+                                                ),
+                                              ),
+
+                                              Container(
+                                                  margin: EdgeInsets.only(left: 20.w,right: 20.w,top: 100.h),
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 20.w,right:50.w,top: 10.h),
+                                                        //width: 300.w,
+                                                        height: 80.h,
+                                                        child: Row(
+                                                          children: [
+
+                                                            Container(
+                                                              width: 150.w,
+                                                              padding:
+                                                              EdgeInsets.only(left: 50.w, top: 20.h, right: 0.w, bottom: 0.h),
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Text("姓名：",
+                                                                  style:
+                                                                  TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
+                                                            ),
+                                                            Expanded(
+                                                              child: TextField(
+                                                                controller: logic.appointController,
+                                                                focusNode: logic.remarkFieldNode,
+                                                                style: const TextStyle(color: Colors.black),
+                                                                minLines: 7,
+                                                                maxLines: 7,
+                                                                cursorColor: Colors.blue,
+                                                                //cursorRadius: Radius.circular(40.h),
+                                                                cursorWidth: 3.w,
+                                                                showCursor: true,
+                                                                decoration: InputDecoration(
+                                                                  contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
+                                                                  hintText: "请输入...",
+                                                                  hintStyle:
+                                                                  const TextStyle(color: Colors.blue),
+                                                                  border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
+                                                                  enabledBorder:  OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.all(Radius.circular(40.h)),
+                                                                    borderSide:
+                                                                    BorderSide(color: Colors.blue),
+                                                                  ),
+                                                                ),
+                                                                onChanged: (v) {},
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 20.w,right:50.w,top: 20.h),
+                                                        //width: 300.w,
+                                                        height: 80.h,
+                                                        child: Row(
+                                                          children: [
+
+                                                            Container(
+                                                              width: 150.w,
+                                                              padding:
+                                                              EdgeInsets.only(left: 20.w, top: 0.h, right: 0.w, bottom: 0.h),
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Text("手机号：",
+                                                                  style:
+                                                                  TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
+                                                            ),
+                                                            Expanded(
+                                                              child: TextField(
+                                                                controller: logic.appointController1,
+                                                                focusNode: logic.remarkFieldNode1,
+                                                                style: const TextStyle(color: Colors.black),
+                                                                minLines: 7,
+                                                                maxLines: 7,
+                                                                cursorColor: Colors.blue,
+                                                                //cursorRadius: Radius.circular(40.h),
+                                                                cursorWidth: 3.w,
+                                                                showCursor: true,
+                                                                decoration: InputDecoration(
+                                                                  contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
+                                                                  hintText: "请输入...",
+                                                                  hintStyle:
+                                                                  const TextStyle(color: Colors.blue),
+                                                                  border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
+                                                                  enabledBorder:  OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.all(Radius.circular(40.h)),
+                                                                    borderSide:
+                                                                    BorderSide(color: Colors.blue),
+                                                                  ),
+                                                                ),
+                                                                onChanged: (v) {},
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                      Container(
+                                                        width: ScreenUtil().screenWidth,
+                                                        height: 80.h,
+                                                        margin:
+                                                        EdgeInsets.only(top: 40.h,left: 40.w,right: 40.w),
+                                                        child: RaisedButton(
+                                                          elevation: 0,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(40.h))),
+                                                          color: Colors.lightBlue,
+                                                          onPressed: () {
+                                                            logic.remarkFieldNode.unfocus();
+                                                            logic.remarkFieldNode1.unfocus();
+                                                            logic.addUser();
+
+                                                          },
+                                                          child: Text("提交",
+                                                              style: TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 36.sp)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                );
+                              }),
+                            );
+                          },
+                        );
                     },
                   ),
                   body: GestureDetector(

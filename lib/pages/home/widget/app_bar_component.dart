@@ -76,6 +76,18 @@ class _AppBarComponentState extends State<AppBarComponent> {
         }
       }
     } else if (roleKey == "director") {
+      var result = await CommonAPI.getManageStep({});
+      if (result.code == 200) {
+        List<StepDataData> da = result.data!.data!;
+        for (var value in da) {
+          SortCondition cc1 = SortCondition();
+          cc1.name = value.label + "(" + value.num.toString() + ")";
+          cc1.id = value.status;
+          cc1.isSelected = false;
+          _brandSortConditions.add(cc1);
+        }
+      }
+
     } else {}
 
     if (!mounted) return;

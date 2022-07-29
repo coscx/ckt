@@ -206,7 +206,70 @@ class _SelectPageState extends State<SelectPage> {
     } else if (roleKey == "salesman") {
 
     } else if (roleKey == "director") {
+      if (widget.type ==1){
+        var d = await CommonAPI.getManageEmployees({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.nickname,
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.nickname)
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: e.sex ==null ? 0: int.parse(e.sex.toString()),
+                id: e.userid);
+          }).toList();
+        }
 
+      }
+      if (widget.type ==2){
+        var d = await CommonAPI.getManageStaff({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.nickname,
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.nickname)
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: e.sex ==null ? 0: int.parse(e.sex.toString()),
+                id: e.userid);
+          }).toList();
+        }
+
+      }
+      if (widget.type ==3){
+        var d = await CommonAPI.getManageChannel({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.searchvalue.toString(),
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.searchvalue.toString())
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: 0,
+                id: e.cnid);
+          }).toList();
+        }
+
+      }
+      if (widget.type ==4){
+        var d = await CommonAPI.getManageSubordinate({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.nickname.toString(),
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.searchvalue.toString())
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: 0,
+                id: e.userid);
+          }).toList();
+        }
+
+      }
     } else if (roleKey == "administration") {
 
     } else {

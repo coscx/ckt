@@ -82,5 +82,6 @@ class CommonResult {
     'status': status,
     'code': code,
     'data': data,
+    'msg': msg,
   };
 }

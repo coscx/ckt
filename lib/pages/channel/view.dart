@@ -310,7 +310,8 @@ class ChannelPage extends StatelessWidget {
               ],
             ),
           );
-        }));
+        })
+    );
     return result;
   }
 

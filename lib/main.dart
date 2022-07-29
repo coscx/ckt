@@ -12,6 +12,7 @@ import 'package:flutter_ckt/global.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -19,10 +20,10 @@ Future<void> main() async {
   await Global.init();
   runApp(const MyApp());
   if (Platform.isAndroid) {
-     // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
-     SystemUiOverlayStyle systemUiOverlayStyle =
-     SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(750, 1334),
-      builder: (c,w) => RefreshConfiguration(
+      builder: (c, w) => RefreshConfiguration(
         headerBuilder: () => const ClassicHeader(),
         footerBuilder: () => const ClassicFooter(),
         hideFooterWhenNotFull: true,
@@ -46,9 +47,10 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
-          builder:EasyLoading.init(builder: BotToastInit()),
+          builder: FlutterSmartDialog.init(
+              builder: EasyLoading.init(builder: BotToastInit())),
           translations: TranslationService(),
-          navigatorObservers: [AppPages.observer],
+          navigatorObservers: [AppPages.observer, FlutterSmartDialog.observer],
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

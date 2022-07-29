@@ -306,6 +306,28 @@ class CommonAPI {
     );
     return SaleMan.fromJson(response);
   }
+  static Future<CommonResult> superDivide(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/SuperDivide',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
+  static Future<CommonResult> manageDivide(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ManageDivide',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
+  static Future<CommonResult> manageAddUser(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ManageAddUser',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
+
   static Future<AppVersionEntity> getVersion() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/auth/version',
