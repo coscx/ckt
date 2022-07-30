@@ -34,6 +34,7 @@ dependencies:
   crypto: ^3.0.1
   connectivity: ^3.0.6 #网络状态
   city_pickers: ^1.0.1
+  cool_dropdown: ^1.4.2
   custom_pop_up_menu: ^1.2.4
   direct_select_flutter: ^1.1.1
   dio: ^4.0.6

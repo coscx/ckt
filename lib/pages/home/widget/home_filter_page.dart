@@ -628,7 +628,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  fromUserName ?? "" ,
+                  fromUserName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: fromUserName == "选择用户" ? Colors.black : Colors.white),
@@ -793,7 +793,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  currentUserName ?? "" ,
+                  currentUserName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: currentUserName == "选择用户" ? Colors.black : Colors.white),
@@ -948,7 +948,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  userChannelName ?? "" ,
+                  userChannelName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: userChannelName == "选择渠道" ? Colors.black : Colors.white),

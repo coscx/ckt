@@ -36,6 +36,22 @@ class ChannelLogic extends GetxController {
   bool myValue = false;
   List<ChannelDataData> loanData = <ChannelDataData>[];
   int page =1;
+  List dropdownItemList = [
+    {'label': '装修公司', 'value': '1'}, // label is required and unique
+    {'label': '渠道公司', 'value': '2'},
+  ];
+  List<String> goals = [
+    "请选择",
+    "新分未联系",
+    "号码无效",
+    "号码未接通",
+    "可继续沟通",
+    "有意向面谈",
+    "确定到店时间",
+    "已到店，意愿需跟进",
+    "放弃并放入公海",
+  ];
+  String goalValue = '4.可继续沟通';
   @override
   void onInit() {
     var keyboardVisibilityController = KeyboardVisibilityController();

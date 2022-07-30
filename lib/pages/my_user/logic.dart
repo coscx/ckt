@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
-import 'package:flutter_ckt/pages/my_user/widget/home_filter_page.dart';
+import 'package:flutter_ckt/pages/my_user/widget/my_user_filter_page.dart';
 import 'package:flutter_ckt/pages/total_user/logic.dart';
 import 'package:flutter_ckt/pages/user_detail/widget/common_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -358,7 +358,7 @@ class MyUserLogic extends GetxController {
           height: ScreenUtil().screenHeight / 1.2,
           builder: (context) {
             return StatefulBuilder(builder: (context1, setBottomSheetState) {
-              return HomesFilterPage(
+              return MyUserFilterPage(
                 selectItems: selectItems,
                 onFresh: () {
                   setBottomSheetState(() {

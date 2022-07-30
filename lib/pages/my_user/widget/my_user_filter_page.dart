@@ -19,10 +19,10 @@ import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
 
-class HomesFilterPage extends StatefulWidget {
+class MyUserFilterPage extends StatefulWidget {
   final List<SelectItem> selectItems;
   final Function onFresh;
-  const HomesFilterPage({
+  const MyUserFilterPage({
     Key? key,
     required this.selectItems, required this.onFresh,
   }) : super(key: key);
@@ -31,7 +31,7 @@ class HomesFilterPage extends StatefulWidget {
   _GZXFilterGoodsPageState createState() => _GZXFilterGoodsPageState();
 }
 
-class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
+class _GZXFilterGoodsPageState extends State<MyUserFilterPage> {
   final logic = Get.find<MyUserLogic>();
   int minValue = 18;
   int maxValue = 80;
@@ -624,7 +624,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  fromUserName ?? "" ,
+                  fromUserName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: fromUserName == "选择用户" ? Colors.black : Colors.white),
@@ -789,7 +789,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  currentUserName ?? "" ,
+                  currentUserName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: currentUserName == "选择用户" ? Colors.black : Colors.white),
@@ -944,7 +944,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   //     }).showModal(context); //_scaffoldKey.currentState);
                 },
                 child: Text(
-                  userChannelName ?? "" ,
+                  userChannelName ,
                   style: TextStyle(
                       fontSize: 30.sp,
                       color: userChannelName == "选择渠道" ? Colors.black : Colors.white),

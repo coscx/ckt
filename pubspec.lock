@@ -197,6 +197,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  cool_dropdown:
+    dependency: "direct main"
+    description:
+      name: cool_dropdown
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.4.2"
   cross_file:
     dependency: transitive
     description:

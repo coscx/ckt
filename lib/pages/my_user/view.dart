@@ -103,8 +103,7 @@ class MyUserPage extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Container(
-                                                        margin: EdgeInsets.only(left: 20.w,right:20.w,top: 10.h),
-                                                        //width: 300.w,
+
                                                         height: 80.h,
                                                         child: Row(
                                                           children: [
@@ -141,8 +140,7 @@ class MyUserPage extends StatelessWidget {
                                                       ),
 
                                                       Container(
-                                                        margin: EdgeInsets.only(left: 20.w,right:20.w,top: 20.h),
-                                                        //width: 300.w,
+
                                                         height: 80.h,
                                                         child: Row(
                                                           children: [

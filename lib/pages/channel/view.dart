@@ -1,6 +1,8 @@
+import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/routers/names.dart';
@@ -174,10 +176,10 @@ class ChannelPage extends StatelessWidget {
   }
   Future<bool> appointDialog(BuildContext context) async {
     final logic = Get.find<ChannelLogic>();
-    var result = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (ctx) => StatefulBuilder(builder: (context, state) {
+    var result = SmartDialog.show(
+        backDismiss: false,
+        clickMaskDismiss: false,
+        builder: (c) { return StatefulBuilder(builder: (context, state) {
           return GestureDetector(
             onTap: () {
               logic.remarkFieldNode.unfocus();
@@ -204,7 +206,7 @@ class ChannelPage extends StatelessWidget {
                           right: 30.h,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop(false);
+                             SmartDialog.dismiss();
                             },
                             child: Image.asset(
                               'assets/images/btn_close_black.png',
@@ -217,91 +219,103 @@ class ChannelPage extends StatelessWidget {
                           left: 270.w,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop(false);
+
                             },
                             child: Text("添加渠道",
                                 style:
                                 TextStyle(fontSize: 36.sp, color:  Colors.black,fontWeight: FontWeight.w600)),
                           ),
                         ),
-                        SizedBox(
-                          height: 10.w,
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 20.w,right: 20.w,top: 200.h),
-                            child: buildBottomPop()),
-                        SizedBox(
-                          height: 10.w,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 20.w,right:50.w,top: 100.h),
-                          //width: 300.w,
-                          height: 80.h,
-                          child: Row(
-                            children: [
 
-                              Container(
-                                width: 120.w,
-                                padding:
-                                EdgeInsets.only(left: 20.w, top: 0.h, right: 0.w, bottom: 0.h),
-                                alignment: Alignment.centerLeft,
-                                child: Text("名称：",
-                                    style:
-                                    TextStyle(fontSize: 32.sp, color: const Color(0xFF6a6a6a))),
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  controller: logic.appointController,
-                                  focusNode: logic.remarkFieldNode,
-                                  style: const TextStyle(color: Colors.black),
-                                  minLines: 7,
-                                  maxLines: 7,
-                                  cursorColor: Colors.blue,
-                                  //cursorRadius: Radius.circular(40.h),
-                                  cursorWidth: 3.w,
-                                  showCursor: true,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
-                                    hintText: "请输入...",
-                                    hintStyle:
-                                    const TextStyle(color: Colors.blue),
-                                    border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
-                                    enabledBorder:  OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(40.h)),
-                                        borderSide:
-                                        BorderSide(color: Colors.blue),
+                        Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 80.w,right:80.w,top: 100.h),
+                              //width: 300.w,
+                              height: 80.h,
+                              child: Row(
+                                children: [
+
+
+                                  Expanded(
+                                    child: TextField(
+                                      controller: logic.appointController,
+                                      focusNode: logic.remarkFieldNode,
+                                      style: const TextStyle(color: Colors.black),
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      cursorColor: Colors.blue,
+                                      //cursorRadius: Radius.circular(40.h),
+                                      cursorWidth: 3.w,
+                                      showCursor: true,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
+                                        hintText: "请输入...",
+                                        hintStyle:
+                                        const TextStyle(color: Colors.blue),
+                                        border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
+                                        enabledBorder:  OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(40.h)),
+                                            borderSide:
+                                            BorderSide(color: Colors.blue),
+                                        ),
+                                      ),
+                                      onChanged: (v) {},
                                     ),
                                   ),
-                                  onChanged: (v) {},
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 80.w,right: 80.w,top: 20.h),
+                              child: CoolDropdown(
+                                resultHeight: 80.h,
+                                resultWidth: c.width-40.w,
+                                resultPadding: EdgeInsets.only(left: 40.w,right: 40.w),
+                                dropdownList: logic.dropdownItemList,
+                                onChange: (_) {},
+                                defaultValue: logic.dropdownItemList[0],
+                                selectedItemBD:  BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.transparent,
+
+                                ),
+                                  selectedItemTS:TextStyle(color: Colors.blue, fontSize: 20),
+                                resultBD:    BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(40.h),
+                                  border: Border.all(width: 2.w,color: Colors.blue)
+                                ),
+                                dropdownWidth: c.width-40.w,
+                                // placeholder: 'insert...',
+                              ),
+                            ),
+                            Container(
+                              width: ScreenUtil().screenWidth,
+                              height: 80.h,
+                              margin:
+                              EdgeInsets.only(top: 40.h,left: 40.w,right: 40.w),
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(40.h))),
+                                color: Colors.lightBlue,
+                                onPressed: () {
+
+                                },
+                                child: Text("提交",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 36.sp)),
+                              ),
+                            ),
+                          ],
                         ),
 
 
 
-                        Container(
-                          width: ScreenUtil().screenWidth,
-                          height: 80.h,
-                          margin:
-                          EdgeInsets.only(top: 300.h,left: 40.w,right: 40.w),
-                          child: RaisedButton(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(40.h))),
-                            color: Colors.lightBlue,
-                            onPressed: () {
 
-                              Navigator.of(context).pop(true);
-                            },
-                            child: Text("提交",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36.sp)),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -310,9 +324,8 @@ class ChannelPage extends StatelessWidget {
               ],
             ),
           );
-        })
-    );
-    return result;
+        });});
+    return Future(() => false);
   }
 
   Widget _buildContent(BuildContext context) =>
