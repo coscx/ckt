@@ -17,7 +17,7 @@ class MineLogic extends GetxController {
   String join="0";
   String connect="0";
   int index =0;
-  late SaleManGridDataData gridData;
+  SaleManGridDataData gridData = SaleManGridDataData(pendingcontact: 0, pendingsubmission: 0, pendingsupplement: 0);
   @override
   void onInit() {
     init();

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_ckt/pages/total_user/widget/discovery_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../../common/widgets/dy_behavior_null.dart';
 import '../lost_user/logic.dart';
@@ -32,6 +33,17 @@ class TotalUserPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 20.w),
                           color: Colors.white,
                           child: TabBar(
+                            indicator: MaterialIndicator(
+                              color:  Colors.blue,
+                              strokeWidth: 0.w,
+                              height: 10.h,
+                              topLeftRadius: 8.w,
+                              topRightRadius: 8.w,
+                              bottomLeftRadius: 8.w,
+                              bottomRightRadius: 8.w,
+                              horizontalPadding: 10.h,
+                              tabPosition: TabPosition.bottom,
+                            ),
                             labelColor: Color(0xFF0a0f1e),
                             indicatorColor: Color(0xffFF7E98),
                             isScrollable: true,
@@ -52,24 +64,23 @@ class TotalUserPage extends StatelessWidget {
                                 // tab下的文字style 默认会使用DefultTextStyle包裹 所有这里面的Text可以不用再声明style 切换也会自带文字缩放
                                 // text: str,
                                 child: Container(
-                                    width: tp.width + 10.w, child: Text(str)),
+                                    width: tp.width + 48.w, child: Text(str)),
                               );
                             }),
                             controller: logic.tabController,
-                            indicatorWeight: 3,
-                            indicatorPadding:
-                            EdgeInsets.only(left: 20.w, right: 20.w),
-                            labelPadding: EdgeInsets.symmetric(
-                                horizontal: 16.w),
+                            indicatorWeight: 0,
+                            indicatorPadding: EdgeInsets.only(left: 25.w, right: 25.w,top: 0,bottom: 3.h),
+                            labelPadding: EdgeInsets.only(
+                                left: 2.w,bottom: 2.h,top: 5.h),
                             labelStyle: TextStyle(
-                              fontSize: 32.sp,
+                              fontSize: 38.sp,
                               color: Color(0xffFF7E98),
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                             ),
-                            unselectedLabelColor: Color(0xff999999),
+                            unselectedLabelColor: Color(0xff888888),
                             unselectedLabelStyle:
                             TextStyle(
-                                fontSize: 32.sp, color: Color(0xff999999)),
+                                fontSize: 36.sp,fontWeight: FontWeight.w600,),
                             indicatorSize: TabBarIndicatorSize.label,
                             onTap: (index) {
                               logic.pageController.jumpToPage(index);

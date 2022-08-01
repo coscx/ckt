@@ -14,6 +14,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/only_store.dart';
+import '../../../common/services/storage.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
 import '../../../common/widgets/bottom_picker/bottom_picker.dart';
@@ -73,7 +74,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
   List<SelectItem> dataString = <SelectItem>[];
   List<SelectItem> channelSelect = <SelectItem>[];
   List<SelectItem>? selectedDataString;
-  late List<StepDataData> stepDataData;
+  List<StepDataData> stepDataData=<StepDataData>[];
   @override
   void initState() {
     super.initState();
@@ -144,20 +145,33 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         storeId = widget.selectItems[j].id!;
       }
     }
-    var results = await CommonAPI.getSuperStep({});
-    if (results.code == 200) {
-      stepDataData= results.data!.data!;
-      for (var value in stepDataData) {
-        SelectItem ff = SelectItem();
-        ff.id = value.status.toString();
-        ff.num = value.num;
-        ff.type = 99;
-        ff.name = value.label + "(" + value.num.toString() + ")";
-        ff.isSelect = false;
-        dataString.add(ff);
+    String roleKey = StorageService.to.getString("roleKey");
+    if (roleKey == "super") {
+      var results = await CommonAPI.getSuperStep({});
+      if (results.code == 200) {
+        stepDataData= results.data!.data!;
       }
-    } else {
-
+    }
+    if (roleKey == "director") {
+      var results = await CommonAPI.getManageStep({});
+      if (results.code == 200) {
+        stepDataData= results.data!.data!;
+      }
+    }
+    if (roleKey == "salesman") {
+      var results = await CommonAPI.getSaleManStep({});
+      if (results.code == 200) {
+        stepDataData= results.data!.data!;
+      }
+    }
+    for (var value in stepDataData) {
+      SelectItem ff = SelectItem();
+      ff.id = value.status.toString();
+      ff.num = value.num;
+      ff.type = 99;
+      ff.name = value.label + "(" + value.num.toString() + ")";
+      ff.isSelect = false;
+      dataString.add(ff);
     }
     if(mounted)
     setState(() {});
