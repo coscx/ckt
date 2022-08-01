@@ -107,8 +107,9 @@ class _SelectCell extends StatelessWidget {
 
 class SelectPage extends StatefulWidget {
   final Function(dynamic) onResendClick;
+  final Function(dynamic) onHide;
   final int type;
-  const SelectPage({Key? key, required this.onResendClick, required this.type}) : super(key: key);
+  const SelectPage({Key? key, required this.onResendClick, required this.type, required this.onHide}) : super(key: key);
 
   @override
   _SelectPageState createState() => _SelectPageState();
@@ -295,7 +296,13 @@ class _SelectPageState extends State<SelectPage> {
       if (mounted) setState(() {});
     }
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+    Future.delayed(Duration(milliseconds: 1),(){
+      widget.onHide(true);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

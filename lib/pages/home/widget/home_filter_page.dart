@@ -555,7 +555,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                               }
                       if (mounted)
                         setState((){});
-                    },),
+                    }, onHide: (data) {  },),
                   );
                   // BottomPicker.date(
                   //     initialDateTime: DateTime(1990,6,1),
@@ -720,7 +720,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       }
                       if (mounted)
                       setState((){});
-                    },),
+                    }, onHide: (data) {  },),
                   );
                   // BottomPicker.date(
                   //     initialDateTime: DateTime(1990,6,1),
@@ -875,7 +875,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       }
                       if (mounted)
                         setState((){});
-                    },),
+                    }, onHide: (data) {  },),
                   );
                   // BottomPicker.date(
                   //     initialDateTime: DateTime(1990,6,1),
@@ -1019,7 +1019,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                     backgroundColor: Colors.white,
                     builder: (context) => SelectPage(type:3,onResendClick: (data) {
                         print(data);
-                    },),
+                    }, onHide: (data) {  },),
                   );
                   // Picker(
                   //     squeeze: 1.45,

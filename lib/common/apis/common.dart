@@ -320,6 +320,13 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
+  static Future<CommonResult> manageAbandonDivide(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ManageAbandonDivide',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
   static Future<CommonResult> manageAddUser(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ManageAddUser',
@@ -327,7 +334,13 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
-
+  static Future<CommonResult> createManageChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/CreateManageChannel',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
   static Future<AppVersionEntity> getVersion() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/auth/version',

@@ -405,7 +405,9 @@ class MyUserLogic extends GetxController {
             selectItems.add(s);
           }
           update();
-        },
+        }, onHide: (data) {
+
+      },
       ),
     );
   }
@@ -439,7 +441,9 @@ class MyUserLogic extends GetxController {
             selectItems.add(s);
           }
           update();
-        },
+        }, onHide: (data) {
+
+      },
       ),
     );
   }

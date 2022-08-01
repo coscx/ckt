@@ -2,23 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
-import 'package:flutter_ckt/pages/home/widget/home_filter_page.dart';
+import 'package:flutter_ckt/pages/my_user/widget/my_user_filter_page.dart';
 import 'package:flutter_ckt/pages/total_user/logic.dart';
+import 'package:flutter_ckt/pages/user_detail/widget/common_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:just_bottom_sheet/drag_zone_position.dart';
 import 'package:just_bottom_sheet/just_bottom_sheet.dart';
 import 'package:just_bottom_sheet/just_bottom_sheet_configuration.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+
 import '../../common/apis/common.dart';
 import '../../common/entities/home/common.dart';
-import '../../common/services/storage.dart';
 import '../select_result/widget/select_result_page.dart';
 import 'state.dart';
 
-class HomeLogic extends GetxController {
-  final HomeState state = HomeState();
+class LostLogic extends GetxController {
+  final LostState state = LostState();
   List<SaleManDataData> loanData = <SaleManDataData>[];
   final List<SelectItem> selectItems = <SelectItem>[];
   final Map<String, bool> items = Map();
@@ -26,6 +28,11 @@ class HomeLogic extends GetxController {
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
+  TextEditingController appointController = TextEditingController();
+  FocusNode remarkFieldNode = FocusNode();
+  TextEditingController appointController1 = TextEditingController();
+  FocusNode remarkFieldNode1 = FocusNode();
+  bool showAddButton = true;
   String serveType = "1";
   String totalCount = "";
   String title = "客户管理";
@@ -46,115 +53,169 @@ class HomeLogic extends GetxController {
     super.onInit();
   }
 
+  showAddButtons() {
+    showAddButton = true;
+  }
+
+  hideAddButtons() {
+    showAddButton = false;
+  }
+
+  addUser() async {
+    var d = await CommonAPI.manageAddUser(
+        {"csName": appointController.text, "csPhone": appointController1.text});
+    if (d.code == 200) {
+      showToast(Get.context!, d.msg!, false);
+      appointController.text = "";
+      appointController1.text = "";
+      SmartDialog.dismiss();
+      onRefresh();
+    } else {
+      showToastRed(Get.context!, d.msg!, false);
+    }
+  }
+
   // 下拉刷新
   void _loadData() async {
     curPage = 1;
-    String roleKey = StorageService.to.getString("roleKey");
-    if (roleKey == "super") {
-      var d = await CommonAPI.getSuperAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
-    } else if (roleKey == "director") {
-      var d = await CommonAPI.getManageAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
-    } else {
-      var d = await CommonAPI.getSuperAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
+    var d = await CommonAPI.getManageAbandonList({});
+    if (d.data != null && d.data?.data != null) {
+      loanData = d.data!.data!;
     }
+
+    loanData.map((e) {
+      setSelectItem(e);
+    }).toList();
     update();
   }
 
   // 下拉刷新
   void onRefresh() async {
     curPage = 1;
-    String roleKey = StorageService.to.getString("roleKey");
-    if (roleKey == "super") {
-      var d = await CommonAPI.getSuperAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
-    } else if (roleKey == "director") {
-      var d = await CommonAPI.getManageAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
-    } else {
-      var d = await CommonAPI.getSuperAllUserList({});
-      if (d.data != null && d.data?.data != null) {
-        loanData = d.data!.data!;
-      }
+    var d = await CommonAPI.getManageAbandonList({});
+    if (d.data != null && d.data?.data != null) {
+      loanData = d.data!.data!;
     }
+
+    loanData.map((e) {
+      setSelectItem(e);
+    }).toList();
     refreshController.refreshCompleted();
     update();
   }
 
   // 下拉刷新
-  void onSexChange() async {}
+  void onSexChange() async {
+    update();
+  }
 
   // 上拉加载
   void onLoading() async {
     curPage++;
     int p = 0;
-    String roleKey = StorageService.to.getString("roleKey");
-    if (roleKey == "super") {
-      var d = await CommonAPI.getSuperAllUserList({"pageNum":curPage});
-      if (d.data != null && d.data?.data != null) {
-        loanData.addAll(d.data!.data!);
-        p = d.data!.total;
-        if (p > 0) {
-          double currentPage = p / 15;
-          if (curPage > currentPage.ceil()) {
-            refreshController.loadNoData();
-            return;
-          }
-        }
-      }
-    } else if (roleKey == "director") {
-      var d = await CommonAPI.getManageAllUserList({"pageNum":curPage});
-      if (d.data != null && d.data?.data != null) {
-        loanData.addAll(d.data!.data!);
-        p = d.data!.total;
-        if (p > 0) {
-          double currentPage = p / 15;
-          if (curPage > currentPage.ceil()) {
-            refreshController.loadNoData();
-            return;
-          }
-        }
-      }
-    } else {
-      var d = await CommonAPI.getSuperAllUserList({"pageNum":curPage});
-      if (d.data != null && d.data?.data != null) {
-        loanData.addAll(d.data!.data!);
-        p = d.data!.total;
-        if (p > 0) {
-          double currentPage = p / 15;
-          if (curPage > currentPage.ceil()) {
-            refreshController.loadNoData();
-            return;
-          }
+    var d = await CommonAPI.getManageAbandonList({"pageNum": curPage});
+    if (d.data != null && d.data?.data != null) {
+      loanData.addAll(d.data!.data!);
+      p = d.data!.total;
+      d.data!.data!.map((e) {
+        setSelectItem(e);
+      }).toList();
+      if (p > 0) {
+        double currentPage = p / 15;
+        if (curPage > currentPage.ceil()) {
+          refreshController.loadNoData();
+          return;
         }
       }
     }
+
     refreshController.loadComplete();
     update();
   }
 
   getListItemString(List<Data> users) {}
 
+  setSelectItem(SaleManDataData data) {
+    if (!items.containsKey(data.loanid.toString())) {
+      items[data.loanid.toString()] = false;
+    }
+  }
 
+  setSelectCheckbox(bool d, int index, int position) {
+    if (position == 1) {
+      if (items.containsKey(loanData.elementAt(index).loanid.toString())) {
+        items[loanData.elementAt(index).loanid.toString()] =
+            !items[loanData.elementAt(index).loanid.toString()]!;
+      } else {
+        items[loanData.elementAt(index).loanid.toString()] = true;
+      }
+      update();
+      bool gg = Get.isRegistered<TotalUserLogic>();
+      if (gg) {
+        var totalUserLogic = Get.find<TotalUserLogic>();
+        totalUserLogic.g.currentState?.setState(() {});
+      }
+      return;
+    }
+    items[loanData.elementAt(index).loanid.toString()] = d;
+    update();
+    bool gg = Get.isRegistered<TotalUserLogic>();
+    if (gg) {
+      var totalUserLogic = Get.find<TotalUserLogic>();
+      totalUserLogic.g.currentState?.setState(() {});
+    }
+  }
+
+  bool getSelectCheckbox(int index) {
+    bool data = false;
+    if (items.containsKey(loanData.elementAt(index).loanid.toString())) {
+      data = items[loanData.elementAt(index).loanid.toString()]!;
+    }
+    return data;
+  }
 
   setDistance(double d) {
     topDistance += d;
     print(topDistance);
   }
 
+  setAllSelect(bool d) {
+    allSelect = d;
+    update();
+  }
 
+  setAllSelectAll(bool d) {
+    if (d) {
+      loanData.map((e) {
+        items[e.loanid.toString()] = true;
+      }).toList();
+    } else {
+      loanData.map((e) {
+        items[e.loanid.toString()] = false;
+      }).toList();
+    }
+    update();
+  }
+
+  int getSelectCount() {
+    int i = 0;
+    items.forEach((key, value) {
+      if (value == true) {
+        i++;
+      }
+    });
+    return i;
+  }
+
+  String getSelectItemString() {
+    List<String> ff = <String>[];
+    items.forEach((key, value) {
+      if (value == true) {
+        ff.add(key);
+      }
+    });
+    return ff.join(",");
+  }
 
   openSelect(int data) {
     if (data == 1) {
@@ -192,14 +253,13 @@ class HomeLogic extends GetxController {
           height: ScreenUtil().screenHeight / 1.2,
           builder: (context) {
             return StatefulBuilder(builder: (context1, setBottomSheetState) {
-              return HomesFilterPage(
-                selectItems: selectItems,
-                onFresh: () {
-                  setBottomSheetState(() {
-                    selectItems.clear();
+              return MyUserFilterPage(
+                  selectItems: selectItems,
+                  onFresh: () {
+                    setBottomSheetState(() {
+                      selectItems.clear();
+                    });
                   });
-                }
-              );
             });
           },
           scrollController: scrollController,
@@ -239,7 +299,8 @@ class HomeLogic extends GetxController {
             selectItems.add(s);
           }
           update();
-        }, onHide: (data) {  },
+        },
+        onHide: (data) {},
       ),
     );
   }
@@ -273,7 +334,8 @@ class HomeLogic extends GetxController {
             selectItems.add(s);
           }
           update();
-        }, onHide: (data) {  },
+        },
+        onHide: (data) {},
       ),
     );
   }

@@ -19,10 +19,10 @@ import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
 
-class MyUserFilterPage extends StatefulWidget {
+class LostFilterPage extends StatefulWidget {
   final List<SelectItem> selectItems;
   final Function onFresh;
-  const MyUserFilterPage({
+  const LostFilterPage({
     Key? key,
     required this.selectItems, required this.onFresh,
   }) : super(key: key);
@@ -31,8 +31,8 @@ class MyUserFilterPage extends StatefulWidget {
   _GZXFilterGoodsPageState createState() => _GZXFilterGoodsPageState();
 }
 
-class _GZXFilterGoodsPageState extends State<MyUserFilterPage> {
-  final logic = Get.find<MyUserLogic>();
+class _GZXFilterGoodsPageState extends State<LostFilterPage> {
+  final logic = Get.find<LostLogic>();
   int minValue = 18;
   int maxValue = 80;
   final List<SelectItem> _valueFrom = [];

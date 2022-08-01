@@ -41,4 +41,5 @@ class AppRoutes {
   static const Channel = '/channel';
   static const SelectResult = '/select_result';
   static const MyUser = '/my_user';
+  static const LostUser = '/lost_user';
 }

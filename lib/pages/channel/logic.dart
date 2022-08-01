@@ -6,6 +6,7 @@ import 'package:flutter_ckt/common/entities/loan/loan.dart';
 import 'package:flutter_ckt/pages/channel/view.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../../../common/routers/names.dart';
@@ -13,6 +14,7 @@ import '../../../../common/widgets/empty_page.dart';
 import '../../../common/entities/loan/channel.dart';
 import '../../../common/services/storage.dart';
 
+import '../oa/user_detail/widget/common_dialog.dart';
 import 'state.dart';
 
 class ChannelLogic extends GetxController {
@@ -34,24 +36,13 @@ class ChannelLogic extends GetxController {
   var dm1 = <MyItem>[];
   String myName = "";
   bool myValue = false;
+  String cnType ="2";
   List<ChannelDataData> loanData = <ChannelDataData>[];
   int page =1;
   List dropdownItemList = [
-    {'label': '装修公司', 'value': '1'}, // label is required and unique
     {'label': '渠道公司', 'value': '2'},
+    {'label': '装修公司', 'value': '3'}, // label is required and unique
   ];
-  List<String> goals = [
-    "请选择",
-    "新分未联系",
-    "号码无效",
-    "号码未接通",
-    "可继续沟通",
-    "有意向面谈",
-    "确定到店时间",
-    "已到店，意愿需跟进",
-    "放弃并放入公海",
-  ];
-  String goalValue = '4.可继续沟通';
   @override
   void onInit() {
     var keyboardVisibilityController = KeyboardVisibilityController();
@@ -86,8 +77,36 @@ class ChannelLogic extends GetxController {
     }
     return null;
   }
+   addChannels() async {
+    String  roleKey = StorageService.to.getString("roleKey");
+    if(roleKey =="salesman"){
+      var d = await CommonAPI.createManageChannel({"cnName":appointController.text,"cnType":cnType});
+      if(d.code ==200){
+        showToast(Get.context!, d.msg!, false);
+        appointController.text="";
+        SmartDialog.dismiss();
+        onRefresh();
+      }else{
+        showToastRed(Get.context!, d.msg!, false);
+      }
+    }
+    if(roleKey =="director"){
+      var d = await CommonAPI.createManageChannel({"cnName":appointController.text,"cnType":cnType});
+      if(d.code ==200){
+        showToast(Get.context!, d.msg!, false);
+        appointController.text="";
+        SmartDialog.dismiss();
+        onRefresh();
+      }else{
+        showToastRed(Get.context!, d.msg!, false);
+      }
+    }
 
-
+  }
+  onDropdownChange(data){
+    remarkFieldNode.unfocus();
+    cnType = data["value"];
+  }
   // 下拉刷新
   void getData(int status) async {
     page =1;

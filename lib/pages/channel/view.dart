@@ -192,12 +192,9 @@ class ChannelPage extends StatelessWidget {
                   height: 500.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(12.w)),
+                    borderRadius: BorderRadius.all(Radius.circular(40.w)),
                   ),
-                  child: SingleChildScrollView(
-                    //alignment: Alignment.bottomCenter,
-                    //maxHeight: 700.h,
-                    child: Stack(
+                  child:Stack(
                       //alignment: AlignmentDirectional.topCenter,
                       children: <Widget>[
 
@@ -206,6 +203,7 @@ class ChannelPage extends StatelessWidget {
                           right: 30.h,
                           child: GestureDetector(
                             onTap: () {
+                              logic.appointController.text="";
                              SmartDialog.dismiss();
                             },
                             child: Image.asset(
@@ -231,7 +229,6 @@ class ChannelPage extends StatelessWidget {
                           children: [
                             Container(
                               margin: EdgeInsets.only(left: 80.w,right:80.w,top: 100.h),
-                              //width: 300.w,
                               height: 80.h,
                               child: Row(
                                 children: [
@@ -239,6 +236,7 @@ class ChannelPage extends StatelessWidget {
 
                                   Expanded(
                                     child: TextField(
+                                      autofocus: false,
                                       controller: logic.appointController,
                                       focusNode: logic.remarkFieldNode,
                                       style: const TextStyle(color: Colors.black),
@@ -250,7 +248,7 @@ class ChannelPage extends StatelessWidget {
                                       showCursor: true,
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.only(left: 40.w,right: 0,top: 50.h,bottom: 0),
-                                        hintText: "请输入...",
+                                        hintText: "请输入渠道名称",
                                         hintStyle:
                                         const TextStyle(color: Colors.blue),
                                         border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
@@ -269,24 +267,34 @@ class ChannelPage extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(left: 80.w,right: 80.w,top: 20.h),
                               child: CoolDropdown(
+                                placeholder: "请选择类型",
+                                placeholderTS:TextStyle(color: Colors.blue, fontSize: 30.sp),
                                 resultHeight: 80.h,
                                 resultWidth: c.width-40.w,
                                 resultPadding: EdgeInsets.only(left: 40.w,right: 40.w),
                                 dropdownList: logic.dropdownItemList,
-                                onChange: (_) {},
+                                onChange: (data) {
+                                  logic.onDropdownChange(data);
+                                },
+                                onOpen: (data) {
+                                  FocusScope.of(Get.context!).requestFocus(FocusNode());
+                                },
                                 defaultValue: logic.dropdownItemList[0],
                                 selectedItemBD:  BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.transparent,
 
                                 ),
-                                  selectedItemTS:TextStyle(color: Colors.blue, fontSize: 20),
+                                  selectedItemTS:TextStyle(color: Colors.blue, fontSize: 30.sp),
+                                  unselectedItemTS:TextStyle(color: Colors.black, fontSize: 30.sp),
                                 resultBD:    BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(40.h),
                                   border: Border.all(width: 2.w,color: Colors.blue)
                                 ),
-                                dropdownWidth: c.width-40.w,
+                                resultTS: TextStyle(color: Colors.black, fontSize: 30.sp),
+                                dropdownWidth: c.width-240.w,
+                                isTriangle: true,
                                 // placeholder: 'insert...',
                               ),
                             ),
@@ -302,7 +310,7 @@ class ChannelPage extends StatelessWidget {
                                         Radius.circular(40.h))),
                                 color: Colors.lightBlue,
                                 onPressed: () {
-
+                                  logic.addChannels();
                                 },
                                 child: Text("提交",
                                     style: TextStyle(
@@ -317,7 +325,6 @@ class ChannelPage extends StatelessWidget {
 
 
                       ],
-                    ),
                   ),
                 ),
 

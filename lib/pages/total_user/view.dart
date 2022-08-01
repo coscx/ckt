@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../common/widgets/dy_behavior_null.dart';
+import '../lost_user/logic.dart';
 import '../my_user/logic.dart';
 import 'logic.dart';
 
@@ -80,15 +81,29 @@ class TotalUserPage extends StatelessWidget {
                         builder: (context1, setBottomSheetState) {
                           return logic.myCurrentIndex > 0 ? GestureDetector(
                             onTap: () {
-                              logic.selected = true;
-                              //selected ? title = "取消" : title = "选择";
-                              logic.title = "选择";
-                              bool gg = Get.isRegistered<MyUserLogic>();
-                              if (gg) {
-                                var peerChatLogic = Get.find<MyUserLogic>();
-                                peerChatLogic.setAllSelect(logic.selected);
+                              if (logic.myCurrentIndex ==1){
+                                logic.selected = true;
+                                //selected ? title = "取消" : title = "选择";
+                                logic.title = "选择";
+                                bool gg = Get.isRegistered<MyUserLogic>();
+                                if (gg) {
+                                  var peerChatLogic = Get.find<MyUserLogic>();
+                                  peerChatLogic.setAllSelect(logic.selected);
+                                }
+                                logic.showMyMenu();
                               }
-                              logic.showMyMenu();
+                              if (logic.myCurrentIndex ==2){
+                                logic.selected = true;
+                                //selected ? title = "取消" : title = "选择";
+                                logic.title = "选择";
+                                bool gg = Get.isRegistered<LostLogic>();
+                                if (gg) {
+                                  var peerChatLogic = Get.find<LostLogic>();
+                                  peerChatLogic.setAllSelect(logic.selected);
+                                }
+                                logic.showMyMenu();
+                              }
+
                             },
                             child: Container(
                                 padding: EdgeInsets.only(right: 60.w),

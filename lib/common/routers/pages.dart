@@ -69,6 +69,8 @@ import '../../pages/calcucation_result/view.dart';
 import '../../pages/friend/binding.dart';
 import '../../pages/friend/view.dart';
 import '../../pages/home/binding.dart';
+import '../../pages/lost_user/binding.dart';
+import '../../pages/lost_user/view.dart';
 import '../../pages/oa/person/follow/view.dart';
 import '../../pages/oa/person/public/binding.dart';
 import '../../pages/oa/person/public/view.dart';
@@ -324,6 +326,12 @@ class AppPages {
         name: AppRoutes.MyUser,
         page: () => MyUserPage(),
         binding: MyUserBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.LostUser,
+        page: () => LostPage(),
+        binding: LostBinding(),
         transition: Transition.rightToLeft
     ),
   ];

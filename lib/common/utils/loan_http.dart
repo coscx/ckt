@@ -263,8 +263,6 @@ class NewLoanHttpUtil {
     if (authorization != null) {
       requestOptions.headers!.addAll(authorization);
     }
-
-
       var response = await dio.post(
         path,
         data: data,
@@ -273,7 +271,6 @@ class NewLoanHttpUtil {
         cancelToken: cancelToken,
       );
       EasyLoading.dismiss();
-
       return response.data;
   }
 
