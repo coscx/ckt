@@ -341,6 +341,13 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
+  static Future<CommonResult> createSaleManChannel(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/CreateSaleManChannel',
+      data: data,
+    );
+    return CommonResult.fromJson(response);
+  }
   static Future<AppVersionEntity> getVersion() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/auth/version',

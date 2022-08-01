@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/services/services.dart';
+import 'package:flutter_ckt/pages/application/index.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -202,189 +203,8 @@ class MinePage extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     <Widget>[
-                      Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.h,
-                              bottom: 20.h,
-                              left: 20.w,
-                              right: 20.w
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
 
-                                },
-                                child: TopCard(
-                                  url: 'assets/images/default/lost.png',
-                                  title: '昨日流失',
-                                  content: logic.lost,
-                                  colorStart: Color(0xff0CDAC5),
-                                  colorEnd: Color(0xff3BBFF9),
-                                ),
-                              ), GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.Fine);
-                                },
-                                child: TopCard(
-                                  url: 'assets/images/default/join.png',
-                                  title: '昨日入库',
-                                  content: logic.join,
-                                  colorStart: Color(0xffF6A681),
-                                  colorEnd: Color(0xffF86CA0),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  //Navigator.pushNamed(context, UnitRouter.connect);
-                                },
-                                child: TopCard(
-                                  url: 'assets/images/default/connect.png',
-                                  title: '昨日沟通',
-                                  content: logic.connect,
-                                  colorStart: Color(0xff9A7FF6),
-                                  colorEnd: Color(0xffEA76EE),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-//                       Container(
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(10.w),
-//                             color: Colors.white,
-//                             boxShadow: [BoxShadow(color: Color(0x19000000),
-//                                 offset: Offset(0.5, 0.5),
-//                                 blurRadius: 1.5,
-//                                 spreadRadius: 1.5), BoxShadow(
-//                                 color: Colors.white)
-//                             ],
-//                           ),
-//                           margin: EdgeInsets.fromLTRB(30.w, 40.h, 30.w, 0),
-//                           child: ClipRRect(
-//                               borderRadius: BorderRadius.circular(10.w),
-//                               child: Container(
-//
-//                                 margin: EdgeInsets.fromLTRB(30.w, 0.h, 30.w, 0),
-//
-//                                 child: Row(
-//
-//                                   mainAxisAlignment: MainAxisAlignment
-//                                       .spaceBetween,
-//                                   mainAxisSize: MainAxisSize.max,
-// //                交叉轴的布局方式，对于column来说就是水平方向的布局方式
-//                                   crossAxisAlignment: CrossAxisAlignment.center,
-//                                   //就是字child的垂直布局方向，向上还是向下
-//                                   verticalDirection: VerticalDirection.down,
-//                                   children: <Widget>[
-//                                     // SizedBox(
-//                                     //   width: ScreenUtil().setWidth(10.w),
-//                                     // ),
-//                                     GestureDetector(
-//                                         onTap: () {
-//                                           // Navigator.pushNamed(context, UnitRouter.create_user_page);
-//                                           Get.toNamed(AppRoutes.CreateUser);
-//                                         },
-//                                         child: Container(
-//                                           padding: const EdgeInsets.only(
-//                                             //top: 20.h,
-//                                             // bottom: 15.h,
-//
-//                                           ),
-//                                           child: Column(children: <Widget>[
-//                                             Container(
-//                                               height: 150.h,
-//                                               width: 150.w,
-//                                               alignment: FractionalOffset
-//                                                   .topLeft,
-//                                               child: Lottie.asset(
-//                                                   'assets/packages/lottie_flutter/85263-plus-sky-theme.json'),
-//                                             ),
-//
-//
-//                                           ]),
-//                                         )),
-//
-//
-//                                     GestureDetector(
-//                                         onTap: () {
-//                                           //Navigator.pushNamed(context, UnitRouter.select_page);
-//
-//                                         },
-//                                         child: Container(
-//                                           padding: EdgeInsets.only(
-//                                           ),
-//                                           child: Column(children: <Widget>[
-//                                             Container(
-//                                               height: 150.h,
-//                                               width: 150.w,
-//                                               alignment: FractionalOffset
-//                                                   .topLeft,
-//                                               child: Lottie.asset(
-//                                                   'assets/packages/lottie_flutter/98042-robot.json'),
-//                                             ),
-//
-//                                           ]),
-//                                         )),
-//
-//                                     GestureDetector(
-//                                         onTap: () {
-//
-//                                         },
-//                                         child: Container(
-//                                           padding: EdgeInsets.only(
-//                                             top: 0.h,
-//                                             bottom: 0.h,
-//
-//                                           ),
-//                                           child: Column(children: <Widget>[
-//                                             Container(
-//                                               height: 150.h,
-//                                               width: 150.w,
-//                                               alignment: FractionalOffset
-//                                                   .topLeft,
-//                                               child: Lottie.asset(
-//                                                   'assets/packages/lottie_flutter/97568-graph.json'),
-//                                             ),
-//
-//                                           ]),
-//                                         )
-//
-//                                     ),
-//
-//                                     GestureDetector(
-//                                       onTap: () {
-//
-//
-//                                       },
-//                                       child: Container(
-//                                         padding: const EdgeInsets.only(
-//                                           // top: 10.h,
-//                                           // bottom: 10.h,
-//
-//                                         ),
-//                                         child: Column(children: <Widget>[
-//                                           Container(
-//                                             height: 150.h,
-//                                             width: 150.w,
-//                                             alignment: FractionalOffset.topLeft,
-//                                             child: Lottie.asset(
-//                                                 'assets/packages/lottie_flutter/97577-instagram.json'),
-//                                           ),
-//
-//                                         ]),
-//                                       ),
-//                                     ),
-//
-//                                   ],
-//                                 ),
-//                               ))),
-
+                      saleManGrid(),
 
                       Container(
                         color: Colors.white,
@@ -446,6 +266,74 @@ class MinePage extends StatelessWidget {
         })
     );
   }
+  Widget saleManGrid(){
+    if(logic.index ==1)
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: 0.h,
+            bottom: 20.h,
+            left: 20.w,
+            right: 20.w
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                bool gg = Get.isRegistered<ApplicationController>();
+                if (gg) {
+                  var homeLogic = Get.find<ApplicationController>();
+                  homeLogic.handleNavBarTap(0);
+                }
+              },
+              child: TopCard(
+                url: 'assets/images/ckt/dailianxi.408c6882.png',
+                title: '今日待联系',
+                content: logic.gridData.pendingcontact.toString(),
+                colorStart: Color(0xfffd7193),
+                colorEnd: Color(0xffffa1bf),
+              ),
+            ), GestureDetector(
+              onTap: () {
+                bool gg = Get.isRegistered<ApplicationController>();
+                if (gg) {
+                  var homeLogic = Get.find<ApplicationController>();
+                  homeLogic.handleNavBarTap(0);
+                }
+              },
+              child: TopCard(
+                url: 'assets/images/ckt/daitijiao.89f06227.png',
+                title: '今日待提交',
+                content: logic.gridData.pendingsubmission.toString(),
+                colorStart: Color(0xffb886fd),
+                colorEnd: Color(0xffd8aeff),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                bool gg = Get.isRegistered<ApplicationController>();
+                if (gg) {
+                  var homeLogic = Get.find<ApplicationController>();
+                  homeLogic.handleNavBarTap(0);
+                }
+              },
+              child: TopCard(
+                url: 'assets/images/ckt/bujian.80263e31.png',
+                title: '今日待补件',
+                content: logic.gridData.pendingsupplement.toString(),
+                colorStart: Color(0xff87ebc6),
+                colorEnd: Color(0xff41daa1),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    return Container();
+  }
+
   _exit(BuildContext context) {
     showDialog(
         context: context,
@@ -566,8 +454,8 @@ class TopCard extends StatelessWidget {
                 bottom: -16.w,
                 right: 10.w,
                 //margin: EdgeInsets.only( bottom: 0.h,right: 10.w),
-                width: 80.w,
-                height: 80.h,
+                width: 70.w,
+                height: 70.h,
                 child: Image.asset(
                     url),
               ),

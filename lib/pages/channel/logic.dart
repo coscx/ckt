@@ -80,7 +80,7 @@ class ChannelLogic extends GetxController {
    addChannels() async {
     String  roleKey = StorageService.to.getString("roleKey");
     if(roleKey =="salesman"){
-      var d = await CommonAPI.createManageChannel({"cnName":appointController.text,"cnType":cnType});
+      var d = await CommonAPI.createSaleManChannel({"cnName":appointController.text,"cnType":cnType});
       if(d.code ==200){
         showToast(Get.context!, d.msg!, false);
         appointController.text="";

@@ -44,6 +44,9 @@ class CustomCalendarState extends State<CustomCalendar> {
 
   @override
   void initState() {
+    if (widget.initialStartDate != null) {
+      currentMonthDate = widget.initialStartDate!;
+    }
     setListOfDate(currentMonthDate);
     if (widget.initialStartDate != null) {
       startDate = widget.initialStartDate;
@@ -183,7 +186,7 @@ class CustomCalendarState extends State<CustomCalendar> {
         Expanded(
           child: Center(
             child: Text(
-              DateFormat('EEE','zh_cn').format(dateList[i]),
+              DateFormat('EEE', 'zh_cn').format(dateList[i]),
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

@@ -39,7 +39,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
   final List<String> _dropDownHeaderItemStrings = [
     '操作步骤',
     '来源渠道',
-    '所属员工',
+    '当前员工',
     '更多'
   ];
   final List<SortCondition> _brandSortConditions = [];
@@ -88,6 +88,19 @@ class _AppBarComponentState extends State<AppBarComponent> {
         }
       }
 
+    }else if (roleKey == "salesman") {
+      var result = await CommonAPI.getSaleManStep({});
+      if (result.code == 200) {
+        List<StepDataData> da = result.data!.data!;
+        for (var value in da) {
+          SortCondition cc1 = SortCondition();
+          cc1.name = value.label + "(" + value.num.toString() + ")";
+          cc1.id = value.status;
+          cc1.isSelected = false;
+          _brandSortConditions.add(cc1);
+        }
+      }
+
     } else {}
 
     if (!mounted) return;
@@ -122,9 +135,9 @@ class _AppBarComponentState extends State<AppBarComponent> {
       _dropDownHeaderItemStrings[1] ="来源渠道";
     }
     if(getTitleName(9)!=""){
-      _dropDownHeaderItemStrings[2] = getTitleName(9);
+      _dropDownHeaderItemStrings[2] = getTitleName(10);
     }else{
-      _dropDownHeaderItemStrings[2] ="所属员工";
+      _dropDownHeaderItemStrings[2] ="当前员工";
     }
     return Stack(
       key: _stackKey,
@@ -153,7 +166,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
                               : Colors.redAccent)),
                   GZXDropDownHeaderItem(_dropDownHeaderItemStrings[2],
                       style: TextStyle(
-                          color: (_dropDownHeaderItemStrings[2] == "所属员工")
+                          color: (_dropDownHeaderItemStrings[2] == "当前员工")
                               ? Colors.black
                               : Colors.redAccent)),
                   GZXDropDownHeaderItem(_dropDownHeaderItemStrings[3],

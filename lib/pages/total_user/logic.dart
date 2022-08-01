@@ -48,7 +48,7 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
       subPage = ["全部客户", "我的客户"];
     } else if (roleKey == "salesman") {
       pageList = [
-        KeepAliveWrapper(child: MyUserPage()),
+        KeepAliveWrapper(child: HomePage()),
       ];
       subPage = ["我的客户"];
     } else if (roleKey == "director") {

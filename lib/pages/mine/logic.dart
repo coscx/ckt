@@ -1,3 +1,4 @@
+import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
 import 'package:flutter_ckt/common/services/services.dart';
 import 'package:get/get.dart';
 import 'package:fluwx_no_pay/fluwx_no_pay.dart' as fluwx;
@@ -15,6 +16,8 @@ class MineLogic extends GetxController {
   String lost="0";
   String join="0";
   String connect="0";
+  int index =0;
+  late SaleManGridDataData gridData;
   @override
   void onInit() {
     init();
@@ -63,6 +66,23 @@ class MineLogic extends GetxController {
      // }
     update();
    });
+
+   String  roleKey = StorageService.to.getString("roleKey");
+   if(roleKey =="super"){
+    index =0;
+   }
+   if(roleKey =="salesman"){
+     index =1;
+     var d = await CommonAPI.getSaleManGrid();
+     if (d.data != null && d.data?.data != null) {
+       gridData = d.data!.data!;
+     }
+
+   }
+   if(roleKey =="director"){
+     index =2;
+   }
+
   }
   void bindWxOnTap(){
     fluwx

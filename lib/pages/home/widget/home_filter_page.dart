@@ -73,7 +73,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
   List<SelectItem> dataString = <SelectItem>[];
   List<SelectItem> channelSelect = <SelectItem>[];
   List<SelectItem>? selectedDataString;
-
+  late List<StepDataData> stepDataData;
   @override
   void initState() {
     super.initState();
@@ -138,20 +138,6 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
       _valueMarriage.add(ff);
     }
 
-    var result = await CommonAPI.getOnlyStoreList();
-    if (result.code == 200) {
-      List<StoreData> da = result.Data;
-      for (var value in da) {
-        StoreItem ff = StoreItem();
-        ff.id = value.id;
-        ff.type = 7;
-        ff.name = value.name;
-        ff.index = 0;
-        ff.isSelect = false;
-        pickerStoreItem.add(ff);
-        pickerStoreData.add(value.name);
-      }
-    } else {}
     String storeId = "";
     for (int j = 0; j < widget.selectItems.length; j++) {
       if (widget.selectItems[j].type == 100) {
@@ -160,8 +146,8 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
     }
     var results = await CommonAPI.getSuperStep({});
     if (results.code == 200) {
-      List<StepDataData> da = results.data!.data!;
-      for (var value in da) {
+      stepDataData= results.data!.data!;
+      for (var value in stepDataData) {
         SelectItem ff = SelectItem();
         ff.id = value.status.toString();
         ff.num = value.num;
@@ -170,7 +156,9 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         ff.isSelect = false;
         dataString.add(ff);
       }
-    } else {}
+    } else {
+
+    }
     if(mounted)
     setState(() {});
   }
@@ -504,7 +492,9 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-
+    if(widget.selectItems.isEmpty){
+      fromUserName="选择用户";
+    }
     return Column(
       children: [
         Container(
@@ -660,15 +650,8 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-
-    for (int j = 0; j < pickerUserItem.length; j++) {
-      if (pickerUserItem[j].id == selectUserId.toString()) {
-        break;
-      }
-      userId++;
-    }
-    if (selectUserId == 0) {
-      userId = 0;
+    if(widget.selectItems.isEmpty){
+      currentUserName="选择用户";
     }
     return Column(
       children: [
@@ -824,7 +807,9 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-
+    if(widget.selectItems.isEmpty){
+      userChannelName="选择渠道";
+    }
     return Column(
       children: [
         Container(
@@ -1240,8 +1225,8 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
 
                   _buildGroupStep(
                       '操作步骤', false, dataString, widget.selectItems),
-                  DateRange(title: "操作时间", selectItems: widget.selectItems,startIndex: 5,endIndex: 6,),
-                  DateRange(title: "获取时间", selectItems: widget.selectItems,startIndex: 7,endIndex: 8,),
+                  DateRange(title: "放款时间", selectItems: widget.selectItems,startIndex: 5,endIndex: 6,type: 1,),
+                  DateRange(title: "获取时间", selectItems: widget.selectItems,startIndex: 7,endIndex: 8,type: 2,),
                   //buildBirthday("生日选择"),
                   buildFromUser("所属员工"),
                   buildCurrentUser("当前员工"),
@@ -1309,7 +1294,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                         endBirthDayValue = "";
                         storeName = "选择门店";
                         userName = "选择用户";
-                        showToastBottom(context, "重置成功", true);
+                        showToast(context, "重置成功", true);
                         widget.onFresh();
                         logic.onRefresh();
                       },
@@ -1375,7 +1360,8 @@ class DateRange extends StatefulWidget {
   final String title;
   final int startIndex;
   final int endIndex;
-  DateRange({Key? key, required this.selectItems, required this.title, required this.startIndex, required this.endIndex}) : super(key: key);
+  final int type;
+  DateRange({Key? key, required this.selectItems, required this.title, required this.startIndex, required this.endIndex, required this.type}) : super(key: key);
 
   @override
   State<DateRange> createState() => _DateRangeState();
@@ -1405,8 +1391,18 @@ class _DateRangeState extends State<DateRange> {
         endDate = DateTime.parse(widget.selectItems[j].id!);
       }
     }
+
+    if (widget.selectItems.isEmpty){
+       startBirthDayTitle = "";
+       endBirthDayTitle = "请选择";
+       dateBirthRangeTitle ="请选择日期";
+       startBirthDayValue = "";
+       endBirthDayValue = "";
+       startDate=null;
+       endDate=null;
+    }
     if (startBirthDayTitle !="")
-    dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
+      dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
     return Column(
       children: [
         Container(
