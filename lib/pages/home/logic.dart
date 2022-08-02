@@ -65,7 +65,12 @@ class HomeLogic extends GetxController {
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
-    } else {
+    } else if (roleKey == "administration") {
+      var d = await CommonAPI.getAdministrativeMyUserList(getFilter({}));
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    }else {
       var d = await CommonAPI.getSuperAllUserList(getFilter({}));
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
@@ -93,12 +98,18 @@ class HomeLogic extends GetxController {
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
-    } else {
+    } else if (roleKey == "administration") {
+      var d = await CommonAPI.getAdministrativeMyUserList(getFilter({}));
+      if (d.data != null && d.data?.data != null) {
+        loanData = d.data!.data!;
+      }
+    }  else {
       var d = await CommonAPI.getSuperAllUserList(getFilter({}));
       if (d.data != null && d.data?.data != null) {
         loanData = d.data!.data!;
       }
     }
+    refreshController.resetNoData();
     refreshController.refreshCompleted();
     update();
   }
@@ -153,7 +164,21 @@ class HomeLogic extends GetxController {
           }
         }
       }
-    } else {
+    } else if (roleKey == "administration") {
+      var d =
+      await CommonAPI.getAdministrativeMyUserList(getFilter({"pageNum": curPage}));
+      if (d.data != null && d.data?.data != null) {
+        loanData.addAll(d.data!.data!);
+        p = d.data!.total;
+        if (p > 0) {
+          double currentPage = p / 15;
+          if (curPage > currentPage.ceil()) {
+            refreshController.loadNoData();
+            return;
+          }
+        }
+      }
+    }else {
       var d =
           await CommonAPI.getSuperAllUserList(getFilter({"pageNum": curPage}));
       if (d.data != null && d.data?.data != null) {

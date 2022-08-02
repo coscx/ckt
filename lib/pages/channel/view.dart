@@ -386,7 +386,7 @@ class ChannelPage extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Get.toNamed(AppRoutes.Fine,
-                arguments: {"cn_id": e.cnid, "title": e.cnname});
+                arguments: {"cn_id": e.cnid, "title": e.cnname,"remark": e.remark});
           },
           child: MyChannelContent(
             cnId: e.cnid,

@@ -49,11 +49,7 @@ class ApplicationPage extends GetView<ApplicationController> {
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
-        TotalUserPage(),
-        ChannelPage(),
-        CalcucationPage(),
-        ConversionPage(),
-        MinePage(),
+        ...controller.pages
       ],
       controller: controller.pageController,
       onPageChanged: controller.handlePageChanged,

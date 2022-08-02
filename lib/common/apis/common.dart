@@ -28,6 +28,7 @@ import '../entities/detail/appoint.dart';
 import '../entities/home/common.dart';
 import '../entities/home/only_store.dart';
 import '../entities/home/search_erp.dart';
+import '../entities/loan/audit.dart';
 import '../entities/loan/friend.dart';
 import '../entities/loan/loan.dart';
 import '../entities/loan/quota.dart';
@@ -233,7 +234,7 @@ class CommonAPI {
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> geAdministrativeStaff(Map<String,dynamic> data) async {
+  static Future<Staff> getAdministrativeStaff(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeStaff',
       data: data,
@@ -256,7 +257,7 @@ class CommonAPI {
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> geAdministrativeEmployees(Map<String,dynamic> data) async {
+  static Future<Staff> getAdministrativeEmployees(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeEmployees',
       data: data,
@@ -292,12 +293,33 @@ class CommonAPI {
     );
     return SaleManDetail.fromJson(response);
   }
-  static Future<SaleManDetail> getAdministrativeAuditList(int id) async {
+  static Future<SaleManDetail> getManageDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
-      '/api/GetAdministrativeAuditList',
+      '/api/GetManageDetail',
       data: {"id":id},
     );
     return SaleManDetail.fromJson(response);
+  }
+  static Future<SaleManDetail> getAdministrativeDetail(int id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeDetail',
+      data: {"id":id},
+    );
+    return SaleManDetail.fromJson(response);
+  }
+  static Future<SaleManDetail> getSuperDetail(int id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetSuperDetail',
+      data: {"id":id},
+    );
+    return SaleManDetail.fromJson(response);
+  }
+  static Future<Audit> getAdministrativeAuditList(Map<String,dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetAdministrativeAuditList',
+      data: data,
+    );
+    return Audit.fromJson(response);
   }
   static Future<SaleMan> getManageAbandonList(Map<String,dynamic> data) async {
     var response = await NewLoanHttpUtil().post(

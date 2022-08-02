@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/step.dart';
-import 'package:flutter_ckt/common/routers/names.dart';
-import 'package:flutter_ckt/pages/select_result/view.dart';
 import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,26 +9,20 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/only_store.dart';
-import '../../../common/services/storage.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
-import '../../../common/widgets/bottom_picker/bottom_picker.dart';
-import '../../../common/widgets/bottom_picker/resources/arrays.dart';
-import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
-import '../../../common/widgets/flutter_custom_select/widget/flutter_single_select.dart';
 import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
 import 'multi_select.dart';
 
-class HomesFilterPage extends StatefulWidget {
+class AuditUserFilterPage extends StatefulWidget {
   final List<SelectItem> selectItems;
   final Function onFresh;
-  const HomesFilterPage({
+  const AuditUserFilterPage({
     Key? key,
     required this.selectItems, required this.onFresh,
   }) : super(key: key);
@@ -39,8 +31,8 @@ class HomesFilterPage extends StatefulWidget {
   _GZXFilterGoodsPageState createState() => _GZXFilterGoodsPageState();
 }
 
-class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
-  final logic = Get.find<HomeLogic>();
+class _GZXFilterGoodsPageState extends State<AuditUserFilterPage> {
+  final logic = Get.find<AuditUserLogic>();
   int minValue = 18;
   int maxValue = 80;
   final List<SelectItem> _valueFrom = [];
@@ -74,7 +66,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
   List<SelectItem> dataString = <SelectItem>[];
   List<SelectItem> channelSelect = <SelectItem>[];
   List<SelectItem>? selectedDataString;
-  List<StepDataData> stepDataData=<StepDataData>[];
+
   @override
   void initState() {
     super.initState();
@@ -139,46 +131,39 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
       _valueMarriage.add(ff);
     }
 
+    var result = await CommonAPI.getOnlyStoreList();
+    if (result.code == 200) {
+      List<StoreData> da = result.Data;
+      for (var value in da) {
+        StoreItem ff = StoreItem();
+        ff.id = value.id;
+        ff.type = 7;
+        ff.name = value.name;
+        ff.index = 0;
+        ff.isSelect = false;
+        pickerStoreItem.add(ff);
+        pickerStoreData.add(value.name);
+      }
+    } else {}
     String storeId = "";
     for (int j = 0; j < widget.selectItems.length; j++) {
       if (widget.selectItems[j].type == 100) {
         storeId = widget.selectItems[j].id!;
       }
     }
-    String roleKey = StorageService.to.getString("roleKey");
-    if (roleKey == "super") {
-      var results = await CommonAPI.getSuperStep({});
-      if (results.code == 200) {
-        stepDataData= results.data!.data!;
+    var results = await CommonAPI.getSuperStep({});
+    if (results.code == 200) {
+      List<StepDataData> da = results.data!.data!;
+      for (var value in da) {
+        SelectItem ff = SelectItem();
+        ff.id = value.status.toString();
+        ff.num = value.num;
+        ff.type = 99;
+        ff.name = value.label + "(" + value.num.toString() + ")";
+        ff.isSelect = false;
+        dataString.add(ff);
       }
-    }
-    if (roleKey == "director") {
-      var results = await CommonAPI.getManageStep({});
-      if (results.code == 200) {
-        stepDataData= results.data!.data!;
-      }
-    }
-    if (roleKey == "salesman") {
-      var results = await CommonAPI.getSaleManStep({});
-      if (results.code == 200) {
-        stepDataData= results.data!.data!;
-      }
-    }
-    if (roleKey == "administration") {
-      var results = await CommonAPI.getAdministrativeStep({});
-      if (results.code == 200) {
-        stepDataData= results.data!.data!;
-      }
-    }
-    for (var value in stepDataData) {
-      SelectItem ff = SelectItem();
-      ff.id = value.status.toString();
-      ff.num = value.num;
-      ff.type = 99;
-      ff.name = value.label + "(" + value.num.toString() + ")";
-      ff.isSelect = false;
-      dataString.add(ff);
-    }
+    } else {}
     if(mounted)
     setState(() {});
   }
@@ -512,9 +497,10 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-    if(widget.selectItems.isEmpty){
-      fromUserName="选择用户";
+    if(widget.selectItems.length ==0){
+      fromUserName ="选择用户";
     }
+
     return Column(
       children: [
         Container(
@@ -670,8 +656,15 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-    if(widget.selectItems.isEmpty){
-      currentUserName="选择用户";
+
+    for (int j = 0; j < pickerUserItem.length; j++) {
+      if (pickerUserItem[j].id == selectUserId.toString()) {
+        break;
+      }
+      userId++;
+    }
+    if (selectUserId == 0) {
+      userId = 0;
     }
     return Column(
       children: [
@@ -827,9 +820,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
         break;
       }
     }
-    if(widget.selectItems.isEmpty){
-      userChannelName="选择渠道";
-    }
+
     return Column(
       children: [
         Container(
@@ -1245,8 +1236,8 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
 
                   _buildGroupStep(
                       '操作步骤', false, dataString, widget.selectItems),
-                  DateRange(title: "放款时间", selectItems: widget.selectItems,startIndex: 5,endIndex: 6,type: 1,),
-                  DateRange(title: "获取时间", selectItems: widget.selectItems,startIndex: 7,endIndex: 8,type: 2,),
+                  DateRange(title: "操作时间", selectItems: widget.selectItems,startIndex: 5,endIndex: 6,),
+                  DateRange(title: "获取时间", selectItems: widget.selectItems,startIndex: 7,endIndex: 8,),
                   //buildBirthday("生日选择"),
                   buildFromUser("所属员工"),
                   buildCurrentUser("当前员工"),
@@ -1314,7 +1305,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                         endBirthDayValue = "";
                         storeName = "选择门店";
                         userName = "选择用户";
-                        showToast(context, "重置成功", true);
+                        showToastBottom(context, "重置成功", true);
                         widget.onFresh();
                         logic.onRefresh();
                       },
@@ -1380,8 +1371,7 @@ class DateRange extends StatefulWidget {
   final String title;
   final int startIndex;
   final int endIndex;
-  final int type;
-  DateRange({Key? key, required this.selectItems, required this.title, required this.startIndex, required this.endIndex, required this.type}) : super(key: key);
+  DateRange({Key? key, required this.selectItems, required this.title, required this.startIndex, required this.endIndex}) : super(key: key);
 
   @override
   State<DateRange> createState() => _DateRangeState();
@@ -1411,18 +1401,8 @@ class _DateRangeState extends State<DateRange> {
         endDate = DateTime.parse(widget.selectItems[j].id!);
       }
     }
-
-    if (widget.selectItems.isEmpty){
-       startBirthDayTitle = "";
-       endBirthDayTitle = "请选择";
-       dateBirthRangeTitle ="请选择日期";
-       startBirthDayValue = "";
-       endBirthDayValue = "";
-       startDate=null;
-       endDate=null;
-    }
     if (startBirthDayTitle !="")
-      dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
+    dateBirthRangeTitle = startBirthDayTitle+"至"+endBirthDayTitle;
     return Column(
       children: [
         Container(

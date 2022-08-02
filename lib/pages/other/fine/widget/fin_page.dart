@@ -62,11 +62,13 @@ class _FinPageState extends State<FinPages> {
   var ff =Get.arguments;
   int cnId =0 ;
   String titles ="我的客户";
+  String remark ="";
   @override
   void initState() {
     if  (ff!=null) {
       cnId = ff["cn_id"];
       titles = ff["title"];
+      remark = ff["remark"];
     }
     _df();
     super.initState();
@@ -206,7 +208,7 @@ class _FinPageState extends State<FinPages> {
                         context: context,
                         barrierDismissible: false,
                         builder: (BuildContext context) {
-                          return LoginDialog();
+                          return QrCodeDialog(remark+"?code="+cnId.toString());
                         });
                   },
                   child: Container(

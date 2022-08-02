@@ -14,9 +14,10 @@ import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import '../../../user_detail/widget/share.dart';
 
-class LoginDialog extends Dialog {
-  LoginDialog() ;
-  GlobalKey repaintWidgetKey = GlobalKey(); // 绘图key值
+class QrCodeDialog extends Dialog {
+  final String url;
+  final GlobalKey repaintWidgetKey = GlobalKey();
+  QrCodeDialog(this.url); // 绘图key值
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -74,7 +75,7 @@ class LoginDialog extends Dialog {
                                 child: Container(
                                   padding: EdgeInsets.only(top: 0,bottom: 0,left: 10.w,right:10.w ),
                                   child: SfBarcodeGenerator(
-                                    value: 'www.syncfusion.com',
+                                    value: url,
                                     symbology: QRCode(),
                                     showValue: false,
                                   ),

@@ -5,8 +5,6 @@ import 'package:flutter_ckt/common/entities/loan/step.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
-import '../../../common/entities/home/common.dart';
 import '../../../common/entities/home/common.dart';
 import '../../../common/services/storage.dart';
 import '../../../common/widgets/dropdown/src/gzx_dropdown_header.dart';
@@ -30,7 +28,7 @@ class AppBarComponent extends StatefulWidget {
 }
 
 class _AppBarComponentState extends State<AppBarComponent> {
-  final logic = Get.find<HomeLogic>();
+  final logic = Get.find<AuditUserLogic>();
   List<CitySelect> firstLevels = <CitySelect>[];
   List<StoreSelect> all = <StoreSelect>[];
   final String title = "";
@@ -76,45 +74,10 @@ class _AppBarComponentState extends State<AppBarComponent> {
         }
       }
     } else if (roleKey == "director") {
-      var result = await CommonAPI.getManageStep({});
-      if (result.code == 200) {
-        List<StepDataData> da = result.data!.data!;
-        for (var value in da) {
-          SortCondition cc1 = SortCondition();
-          cc1.name = value.label + "(" + value.num.toString() + ")";
-          cc1.id = value.status;
-          cc1.isSelected = false;
-          _brandSortConditions.add(cc1);
-        }
-      }
 
-    }else if (roleKey == "salesman") {
-      var result = await CommonAPI.getSaleManStep({});
-      if (result.code == 200) {
-        List<StepDataData> da = result.data!.data!;
-        for (var value in da) {
-          SortCondition cc1 = SortCondition();
-          cc1.name = value.label + "(" + value.num.toString() + ")";
-          cc1.id = value.status;
-          cc1.isSelected = false;
-          _brandSortConditions.add(cc1);
-        }
-      }
+    } else {
 
-    } else if (roleKey == "administration") {
-      var result = await CommonAPI.getAdministrativeStep({});
-      if (result.code == 200) {
-        List<StepDataData> da = result.data!.data!;
-        for (var value in da) {
-          SortCondition cc1 = SortCondition();
-          cc1.name = value.label + "(" + value.num.toString() + ")";
-          cc1.id = value.status;
-          cc1.isSelected = false;
-          _brandSortConditions.add(cc1);
-        }
-      }
-
-    }else {}
+    }
 
     if (!mounted) return;
     setState(() {});
@@ -147,8 +110,8 @@ class _AppBarComponentState extends State<AppBarComponent> {
     }else{
       _dropDownHeaderItemStrings[1] ="来源渠道";
     }
-    if(getTitleName(10)!=""){
-      _dropDownHeaderItemStrings[2] = getTitleName(10);
+    if(getTitleName(9)!=""){
+      _dropDownHeaderItemStrings[2] = getTitleName(9);
     }else{
       _dropDownHeaderItemStrings[2] ="当前员工";
     }

@@ -323,8 +323,8 @@ class MinePage extends StatelessWidget {
                 url: 'assets/images/ckt/bujian.80263e31.png',
                 title: '今日待补件',
                 content: logic.gridData.pendingsupplement.toString(),
-                colorStart: Color(0xff87ebc6),
-                colorEnd: Color(0xff41daa1),
+                colorStart: Color(0xff41daa1),
+                colorEnd: Color(0xff87ebc6),
               ),
             )
           ],

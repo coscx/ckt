@@ -305,7 +305,54 @@ class _SelectPageState extends State<SelectPage> {
 
       }
     } else if (roleKey == "administration") {
+      if (widget.type ==1){
+        var d = await CommonAPI.getAdministrativeEmployees({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.nickname,
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.nickname)
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: e.sex ==null ? 0: int.parse(e.sex.toString()),
+                id: e.userid);
+          }).toList();
+        }
 
+      }
+      if (widget.type ==2){
+        var d = await CommonAPI.getAdministrativeStaff({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.nickname,
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.nickname)
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: e.sex ==null ? 0: int.parse(e.sex.toString()),
+                id: e.userid);
+          }).toList();
+        }
+
+      }
+      if (widget.type ==3){
+        var d = await CommonAPI.getAdministrativeChannel({});
+        if (d.data != null && d.data?.data != null) {
+          dr = d.data!.data!.map((e) {
+            return Friends(
+                imageAssets: 'assets/images/friend/tag.png',
+                name: e.cnname.toString(),
+                indexLetter: PinyinHelper.getFirstWordPinyin(e.searchvalue.toString())
+                    .substring(0, 1)
+                    .toUpperCase(),
+                sex: 0,
+                id: e.cnid);
+          }).toList();
+        }
+
+      }
     } else {
 
     }

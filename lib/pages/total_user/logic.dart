@@ -9,6 +9,7 @@ import '../../common/apis/common.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/services/storage.dart';
 import '../../common/widgets/keep_alive_wrapper.dart';
+import '../audit_user/view.dart';
 import '../home/view.dart';
 import '../lost_user/logic.dart';
 import '../my_user/logic.dart';
@@ -32,14 +33,14 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
   late OverlayEntry _overlayEntry;
   int myCurrentIndex = 0;
   GlobalKey myCurrentKey = GlobalKey();
-
+  String roleKey ="super";
   @override
   void onInit() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       this._overlayEntry = this._createOverlayEntry();
     });
 
-    String roleKey = StorageService.to.getString("roleKey");
+    roleKey = StorageService.to.getString("roleKey");
     if (roleKey == "super") {
       pageList = [
         KeepAliveWrapper(child: HomePage()),
@@ -61,7 +62,7 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
     } else if (roleKey == "administration") {
       pageList = [
         KeepAliveWrapper(child: HomePage()),
-        KeepAliveWrapper(child: MyUserPage()),
+        KeepAliveWrapper(child: AuditUserPage()),
       ];
       subPage = ["我的客户", "审批管理"];
     } else {

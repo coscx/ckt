@@ -63,6 +63,8 @@ import 'package:flutter_ckt/pages/user_detail/binding.dart';
 import 'package:flutter_ckt/pages/user_detail/view.dart';
 import 'package:get/get.dart';
 import '../../pages/add_vip/binding.dart';
+import '../../pages/audit_user/binding.dart';
+import '../../pages/audit_user/view.dart';
 import '../../pages/calcucation_prepare/binding.dart';
 import '../../pages/calcucation_result/binding.dart';
 import '../../pages/calcucation_result/view.dart';
@@ -332,6 +334,12 @@ class AppPages {
         name: AppRoutes.LostUser,
         page: () => LostPage(),
         binding: LostBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.AuditUser,
+        page: () => AuditUserPage(),
+        binding: AuditUserBinding(),
         transition: Transition.rightToLeft
     ),
   ];

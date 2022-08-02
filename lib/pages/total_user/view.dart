@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ckt/pages/total_user/widget/discovery_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
@@ -90,7 +89,7 @@ class TotalUserPage extends StatelessWidget {
                     StatefulBuilder(
                         key: logic.myCurrentKey,
                         builder: (context1, setBottomSheetState) {
-                          return logic.myCurrentIndex > 0 ? GestureDetector(
+                          return logic.myCurrentIndex > 0 ? logic.roleKey !="administration"?GestureDetector(
                             onTap: () {
                               if (logic.myCurrentIndex ==1){
                                 logic.selected = true;
@@ -104,6 +103,7 @@ class TotalUserPage extends StatelessWidget {
                                 logic.showMyMenu();
                               }
                               if (logic.myCurrentIndex ==2){
+
                                 logic.selected = true;
                                 //selected ? title = "取消" : title = "选择";
                                 logic.title = "选择";
@@ -122,7 +122,7 @@ class TotalUserPage extends StatelessWidget {
                                   logic.title,
                                   style: TextStyle(fontSize: 38.sp),
                                 )),
-                          ) : Container();
+                          ) : Container(): Container();
                         })
 
                     // GestureDetector(

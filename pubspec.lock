@@ -1331,13 +1331,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.9"
-  timeline_list:
-    dependency: "direct main"
-    description:
-      name: timeline_list
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.6"
   timezone:
     dependency: transitive
     description:

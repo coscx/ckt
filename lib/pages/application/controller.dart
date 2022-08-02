@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:flutter/foundation.dart';
@@ -16,16 +17,21 @@ import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import 'package:umeng_analytics_with_push/umeng_analytics_with_push.dart';
 import 'package:uni_links/uni_links.dart';
+
 import '../../common/entities/im/Im_message.dart';
 import '../../common/services/storage.dart';
 import '../../common/values/key.dart';
 import '../../common/widgets/xupdate.dart';
+import '../calcucation/view.dart';
+import '../channel/view.dart';
+import '../conversion/view.dart';
 import '../group_chat/logic.dart';
+import '../mine/view.dart';
+import '../total_user/view.dart';
 import 'index.dart';
 
 class ApplicationController extends GetxController {
   ApplicationController();
-
 
   /// 响应式成员变量
 
@@ -34,15 +40,18 @@ class ApplicationController extends GetxController {
   /// 成员变量
 
   // tab 页标题
-  late final List<String> tabTitles;
+  List<String> tabTitles = <String>[];
+  List<Widget> pages = <Widget>[];
 
   // 页控制器
   late final PageController pageController;
   late final FltImPlugin im;
   late final CheckUpdate checkUpdate;
+
   // 底部导航项目
-  late final List<BottomNavigationBarItem> bottomTabs;
-  late String tfSender;
+  final List<BottomNavigationBarItem> bottomTabs = <BottomNavigationBarItem>[];
+  String tfSender = "";
+
   /// 事件
 
   // tab栏动画
@@ -102,22 +111,40 @@ class ApplicationController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    String roleKey = StorageService.to.getString("roleKey");
+    if (roleKey != "administration") {
+      tabTitles = ['首页', '渠道', '计算器', '消息', '我的'];
+      pages = [
+        TotalUserPage(),
+        ChannelPage(),
+        CalcucationPage(),
+        ConversionPage(),
+        MinePage()
+      ];
+    } else {
+      tabTitles = ['首页', '计算器', '消息', '我的'];
+      pages = [
+        TotalUserPage(),
+        CalcucationPage(),
+        ConversionPage(),
+        MinePage()
+      ];
+    }
     pageController = PageController(initialPage: state.page);
-    tabTitles = ['首页','渠道', '计算器', '消息', '我的'];
-    bottomTabs = <BottomNavigationBarItem>[
-      const BottomNavigationBarItem(
-        icon: Icon(
-          Iconfont.home,
-          color: AppColors.tabBarElement,
-        ),
-        activeIcon: Icon(
-          Iconfont.home,
-          color: AppColors.secondaryElementText,
-        ),
-        label: '首页',
-        backgroundColor: AppColors.primaryBackground,
+    bottomTabs.add(const BottomNavigationBarItem(
+      icon: Icon(
+        Iconfont.home,
+        color: AppColors.tabBarElement,
       ),
-      const BottomNavigationBarItem(
+      activeIcon: Icon(
+        Iconfont.home,
+        color: AppColors.secondaryElementText,
+      ),
+      label: '首页',
+      backgroundColor: AppColors.primaryBackground,
+    ));
+    if (roleKey != "administration") {
+      bottomTabs.add(const BottomNavigationBarItem(
         icon: Icon(
           Iconfont.tag,
           color: AppColors.tabBarElement,
@@ -128,46 +155,48 @@ class ApplicationController extends GetxController {
         ),
         label: '渠道',
         backgroundColor: AppColors.primaryBackground,
+      ));
+    }
+
+    bottomTabs.add(const BottomNavigationBarItem(
+      icon: Icon(
+        Iconfont.grid,
+        color: AppColors.tabBarElement,
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(
-          Iconfont.grid,
-          color: AppColors.tabBarElement,
-        ),
-        activeIcon: Icon(
-          Iconfont.grid,
-          color: AppColors.secondaryElementText,
-        ),
-        label: '计算器',
-        backgroundColor: AppColors.primaryBackground,
+      activeIcon: Icon(
+        Iconfont.grid,
+        color: AppColors.secondaryElementText,
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(
-          Iconfont.socialtwitter,
-          color: AppColors.tabBarElement,
-        ),
-        activeIcon: Icon(
-          Iconfont.socialtwitter,
-          color: AppColors.secondaryElementText,
-        ),
-        label: '消息',
-        backgroundColor: AppColors.primaryBackground,
+      label: '计算器',
+      backgroundColor: AppColors.primaryBackground,
+    ));
+    bottomTabs.add(const BottomNavigationBarItem(
+      icon: Icon(
+        Iconfont.socialtwitter,
+        color: AppColors.tabBarElement,
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(
-          Iconfont.me,
-          color: AppColors.tabBarElement,
-        ),
-        activeIcon: Icon(
-          Iconfont.me,
-          color: AppColors.secondaryElementText,
-        ),
-        label: '我的',
-        backgroundColor: AppColors.primaryBackground,
+      activeIcon: Icon(
+        Iconfont.socialtwitter,
+        color: AppColors.secondaryElementText,
       ),
-    ];
-     Flutter2dAMap.updatePrivacy(true);
-    await  Flutter2dAMap.setApiKey(
+      label: '消息',
+      backgroundColor: AppColors.primaryBackground,
+    ));
+    bottomTabs.add(const BottomNavigationBarItem(
+      icon: Icon(
+        Iconfont.me,
+        color: AppColors.tabBarElement,
+      ),
+      activeIcon: Icon(
+        Iconfont.me,
+        color: AppColors.secondaryElementText,
+      ),
+      label: '我的',
+      backgroundColor: AppColors.primaryBackground,
+    ));
+
+    Flutter2dAMap.updatePrivacy(true);
+    await Flutter2dAMap.setApiKey(
       iOSKey: flutter2dAMapIOSKey,
       webKey: flutter2dAMapWebKey,
     );
@@ -197,16 +226,17 @@ class ApplicationController extends GetxController {
     // handleInitialUri();
     // handleIncomingLinks();
     // 准备一些静态数据
-    await UmengAnalyticsWithPush.initialize(logEnabled: false,pushEnabled: true);
-    try{
+    await UmengAnalyticsWithPush.initialize(
+        logEnabled: false, pushEnabled: true);
+    try {
       final deviceToken = await UmengAnalyticsWithPush.deviceToken;
-      print("push_token: "+deviceToken.toString());
-    }catch(e){
+      print("push_token: " + deviceToken.toString());
+    } catch (e) {
       print(e);
     }
     Future.delayed(const Duration(seconds: 5)).then((e) async {
       var result = await CommonAPI.getUserStatus();
-      if (result.code== 402) {
+      if (result.code == 402) {
         await StorageService.to.remove("im_token");
         await StorageService.to.remove("memberId");
         await StorageService.to.remove("token");
@@ -216,8 +246,6 @@ class ApplicationController extends GetxController {
       }
     });
     super.onInit();
-
-
   }
 
   @override
@@ -232,7 +260,7 @@ class ApplicationController extends GetxController {
       debugPrint('发送用户id 必须填写');
       return;
     }
-    final res = await FltImPlugin().login(uid: tfSender,token: "");
+    final res = await FltImPlugin().login(uid: tfSender, token: "");
     debugPrint(res.toString());
     int code = ValueUtil.toInt(res!['code']);
     if (code == 0) {
@@ -316,9 +344,8 @@ class ApplicationController extends GetxController {
           onVideoUploadSuccess(result, url, thumbnailURL);
         } else if (type == 'onVideoUploadFail') {
           onVideoUploadFail(result);
-        } else if (type =="clearReadCountSuccess") {
-
-        }else {
+        } else if (type == "clearReadCountSuccess") {
+        } else {
           debugPrint("onConnect:" + result.toString());
         }
       } else {
@@ -326,8 +353,6 @@ class ApplicationController extends GetxController {
       }
     });
   }
-
-
 
   onPeerMessageFailure(Map result) {
     // IMMessage
@@ -380,20 +405,20 @@ class ApplicationController extends GetxController {
 
     var conversionLogic = Get.find<ConversionLogic>();
     conversionLogic.receiveMsgFresh();
-    bool gg =Get.isRegistered<PeerChatLogic>();
-    if (gg){
+    bool gg = Get.isRegistered<PeerChatLogic>();
+    if (gg) {
       var peerChatLogic = Get.find<PeerChatLogic>();
-        peerChatLogic.receiveMsgFresh();
+      peerChatLogic.receiveMsgFresh();
     }
-
 
     //_showNotification(title,content);
     //BlocProvider.of<PeerBloc>(context).add(EventReceiveNewMessage(message));
   }
+
   void onPeerMessageACK(result, int error) {
     Map<String, dynamic> m = Map<String, dynamic>.from(result);
-    bool gg =Get.isRegistered<PeerChatLogic>();
-    if (gg){
+    bool gg = Get.isRegistered<PeerChatLogic>();
+    if (gg) {
       var peerChatLogic = Get.find<PeerChatLogic>();
       peerChatLogic.receiveMsgAck(m);
     }
@@ -414,8 +439,8 @@ class ApplicationController extends GetxController {
     }
     var conversionLogic = Get.find<ConversionLogic>();
     conversionLogic.receiveMsgFresh();
-    bool gg =Get.isRegistered<GroupChatLogic>();
-    if (gg){
+    bool gg = Get.isRegistered<GroupChatLogic>();
+    if (gg) {
       var groupChatLogic = Get.find<GroupChatLogic>();
       groupChatLogic.receiveMsgFresh();
     }
@@ -436,8 +461,8 @@ class ApplicationController extends GetxController {
       title = "通知";
       content = '聊天消息';
     }
-    bool gg =Get.isRegistered<GroupChatLogic>();
-    if (gg){
+    bool gg = Get.isRegistered<GroupChatLogic>();
+    if (gg) {
       var groupChatLogic = Get.find<GroupChatLogic>();
       groupChatLogic.receiveMsgAck(message);
     }
@@ -445,9 +470,8 @@ class ApplicationController extends GetxController {
     //BlocProvider.of<GroupBloc>(context)
     //    .add(EventGroupReceiveNewMessageAck(message));
   }
-  void onPeerSecretMessage(result) {
 
-  }
+  void onPeerSecretMessage(result) {}
 
   void onNewMessage(result, int error) async {
     var count = 1;
@@ -479,7 +503,7 @@ class ApplicationController extends GetxController {
   }
 
   void onGroupNotification(result) async {
-   // debugPrint(result);
+    // debugPrint(result);
     //Map<String, dynamic> message = Map<String, dynamic>.from(result);
     //BlocProvider.of<GroupBloc>(context)
     //    .add(EventGroupReceiveNewMessage(message));
@@ -494,11 +518,9 @@ class ApplicationController extends GetxController {
 
   // 检查是否需要版本更新
   void _checkUpdateVersion() async {
-
     try {
       var response = await CommonAPI.getVersion();
       if (response.code != 0) {
-
         Map<String, dynamic> versionData = {};
         versionData['isForce'] = response.data.isforce;
         versionData['hasUpdate'] = true;
@@ -513,9 +535,8 @@ class ApplicationController extends GetxController {
             '.', ''); //response["data"]["versionCode"].replaceAll('.', '');
         var version = "120";
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String versions = packageInfo.version;//版本号
-        var appVersion = versions.replaceAll(
-            '.', '');
+        String versions = packageInfo.version; //版本号
+        var appVersion = versions.replaceAll('.', '');
         // 当前App运行版本
         var currentVersion = appVersion; //.replaceAll('.', '');
         if (int.parse(targetVersion) > int.parse(currentVersion)) {
