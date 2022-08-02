@@ -56,7 +56,7 @@ class ChannelPage extends StatelessWidget {
                           fontWeight: FontWeight.bold)),
                 ],
               ),
-              actions: <Widget>[
+              actions: logic.showAdd ?<Widget>[
                 GestureDetector(
                   onTap: () async {
                     await appointDialog(context);
@@ -71,7 +71,7 @@ class ChannelPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
+              ]:null,
             ),
             body: Container(
                 decoration: const BoxDecoration(

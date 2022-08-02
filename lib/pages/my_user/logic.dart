@@ -31,7 +31,7 @@ class MyUserLogic extends GetxController {
   FocusNode remarkFieldNode = FocusNode();
   TextEditingController appointController1 = TextEditingController();
   FocusNode remarkFieldNode1 = FocusNode();
-  bool showAddButton =true;
+  bool showAddButton =false;
   String serveType = "1";
   String totalCount = "";
   String title = "客户管理";
@@ -48,11 +48,19 @@ class MyUserLogic extends GetxController {
 
   @override
   void onInit() {
+    String roleKey = StorageService.to.getString("roleKey");
+    if (roleKey == "director") {
+      showAddButton =true;
+    }
     _loadData();
     super.onInit();
   }
   showAddButtons(){
-    showAddButton =true;
+    String roleKey = StorageService.to.getString("roleKey");
+    if (roleKey == "director") {
+      showAddButton =true;
+    }
+
   }
   hideAddButtons(){
     showAddButton =false;

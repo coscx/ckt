@@ -39,6 +39,7 @@ class ChannelLogic extends GetxController {
   String cnType ="2";
   List<ChannelDataData> loanData = <ChannelDataData>[];
   int page =1;
+  bool showAdd =false;
   List dropdownItemList = [
     {'label': '渠道公司', 'value': '2'},
     {'label': '装修公司', 'value': '3'}, // label is required and unique
@@ -68,10 +69,12 @@ class ChannelLogic extends GetxController {
       return d;
     }
     if(roleKey =="salesman"){
+      showAdd =true;
       var d = await CommonAPI.getSaleManChannel(data);
       return d;
     }
     if(roleKey =="director"){
+      showAdd =true;
       var d = await CommonAPI.getManageChannel(data);
       return d;
     }
