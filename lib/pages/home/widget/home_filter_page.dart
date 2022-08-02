@@ -21,7 +21,6 @@ import '../../../common/widgets/bottom_picker/bottom_picker.dart';
 import '../../../common/widgets/bottom_picker/resources/arrays.dart';
 import '../../../common/widgets/bottom_sheet.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
-import '../../../common/widgets/flutter_custom_select/widget/flutter_multi_select.dart';
 import '../../../common/widgets/flutter_custom_select/widget/flutter_single_select.dart';
 import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
@@ -1252,40 +1251,40 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                   buildFromUser("所属员工"),
                   buildCurrentUser("当前员工"),
                   buildUserChannel("来源渠道"),
-                  dataString.length==0? Container() :Container(
-
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding:
-                            EdgeInsets.only(left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
-                            alignment: Alignment.centerLeft,
-                            child: Text("操作步骤",
-                                style:
-                                TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
-                          ),
-                        ),
-                        Container(
-                          width: ScreenUtil().screenWidth-150.w,
-                          padding: EdgeInsets.only(
-                              left: 0.w, top: 0.h, right: 40.w, bottom: 0.h),
-                          child: CustomMultiSelectField<SelectItem>(
-                            title: title,
-                            items: dataString,
-                            enableAllOptionSelect: true,
-                            onSelectionDone: _onCountriesSelectionComplete,
-                            itemAsString: (item) {
-                              return item.name.toString();
-                            },
-                            dropDownItemAsString: (item) {
-                              return item.name.toString()+"("+item.type.toString()+")";
-                            }
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // dataString.length==0? Container() :Container(
+                  //
+                  //   child: Row(
+                  //     children: [
+                  //       Expanded(
+                  //         child: Container(
+                  //           padding:
+                  //           EdgeInsets.only(left: 10.w, top: 0.h, right: 0.w, bottom: 0.h),
+                  //           alignment: Alignment.centerLeft,
+                  //           child: Text("操作步骤",
+                  //               style:
+                  //               TextStyle(fontSize: 24.sp, color: const Color(0xFF6a6a6a))),
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         width: ScreenUtil().screenWidth-150.w,
+                  //         padding: EdgeInsets.only(
+                  //             left: 0.w, top: 0.h, right: 40.w, bottom: 0.h),
+                  //         child: CustomMultiSelectField<SelectItem>(
+                  //           title: title,
+                  //           items: dataString,
+                  //           enableAllOptionSelect: true,
+                  //           onSelectionDone: _onCountriesSelectionComplete,
+                  //           itemAsString: (item) {
+                  //             return item.name.toString();
+                  //           },
+                  //           dropDownItemAsString: (item) {
+                  //             return item.name.toString()+"("+item.type.toString()+")";
+                  //           }
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   //buildStore("门店选择")
                   //buildRangerSlider("年龄选择")
                 ]),
