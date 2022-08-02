@@ -130,7 +130,16 @@ class _TimeLinePageState extends State<TimeLinePage>
       color = const Color(0xff4CD070);
       icon = "assets/images/default/fine_no.png";
     }
-
+    if (data.status == 50) {
+      status = "不通过";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 70) {
+      status = "放款中";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
     return status;
   }
 
@@ -139,22 +148,22 @@ class _TimeLinePageState extends State<TimeLinePage>
     if (roleKey == "super") {
       var d = await CommonAPI.getSuperDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
-        circulations = d.data!.data!.circulations!;
+        circulations = d.data!.data!.circulations!.reversed.toList();
       }
     } else if (roleKey == "director") {
       var d = await CommonAPI.getManageDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
-        circulations = d.data!.data!.circulations!;
+        circulations = d.data!.data!.circulations!.reversed.toList();
       }
     } else if (roleKey == "administration") {
       var d = await CommonAPI.getAdministrativeDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
-        circulations = d.data!.data!.circulations!;
+        circulations = d.data!.data!.circulations!.reversed.toList();
       }
     } else if (roleKey == "salesman") {
       var d = await CommonAPI.getSaleManDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
-        circulations = d.data!.data!.circulations!;
+        circulations = d.data!.data!.circulations!.reversed.toList();
       }
     } else {}
     doodleList = circulations.map((e) {

@@ -192,7 +192,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
                 stackKey: _stackKey,
                 controller: _dropdownMenuController,
                 onItemTap: (index) {
-                  if (index > 0) {
+                  if (index > -1) {
                     widget.onItemClick(index);
                     _dropdownMenuController.hide();
                   }

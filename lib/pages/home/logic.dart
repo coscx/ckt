@@ -14,6 +14,8 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../common/apis/common.dart';
 import '../../common/entities/home/common.dart';
 import '../../common/services/storage.dart';
+import '../../common/widgets/flutter_custom_select/utils/enum.dart';
+import '../../common/widgets/flutter_custom_select/widget/flutter_custom_selector_sheet.dart';
 import '../select_result/widget/select_result_page.dart';
 import 'state.dart';
 
@@ -243,6 +245,9 @@ class HomeLogic extends GetxController {
   }
 
   openSelect(int data) {
+    if(data==0){
+      majorWindow();
+    }
     if (data == 1) {
       channelWindow();
     }
@@ -255,6 +260,13 @@ class HomeLogic extends GetxController {
   }
 
   channelWindow() {
+    var id;
+    for (int i = 0; i < selectItems.length; i++) {
+      if (selectItems[i].type == 11) {
+        id = selectItems[i].id;
+        break;
+      }
+    }
     showCupertinoModalBottomSheet(
       expand: false,
       bounce: false,
@@ -285,12 +297,23 @@ class HomeLogic extends GetxController {
           onRefresh();
           update();
         },
-        onHide: (data) {},
+        onHide: (data) {
+          selectItems.removeWhere((e) => e.type==11);
+          onRefresh();
+        },
+        selectId: id,
       ),
     );
   }
 
   currentWindow() {
+    var id;
+    for (int i = 0; i < selectItems.length; i++) {
+      if (selectItems[i].type == 10) {
+        id = selectItems[i].id;
+        break;
+      }
+    }
     showCupertinoModalBottomSheet(
       expand: false,
       bounce: false,
@@ -321,7 +344,11 @@ class HomeLogic extends GetxController {
           onRefresh();
           update();
         },
-        onHide: (data) {},
+        onHide: (data) {
+          selectItems.removeWhere((e) => e.type==10);
+          onRefresh();
+        },
+        selectId: id,
       ),
     );
   }

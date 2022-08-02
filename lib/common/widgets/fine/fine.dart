@@ -36,7 +36,7 @@ MyItem getStatus(SaleManDataData data) {
     icon = "assets/images/default/fine_call.png";
   }
   if (data.status == 2) {
-    status = "待提交";
+    status = "待提交(已联系)";
     color = const Color(0xff4DA1EE);
     icon = "assets/images/default/fine_call.png";
   }
@@ -83,6 +83,47 @@ MyItem getStatus(SaleManDataData data) {
   }
   if (data.status == 11) {
     status = "资质不符";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 12) {
+    status = "已联系";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 13) {
+    status = "已提交";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 14) {
+    status = "已进件";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+
+  if (data.status == 23) {
+    status = "已接收";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 40) {
+    status = "通过";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 50) {
+    status = "不通过";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 50) {
+    status = "不通过";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
+  if (data.status == 70) {
+    status = "放款中";
     color = const Color(0xff4CD070);
     icon = "assets/images/default/fine_no.png";
   }

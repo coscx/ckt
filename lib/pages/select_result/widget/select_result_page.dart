@@ -11,6 +11,7 @@ import 'select_result_data.dart';
 
 class _SelectCell extends StatelessWidget {
   final int? id; //id
+  final String? selectId; //id
   final String? imageUrl; //图片 URL
   final String? name; //昵称
   final String? groupTitle; //组头标题
@@ -23,6 +24,7 @@ class _SelectCell extends StatelessWidget {
       this.groupTitle,
       this.imageAssets,
       this.id,
+      this.selectId,
       required this.onResendClick});
 
   @override
@@ -73,7 +75,7 @@ class _SelectCell extends StatelessWidget {
                           child: Text(
                             name!,
                             style:
-                                TextStyle(fontSize: 32.sp, color: Colors.black),
+                                TextStyle(fontSize: 32.sp, color: selectId ==null? Colors.black :(selectId.toString()==id.toString()?Colors.redAccent :Colors.black)),
                           ),
                         ),
                         Container(
@@ -109,7 +111,8 @@ class SelectPage extends StatefulWidget {
   final Function(dynamic) onResendClick;
   final Function(dynamic) onHide;
   final int type;
-  const SelectPage({Key? key, required this.onResendClick, required this.type, required this.onHide}) : super(key: key);
+  final String? selectId;
+  const SelectPage({Key? key, required this.onResendClick, required this.type, required this.onHide, this.selectId}) : super(key: key);
 
   @override
   _SelectPageState createState() => _SelectPageState();
@@ -379,9 +382,6 @@ class _SelectPageState extends State<SelectPage> {
   @override
   void dispose() {
     super.dispose();
-    Future.delayed(Duration(milliseconds: 1),(){
-      widget.onHide(true);
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -392,6 +392,21 @@ class _SelectPageState extends State<SelectPage> {
           '请选择',
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          GestureDetector(
+            onTap: (){
+                widget.onHide(true);
+                Navigator.pop(context);
+            },
+            child: Row(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 20.w, right: 40.w),
+                    child: Text("重置")),
+              ],
+            ),
+          )
+        ],
       ),
       body: ScrollConfiguration(
         behavior: DyBehaviorNull(),
@@ -421,6 +436,7 @@ class _SelectPageState extends State<SelectPage> {
             _listDatas[index - _headerData.length - 1].indexLetter;
     return _SelectCell(
       id: _listDatas[index - 0].id,
+      selectId: widget.selectId,
       imageUrl: _listDatas[index - 0].imageUrl,
       imageAssets: _listDatas[index - 0].sex == 0
           ? 'assets/images/default/ic_user_male.png'
