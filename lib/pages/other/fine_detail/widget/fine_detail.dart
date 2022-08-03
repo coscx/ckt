@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common/apis/common.dart';
 import '../../../../common/entities/loan/saleman_detail.dart';
 import '../../../../common/services/storage.dart';
+import '../../../../common/widgets/bottom_picker/bottom_picker.dart';
+import '../../../../common/widgets/bottom_picker/resources/arrays.dart';
 import '../../../../common/widgets/chat_picture_preview.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
 import '../../../../common/widgets/im_util.dart';
+import '../../../../common/widgets/tabbar/buttons_tabbar.dart';
 import '../../../../common/widgets/timeline/timeline.dart';
 import '../../../../common/widgets/timeline/timeline_model.dart';
+import 'bottom_picker.dart';
 import 'doodle.dart';
+import 'fine_item.dart';
 
 class TimeLinePage extends StatefulWidget {
   final int loanId;
@@ -27,12 +34,15 @@ class _TimeLinePageState extends State<TimeLinePage>
     with SingleTickerProviderStateMixin {
   final PageController pageController =
       PageController(initialPage: 0, keepPage: true);
+
+  TextEditingController loanController = TextEditingController();
+  FocusNode  loanFieldNode = FocusNode();
   int pageIx = 0;
   List<Circulations> circulations = <Circulations>[];
-
+  SaleManDetailDataData? detail ;
   List<Doodle> doodleList = <Doodle>[];
   String roleKey = "super";
-
+  String selectDate ="";
   @override
   void initState() {
     _getData();
@@ -149,21 +159,25 @@ class _TimeLinePageState extends State<TimeLinePage>
       var d = await CommonAPI.getSuperDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
         circulations = d.data!.data!.circulations!.reversed.toList();
+        detail = d.data!.data!;
       }
     } else if (roleKey == "director") {
       var d = await CommonAPI.getManageDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
         circulations = d.data!.data!.circulations!.reversed.toList();
+        detail = d.data!.data!;
       }
     } else if (roleKey == "administration") {
       var d = await CommonAPI.getAdministrativeDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
         circulations = d.data!.data!.circulations!.reversed.toList();
+        detail = d.data!.data!;
       }
     } else if (roleKey == "salesman") {
       var d = await CommonAPI.getSaleManDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
         circulations = d.data!.data!.circulations!.reversed.toList();
+        detail = d.data!.data!;
       }
     } else {}
     doodleList = circulations.map((e) {
@@ -204,18 +218,59 @@ class _TimeLinePageState extends State<TimeLinePage>
   Widget build(BuildContext context) {
     List<Widget> pages = [
       timelineModel(TimelinePosition.Left),
-      timelineModel(TimelinePosition.Center),
-      timelineModel(TimelinePosition.Right)
+      // timelineModel(TimelinePosition.Center),
+      // timelineModel(TimelinePosition.Right)
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text('流程图')),
+      appBar: AppBar(title: Text('详细信息')),
       body: ScrollConfiguration(
-          behavior: DyBehaviorNull(),
-          child: PageView(
-              onPageChanged: (i) => setState(() => pageIx = i),
-              controller: pageController,
-              children: pages)),
+        behavior: DyBehaviorNull(),
+        child: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: <Widget>[
+            ButtonsTabBar(
+              radius: 40.w,
+              contentPadding: EdgeInsets.only(left: 40.w,right: 40.w),
+              backgroundColor: Colors.blue,
+              unselectedBackgroundColor: Color(0xffeeeeee),
+              unselectedLabelStyle: TextStyle(color: Colors.black),
+              labelStyle:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              tabs: [
+                Tab(
+                  text: "流程图",
+                ),
+                Tab(
+                  text: "个人信息",
+                ),
+
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+
+                  Center(
+                    child:
+                    PageView(
+                            onPageChanged: (i) => setState(() => pageIx = i),
+                            controller: pageController,
+                            children: pages)),
+                  Center(
+                    child: detail ==null? Container():buildBase(Get.context!,detail!,1,false,(a,b){
+
+                    },""),
+                  ),
+
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      ),
     );
   }
 
@@ -285,41 +340,47 @@ class _TimeLinePageState extends State<TimeLinePage>
               width: ScreenUtil().screenWidth - 100.w,
               child: Padding(
                   padding: EdgeInsets.all(32.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(height: 8.h),
-                      Text(doodle.name,
-                          style: TextStyle(
-                              color: i == 0 ? Colors.blue : Colors.black,
-                              fontSize: 34.sp),
-                          textAlign: TextAlign.left),
-                      doodle.pics == null
-                          ? Container()
-                          : Row(
-                              children: [...l],
-                            ),
-                      SizedBox(height: 8.h),
-                      doodle.opUser != ""
-                          ? Text(doodle.opUser, style: textTheme.caption)
-                          : Container(),
-                      doodle.opUser != "" ? SizedBox(height: 8.h) : Container(),
-                      doodle.content != ""
-                          ? Container(
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFF4F5F8),
-                                  borderRadius: BorderRadius.circular(6.w)),
-                              padding: EdgeInsets.all(12.w),
-                              child: Text(doodle.content,
-                                  style: textTheme.subtitle1,
-                                  textAlign: TextAlign.left))
-                          : Container(),
-                      doodle.content != ""
-                          ? SizedBox(height: 8.h)
-                          : Container(),
-                      Text(doodle.time, style: textTheme.caption),
-                      SizedBox(height: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 8.h),
+                          Text(doodle.name,
+                              style: TextStyle(
+                                  color: i == 0 ? Colors.blue : Colors.black,
+                                  fontSize: 34.sp),
+                              textAlign: TextAlign.left),
+                          doodle.pics == null
+                              ? Container()
+                              : Row(
+                                  children: [...l],
+                                ),
+                          SizedBox(height: 8.h),
+                          doodle.opUser != ""
+                              ? Text(doodle.opUser, style: textTheme.caption)
+                              : Container(),
+                          doodle.opUser != "" ? SizedBox(height: 8.h) : Container(),
+                          doodle.content != ""
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFFF4F5F8),
+                                      borderRadius: BorderRadius.circular(6.w)),
+                                  padding: EdgeInsets.all(12.w),
+                                  child: Text(doodle.content,
+                                      style: textTheme.subtitle1,
+                                      textAlign: TextAlign.left))
+                              : Container(),
+                          doodle.content != ""
+                              ? SizedBox(height: 8.h)
+                              : Container(),
+                          Text(doodle.time, style: textTheme.caption),
+                          SizedBox(height: 8.h),
+                        ],
+                      ),
+                      i==0 ?buildButton(doodle.name) :Container()
                     ],
                   )),
             ),
@@ -362,5 +423,222 @@ class _TimeLinePageState extends State<TimeLinePage>
         isLast: i == doodleList.length,
         iconBackground: doodle.iconBackground,
         icon: doodle.icon);
+  }
+  Widget buildButton(String name){
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shadowColor:Colors.transparent,
+        primary:  Colors.blue.withOpacity(0.7),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(70.w),
+        ),
+        //side: BorderSide(width: 2.w, color: Colors.blue),
+      ),
+      child: Container(
+        child: Text(name,style: TextStyle(fontSize: 30.sp,color: Colors.white),),
+        padding: EdgeInsets.only(top: 20.h,left: 35.w,bottom:20.h,right: 35.w),
+
+      ),
+      onPressed: () {
+        appointDialog(name);
+      },
+    );
+  }
+ appointDialog(String name) async {
+
+   await showDialog(
+       barrierDismissible: false,
+       context: context,
+       builder:  (c) { return StatefulBuilder(builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              loanFieldNode.unfocus();
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: ScreenUtil().screenWidth * 0.95,
+                  height: 550.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                  ),
+                  child:Stack(
+                    //alignment: AlignmentDirectional.topCenter,
+                    children: <Widget>[
+
+                      Positioned(
+                        top: 30.h,
+                        right: 30.h,
+                        child: GestureDetector(
+                          onTap: () {
+                            loanController.text="";
+                            selectDate="";
+                             Navigator.of(context).pop();
+                          },
+                          child: Image.asset(
+                            'assets/images/btn_close_black.png',
+                            width: 40.w,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 30.h,
+                        left: 270.w,
+                        child: GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Text(name,
+                              style:
+                              TextStyle(fontSize: 36.sp, color:  Colors.black,fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+
+                      Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(left:100.w,right:80.w,top: 100.h),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("未放款金额：",style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 32.sp),),
+                                  Text("15",style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontSize: 40.sp,fontWeight: FontWeight.w600),),
+                                  Text("  万",style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 32.sp),),
+                                ],
+                              )
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 80.w,right:80.w,top: 20.h),
+                            height: 80.h,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    autofocus: false,
+                                    controller: loanController,
+                                    focusNode:  loanFieldNode,
+                                    style:  TextStyle(color: Colors.redAccent,fontSize: 40.sp,fontWeight: FontWeight.w400),
+                                    minLines: 7,
+                                    maxLines: 7,
+                                    cursorColor: Colors.blue,
+                                    //cursorRadius: Radius.circular(40.h),
+                                    cursorWidth: 3.w,
+                                    showCursor: true,
+                                    decoration: InputDecoration(
+                                      suffixText: "万",
+                                      suffixStyle: TextStyle(color: Colors.redAccent,fontSize: 40.sp),
+                                      isCollapsed: true,
+                                      contentPadding: EdgeInsets.only(left: 40.w,right:40.w,top: 20.h,bottom: 0),
+                                      hintText: "本次放款金额",
+                                      hintStyle:
+                                       TextStyle(color: Colors.blue,fontSize: 32.sp),
+                                      border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
+                                      enabledBorder:  OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(40.h)),
+                                        borderSide:
+                                        BorderSide(color: Colors.blue,width: 2.h),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),borderSide:
+                                      BorderSide(color: Colors.blue,width: 2.h),),
+                                    ),
+                                    onChanged: (v) {},
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              loanFieldNode.unfocus();
+                              BottomPicker.date(
+                                  initialDateTime: DateTime.tryParse(selectDate),
+                                  height: 600.h,
+                                  buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
+                                  buttonSingleColor: Colors.green,
+                                  displayButtonIcon: false,
+                                  buttonText: "确定",
+                                  title:  "选择日期",
+                                  titleStyle: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize:  38.sp,
+                                      color: Colors.black
+                                  ),
+                                  onChange: (index) {
+                                    //print(index);
+                                  },
+                                  onSubmit: (index) {
+                                   // print(index);
+                                    state((){
+                                      selectDate=  DateFormat("yyyy-MM-dd").format(index);
+                                    });
+
+                                  },
+                                  bottomPickerTheme: BottomPickerTheme.plumPlate
+                              ).show(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 80.w,right:80.w,top: 30.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(40.h),
+                                border: Border.all(color: Colors.blue, width: 1),//边框
+                              ),
+                              height: 80.h,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 40.w),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(selectDate==""?"请选择放款时间":selectDate,style: TextStyle(
+                                        color:selectDate==""?  Colors.blue:Colors.redAccent,
+                                        fontSize: selectDate==""?32.sp:38.sp),),
+                                  ],
+                                )
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: ScreenUtil().screenWidth,
+                            height: 80.h,
+                            margin:
+                            EdgeInsets.only(top: 40.h,left: 40.w,right: 40.w),
+                            child: RaisedButton(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(40.h))),
+                              color: Colors.lightBlue,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("提交",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 36.sp)),
+                            ),
+                          ),
+                        ],
+                      ),
+
+
+
+
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          );
+        });});
+
   }
 }

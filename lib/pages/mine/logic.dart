@@ -18,12 +18,14 @@ class MineLogic extends GetxController {
   String connect="0";
   int index =0;
   SaleManGridDataData gridData = SaleManGridDataData(pendingcontact: 0, pendingsubmission: 0, pendingsupplement: 0);
+  String roleName ="";
   @override
   void onInit() {
     init();
     super.onInit();
   }
  void init()async{
+   roleName = StorageService.to.getString("roleName");
    memberId = StorageService.to.getString("memberId");
    userHead = StorageService.to.getString("avatar");
    name = StorageService.to.getString("name");

@@ -17,7 +17,7 @@ class CloseIcon extends StatelessWidget {
       child: Icon(
         Icons.close,
         color: iconColor,
-        size: 20,
+        size: 30,
       ),
     );
   }

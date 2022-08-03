@@ -122,7 +122,7 @@ class MinePage extends StatelessWidget {
                                       bottom: 5.h,
                                     ),
                                     child: Text(
-                                      logic.name,
+                                      logic.name+"-"+logic.roleName,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
