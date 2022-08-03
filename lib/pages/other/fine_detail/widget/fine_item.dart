@@ -264,12 +264,12 @@ Future<String> showPickerArray(
       title: Text("请选择" + title),
       cancelText: "取消",
       confirmText: "确定",
-      cancelTextStyle: TextStyle(fontSize: 40.sp, color: Colors.grey),
-      confirmTextStyle: TextStyle(fontSize: 40.sp, color: Colors.blue),
+      cancelTextStyle: TextStyle(fontSize: 36.sp, color: Colors.grey),
+      confirmTextStyle: TextStyle(fontSize: 36.sp, color: Colors.blue),
       selecteds: select,
       // columnPadding: EdgeInsets.only(top: 50.h,bottom: 50.h,left: 50.w,right: 50.w),
       selectedTextStyle: TextStyle(
-        fontSize: 34.sp,
+        fontSize: 48.sp,
         color: Colors.redAccent,
       ),
       textStyle: TextStyle(
