@@ -63,7 +63,9 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                               "gender",
                               info,
                               "",
-                              true);
+                              true,(a,b){
+
+                          });
                           callSetState("base", true);
                         },
                         child: _item_detail(
@@ -242,14 +244,15 @@ showEditDialog(BuildContext context, String title, String hintText, String text,
         );
       });
 }
-Future<bool> showPickerArray(
+Future<String> showPickerArray(
     BuildContext context,
     List<List<String>> pickerData,
     List<int> select,
     String type,
     SaleManDetailDataData info,
     String title,
-    bool isIndex) async {
+    bool isIndex ,Function(int a,String b) ff) async {
+  String d ="";
   var result = await Picker(
       itemExtent: 40,
       magnification: 1.2,
@@ -274,18 +277,19 @@ Future<bool> showPickerArray(
         color: Colors.black,
       ),
       onConfirm: (Picker picker, List value) async {
-        debugPrint(value.toString());
-        debugPrint(picker.getSelectedValues().toString());
+        //debugPrint(value.toString());
+        //debugPrint(picker.getSelectedValues().toString());
+        d =picker.getSelectedValues().toString();
         int values;
         if (isIndex) {
           values = value.first;
         } else {
           values = int.parse(picker.getSelectedValues().first);
         }
-
+       ff(value.first,picker.getSelectedValues().first);
       }).showDialog(context);
   if (result != null) {
-    return true;
+    return d;
   }
-  return false;
+  return "";
 }

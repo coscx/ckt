@@ -447,11 +447,114 @@ class _TimeLinePageState extends State<TimeLinePage>
             EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
-        appointDialog(name);
+        showDialogs(detail!);
       },
     );
   }
+  showDialogs(SaleManDetailDataData data) {
+    String status = "";
+    Color color = const Color(0xffFF6666);
+    String icon = "";
+    if (data.status == 1) {
+      status = "待联系";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+      salesmanDialog("待联系");
+    }
+    if (data.status == 2) {
+      status = "待提交(已联系)";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
+    if (data.status == 3) {
+      status = "待进件";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
+    if (data.status == 4) {
+      status = "待审批";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
+    if (data.status == 5) {
+      status = "待补件";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
+    if (data.status == 6) {
+      status = "待风控";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
+    if (data.status == 7) {
+      status = "待放款";
+      color = const Color(0xff4DA1EE);
+      icon = "assets/images/default/fine_call.png";
+    }
 
+    if (data.status == 8) {
+      status = "已放款";
+      color = const Color(0xffD8AA0F);
+      icon = "assets/images/default/fine_success.png";
+    }
+    if (data.status == 9) {
+      status = "放款失败";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_fail.png";
+    }
+    if (data.status == 10) {
+      status = "客户放弃";
+      color = const Color(0xff6360CA);
+      icon = "assets/images/default/fine_lost.png";
+    }
+    if (data.status == 11) {
+      status = "资质不符";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 12) {
+      status = "已联系";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 13) {
+      status = "已提交";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 14) {
+      status = "已进件";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+
+    if (data.status == 23) {
+      status = "已接收";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 40) {
+      status = "通过";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 50) {
+      status = "不通过";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 50) {
+      status = "不通过";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+    if (data.status == 70) {
+      status = "放款中";
+      color = const Color(0xff4CD070);
+      icon = "assets/images/default/fine_no.png";
+    }
+
+  }
   appointDialog(String name) async {
     await showDialog(
         barrierDismissible: false,
@@ -659,6 +762,140 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 40.h, left: 40.w, right: 40.w),
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(40.h))),
+                                color: Colors.lightBlue,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("提交",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 36.sp)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          });
+        });
+  }
+  salesmanDialog(String name) async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (c) {
+          return StatefulBuilder(builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                loanFieldNode.unfocus();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().screenWidth * 0.95,
+                    height: 550.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                    ),
+                    child: Stack(
+                      //alignment: AlignmentDirectional.topCenter,
+                      children: <Widget>[
+                        Positioned(
+                          top: 30.h,
+                          right: 30.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              loanController.text = "";
+                              selectDate = "";
+                              Navigator.of(context).pop();
+                            },
+                            child: Image.asset(
+                              'assets/images/btn_close_black.png',
+                              width: 40.w,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 30.h,
+                          left: 270.w,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Text(name,
+                                style: TextStyle(
+                                    fontSize: 36.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        Column(
+                          children: [
+
+                            GestureDetector(
+                              onTap: () async {
+
+                                      var result = await showPickerArray(
+                                          context,
+                                          [
+                                            ["已联系", "联系中", "客户放弃","资质不符"]
+                                          ],
+                                          [],
+                                          "gender",
+                                          detail!,
+                                          "",
+                                          true,(a,b){
+
+                                        selectDate =b;
+                                        state((){});
+                                      });
+
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 80.w, right: 80.w, top: 130.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(40.h),
+                                  border: Border.all(
+                                      color: Colors.blue, width: 1), //边框
+                                ),
+                                height: 80.h,
+                                child: Container(
+                                    padding: EdgeInsets.only(left: 40.w),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          selectDate == ""
+                                              ? "请选择类型"
+                                              : selectDate,
+                                          style: TextStyle(
+                                              color: selectDate == ""
+                                                  ? Colors.blue
+                                                  : Colors.redAccent,
+                                              fontSize: selectDate == ""
+                                                  ? 32.sp
+                                                  : 38.sp),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                            Container(
+                              width: ScreenUtil().screenWidth,
+                              height: 80.h,
+                              margin: EdgeInsets.only(
+                                  top: 60.h, left: 40.w, right: 40.w),
                               child: RaisedButton(
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
