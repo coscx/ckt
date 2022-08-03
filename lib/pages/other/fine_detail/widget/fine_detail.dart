@@ -451,6 +451,7 @@ class _TimeLinePageState extends State<TimeLinePage>
       },
     );
   }
+
   showDialogs(SaleManDetailDataData data) {
     String status = "";
     Color color = const Color(0xffFF6666);
@@ -552,10 +553,11 @@ class _TimeLinePageState extends State<TimeLinePage>
       status = "放款中";
       color = const Color(0xff4CD070);
       icon = "assets/images/default/fine_no.png";
+      lendingDialog("放款中");
     }
-
   }
-  appointDialog(String name) async {
+
+  lendingDialog(String name) async {
     await showDialog(
         barrierDismissible: false,
         context: context,
@@ -787,6 +789,7 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+
   salesmanDialog(String name) async {
     await showDialog(
         barrierDismissible: false,
@@ -839,25 +842,21 @@ class _TimeLinePageState extends State<TimeLinePage>
                         ),
                         Column(
                           children: [
-
                             GestureDetector(
                               onTap: () async {
-
-                                      var result = await showPickerArray(
-                                          context,
-                                          [
-                                            ["已联系", "联系中", "客户放弃","资质不符"]
-                                          ],
-                                          [],
-                                          "gender",
-                                          detail!,
-                                          "",
-                                          true,(a,b){
-
-                                        selectDate =b;
-                                        state((){});
-                                      });
-
+                                await showPickerArray(
+                                    context,
+                                    [
+                                      ["已联系", "联系中", "客户放弃", "资质不符"]
+                                    ],
+                                    [],
+                                    "gender",
+                                    detail!,
+                                    "",
+                                    true, (a, b) {
+                                  selectDate = b;
+                                  state(() {});
+                                });
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
@@ -873,7 +872,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                     padding: EdgeInsets.only(left: 40.w),
                                     child: Row(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           selectDate == ""
