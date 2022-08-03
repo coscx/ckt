@@ -147,13 +147,13 @@ class SaleManDetailDataData {
     this.paytype,
     this.province,
     required this.incomingtime,
-    this.cumulativeamount,
+    required this.cumulativeamount,
     this.superid,
     this.credit,
     this.decoration,
     this.curstaff,
     this.directorid,
-    this.totaltime,
+    required this.totaltime,
     this.deptid,
     required this.params,
     this.steps,
@@ -162,7 +162,7 @@ class SaleManDetailDataData {
     this.district,
     required this.customercreatetime,
     this.identificationurl,
-    this.credittime,
+    required this.credittime,
     required this.loanid,
     required this.status,
     this.city,
@@ -170,7 +170,7 @@ class SaleManDetailDataData {
     required this.origin,
     required this.cnid,
     required this.remark,
-    this.realamount,
+    required this.realamount,
     required this.curuserid,
     required this.accountmanager,
     required this.updateby,
@@ -181,7 +181,7 @@ class SaleManDetailDataData {
     required this.bankbranch,
     this.deedurl,
     required this.updatetime,
-    this.staff,
+    required this.staff,
     required this.userid,
     required this.loanamount,
     this.createby,
@@ -232,8 +232,8 @@ class SaleManDetailDataData {
           ? asT<String>(json['incomingTime'])!
           : '',
       cumulativeamount: json.containsKey('cumulativeAmount')
-          ? asT<Object?>(json['cumulativeAmount'])
-          : null,
+          ? asT<int>(json['cumulativeAmount'])!
+          : 0,
       superid:
       json.containsKey('superId') ? asT<Object?>(json['superId']) : null,
       credit: json.containsKey('credit') ? asT<Object?>(json['credit']) : null,
@@ -245,9 +245,8 @@ class SaleManDetailDataData {
       directorid: json.containsKey('directorId')
           ? asT<Object?>(json['directorId'])
           : null,
-      totaltime: json.containsKey('totalTime')
-          ? asT<Object?>(json['totalTime'])
-          : null,
+      totaltime:
+      json.containsKey('totalTime') ? asT<String>(json['totalTime'])! : '',
       deptid: json.containsKey('deptId') ? asT<Object?>(json['deptId']) : null,
       params: json.containsKey('params') ? asT<Object>(json['params'])! : null,
       steps: json.containsKey('steps') ? asT<Object?>(json['steps']) : null,
@@ -266,8 +265,8 @@ class SaleManDetailDataData {
           ? asT<Object?>(json['identificationUrl'])
           : null,
       credittime: json.containsKey('creditTime')
-          ? asT<Object?>(json['creditTime'])
-          : null,
+          ? asT<String>(json['creditTime'])!
+          : '',
       loanid: json.containsKey('loanId') ? asT<int>(json['loanId'])! : 0,
       status: json.containsKey('status') ? asT<int>(json['status'])! : 0,
       city: json.containsKey('city') ? asT<Object?>(json['city']) : null,
@@ -275,9 +274,8 @@ class SaleManDetailDataData {
       origin: json.containsKey('origin') ? asT<int>(json['origin'])! : 0,
       cnid: json.containsKey('cnId') ? asT<int>(json['cnId'])! : 0,
       remark: json.containsKey('remark') ? asT<String>(json['remark'])! : '',
-      realamount: json.containsKey('realAmount')
-          ? asT<Object?>(json['realAmount'])
-          : null,
+      realamount:
+      json.containsKey('realAmount') ? asT<int>(json['realAmount'])! : 0,
       curuserid:
       json.containsKey('curUserId') ? asT<int>(json['curUserId'])! : 0,
       accountmanager: json.containsKey('accountManager')
@@ -302,7 +300,7 @@ class SaleManDetailDataData {
       updatetime: json.containsKey('updateTime')
           ? asT<String>(json['updateTime'])!
           : '',
-      staff: json.containsKey('staff') ? asT<Object?>(json['staff']) : null,
+      staff: json.containsKey('staff') ? asT<String>(json['staff'])! : '',
       userid: json.containsKey('userId') ? asT<int>(json['userId'])! : 0,
       loanamount:
       json.containsKey('loanAmount') ? asT<int>(json['loanAmount'])! : 0,
@@ -333,13 +331,13 @@ class SaleManDetailDataData {
   Object? paytype;
   Object? province;
   String incomingtime;
-  Object? cumulativeamount;
+  int cumulativeamount;
   Object? superid;
   Object? credit;
   Object? decoration;
   Object? curstaff;
   Object? directorid;
-  Object? totaltime;
+  String totaltime;
   Object? deptid;
   Object? params;
   Object? steps;
@@ -348,7 +346,7 @@ class SaleManDetailDataData {
   Object? district;
   String customercreatetime;
   Object? identificationurl;
-  Object? credittime;
+  String credittime;
   int loanid;
   int status;
   Object? city;
@@ -356,7 +354,7 @@ class SaleManDetailDataData {
   int origin;
   int cnid;
   String remark;
-  Object? realamount;
+  int realamount;
   int curuserid;
   String accountmanager;
   String updateby;
@@ -367,7 +365,7 @@ class SaleManDetailDataData {
   String bankbranch;
   Object? deedurl;
   String updatetime;
-  Object? staff;
+  String staff;
   int userid;
   int loanamount;
   Object? createby;
@@ -545,18 +543,18 @@ class Channel {
 class Circulations {
   Circulations({
     required this.owner,
-    this.timeconsuming,
+    required this.timeconsuming,
     this.cnid,
     this.deedurl,
     this.updatetime,
     this.remark,
     this.owners,
     required this.params,
-    this.createby,
+    required this.createby,
     this.creditid,
     required this.circulationid,
     required this.createtime,
-    this.updateby,
+    required this.updateby,
     this.identificationurl,
     required this.step,
     this.credit,
@@ -568,8 +566,8 @@ class Circulations {
   factory Circulations.fromJson(Map<String, dynamic> json) => Circulations(
     owner: json.containsKey('owner') ? asT<int>(json['owner'])! : 0,
     timeconsuming: json.containsKey('timeConsuming')
-        ? asT<Object?>(json['timeConsuming'])
-        : null,
+        ? asT<String>(json['timeConsuming'])!
+        : '',
     cnid: json.containsKey('cnId') ? asT<Object?>(json['cnId']) : null,
     deedurl:
     json.containsKey('deedUrl') ? asT<Object?>(json['deedUrl']) : null,
@@ -582,9 +580,8 @@ class Circulations {
     json.containsKey('owners') ? asT<Object?>(json['owners']) : null,
     params:
     json.containsKey('params') ? asT<Object>(json['params'])! : null,
-    createby: json.containsKey('createBy')
-        ? asT<Object?>(json['createBy'])
-        : null,
+    createby:
+    json.containsKey('createBy') ? asT<String>(json['createBy'])! : '',
     creditid: json.containsKey('creditId')
         ? asT<Object?>(json['creditId'])
         : null,
@@ -594,9 +591,8 @@ class Circulations {
     createtime: json.containsKey('createTime')
         ? asT<String>(json['createTime'])!
         : '',
-    updateby: json.containsKey('updateBy')
-        ? asT<Object?>(json['updateBy'])
-        : null,
+    updateby:
+    json.containsKey('updateBy') ? asT<String>(json['updateBy'])! : '',
     identificationurl: json.containsKey('identificationUrl')
         ? asT<Object?>(json['identificationUrl'])
         : null,
@@ -611,18 +607,18 @@ class Circulations {
   );
 
   int owner;
-  Object? timeconsuming;
+  String timeconsuming;
   Object? cnid;
   Object? deedurl;
   Object? updatetime;
   Object? remark;
   Object? owners;
   Object? params;
-  Object? createby;
+  String createby;
   Object? creditid;
   int circulationid;
   String createtime;
-  Object? updateby;
+  String updateby;
   Object? identificationurl;
   int step;
   Object? credit;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,6 @@ import '../../../../common/widgets/im_util.dart';
 import '../../../../common/widgets/tabbar/buttons_tabbar.dart';
 import '../../../../common/widgets/timeline/timeline.dart';
 import '../../../../common/widgets/timeline/timeline_model.dart';
-import 'bottom_picker.dart';
 import 'doodle.dart';
 import 'fine_item.dart';
 
@@ -36,13 +34,15 @@ class _TimeLinePageState extends State<TimeLinePage>
       PageController(initialPage: 0, keepPage: true);
 
   TextEditingController loanController = TextEditingController();
-  FocusNode  loanFieldNode = FocusNode();
+  FocusNode loanFieldNode = FocusNode();
   int pageIx = 0;
   List<Circulations> circulations = <Circulations>[];
-  SaleManDetailDataData? detail ;
+  SaleManDetailDataData? detail;
+
   List<Doodle> doodleList = <Doodle>[];
   String roleKey = "super";
-  String selectDate ="";
+  String selectDate = "";
+
   @override
   void initState() {
     _getData();
@@ -186,7 +186,8 @@ class _TimeLinePageState extends State<TimeLinePage>
         p.add(Pic(
             circulationId: e.circulationid,
             picType: e.status,
-            picUrl: "http://192.168.1.200:85" + e.identificationurl.toString()));
+            picUrl:
+                "http://192.168.1.200:85" + e.identificationurl.toString()));
       }
       if (e.deedurl != "" && e.deedurl != null) {
         p.add(Pic(
@@ -202,7 +203,7 @@ class _TimeLinePageState extends State<TimeLinePage>
           name: getTitle(e),
           time: e.createtime,
           content: e.createby.toString(),
-          opUser: e.remark==null?"":e.remark.toString() ,
+          opUser: e.remark == null ? "" : e.remark.toString(),
           address: "",
           status: "",
           doodle:
@@ -227,49 +228,46 @@ class _TimeLinePageState extends State<TimeLinePage>
       body: ScrollConfiguration(
         behavior: DyBehaviorNull(),
         child: DefaultTabController(
-        length: 2,
-        child: Column(
-          children: <Widget>[
-            ButtonsTabBar(
-              radius: 40.w,
-              contentPadding: EdgeInsets.only(left: 40.w,right: 40.w),
-              backgroundColor: Colors.blue,
-              unselectedBackgroundColor: Color(0xffeeeeee),
-              unselectedLabelStyle: TextStyle(color: Colors.black),
-              labelStyle:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              tabs: [
-                Tab(
-                  text: "流程图",
-                ),
-                Tab(
-                  text: "个人信息",
-                ),
-
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: <Widget>[
-
-                  Center(
-                    child:
-                    PageView(
+          length: 2,
+          child: Column(
+            children: <Widget>[
+              ButtonsTabBar(
+                radius: 40.w,
+                contentPadding: EdgeInsets.only(left: 40.w, right: 40.w),
+                backgroundColor: Colors.blue,
+                unselectedBackgroundColor: Color(0xffeeeeee),
+                unselectedLabelStyle: TextStyle(color: Colors.black),
+                labelStyle:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                tabs: [
+                  Tab(
+                    text: "流程图",
+                  ),
+                  Tab(
+                    text: "个人信息",
+                  ),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: <Widget>[
+                    Center(
+                        child: PageView(
                             onPageChanged: (i) => setState(() => pageIx = i),
                             controller: pageController,
                             children: pages)),
-                  Center(
-                    child: detail ==null? Container():buildBase(Get.context!,detail!,1,false,(a,b){
-
-                    },""),
-                  ),
-
-                ],
+                    Center(
+                      child: detail == null
+                          ? Container()
+                          : buildBase(
+                              Get.context!, detail!, 1, false, (a, b) {}, ""),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -362,7 +360,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                           doodle.opUser != ""
                               ? Text(doodle.opUser, style: textTheme.caption)
                               : Container(),
-                          doodle.opUser != "" ? SizedBox(height: 8.h) : Container(),
+                          doodle.opUser != ""
+                              ? SizedBox(height: 8.h)
+                              : Container(),
                           doodle.content != ""
                               ? Container(
                                   decoration: BoxDecoration(
@@ -380,7 +380,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                           SizedBox(height: 8.h),
                         ],
                       ),
-                      i==0 ?buildButton(doodle.name) :Container()
+                      i == 0 ? buildButton(doodle.name) : Container()
                     ],
                   )),
             ),
@@ -424,221 +424,261 @@ class _TimeLinePageState extends State<TimeLinePage>
         iconBackground: doodle.iconBackground,
         icon: doodle.icon);
   }
-  Widget buildButton(String name){
+
+  Widget buildButton(String name) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        shadowColor:Colors.transparent,
-        primary:  Colors.blue.withOpacity(0.7),
+        shadowColor: Colors.transparent,
+        primary: Colors.blue.withOpacity(0.7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(70.w),
         ),
         //side: BorderSide(width: 2.w, color: Colors.blue),
       ),
       child: Container(
-        child: Text(name,style: TextStyle(fontSize: 30.sp,color: Colors.white),),
-        padding: EdgeInsets.only(top: 20.h,left: 35.w,bottom:20.h,right: 35.w),
-
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 30.sp, color: Colors.white),
+        ),
+        padding:
+            EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
         appointDialog(name);
       },
     );
   }
- appointDialog(String name) async {
 
-   await showDialog(
-       barrierDismissible: false,
-       context: context,
-       builder:  (c) { return StatefulBuilder(builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              loanFieldNode.unfocus();
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: ScreenUtil().screenWidth * 0.95,
-                  height: 550.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(40.w)),
-                  ),
-                  child:Stack(
-                    //alignment: AlignmentDirectional.topCenter,
-                    children: <Widget>[
-
-                      Positioned(
-                        top: 30.h,
-                        right: 30.h,
-                        child: GestureDetector(
-                          onTap: () {
-                            loanController.text="";
-                            selectDate="";
-                             Navigator.of(context).pop();
-                          },
-                          child: Image.asset(
-                            'assets/images/btn_close_black.png',
-                            width: 40.w,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 30.h,
-                        left: 270.w,
-                        child: GestureDetector(
-                          onTap: () {
-
-                          },
-                          child: Text(name,
-                              style:
-                              TextStyle(fontSize: 36.sp, color:  Colors.black,fontWeight: FontWeight.w600)),
-                        ),
-                      ),
-
-                      Column(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(left:100.w,right:80.w,top: 100.h),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text("未放款金额：",style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 32.sp),),
-                                  Text("15",style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 40.sp,fontWeight: FontWeight.w600),),
-                                  Text("  万",style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 32.sp),),
-                                ],
-                              )
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 80.w,right:80.w,top: 20.h),
-                            height: 80.h,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    autofocus: false,
-                                    controller: loanController,
-                                    focusNode:  loanFieldNode,
-                                    style:  TextStyle(color: Colors.redAccent,fontSize: 40.sp,fontWeight: FontWeight.w400),
-                                    minLines: 7,
-                                    maxLines: 7,
-                                    cursorColor: Colors.blue,
-                                    //cursorRadius: Radius.circular(40.h),
-                                    cursorWidth: 3.w,
-                                    showCursor: true,
-                                    decoration: InputDecoration(
-                                      suffixText: "万",
-                                      suffixStyle: TextStyle(color: Colors.redAccent,fontSize: 40.sp),
-                                      isCollapsed: true,
-                                      contentPadding: EdgeInsets.only(left: 40.w,right:40.w,top: 20.h,bottom: 0),
-                                      hintText: "本次放款金额",
-                                      hintStyle:
-                                       TextStyle(color: Colors.blue,fontSize: 32.sp),
-                                      border:  OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),),
-                                      enabledBorder:  OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(40.h)),
-                                        borderSide:
-                                        BorderSide(color: Colors.blue,width: 2.h),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(    borderRadius: BorderRadius.all(Radius.circular(40.h)),borderSide:
-                                      BorderSide(color: Colors.blue,width: 2.h),),
-                                    ),
-                                    onChanged: (v) {},
-                                  ),
-                                ),
-                              ],
+  appointDialog(String name) async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (c) {
+          return StatefulBuilder(builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                loanFieldNode.unfocus();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().screenWidth * 0.95,
+                    height: 550.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                    ),
+                    child: Stack(
+                      //alignment: AlignmentDirectional.topCenter,
+                      children: <Widget>[
+                        Positioned(
+                          top: 30.h,
+                          right: 30.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              loanController.text = "";
+                              selectDate = "";
+                              Navigator.of(context).pop();
+                            },
+                            child: Image.asset(
+                              'assets/images/btn_close_black.png',
+                              width: 40.w,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              loanFieldNode.unfocus();
-                              BottomPicker.date(
-                                  initialDateTime: DateTime.tryParse(selectDate),
-                                  height: 600.h,
-                                  buttonTextStyle: TextStyle(color: Colors.white,fontSize: 32.sp),
-                                  buttonSingleColor: Colors.green,
-                                  displayButtonIcon: false,
-                                  buttonText: "确定",
-                                  title:  "选择日期",
-                                  titleStyle: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize:  38.sp,
-                                      color: Colors.black
-                                  ),
-                                  onChange: (index) {
-                                    //print(index);
-                                  },
-                                  onSubmit: (index) {
-                                   // print(index);
-                                    state((){
-                                      selectDate=  DateFormat("yyyy-MM-dd").format(index);
-                                    });
-
-                                  },
-                                  bottomPickerTheme: BottomPickerTheme.plumPlate
-                              ).show(context);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 80.w,right:80.w,top: 30.h),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(40.h),
-                                border: Border.all(color: Colors.blue, width: 1),//边框
-                              ),
-                              height: 80.h,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 40.w),
+                        ),
+                        Positioned(
+                          top: 30.h,
+                          left: 270.w,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Text(name,
+                                style: TextStyle(
+                                    fontSize: 36.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(
+                                    left: 100.w, right: 80.w, top: 100.h),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(selectDate==""?"请选择放款时间":selectDate,style: TextStyle(
-                                        color:selectDate==""?  Colors.blue:Colors.redAccent,
-                                        fontSize: selectDate==""?32.sp:38.sp),),
+                                    Text(
+                                      "未放款金额：",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 32.sp),
+                                    ),
+                                    Text(
+                                      "15",
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 40.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      "  万",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 32.sp),
+                                    ),
                                   ],
-                                )
+                                )),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 80.w, right: 80.w, top: 20.h),
+                              height: 80.h,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      autofocus: false,
+                                      controller: loanController,
+                                      focusNode: loanFieldNode,
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 40.sp,
+                                          fontWeight: FontWeight.w400),
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      cursorColor: Colors.blue,
+                                      //cursorRadius: Radius.circular(40.h),
+                                      cursorWidth: 3.w,
+                                      showCursor: true,
+                                      decoration: InputDecoration(
+                                        suffixText: "万",
+                                        suffixStyle: TextStyle(
+                                            color: Colors.redAccent,
+                                            fontSize: 40.sp),
+                                        isCollapsed: true,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 40.w,
+                                            right: 40.w,
+                                            top: 20.h,
+                                            bottom: 0),
+                                        hintText: "本次放款金额",
+                                        hintStyle: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 32.sp),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(40.h)),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(40.h)),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue, width: 2.h),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(40.h)),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue, width: 2.h),
+                                        ),
+                                      ),
+                                      onChanged: (v) {},
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          Container(
-                            width: ScreenUtil().screenWidth,
-                            height: 80.h,
-                            margin:
-                            EdgeInsets.only(top: 40.h,left: 40.w,right: 40.w),
-                            child: RaisedButton(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(40.h))),
-                              color: Colors.lightBlue,
-                              onPressed: () {
-                                Navigator.of(context).pop();
+                            GestureDetector(
+                              onTap: () {
+                                loanFieldNode.unfocus();
+                                BottomPicker.date(
+                                        initialDateTime:
+                                            DateTime.tryParse(selectDate),
+                                        height: 600.h,
+                                        buttonTextStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 32.sp),
+                                        buttonSingleColor: Colors.green,
+                                        displayButtonIcon: false,
+                                        buttonText: "确定",
+                                        title: "选择日期",
+                                        titleStyle: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 38.sp,
+                                            color: Colors.black),
+                                        onChange: (index) {
+                                          //print(index);
+                                        },
+                                        onSubmit: (index) {
+                                          // print(index);
+                                          state(() {
+                                            selectDate =
+                                                DateFormat("yyyy-MM-dd")
+                                                    .format(index);
+                                          });
+                                        },
+                                        bottomPickerTheme:
+                                            BottomPickerTheme.plumPlate)
+                                    .show(context);
                               },
-                              child: Text("提交",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 36.sp)),
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 80.w, right: 80.w, top: 30.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(40.h),
+                                  border: Border.all(
+                                      color: Colors.blue, width: 1), //边框
+                                ),
+                                height: 80.h,
+                                child: Container(
+                                    padding: EdgeInsets.only(left: 40.w),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          selectDate == ""
+                                              ? "请选择放款时间"
+                                              : selectDate,
+                                          style: TextStyle(
+                                              color: selectDate == ""
+                                                  ? Colors.blue
+                                                  : Colors.redAccent,
+                                              fontSize: selectDate == ""
+                                                  ? 32.sp
+                                                  : 38.sp),
+                                        ),
+                                      ],
+                                    )),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-
-
-
-
-                    ],
+                            Container(
+                              width: ScreenUtil().screenWidth,
+                              height: 80.h,
+                              margin: EdgeInsets.only(
+                                  top: 40.h, left: 40.w, right: 40.w),
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(40.h))),
+                                color: Colors.lightBlue,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("提交",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 36.sp)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-
-              ],
-            ),
-          );
-        });});
-
+                ],
+              ),
+            );
+          });
+        });
   }
 }
