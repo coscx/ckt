@@ -42,6 +42,7 @@ class _TimeLinePageState extends State<TimeLinePage>
   List<Doodle> doodleList = <Doodle>[];
   String roleKey = "super";
   String selectDate = "";
+  int lendingNum = 0;
 
   @override
   void initState() {
@@ -173,6 +174,8 @@ class _TimeLinePageState extends State<TimeLinePage>
         circulations = d.data!.data!.circulations!.reversed.toList();
         detail = d.data!.data!;
       }
+      var d1 = await CommonAPI.getLendingDetail(widget.loanId);
+      lendingNum = d1.data!.data;
     } else if (roleKey == "salesman") {
       var d = await CommonAPI.getSaleManDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
@@ -513,7 +516,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                           color: Colors.black, fontSize: 32.sp),
                                     ),
                                     Text(
-                                      "15",
+                                      lendingNum.toString(),
                                       style: TextStyle(
                                           color: Colors.redAccent,
                                           fontSize: 40.sp,

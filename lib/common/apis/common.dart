@@ -14,6 +14,7 @@ import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
 import 'package:flutter_ckt/common/entities/im/group.dart';
 import 'package:flutter_ckt/common/entities/loan/channel.dart';
+import 'package:flutter_ckt/common/entities/loan/lending.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman.dart';
@@ -306,6 +307,13 @@ class CommonAPI {
       data: {"id":id},
     );
     return SaleManDetail.fromJson(response);
+  }
+  static Future<Lending> getLendingDetail(int id) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetLendingDetail',
+      data: {"id":id},
+    );
+    return Lending.fromJson(response);
   }
   static Future<SaleManDetail> getSuperDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
