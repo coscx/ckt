@@ -1840,6 +1840,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                           children: [
                             GestureDetector(
                               onTap: () async {
+                                remarkFieldNode.unfocus();
                                 await showPickerArray(
                                     context,
                                     [
@@ -1902,6 +1903,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                             showAuditCheck
                                 ? GestureDetector(
                                     onTap: () async {
+                                      remarkFieldNode.unfocus();
                                       await showPickerArray(
                                           context,
                                           [
@@ -1965,8 +1967,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                                           child: TextField(
                                             keyboardType: TextInputType.text,
                                             autofocus: false,
-                                            controller: loanController,
-                                            focusNode: loanFieldNode,
+                                            controller: remarkController,
+                                            focusNode: remarkFieldNode,
                                             style: TextStyle(
                                                 color: Colors.redAccent,
                                                 fontSize: 40.sp,
