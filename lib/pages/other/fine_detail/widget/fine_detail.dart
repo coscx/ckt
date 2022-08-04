@@ -656,6 +656,9 @@ class _TimeLinePageState extends State<TimeLinePage>
       status = "待补件";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
+
+      salesmanStatus5Dialog("待补件", data.loanid, data.status);
+
     }
     if (data.status == 6) {
       status = "待风控";
@@ -975,7 +978,171 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+  salesmanStatus5Dialog(String name, int loanId, int status) async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (c) {
+          return StatefulBuilder(builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                loanFieldNode.unfocus();
+                remarkFieldNode.unfocus();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().screenWidth * 0.95,
+                    height:  580.h ,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                    ),
+                    child: Stack(
+                      //alignment: AlignmentDirectional.topCenter,
+                      children: <Widget>[
+                        Positioned(
+                          top: 30.h,
+                          right: 30.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              loanController.text = "";
+                              selectDate = "";
+                              Navigator.of(context).pop();
+                            },
+                            child: Image.asset(
+                              'assets/images/btn_close_black.png',
+                              width: 40.w,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 30.h,
+                          left: 270.w,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Text(name,
+                                style: TextStyle(
+                                    fontSize: 36.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        Column(
+                          children: [
 
+                            Container(
+                                margin: EdgeInsets.only(
+                                    left: 100.w, right: 80.w, top: 120.h),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "审核不通过原因：",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 32.sp),
+                                    ),
+                                    Text(
+                                      detail!.remark.toString(),
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 40.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+
+                                  ],
+                                )),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 80.w, right: 80.w, top: 20.h),
+                              height: 200.h,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      keyboardType: TextInputType.text,
+                                      autofocus: false,
+                                      controller: loanController,
+                                      focusNode: loanFieldNode,
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 40.sp,
+                                          fontWeight: FontWeight.w400),
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      cursorColor: Colors.blue,
+                                      //cursorRadius: Radius.circular(40.h),
+                                      cursorWidth: 3.w,
+                                      showCursor: true,
+                                      decoration: InputDecoration(
+                                        isCollapsed: true,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 40.w,
+                                            right: 40.w,
+                                            top: 20.h,
+                                            bottom: 0),
+                                        hintText: "请输入备注",
+                                        hintStyle: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 32.sp),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12.h)),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12.h)),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue,
+                                              width: 2.h),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12.h)),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue,
+                                              width: 2.h),
+                                        ),
+                                      ),
+                                      onChanged: (v) {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: ScreenUtil().screenWidth,
+                              height: 80.h,
+                              margin: EdgeInsets.only(
+                                  top: 30.h, left: 40.w, right: 40.w),
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(40.h))),
+                                color: Colors.lightBlue,
+                                onPressed: () {
+                                  status = 4;
+                                  changeSalesmanStatus(
+                                      loanId, status, remarkController.text);
+                                },
+                                child: Text("提交",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 36.sp)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          });
+        });
+  }
   salesmanStatus160Dialog(String name, int loanId, int status) async {
     await showDialog(
         barrierDismissible: false,
