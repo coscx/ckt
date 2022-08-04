@@ -1,10 +1,11 @@
-import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/entities/loan/saleman_detail.dart';
+import '../../../../common/widgets/city_pickers/modal/result.dart';
+import '../../../../common/widgets/city_pickers/src/city_picker.dart';
 import '../../../oa/user_detail/widget/common_dialog.dart';
 import '../../../oa/user_detail/widget/widget_node_panel.dart';
 
@@ -83,20 +84,28 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           Result? result = await CityPickers.showCityPicker(
+
+                              borderRadius: 20.w,
                               context: context,
                               locationCode: info.district==null?  "320508":info.city.toString(),
-                              cancelWidget: Text(
-                                "取消",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 40.sp,
+                              cancelWidget: Container(
+                                padding: EdgeInsets.only(top: 20.h, left: 20.w),
+                                child: Text(
+                                  "取消",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 40.sp,
+                                  ),
                                 ),
                               ),
-                              confirmWidget: Text(
-                                "确定",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 40.sp,
+                              confirmWidget: Container(
+                                padding: EdgeInsets.only(top: 20.h, right: 20.w),
+                                child: Text(
+                                  "确定",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 40.sp,
+                                  ),
                                 ),
                               ));
                           debugPrint(result.toString());

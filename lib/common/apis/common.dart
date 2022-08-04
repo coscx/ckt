@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_ckt/common/entities/common_result.dart';
 import 'package:flutter_ckt/common/entities/detail/calllog.dart';
 import 'package:flutter_ckt/common/entities/detail/claim_customer.dart';
 import 'package:flutter_ckt/common/entities/detail/connect.dart';
-import 'package:flutter_ckt/common/entities/detail/user.dart';
 import 'package:flutter_ckt/common/entities/detail/free_vip.dart';
 import 'package:flutter_ckt/common/entities/detail/store_vip.dart';
+import 'package:flutter_ckt/common/entities/detail/user.dart';
 import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
 import 'package:flutter_ckt/common/entities/detail/viewcall.dart';
 import 'package:flutter_ckt/common/entities/flow/wx_article.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_ckt/common/entities/home/erp_user.dart';
 import 'package:flutter_ckt/common/entities/home/tree_store.dart';
 import 'package:flutter_ckt/common/entities/im/group.dart';
 import 'package:flutter_ckt/common/entities/loan/channel.dart';
+import 'package:flutter_ckt/common/entities/loan/ckt_file.dart';
 import 'package:flutter_ckt/common/entities/loan/lending.dart';
 import 'package:flutter_ckt/common/entities/loan/loan_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/quota_list.dart';
@@ -23,6 +26,7 @@ import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
 import 'package:flutter_ckt/common/entities/loan/super_director.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
+
 import '../entities/app_version.dart';
 import '../entities/detail/action.dart';
 import '../entities/detail/appoint.dart';
@@ -41,36 +45,45 @@ import '../utils/new_common_http.dart';
 
 /// 用户
 class CommonAPI {
-
-  static Future<Loan> getLoanList(int page,int status,String userId,int cnId) async {
+  static Future<Loan> getLoanList(
+      int page, int status, String userId, int cnId) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetLoanCheckList',
-      data: {"user_id":userId,"cn_id":cnId,"currentPage":page,"status":status},
+      data: {
+        "user_id": userId,
+        "cn_id": cnId,
+        "currentPage": page,
+        "status": status
+      },
     );
     return Loan.fromJson(response);
   }
+
   static Future<LoanDetail> getLoanDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetLoanDetail',
-      data: {"loan_id":id},
+      data: {"loan_id": id},
     );
     return LoanDetail.fromJson(response);
   }
-  static Future<Quota> GetAppQuotaCalculation(Map<String,dynamic> data) async {
+
+  static Future<Quota> GetAppQuotaCalculation(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAppQuotaCalculation',
       data: data,
     );
     return Quota.fromJson(response);
   }
-  static Future<QuotaList> GetCalcucationList(int page,int user_id) async {
+
+  static Future<QuotaList> GetCalcucationList(int page, int user_id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetCalcucationList',
-      data: {"page":page,"user_id":user_id},
+      data: {"page": page, "user_id": user_id},
     );
     return QuotaList.fromJson(response);
   }
-  static Future<CommonResult> uploadAppFile( int type, String path) async {
+
+  static Future<CommonResult> uploadAppFile(int type, String path) async {
     MultipartFile multipartFile = MultipartFile.fromFileSync(
       path,
       // 文件名
@@ -86,11 +99,13 @@ class CommonAPI {
     params['type'] = type;
 
     var response = await NewLoanHttpUtil().post(
-      '/api/UploadAppFile' ,
-      data: formData, queryParameters: params,
+      '/api/UploadAppFile',
+      data: formData,
+      queryParameters: params,
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<SaleManGrid> getSaleManGrid() async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManGrid',
@@ -99,21 +114,24 @@ class CommonAPI {
     return SaleManGrid.fromJson(response);
   }
 
-  static Future<SaleMan> getSaleManMyUserList(Map<String,dynamic> data) async {
+  static Future<SaleMan> getSaleManMyUserList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManMyUserList',
       data: data,
     );
     return SaleMan.fromJson(response);
   }
-  static Future<SaleMan> getManageMyUserList(Map<String,dynamic> data) async {
+
+  static Future<SaleMan> getManageMyUserList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageMyUserList',
       data: data,
     );
     return SaleMan.fromJson(response);
   }
-  static Future<SaleMan> getAdministrativeMyUserList(Map<String,dynamic> data) async {
+
+  static Future<SaleMan> getAdministrativeMyUserList(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeMyUserList',
       data: data,
@@ -121,21 +139,23 @@ class CommonAPI {
     return SaleMan.fromJson(response);
   }
 
-  static Future<SaleMan> getSuperMyUserList(Map<String,dynamic> data) async {
+  static Future<SaleMan> getSuperMyUserList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperMyUserList',
       data: data,
     );
     return SaleMan.fromJson(response);
   }
-  static Future<SaleMan> getSuperAllUserList(Map<String,dynamic> data) async {
+
+  static Future<SaleMan> getSuperAllUserList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperAllUserList',
       data: data,
     );
     return SaleMan.fromJson(response);
   }
-  static Future<SaleMan> getManageAllUserList(Map<String,dynamic> data) async {
+
+  static Future<SaleMan> getManageAllUserList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageAllUserList',
       data: data,
@@ -143,29 +163,32 @@ class CommonAPI {
     return SaleMan.fromJson(response);
   }
 
-
-  static Future<Channels> getSaleManChannel(Map<String,dynamic> data) async {
+  static Future<Channels> getSaleManChannel(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManChannel',
       data: data,
     );
     return Channels.fromJson(response);
   }
-  static Future<Channels> getManageChannel(Map<String,dynamic> data) async {
+
+  static Future<Channels> getManageChannel(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageChannel',
       data: data,
     );
     return Channels.fromJson(response);
   }
-  static Future<Channels> getAdministrativeChannel(Map<String,dynamic> data) async {
+
+  static Future<Channels> getAdministrativeChannel(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeChannel',
       data: data,
     );
     return Channels.fromJson(response);
   }
-  static Future<Channels> getSuperChannel(Map<String,dynamic> data) async {
+
+  static Future<Channels> getSuperChannel(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperChannel',
       data: data,
@@ -173,8 +196,8 @@ class CommonAPI {
     return Channels.fromJson(response);
   }
 
-
-  static Future<SuperDirector> getSuperDirector(Map<String,dynamic> data) async {
+  static Future<SuperDirector> getSuperDirector(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperDirector',
       data: data,
@@ -182,7 +205,8 @@ class CommonAPI {
     return SuperDirector.fromJson(response);
   }
 
-  static Future<SuperDirector> getManageSubordinate(Map<String,dynamic> data) async {
+  static Future<SuperDirector> getManageSubordinate(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageSubordinate',
       data: data,
@@ -190,29 +214,31 @@ class CommonAPI {
     return SuperDirector.fromJson(response);
   }
 
-
-  static Future<Step> getSaleManStep(Map<String,dynamic> data) async {
+  static Future<Step> getSaleManStep(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManStep',
       data: data,
     );
     return Step.fromJson(response);
   }
-  static Future<Step> getManageStep(Map<String,dynamic> data) async {
+
+  static Future<Step> getManageStep(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageStep',
       data: data,
     );
     return Step.fromJson(response);
   }
-  static Future<Step> getAdministrativeStep(Map<String,dynamic> data) async {
+
+  static Future<Step> getAdministrativeStep(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeStep',
       data: data,
     );
     return Step.fromJson(response);
   }
-  static Future<Step> getSuperStep(Map<String,dynamic> data) async {
+
+  static Future<Step> getSuperStep(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperStep',
       data: data,
@@ -220,29 +246,31 @@ class CommonAPI {
     return Step.fromJson(response);
   }
 
-
-  static Future<Staff> getSaleManStaff(Map<String,dynamic> data) async {
+  static Future<Staff> getSaleManStaff(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManStaff',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> getManageStaff(Map<String,dynamic> data) async {
+
+  static Future<Staff> getManageStaff(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageStaff',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> getAdministrativeStaff(Map<String,dynamic> data) async {
+
+  static Future<Staff> getAdministrativeStaff(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeStaff',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> getSuperStaff(Map<String,dynamic> data) async {
+
+  static Future<Staff> getSuperStaff(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperStaff',
       data: data,
@@ -250,22 +278,24 @@ class CommonAPI {
     return Staff.fromJson(response);
   }
 
-
-  static Future<Staff> getManageEmployees(Map<String,dynamic> data) async {
+  static Future<Staff> getManageEmployees(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageEmployees',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> getAdministrativeEmployees(Map<String,dynamic> data) async {
+
+  static Future<Staff> getAdministrativeEmployees(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeEmployees',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> getSuperEmployees(Map<String,dynamic> data) async {
+
+  static Future<Staff> getSuperEmployees(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperEmployees',
       data: data,
@@ -273,111 +303,147 @@ class CommonAPI {
     return Staff.fromJson(response);
   }
 
-  static Future<Staff> changeSaleManStepStatus(Map<String,dynamic> data) async {
+  static Future<Staff> changeSaleManStepStatus(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ChangeSaleManStepStatus',
       data: data,
     );
     return Staff.fromJson(response);
   }
-  static Future<Staff> changeSaleBaseInfo(Map<String,dynamic> data) async {
+
+  static Future<Staff> changeAdministrativeStepStatus(
+      Map<String, dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ChangeAdministrativeStepStatus',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> auditAdministrativeStepStatus(
+      Map<String, dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/AuditAdministrativeStepStatus',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
+  static Future<Staff> changeSaleBaseInfo(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ChangeSaleBaseInfo',
       data: data,
     );
     return Staff.fromJson(response);
   }
+
   static Future<SaleManDetail> getSaleManDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManDetail',
-      data: {"id":id},
+      data: {"id": id},
     );
     return SaleManDetail.fromJson(response);
   }
+
   static Future<SaleManDetail> getManageDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageDetail',
-      data: {"id":id},
+      data: {"id": id},
     );
     return SaleManDetail.fromJson(response);
   }
+
   static Future<SaleManDetail> getAdministrativeDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeDetail',
-      data: {"id":id},
+      data: {"id": id},
     );
     return SaleManDetail.fromJson(response);
   }
+
   static Future<Lending> getLendingDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetLendingDetail',
-      data: {"id":id},
+      data: {"id": id},
     );
     return Lending.fromJson(response);
   }
+
   static Future<SaleManDetail> getSuperDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSuperDetail',
-      data: {"id":id},
+      data: {"id": id},
     );
     return SaleManDetail.fromJson(response);
   }
-  static Future<Audit> getAdministrativeAuditList(Map<String,dynamic> data) async {
+
+  static Future<Audit> getAdministrativeAuditList(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetAdministrativeAuditList',
       data: data,
     );
     return Audit.fromJson(response);
   }
-  static Future<SaleMan> getManageAbandonList(Map<String,dynamic> data) async {
+
+  static Future<SaleMan> getManageAbandonList(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetManageAbandonList',
       data: data,
     );
     return SaleMan.fromJson(response);
   }
-  static Future<CommonResult> superDivide(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> superDivide(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/SuperDivide',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> manageDivide(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> manageDivide(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ManageDivide',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> manageAbandonDivide(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> manageAbandonDivide(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ManageAbandonDivide',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> manageAddUser(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> manageAddUser(Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/ManageAddUser',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> createManageChannel(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> createManageChannel(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/CreateManageChannel',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> createSaleManChannel(Map<String,dynamic> data) async {
+
+  static Future<CommonResult> createSaleManChannel(
+      Map<String, dynamic> data) async {
     var response = await NewLoanHttpUtil().post(
       '/api/CreateSaleManChannel',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<AppVersionEntity> getVersion() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/auth/version',
@@ -385,6 +451,7 @@ class CommonAPI {
     );
     return AppVersionEntity.fromJson(response);
   }
+
   static Future<LoginEntity> login(String username, String password) async {
     var data = {'username': username, 'password': password};
     var response = await NewLoanHttpUtil().post(
@@ -393,6 +460,34 @@ class CommonAPI {
     );
     return LoginEntity.fromJson(response);
   }
+
+  static String getUUid() {
+    String randomStr = Random().nextInt(10).toString();
+    for (var i = 0; i < 3; i++) {
+      var str = Random().nextInt(10);
+      randomStr = "$randomStr" + "$str";
+    }
+    var timeNumber = DateTime.now().millisecondsSinceEpoch; //时间
+    var uuid = "$randomStr" + "$timeNumber";
+    return (uuid);
+  }
+
+  static Future<CktFile> uploadCktFile( String path) async {
+    MultipartFile multipartFile = MultipartFile.fromFileSync(
+      path,
+      filename: getUUid()+'.jpg',
+      contentType: MediaType("image", "jpg"),
+    );
+    FormData formData = FormData.fromMap({
+      "file": multipartFile
+    });
+    var response = await NewLoanHttpUtil().post(
+      '/api/UploadImg',
+      data: formData,
+    );
+    return CktFile.fromJson(response);
+  }
+
   static Future<AppVersionEntity> getWxLogin() async {
     var data = {};
     var response = await NewERPHttpUtil().post(
@@ -410,13 +505,15 @@ class CommonAPI {
     );
     return LoginEntity.fromJson(response);
   }
+
   static Future<CommonResult> bindAppWeChat(String code) async {
     var response = await NewERPHttpUtil().post(
       '/api/bindAppWeChat',
-      data: {"code":code},
+      data: {"code": code},
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<Stores> getOnlyStoreList() async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/store/select',
@@ -424,6 +521,7 @@ class CommonAPI {
     );
     return Stores.fromJson(response);
   }
+
   static Future<ErpUserResult> getErpUsers(String storeId) async {
     var response = await NewERPHttpUtil().post(
       '/api/GetErpUserByStoreId',
@@ -431,6 +529,7 @@ class CommonAPI {
     );
     return ErpUserResult.fromJson(response);
   }
+
   static Future<TreeStoreResult> getTreeStoreList() async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/system/user/getTreeStoreOnline',
@@ -438,49 +537,78 @@ class CommonAPI {
     );
     return TreeStoreResult.fromJson(response);
   }
+
   static Future<UserDetailResult> getUserDetail(String uuid) async {
     var response = await NewERPHttpUtil().post(
-      '/api/v1/customer/detail/'+uuid,
+      '/api/v1/customer/detail/' + uuid,
       queryParameters: {},
     );
     return UserDetailResult.fromJson(response);
   }
+
   static Future<ConnectDataResult> getConnectList(String uuid, int page) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/customer/connectList',
-      queryParameters: {'customer_uuid': uuid, 'currentPage': page, "pageSize": 20},
+      queryParameters: {
+        'customer_uuid': uuid,
+        'currentPage': page,
+        "pageSize": 20
+      },
     );
     return ConnectDataResult.fromJson(response);
   }
-  static Future<ConnectDataResult> getConnectListCheck(String uuid, int page) async {
+
+  static Future<ConnectDataResult> getConnectListCheck(
+      String uuid, int page) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/customer/GetConnectListCheck',
-      queryParameters: {'customer_uuid': uuid, 'currentPage': page, "pageSize": 20},
+      queryParameters: {
+        'customer_uuid': uuid,
+        'currentPage': page,
+        "pageSize": 20
+      },
     );
     return ConnectDataResult.fromJson(response);
   }
-  static Future<AppointDataResult> getAppointmentList(String uuid, int page) async {
+
+  static Future<AppointDataResult> getAppointmentList(
+      String uuid, int page) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/customer/appointmentList',
-      queryParameters: {'customer_uuid': uuid, 'currentPage': page, "pageSize": 20},
+      queryParameters: {
+        'customer_uuid': uuid,
+        'currentPage': page,
+        "pageSize": 20
+      },
     );
     return AppointDataResult.fromJson(response);
   }
 
-  static Future<UserActionDataResult> getActionList(String uuid, int page) async {
+  static Future<UserActionDataResult> getActionList(
+      String uuid, int page) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/customer/actionList',
-      queryParameters: {'customer_uuid': uuid, 'currentPage': page, "pageSize": 20},
+      queryParameters: {
+        'customer_uuid': uuid,
+        'currentPage': page,
+        "pageSize": 20
+      },
     );
     return UserActionDataResult.fromJson(response);
   }
+
   static Future<CallLogDataResult> getCallList(String uuid, int page) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/customer/callLogs',
-      queryParameters: {'customer_uuid': uuid, 'currentPage': page, "pageSize": 20},
+      queryParameters: {
+        'customer_uuid': uuid,
+        'currentPage': page,
+        "pageSize": 20
+      },
     );
     return CallLogDataResult.fromJson(response);
   }
+
   static Future<ViewCallResult> viewCall(String uuid) async {
     var response = await NewERPHttpUtil().get(
       '/api/v1/auth/getCustomerMobile/' + uuid,
@@ -496,6 +624,7 @@ class CommonAPI {
     );
     return ClaimCustomerResult.fromJson(response);
   }
+
   static Future<StoreVipDataResult> getStoreVips() async {
     var response = await NewERPHttpUtil().post(
       '/api/GetStoreVips',
@@ -503,7 +632,9 @@ class CommonAPI {
     );
     return StoreVipDataResult.fromJson(response);
   }
-  static Future<FreeVipDataResult> addMealFree( Map<String, dynamic> data) async {
+
+  static Future<FreeVipDataResult> addMealFree(
+      Map<String, dynamic> data) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/store/addMealFree',
       data: data,
@@ -511,13 +642,15 @@ class CommonAPI {
 
     return FreeVipDataResult.fromJson(response);
   }
-  static Future<CommonResult> buyVip( Map<String, dynamic> data) async {
+
+  static Future<CommonResult> buyVip(Map<String, dynamic> data) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/buyVip',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<UserDataResult> getErpUser() async {
     var response = await NewERPHttpUtil().post(
       '/api/UserList',
@@ -526,14 +659,17 @@ class CommonAPI {
     return UserDataResult.fromJson(response);
   }
 
-  static Future<CommonResult> distribute(String uuid, int type, int userUuid) async {
+  static Future<CommonResult> distribute(
+      String uuid, int type, int userUuid) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/system/distribute',
       data: {'customer_uuid': uuid, 'type': type, 'user_id': userUuid},
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> editCustomerOnceString(String uuid, String type, String answer) async {
+
+  static Future<CommonResult> editCustomerOnceString(
+      String uuid, String type, String answer) async {
     Map<String, dynamic> searchParam = {};
     searchParam[type] = answer;
     var response = await NewERPHttpUtil().post(
@@ -542,7 +678,9 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> editCustomerOnceStringResource(String uuid, String type, String url) async {
+
+  static Future<CommonResult> editCustomerOnceStringResource(
+      String uuid, String type, String url) async {
     var data = {
       'resources': json.encode([
         {'type': type, 'file_url': url}
@@ -555,23 +693,26 @@ class CommonAPI {
     return CommonResult.fromJson(response);
   }
 
-  static Future<CommonResult> editCustomerAddress(String uuid, Map<String, dynamic> searchParam) async {
-
+  static Future<CommonResult> editCustomerAddress(
+      String uuid, Map<String, dynamic> searchParam) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/editCustomer/' + uuid,
       data: searchParam,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> editCustomerDemndAddress(String uuid, Map<String, dynamic> searchParam) async {
 
+  static Future<CommonResult> editCustomerDemndAddress(
+      String uuid, Map<String, dynamic> searchParam) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/editCustomerDemand/' + uuid,
       data: searchParam,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> editCustomerDemandOnce(String uuid, String type, String answer) async {
+
+  static Future<CommonResult> editCustomerDemandOnce(
+      String uuid, String type, String answer) async {
     Map<String, dynamic> searchParam = {};
     searchParam[type] = answer;
     var response = await NewERPHttpUtil().post(
@@ -589,15 +730,17 @@ class CommonAPI {
     return DashBordDataResult.fromJson(response);
   }
 
-
-  static Future<CommonResult> delPhoto( int imgId,) async {
+  static Future<CommonResult> delPhoto(
+    int imgId,
+  ) async {
     var response = await NewERPHttpUtil().post(
-      '/api/v1/customer/deleteResources' ,
+      '/api/v1/customer/deleteResources',
       data: {'id': imgId},
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> uploadPhotoFile( int type, String path) async {
+
+  static Future<CommonResult> uploadPhotoFile(int type, String path) async {
     MultipartFile multipartFile = MultipartFile.fromFileSync(
       path,
       // 文件名
@@ -613,17 +756,21 @@ class CommonAPI {
     params['type'] = type;
 
     var response = await NewERPHttpUtil().post(
-      '/api/v1/customer/uploadPic' ,
-        data: formData, queryParameters: params,
+      '/api/v1/customer/uploadPic',
+      data: formData,
+      queryParameters: params,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> addCustomer(String mobile,
-      String name,
-      int gender,
-      String birthday,
-      int marriage,
-      int channel,) async {
+
+  static Future<CommonResult> addCustomer(
+    String mobile,
+    String name,
+    int gender,
+    String birthday,
+    int marriage,
+    int channel,
+  ) async {
     Map<String, dynamic> data = {};
     data['mobile'] = mobile;
     data['name'] = name;
@@ -637,8 +784,11 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
-  static Future<HomeEntity> searchCustomer(   String page,
-      String keyWord,) async {
+
+  static Future<HomeEntity> searchCustomer(
+    String page,
+    String keyWord,
+  ) async {
     Map<String, dynamic> data = {};
     data['app'] = keyWord;
     data['currentPage'] = page;
@@ -649,27 +799,34 @@ class CommonAPI {
     );
     return HomeEntity.fromJson(response);
   }
-  static Future<CommonResult> addAppoint(  String uuid, Map<String, dynamic> data) async {
+
+  static Future<CommonResult> addAppoint(
+      String uuid, Map<String, dynamic> data) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/addAppointment',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> addConnect(  String uuid, Map<String, dynamic> data) async {
+
+  static Future<CommonResult> addConnect(
+      String uuid, Map<String, dynamic> data) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/addConnect',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
-  static Future<CommonResult> addConnectCheck(  String uuid, Map<String, dynamic> data) async {
+
+  static Future<CommonResult> addConnectCheck(
+      String uuid, Map<String, dynamic> data) async {
     var response = await NewERPHttpUtil().post(
       '/api/v1/customer/addConnectCheck',
       data: data,
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<CommonResult> getUserStatus() async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetUserStatus',
@@ -677,33 +834,33 @@ class CommonAPI {
     );
     return CommonResult.fromJson(response);
   }
+
   static Future<Group> getGroupInfo(String id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetGroupInfo',
-      data: {"id":id},
+      data: {"id": id},
     );
     return Group.fromJson(response);
   }
+
   static Future<Group> getMemberInfo(String id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetMemberInfo',
-      data: {"id":id},
+      data: {"id": id},
     );
     return Group.fromJson(response);
   }
+
   static Future<Friend> getGroupMembers(int page) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetGroupMembers',
-      data: {"currentPage":page},
+      data: {"currentPage": page},
     );
     return Friend.fromJson(response);
   }
 
-
-
-
-
-  static Future<WxArticleEntity> wxArticle(  int page, final List<SelectItem> selectItems) async {
+  static Future<WxArticleEntity> wxArticle(
+      int page, final List<SelectItem> selectItems) async {
     Map<String, dynamic> searchParm = {};
     searchParm['currentPage'] = page;
 
@@ -729,13 +886,10 @@ class CommonAPI {
     );
     return WxArticleEntity.fromJson(response);
   }
+
   /// 登录
-  static Future<HomeEntity> searchErpUser(
-      String page,
-      int sex,
-      int mode,
-      int serveType,
-      final List<SelectItem> selectItems) async {
+  static Future<HomeEntity> searchErpUser(String page, int sex, int mode,
+      int serveType, final List<SelectItem> selectItems) async {
     Map<String, dynamic> searchParam = {};
     var channel = <String>[];
     var education = <String>[];
@@ -855,12 +1009,9 @@ class CommonAPI {
     );
     return HomeEntity.fromJson(response);
   }
-  static Future<HomeEntity> searchErpUserCheck(
-      String page,
-      int sex,
-      int mode,
-      int serveType,
-      final List<SelectItem> selectItems) async {
+
+  static Future<HomeEntity> searchErpUserCheck(String page, int sex, int mode,
+      int serveType, final List<SelectItem> selectItems) async {
     Map<String, dynamic> searchParam = {};
     var channel = <String>[];
     var education = <String>[];
@@ -980,5 +1131,4 @@ class CommonAPI {
     );
     return HomeEntity.fromJson(response);
   }
-
 }

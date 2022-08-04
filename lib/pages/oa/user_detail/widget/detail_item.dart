@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
@@ -14,6 +12,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import '../../../../common/utils/common.dart';
 import '../../../../common/widgets/circle_text.dart';
+import '../../../../common/widgets/city_pickers/modal/result.dart';
+import '../../../../common/widgets/city_pickers/src/city_picker.dart';
 import '../../../../common/widgets/delete_category_dialog.dart';
 import '../../../../common/widgets/extend_image.dart';
 import '../../../../common/widgets/imageview/image_preview_page.dart';

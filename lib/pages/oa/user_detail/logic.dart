@@ -1,4 +1,3 @@
-import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ckt/common/entities/detail/action.dart';
@@ -15,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../common/apis/common.dart';
+import '../../../common/widgets/city_pickers/modal/result.dart';
 import '../../../common/widgets/copy_custom_pop_up_menu.dart';
 import 'state.dart';
 
