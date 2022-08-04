@@ -172,17 +172,17 @@ class _FinPageState extends State<CalcucationPages> {
               ],
             ),
             body: Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                  stops: [0, 0.5, 1],
-                  colors: [
-                    Color(0xffE2F1FF),
-                    Color(0xffF9FBEB),
-                    Color(0xffFFF4FA)
-                  ],
-                  begin: Alignment(2, 1),
-                  end: Alignment(-2, -1),
-                )),
+                // decoration: const BoxDecoration(
+                //     gradient: LinearGradient(
+                //   stops: [0, 0.5, 1],
+                //   colors: [
+                //     Color(0xffE2F1FF),
+                //     Color(0xffF9FBEB),
+                //     Color(0xffFFF4FA)
+                //   ],
+                //   begin: Alignment(2, 1),
+                //   end: Alignment(-2, -1),
+                // )),
                 child: SizedBox(
                   height: ScreenUtil().screenHeight,
                   child: Container(
