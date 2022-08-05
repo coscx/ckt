@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import '../../../../common/apis/common.dart';
 import '../../../../common/entities/loan/saleman_detail.dart';
+import '../../../../common/entities/loan/saleman_detail.dart';
 import '../../../../common/services/storage.dart';
+import '../../../../common/utils/common.dart';
 import '../../../../common/values/server.dart';
 import '../../../../common/widgets/bottom_picker/bottom_picker.dart';
 import '../../../../common/widgets/bottom_picker/resources/arrays.dart';
@@ -19,6 +22,7 @@ import '../../../../common/widgets/chat_picture_preview.dart';
 import '../../../../common/widgets/checkbox/src/msh_checkbox.dart';
 import '../../../../common/widgets/checkbox/src/msh_checkbox_style.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
+import '../../../../common/widgets/extend_image.dart';
 import '../../../../common/widgets/im_util.dart';
 import '../../../../common/widgets/tabbar/buttons_tabbar.dart';
 import '../../../../common/widgets/timeline/timeline.dart';
@@ -62,7 +66,6 @@ class _TimeLinePageState extends State<TimeLinePage>
   TextEditingController loaningController = TextEditingController();
   FocusNode loaningFieldNode = FocusNode();
 
-
   GlobalKey status4Key = GlobalKey();
   int pageIx = 0;
   List<Circulations> circulations = <Circulations>[];
@@ -78,8 +81,9 @@ class _TimeLinePageState extends State<TimeLinePage>
   String housePath = "";
   bool showAuditCheck = false;
   String showAuditCheckResult = "";
-  bool showLoaning=false;
-  String loaningDate= "";
+  bool showLoaning = false;
+  String loaningDate = "";
+
   @override
   void initState() {
     _getData();
@@ -228,32 +232,40 @@ class _TimeLinePageState extends State<TimeLinePage>
       List<Pic> p = <Pic>[];
       if (e.identificationurl != "" && e.identificationurl != null) {
         p.add(Pic(
-            circulationId: e.circulationid,
-            picType: e.status,
+            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid!,
+            picType: 1,
             picUrl: NEW_JAVA_SERVER_API_URL + e.identificationurl.toString()));
       }
       if (e.deedurl != "" && e.deedurl != null) {
         p.add(Pic(
-            circulationId: e.circulationid,
-            picType: e.status,
+            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid!,
+            picType: 1,
             picUrl: NEW_JAVA_SERVER_API_URL + e.deedurl.toString()));
       }
       return Doodle(
-          current: 0,
-          flag: "",
-          opacity: 1,
-          color: Colors.white,
-          name: getTitle(e),
-          time: e.createtime,
-          content: e.createby.toString(),
-          opUser: e.remark == null ? "" : e.remark.toString(),
-          address: "",
-          status: "",
-          doodle:
-              "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4016383514,3614601022&fm=26&gp=0.jpg",
-          icon: const Icon(Icons.ac_unit, color: Colors.white),
-          iconBackground: Colors.transparent,
-          pics: p);
+        current: 0,
+        flag: "",
+        opacity: 1,
+        color: Colors.white,
+        name: getTitle(e),
+        icon: const Icon(Icons.ac_unit, color: Colors.white),
+        iconBackground: Colors.transparent,
+        pics: p,
+        auditResult: '',
+        loanResult: '',
+        bankAddress: '',
+        bankManager: '',
+        auditTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        operateTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        commitTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        receiveTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        thisLoanTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        lendingLoanAmount: '',
+        thisLoanAmount: '',
+        commitUser: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        auditUser: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        operateUser: '',
+      );
     }).toList();
     if (mounted) setState(() {});
   }
@@ -270,10 +282,8 @@ class _TimeLinePageState extends State<TimeLinePage>
       _getData();
       Navigator.of(context).pop();
     } else {
-      showToastRed(
-          Get.context!, d.msg, true);
+      showToastRed(Get.context!, d.msg, true);
     }
-
   }
 
   auditAdmin(int loanId, int status, String remark) async {
@@ -288,10 +298,8 @@ class _TimeLinePageState extends State<TimeLinePage>
       _getData();
       Navigator.of(context).pop();
     } else {
-      showToastRed(
-        Get.context!, d.msg, true);
+      showToastRed(Get.context!, d.msg, true);
     }
-
   }
 
   changeAdminStatus(int loanId, int status, String remark) async {
@@ -316,17 +324,16 @@ class _TimeLinePageState extends State<TimeLinePage>
       bankController.text = "";
       Navigator.of(context).pop();
     } else {
-      showToastRed(
-          Get.context!, d.msg, true);
+      showToastRed(Get.context!, d.msg, true);
     }
-
   }
+
   changeAdminAwaitLoaningStatus(int loanId, int status, String remark) async {
     var d = await CommonAPI.changeAdministrativeStepStatus({
       "loanId": loanId,
       "status": status,
       "realAmount": actualController.text,
-      "credit":{"creditAmount":thisController.text,"createTime":loaningDate}
+      "credit": {"creditAmount": thisController.text, "createTime": loaningDate}
     });
     if (d.code == 200) {
       bool gg = Get.isRegistered<HomeLogic>();
@@ -337,17 +344,18 @@ class _TimeLinePageState extends State<TimeLinePage>
       _getData();
       Navigator.of(context).pop();
     } else {
-      showToastRed(
-          Get.context!, d.msg, true);
+      showToastRed(Get.context!, d.msg, true);
     }
-
   }
 
   changeAdminLoaningStatus(int loanId, int status, String remark) async {
     var d = await CommonAPI.changeAdministrativeStepStatus({
       "loanId": loanId,
       "status": status,
-      "credit":{"creditAmount":loaningController.text,"createTime":selectDate}
+      "credit": {
+        "creditAmount": loaningController.text,
+        "createTime": selectDate
+      }
     });
     if (d.code == 200) {
       bool gg = Get.isRegistered<HomeLogic>();
@@ -356,15 +364,14 @@ class _TimeLinePageState extends State<TimeLinePage>
         homeLogic.onRefresh();
       }
       _getData();
-      loaningController.text="";
-      selectDate ="";
+      loaningController.text = "";
+      selectDate = "";
       Navigator.of(context).pop();
     } else {
-      showToastRed(
-          Get.context!, d.msg, true);
+      showToastRed(Get.context!, d.msg, true);
     }
-
   }
+
   Future<String?> uploadImg() async {
     List<AssetEntity> asset = <AssetEntity>[];
     var assets = await AssetPicker.pickAssets(
@@ -477,6 +484,7 @@ class _TimeLinePageState extends State<TimeLinePage>
         l.add(Container(
             padding: EdgeInsets.only(right: 10.w),
             width: 120.w,
+            height: 160.w,
             child: GestureDetector(
                 onTap: () {
                   Get.to(() => IMUtil.previewPic(
@@ -486,7 +494,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                           : ("assets/packages/images/ic_user_none_round.png"),
                       picList: picListView));
                 },
-                child: Image.network(e.picUrl))));
+                child: getCacheImage(e.picUrl))));
       }
     }
 
@@ -516,45 +524,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 8.h),
-                          Text(doodle.name,
-                              style: TextStyle(
-                                  color: i == 0 ? Colors.blue : Colors.black,
-                                  fontSize: 34.sp),
-                              textAlign: TextAlign.left),
-                          doodle.pics == null
-                              ? Container()
-                              : Row(
-                                  children: [...l],
-                                ),
-                          SizedBox(height: 8.h),
-                          doodle.opUser != ""
-                              ? Text(doodle.opUser, style: textTheme.caption)
-                              : Container(),
-                          doodle.opUser != ""
-                              ? SizedBox(height: 8.h)
-                              : Container(),
-                          doodle.content != ""
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xFFF4F5F8),
-                                      borderRadius: BorderRadius.circular(6.w)),
-                                  padding: EdgeInsets.all(12.w),
-                                  child: Text(doodle.content,
-                                      style: textTheme.subtitle1,
-                                      textAlign: TextAlign.left))
-                              : Container(),
-                          doodle.content != ""
-                              ? SizedBox(height: 8.h)
-                              : Container(),
-                          Text(doodle.time, style: textTheme.caption),
-                          SizedBox(height: 8.h),
-                        ],
-                      ),
+                      getCard(l, i, circulations[i],detail!),
                       i == 0 ? buildButton(doodle.name) : Container()
                     ],
                   )),
@@ -600,6 +570,930 @@ class _TimeLinePageState extends State<TimeLinePage>
         icon: doodle.icon);
   }
 
+  Widget getCard(List<Widget> l, int i, Circulations doodle,SaleManDetailDataData data) {
+    var status = doodle.status;
+
+    if (status == 5) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+            child: Row(
+              children: [
+                Text(
+                  "补件人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Color(0xfff4f5f8),
+            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            width: 350.w,
+             child: Text(
+                  checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
+                  style: TextStyle(
+                      color: Color(0xff4a4a5a), fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+            child: Row(
+              children: [
+                Text(
+                  "接收时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    if (status == 23) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "提交人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.createby)?"暂无":data.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.updateby)?"暂无":doodle.updateby!,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "接收时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+    if (status == 60) {
+      String d ="联系中";
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              d,
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+
+
+        ],
+      );
+    }
+    if (status == 1) {
+      String d ="";
+      if(doodle.step ==1){
+        d ="获取客户";
+      }
+      if(doodle.step ==2){
+        d ="待联系";
+      }
+      String dd ="";
+      if(data.origin ==1){
+        dd ="超管划分";
+      }
+      if(data.origin ==2){
+        dd ="主管划分";
+      }
+      if(data.origin ==3){
+        dd ="我的渠道";
+      }
+
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              d,
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          doodle.step ==1  ? Container(
+            child: Row(
+              children: [
+                Text(
+                  "来源渠道: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  dd,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ):Container(),
+          doodle.step ==1  ? Container(
+            child: Row(
+              children: [
+                Text(
+                  "获取时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime ,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ):Container(),
+
+        ],
+      );
+    }
+
+    if (status == 2) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+
+        ],
+      );
+    }
+
+    if (status == 3) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.createby)?"暂无":data.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      );
+    }
+    if (status == 12) {
+      String d ="已联系";
+
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              d,
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+           Container(
+            child: Row(
+              children: [
+                Text(
+                  "联系时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+    if (status == 13) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "提交人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.updateby)?"暂无":doodle.updateby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Color(0xfff4f5f8),
+            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            width: 350.w,
+            child: Text(
+              checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
+              style: TextStyle(
+                  color: Color(0xff4a4a5a), fontSize: 24.sp),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+    if (status == 14) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)?"暂无":doodle.createby,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行网点: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行客户经理: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          doodle.identificationurl == null
+              ? Container()
+              : Row(
+            children: [...l],
+          ),
+
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "提交时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+
+    if (status == 4) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.createby)?"暂无":data.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      );
+    }
+    if (status == 40 || status == 50) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批结果: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.status)?"暂无":(doodle.status ==40 ? "通过":"不通过"),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Color(0xfff4f5f8),
+            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            width: 350.w,
+            child: Text(
+              checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
+              style: TextStyle(
+                  color: Color(0xff4a4a5a), fontSize: 24.sp),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批时间: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
+                  style: TextStyle(
+                      color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+
+    if (status == 7) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作人: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.createby)?"暂无":data.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "放款状况: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "待放款",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行网点: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行客户经理: ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+
+
+        ],
+      );
+    }
+
+
+    if (status == 70) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "本次放款金额： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.credit)?"暂无":doodle.credit!.creditamount.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "万元",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "本次放款时间： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.credit)?"暂无":doodle.credit!.createtime.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "累计放款金额： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.credit)?"暂无":doodle.credit!.cumulativeamount.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "万元",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作人： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.credit)?"暂无":doodle.credit!.createby.toString(),
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "放款状况： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "放款中",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行网点： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行客户经理： ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      );
+    }
+    return Container();
+  }
+
   Widget buildButton(String name) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -632,33 +1526,41 @@ class _TimeLinePageState extends State<TimeLinePage>
       status = "待联系";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
-      salesmanStatus160Dialog("待联系", data.loanid, data.status);
+      salesmanStatus160Dialog("待联系", checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
     if (data.status == 2) {
       status = "待提交(已联系)";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
-      salesmanStatus2Dialog("待提交(已联系)", data.loanid, data.status);
+      salesmanStatus2Dialog(
+          "待提交(已联系)",
+          checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
     if (data.status == 3) {
       status = "待进件";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
-      salesmanStatus4Dialog("待进件", data.loanid, data.status);
+      salesmanStatus4Dialog("待进件", checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
     if (data.status == 4) {
       status = "待审批";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
-      salesmanStatusAuditDialog("待审批", data.loanid, data.status);
+      salesmanStatusAuditDialog(
+          "待审批",
+          checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
     if (data.status == 5) {
       status = "待补件";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
 
-      salesmanStatus5Dialog("待补件", data.loanid, data.status);
-
+      salesmanStatus5Dialog("待补件", checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
     if (data.status == 6) {
       status = "待风控";
@@ -669,7 +1571,10 @@ class _TimeLinePageState extends State<TimeLinePage>
       status = "待放款";
       color = const Color(0xff4DA1EE);
       icon = "assets/images/default/fine_call.png";
-      salesmanStatusAwaitLoaningDialog("待放款", data.loanid, data.status);
+      salesmanStatusAwaitLoaningDialog(
+          "待放款",
+          checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
 
     if (data.status == 8) {
@@ -732,18 +1637,20 @@ class _TimeLinePageState extends State<TimeLinePage>
       status = "联系中";
       color = const Color(0xff4CD070);
       icon = "assets/images/default/fine_no.png";
-      salesmanStatus160Dialog("联系中", data.loanid, data.status);
+      salesmanStatus160Dialog("联系中", checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
 
     if (data.status == 70) {
       status = "放款中";
       color = const Color(0xff4CD070);
       icon = "assets/images/default/fine_no.png";
-      lendingDialog("放款中", data.loanid, data.status);
+      lendingDialog("放款中", checkNull(data.loanid) ? 0 : data.loanid!,
+          checkNull(data.status) ? 0 : data.status!);
     }
   }
 
-  lendingDialog(String name, int loanId,int status) async {
+  lendingDialog(String name, int loanId, int status) async {
     await showDialog(
         barrierDismissible: false,
         context: context,
@@ -771,8 +1678,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                           right: 30.h,
                           child: GestureDetector(
                             onTap: () {
-                              loaningController.text="";
-                              selectDate ="";
+                              loaningController.text = "";
+                              selectDate = "";
                               Navigator.of(context).pop();
                             },
                             child: Image.asset(
@@ -957,10 +1864,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                                         Radius.circular(40.h))),
                                 color: Colors.lightBlue,
                                 onPressed: () {
-                                status = 70;
-                                changeAdminLoaningStatus(
-                                loanId, status, remarkController.text);
-
+                                  status = 70;
+                                  changeAdminLoaningStatus(
+                                      loanId, status, remarkController.text);
                                 },
                                 child: Text("提交",
                                     style: TextStyle(
@@ -978,6 +1884,7 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+
   salesmanStatus5Dialog(String name, int loanId, int status) async {
     await showDialog(
         barrierDismissible: false,
@@ -994,7 +1901,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                 children: <Widget>[
                   Container(
                     width: ScreenUtil().screenWidth * 0.95,
-                    height:  580.h ,
+                    height: 580.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(40.w)),
@@ -1031,7 +1938,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                         ),
                         Column(
                           children: [
-
                             Container(
                                 margin: EdgeInsets.only(
                                     left: 100.w, right: 80.w, top: 120.h),
@@ -1050,7 +1956,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                           fontSize: 40.sp,
                                           fontWeight: FontWeight.w600),
                                     ),
-
                                   ],
                                 )),
                             Container(
@@ -1094,15 +1999,13 @@ class _TimeLinePageState extends State<TimeLinePage>
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.h)),
                                           borderSide: BorderSide(
-                                              color: Colors.blue,
-                                              width: 2.h),
+                                              color: Colors.blue, width: 2.h),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.h)),
                                           borderSide: BorderSide(
-                                              color: Colors.blue,
-                                              width: 2.h),
+                                              color: Colors.blue, width: 2.h),
                                         ),
                                       ),
                                       onChanged: (v) {},
@@ -1143,6 +2046,7 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+
   salesmanStatus160Dialog(String name, int loanId, int status) async {
     await showDialog(
         barrierDismissible: false,
@@ -1335,8 +2239,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   }
                                   changeSalesmanStatus(
                                       loanId, status, remarkController.text);
-
-
                                 },
                                 child: Text("提交",
                                     style: TextStyle(
@@ -1762,7 +2664,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                       status = 4;
                                       changeAdminStatus(loanId, status,
                                           remarkController.text);
-
                                     },
                                     child: Text("提交",
                                         style: TextStyle(
@@ -2044,7 +2945,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   }
                                   auditAdmin(
                                       loanId, status, remarkController.text);
-
                                 },
                                 child: Text("提交",
                                     style: TextStyle(
@@ -2062,6 +2962,7 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+
   salesmanStatusAwaitLoaningDialog(String name, int loanId, int status) async {
     await showDialog(
         barrierDismissible: false,
@@ -2078,7 +2979,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                 children: <Widget>[
                   Container(
                     width: ScreenUtil().screenWidth * 0.95,
-                    height: showLoaning ? 680.h :(showRemark ? 580.h : 380.h),
+                    height: showLoaning ? 680.h : (showRemark ? 580.h : 380.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(40.w)),
@@ -2136,11 +3037,11 @@ class _TimeLinePageState extends State<TimeLinePage>
                                     showLoaning = true;
                                     showRemark = false;
                                   }
-                                  if (a ==1) {
+                                  if (a == 1) {
                                     showLoaning = false;
                                     showRemark = true;
                                   }
-                                  if (a ==2) {
+                                  if (a == 2) {
                                     showLoaning = false;
                                     showRemark = true;
                                   }
@@ -2161,7 +3062,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                     padding: EdgeInsets.only(left: 40.w),
                                     child: Row(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           selectDate == ""
@@ -2181,254 +3082,291 @@ class _TimeLinePageState extends State<TimeLinePage>
                             ),
                             showRemark
                                 ? Container(
-                              margin: EdgeInsets.only(
-                                  left: 80.w, right: 80.w, top: 20.h),
-                              height: 200.h,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                      keyboardType: TextInputType.text,
-                                      autofocus: false,
-                                      controller: loanController,
-                                      focusNode: loanFieldNode,
-                                      style: TextStyle(
-                                          color: Colors.redAccent,
-                                          fontSize: 40.sp,
-                                          fontWeight: FontWeight.w400),
-                                      minLines: 7,
-                                      maxLines: 7,
-                                      cursorColor: Colors.blue,
-                                      //cursorRadius: Radius.circular(40.h),
-                                      cursorWidth: 3.w,
-                                      showCursor: true,
-                                      decoration: InputDecoration(
-                                        isCollapsed: true,
-                                        contentPadding: EdgeInsets.only(
-                                            left: 40.w,
-                                            right: 40.w,
-                                            top: 20.h,
-                                            bottom: 0),
-                                        hintText: "请输入备注",
-                                        hintStyle: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 32.sp),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12.h)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12.h)),
-                                          borderSide: BorderSide(
-                                              color: Colors.blue,
-                                              width: 2.h),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12.h)),
-                                          borderSide: BorderSide(
-                                              color: Colors.blue,
-                                              width: 2.h),
-                                        ),
-                                      ),
-                                      onChanged: (v) {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                                : Container(),
-
-                          showLoaning?  Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 80.w, right: 80.w, top: 20.h),
-                                  height: 80.h,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          keyboardType: TextInputType.number,
-                                          autofocus: false,
-                                          controller: actualController,
-                                          focusNode: actualFieldNode,
-                                          style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 40.sp,
-                                              fontWeight: FontWeight.w400),
-                                          minLines: 7,
-                                          maxLines: 7,
-                                          cursorColor: Colors.blue,
-                                          //cursorRadius: Radius.circular(40.h),
-                                          cursorWidth: 3.w,
-                                          showCursor: true,
-                                          decoration: InputDecoration(
-                                            suffixText: "万",
-                                            suffixStyle: TextStyle(
-                                                color: Colors.redAccent,
-                                                fontSize: 40.sp),
-                                            isCollapsed: true,
-                                            contentPadding: EdgeInsets.only(
-                                                left: 40.w,
-                                                right: 40.w,
-                                                top: 20.h,
-                                                bottom: 0),
-                                            hintText: "本次放款金额",
-                                            hintStyle: TextStyle(
-                                                color: Colors.blue,
-                                                fontSize: 32.sp),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue, width: 2.h),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue, width: 2.h),
-                                            ),
-                                          ),
-                                          onChanged: (v) {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 80.w, right: 80.w, top: 20.h),
-                                  height: 80.h,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          keyboardType: TextInputType.number,
-                                          autofocus: false,
-                                          controller: thisController,
-                                          focusNode: thisFieldNode,
-                                          style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 40.sp,
-                                              fontWeight: FontWeight.w400),
-                                          minLines: 7,
-                                          maxLines: 7,
-                                          cursorColor: Colors.blue,
-                                          //cursorRadius: Radius.circular(40.h),
-                                          cursorWidth: 3.w,
-                                          showCursor: true,
-                                          decoration: InputDecoration(
-                                            suffixText: "万",
-                                            suffixStyle: TextStyle(
-                                                color: Colors.redAccent,
-                                                fontSize: 40.sp),
-                                            isCollapsed: true,
-                                            contentPadding: EdgeInsets.only(
-                                                left: 40.w,
-                                                right: 40.w,
-                                                top: 20.h,
-                                                bottom: 0),
-                                            hintText: "本次放款金额",
-                                            hintStyle: TextStyle(
-                                                color: Colors.blue,
-                                                fontSize: 32.sp),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue, width: 2.h),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(40.h)),
-                                              borderSide: BorderSide(
-                                                  color: Colors.blue, width: 2.h),
-                                            ),
-                                          ),
-                                          onChanged: (v) {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    loanFieldNode.unfocus();
-                                    BottomPicker.date(
-                                        initialDateTime:
-                                        DateTime.tryParse(selectDate),
-                                        height: 600.h,
-                                        buttonTextStyle: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32.sp),
-                                        buttonSingleColor: Colors.green,
-                                        displayButtonIcon: false,
-                                        buttonText: "确定",
-                                        title: "选择日期",
-                                        titleStyle: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 38.sp,
-                                            color: Colors.black),
-                                        onChange: (index) {
-                                          //print(index);
-                                        },
-                                        onSubmit: (index) {
-                                          // print(index);
-                                          state(() {
-                                            loaningDate =
-                                                DateFormat("yyyy-MM-dd")
-                                                    .format(index);
-                                          });
-                                        },
-                                        bottomPickerTheme:
-                                        BottomPickerTheme.plumPlate)
-                                        .show(context);
-                                  },
-                                  child: Container(
                                     margin: EdgeInsets.only(
-                                        left: 80.w, right: 80.w, top: 30.h),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(40.h),
-                                      border: Border.all(
-                                          color: Colors.blue, width: 1), //边框
+                                        left: 80.w, right: 80.w, top: 20.h),
+                                    height: 200.h,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            keyboardType: TextInputType.text,
+                                            autofocus: false,
+                                            controller: loanController,
+                                            focusNode: loanFieldNode,
+                                            style: TextStyle(
+                                                color: Colors.redAccent,
+                                                fontSize: 40.sp,
+                                                fontWeight: FontWeight.w400),
+                                            minLines: 7,
+                                            maxLines: 7,
+                                            cursorColor: Colors.blue,
+                                            //cursorRadius: Radius.circular(40.h),
+                                            cursorWidth: 3.w,
+                                            showCursor: true,
+                                            decoration: InputDecoration(
+                                              isCollapsed: true,
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 40.w,
+                                                  right: 40.w,
+                                                  top: 20.h,
+                                                  bottom: 0),
+                                              hintText: "请输入备注",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 32.sp),
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.h)),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.h)),
+                                                borderSide: BorderSide(
+                                                    color: Colors.blue,
+                                                    width: 2.h),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.h)),
+                                                borderSide: BorderSide(
+                                                    color: Colors.blue,
+                                                    width: 2.h),
+                                              ),
+                                            ),
+                                            onChanged: (v) {},
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    height: 80.h,
-                                    child: Container(
-                                        padding: EdgeInsets.only(left: 40.w),
+                                  )
+                                : Container(),
+                            showLoaning
+                                ? Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 80.w, right: 80.w, top: 20.h),
+                                        height: 80.h,
                                         child: Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              loaningDate == ""
-                                                  ? "请选择放款时间"
-                                                  : loaningDate,
-                                              style: TextStyle(
-                                                  color: loaningDate == ""
-                                                      ? Colors.blue
-                                                      : Colors.redAccent,
-                                                  fontSize: loaningDate == ""
-                                                      ? 32.sp
-                                                      : 38.sp),
+                                            Expanded(
+                                              child: TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                autofocus: false,
+                                                controller: actualController,
+                                                focusNode: actualFieldNode,
+                                                style: TextStyle(
+                                                    color: Colors.redAccent,
+                                                    fontSize: 40.sp,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                                minLines: 7,
+                                                maxLines: 7,
+                                                cursorColor: Colors.blue,
+                                                //cursorRadius: Radius.circular(40.h),
+                                                cursorWidth: 3.w,
+                                                showCursor: true,
+                                                decoration: InputDecoration(
+                                                  suffixText: "万",
+                                                  suffixStyle: TextStyle(
+                                                      color: Colors.redAccent,
+                                                      fontSize: 40.sp),
+                                                  isCollapsed: true,
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          left: 40.w,
+                                                          right: 40.w,
+                                                          top: 20.h,
+                                                          bottom: 0),
+                                                  hintText: "本次放款金额",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.blue,
+                                                      fontSize: 32.sp),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                    borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                        width: 2.h),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                    borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                        width: 2.h),
+                                                  ),
+                                                ),
+                                                onChanged: (v) {},
+                                              ),
                                             ),
                                           ],
-                                        )),
-                                  ),
-                                ),
-                              ],
-                            ):Container(),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 80.w, right: 80.w, top: 20.h),
+                                        height: 80.h,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                autofocus: false,
+                                                controller: thisController,
+                                                focusNode: thisFieldNode,
+                                                style: TextStyle(
+                                                    color: Colors.redAccent,
+                                                    fontSize: 40.sp,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                                minLines: 7,
+                                                maxLines: 7,
+                                                cursorColor: Colors.blue,
+                                                //cursorRadius: Radius.circular(40.h),
+                                                cursorWidth: 3.w,
+                                                showCursor: true,
+                                                decoration: InputDecoration(
+                                                  suffixText: "万",
+                                                  suffixStyle: TextStyle(
+                                                      color: Colors.redAccent,
+                                                      fontSize: 40.sp),
+                                                  isCollapsed: true,
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          left: 40.w,
+                                                          right: 40.w,
+                                                          top: 20.h,
+                                                          bottom: 0),
+                                                  hintText: "本次放款金额",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.blue,
+                                                      fontSize: 32.sp),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                    borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                        width: 2.h),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                40.h)),
+                                                    borderSide: BorderSide(
+                                                        color: Colors.blue,
+                                                        width: 2.h),
+                                                  ),
+                                                ),
+                                                onChanged: (v) {},
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          loanFieldNode.unfocus();
+                                          BottomPicker.date(
+                                                  initialDateTime:
+                                                      DateTime.tryParse(
+                                                          selectDate),
+                                                  height: 600.h,
+                                                  buttonTextStyle: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 32.sp),
+                                                  buttonSingleColor:
+                                                      Colors.green,
+                                                  displayButtonIcon: false,
+                                                  buttonText: "确定",
+                                                  title: "选择日期",
+                                                  titleStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 38.sp,
+                                                      color: Colors.black),
+                                                  onChange: (index) {
+                                                    //print(index);
+                                                  },
+                                                  onSubmit: (index) {
+                                                    // print(index);
+                                                    state(() {
+                                                      loaningDate = DateFormat(
+                                                              "yyyy-MM-dd")
+                                                          .format(index);
+                                                    });
+                                                  },
+                                                  bottomPickerTheme:
+                                                      BottomPickerTheme
+                                                          .plumPlate)
+                                              .show(context);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              left: 80.w,
+                                              right: 80.w,
+                                              top: 30.h),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(40.h),
+                                            border: Border.all(
+                                                color: Colors.blue,
+                                                width: 1), //边框
+                                          ),
+                                          height: 80.h,
+                                          child: Container(
+                                              padding:
+                                                  EdgeInsets.only(left: 40.w),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    loaningDate == ""
+                                                        ? "请选择放款时间"
+                                                        : loaningDate,
+                                                    style: TextStyle(
+                                                        color: loaningDate == ""
+                                                            ? Colors.blue
+                                                            : Colors.redAccent,
+                                                        fontSize:
+                                                            loaningDate == ""
+                                                                ? 32.sp
+                                                                : 38.sp),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Container(),
                             Container(
                               width: ScreenUtil().screenWidth,
                               height: 80.h,
@@ -2452,8 +3390,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   }
                                   changeAdminAwaitLoaningStatus(
                                       loanId, status, remarkController.text);
-
-
                                 },
                                 child: Text("提交",
                                     style: TextStyle(

@@ -1,3 +1,11 @@
+import 'package:get/get.dart';
+
+bool checkNull(dynamic data) {
+  if (data == null || data =="null" || data =="") {
+    return true;
+  }
+  return false ;
+}
 
 String formatNum(num, {point: 3}) {
   if (num != null) {
@@ -11,7 +19,7 @@ String formatNum(num, {point: 3}) {
     //处理分割符
     for (int index = 0, i = val.length - 1; i >= 0; index++, i--) {
       // 除以三没有余数、不等于零并且不等于1 就加个逗号
-      if (index % 3 == 0 && index != 0 ) {
+      if (index % 3 == 0 && index != 0) {
         val[i] = val[i] + ',';
       }
     }
@@ -34,8 +42,6 @@ String formatNum(num, {point: 3}) {
     return "";
   }
 }
-
-
 
 String getLevel(int status) {
   if (status == 0) {
@@ -66,6 +72,7 @@ getConnectLevel(info) {
     return "-";
   }
 }
+
 getEduLevel(info) {
   try {
     return EduLevel[info];
@@ -91,7 +98,6 @@ getWorkOverTime(info) {
 }
 
 getIncome(info) {
-
   try {
     var infoS = int.parse(info);
     return IncomeLevel[infoS];
@@ -254,28 +260,28 @@ getCompanyLevel(info) {
 
 getAgeDemand(String age) {
   try {
-
-    return age.replaceAll(",", "-")+"岁";
+    return age.replaceAll(",", "-") + "岁";
   } catch (e) {
     return age;
   }
 }
+
 getHeightDemand(String age) {
   try {
-
-    return age.replaceAll(",", "-")+"cm";
+    return age.replaceAll(",", "-") + "cm";
   } catch (e) {
     return age;
   }
 }
+
 getWeightDemand(String age) {
   try {
-
-    return age+"kg";
+    return age + "kg";
   } catch (e) {
     return age;
   }
 }
+
 int getIndexOfList(List<String> orc, String input) {
   var index = orc.indexOf(input);
   return index;
@@ -306,10 +312,63 @@ List<String> getHeightList() {
 }
 
 const List<String> nationLevel = [
-  "未知","汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族","瑶族","白族","土家族",
-  "哈尼族","哈萨克族","傣族","黎族","傈僳族","佤族","畲族","高山族","拉祜族","水族","东乡族","纳西族","景颇族","柯尔克孜族",
-  "土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族","毛南族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族", "乌孜别克族",
-  "俄罗斯族","鄂温克族","德昂族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族"
+  "未知",
+  "汉族",
+  "蒙古族",
+  "回族",
+  "藏族",
+  "维吾尔族",
+  "苗族",
+  "彝族",
+  "壮族",
+  "布依族",
+  "朝鲜族",
+  "满族",
+  "侗族",
+  "瑶族",
+  "白族",
+  "土家族",
+  "哈尼族",
+  "哈萨克族",
+  "傣族",
+  "黎族",
+  "傈僳族",
+  "佤族",
+  "畲族",
+  "高山族",
+  "拉祜族",
+  "水族",
+  "东乡族",
+  "纳西族",
+  "景颇族",
+  "柯尔克孜族",
+  "土族",
+  "达斡尔族",
+  "仫佬族",
+  "羌族",
+  "布朗族",
+  "撒拉族",
+  "毛南族",
+  "仡佬族",
+  "锡伯族",
+  "阿昌族",
+  "普米族",
+  "塔吉克族",
+  "怒族",
+  "乌孜别克族",
+  "俄罗斯族",
+  "鄂温克族",
+  "德昂族",
+  "保安族",
+  "裕固族",
+  "京族",
+  "塔塔尔族",
+  "独龙族",
+  "鄂伦春族",
+  "赫哲族",
+  "门巴族",
+  "珞巴族",
+  "基诺族"
 ];
 const List<String> sexLevel = [
   "未知",
@@ -322,8 +381,6 @@ const List<String> floodLevel = [
   "B型",
   "O型",
   "AB型",
-
-
 ];
 const List<String> EduLevel = [
   "未知",
@@ -334,7 +391,6 @@ const List<String> EduLevel = [
   "博士及以上",
   "国外留学",
   "其他",
-
 ];
 const List<String> WorkTypeLevel = [
   "未知",
@@ -343,7 +399,6 @@ const List<String> WorkTypeLevel = [
   "民营企业",
   "私营业主",
   "其他",
-
 ];
 const List<String> companyTypeLevel = [
   "未知",
@@ -368,7 +423,6 @@ const List<String> WorkOverTimeLevel = [
   "不加班",
   "偶尔加班",
   "经常加班",
-
 ];
 const List<String> IncomeLevel = [
   "未知",
@@ -395,7 +449,6 @@ const List<String> houseFutureLevel = [
   "无房贷",
   "已还清",
   "在还贷",
-
 ];
 const List<String> hasCarLevel = [
   "未知",
@@ -451,7 +504,6 @@ const List<String> faithLevel = [
   "道教",
   "伊斯兰教",
   "其他宗教",
-
 ];
 const List<String> smokeLevel = [
   "未知",
@@ -487,8 +539,7 @@ const List<String> marriageDateLevel = [
   "还没想好",
 ];
 
-
-const List<String>  fromLevel = [
+const List<String> fromLevel = [
   "请选择",
   "个人自带",
   "线下活动",
@@ -496,7 +547,7 @@ const List<String>  fromLevel = [
   "大家亲CRM系统",
   "大家亲同城相亲圈",
 ];
-const List<String>  connectLevel = [
+const List<String> connectLevel = [
   "请选择",
   "新分未联系",
   "号码无效",
@@ -506,7 +557,6 @@ const List<String>  connectLevel = [
   "确定到店时间",
   "已到店，意愿需跟进",
   "放弃并放入公海",
-
 ];
 
 List<String> goals = [

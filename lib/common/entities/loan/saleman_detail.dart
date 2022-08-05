@@ -140,7 +140,7 @@ class SaleManDetailDataData {
     required this.csphone,
     required this.channel,
     this.divisionname,
-    this.directorcreatetime,
+    required this.directorcreatetime,
     required this.binduserid,
     this.loancycle,
     required this.division,
@@ -152,10 +152,10 @@ class SaleManDetailDataData {
     this.credit,
     this.decoration,
     this.curstaff,
-    this.directorid,
+    required this.directorid,
     required this.totaltime,
     this.deptid,
-    required this.params,
+    this.params,
     this.steps,
     this.originalcnid,
     required this.submittime,
@@ -216,8 +216,8 @@ class SaleManDetailDataData {
           ? asT<Object?>(json['divisionName'])
           : null,
       directorcreatetime: json.containsKey('directorCreateTime')
-          ? asT<Object?>(json['directorCreateTime'])
-          : null,
+          ? asT<String>(json['directorCreateTime'])!
+          : '',
       binduserid:
       json.containsKey('bindUserId') ? asT<int>(json['bindUserId'])! : 0,
       loancycle: json.containsKey('loanCycle')
@@ -242,13 +242,14 @@ class SaleManDetailDataData {
           : null,
       curstaff:
       json.containsKey('curStaff') ? asT<Object?>(json['curStaff']) : null,
-      directorid: json.containsKey('directorId')
-          ? asT<Object?>(json['directorId'])
-          : null,
+      directorid:
+      json.containsKey('directorId') ? asT<int>(json['directorId'])! : 0,
       totaltime:
       json.containsKey('totalTime') ? asT<String>(json['totalTime'])! : '',
       deptid: json.containsKey('deptId') ? asT<Object?>(json['deptId']) : null,
-      params: json.containsKey('params') ? asT<Object>(json['params'])! : null,
+      params: json.containsKey('params')
+          ? asT<Map<String, dynamic>?>(json['params'])
+          : null,
       steps: json.containsKey('steps') ? asT<Object?>(json['steps']) : null,
       originalcnid: json.containsKey('originalCnId')
           ? asT<Object?>(json['originalCnId'])
@@ -324,7 +325,7 @@ class SaleManDetailDataData {
   String csphone;
   Channel? channel;
   Object? divisionname;
-  Object? directorcreatetime;
+  String directorcreatetime;
   int binduserid;
   Object? loancycle;
   int division;
@@ -336,10 +337,10 @@ class SaleManDetailDataData {
   Object? credit;
   Object? decoration;
   Object? curstaff;
-  Object? directorid;
+  int directorid;
   String totaltime;
   Object? deptid;
-  Object? params;
+  Map<String, dynamic>? params;
   Object? steps;
   Object? originalcnid;
   String submittime;
@@ -448,7 +449,7 @@ class Channel {
     required this.deptid,
     this.updatetime,
     this.remark,
-    required this.params,
+    this.params,
     required this.userid,
     required this.createby,
     required this.cnname,
@@ -473,8 +474,9 @@ class Channel {
         : null,
     remark:
     json.containsKey('remark') ? asT<Object?>(json['remark']) : null,
-    params:
-    json.containsKey('params') ? asT<Object>(json['params'])! : null,
+    params: json.containsKey('params')
+        ? asT<Map<String, dynamic>?>(json['params'])
+        : null,
     userid: json.containsKey('userId') ? asT<int>(json['userId'])! : 0,
     createby:
     json.containsKey('createBy') ? asT<String>(json['createBy'])! : '',
@@ -503,7 +505,7 @@ class Channel {
   int deptid;
   Object? updatetime;
   Object? remark;
-  Object? params;
+  Map<String, dynamic>? params;
   int userid;
   String createby;
   String cnname;
@@ -549,12 +551,12 @@ class Circulations {
     this.updatetime,
     this.remark,
     this.owners,
-    required this.params,
+    this.params,
     required this.createby,
     this.creditid,
     required this.circulationid,
     required this.createtime,
-    required this.updateby,
+    this.updateby,
     this.identificationurl,
     required this.step,
     this.credit,
@@ -578,27 +580,31 @@ class Circulations {
     json.containsKey('remark') ? asT<Object?>(json['remark']) : null,
     owners:
     json.containsKey('owners') ? asT<Object?>(json['owners']) : null,
-    params:
-    json.containsKey('params') ? asT<Object>(json['params'])! : null,
+    params: json.containsKey('params')
+        ? asT<Map<String, dynamic>?>(json['params'])
+        : null,
     createby:
     json.containsKey('createBy') ? asT<String>(json['createBy'])! : '',
-    creditid: json.containsKey('creditId')
-        ? asT<Object?>(json['creditId'])
-        : null,
+    creditid:
+    json.containsKey('creditId') ? asT<int?>(json['creditId']) : null,
     circulationid: json.containsKey('circulationId')
         ? asT<int>(json['circulationId'])!
         : 0,
     createtime: json.containsKey('createTime')
         ? asT<String>(json['createTime'])!
         : '',
-    updateby:
-    json.containsKey('updateBy') ? asT<String>(json['updateBy'])! : '',
+    updateby: json.containsKey('updateBy')
+        ? asT<String?>(json['updateBy'])
+        : null,
     identificationurl: json.containsKey('identificationUrl')
-        ? asT<Object?>(json['identificationUrl'])
+        ? asT<String?>(json['identificationUrl'])
         : null,
     step: json.containsKey('step') ? asT<int>(json['step'])! : 0,
-    credit:
-    json.containsKey('credit') ? asT<Object?>(json['credit']) : null,
+    credit: json.containsKey('credit')
+        ? json['credit'] == null
+        ? null
+        : Credit.fromJson(asT<Map<String, dynamic>>(json['credit'])!)
+        : null,
     searchvalue: json.containsKey('searchValue')
         ? asT<Object?>(json['searchValue'])
         : null,
@@ -613,15 +619,15 @@ class Circulations {
   Object? updatetime;
   Object? remark;
   Object? owners;
-  Object? params;
+  Map<String, dynamic>? params;
   String createby;
-  Object? creditid;
+  int? creditid;
   int circulationid;
   String createtime;
-  String updateby;
-  Object? identificationurl;
+  String? updateby;
+  String? identificationurl;
   int step;
-  Object? credit;
+  Credit? credit;
   Object? searchvalue;
   int loanid;
   int status;
@@ -651,5 +657,83 @@ class Circulations {
     'searchValue': searchvalue,
     'loanId': loanid,
     'status': status,
+  };
+}
+
+class Credit {
+  Credit({
+    required this.createby,
+    required this.createtime,
+    required this.creditamount,
+    required this.creditid,
+    required this.cumulativeamount,
+    required this.loanid,
+    this.params,
+    this.remark,
+    this.searchvalue,
+    this.updateby,
+    this.updatetime,
+  });
+
+  factory Credit.fromJson(Map<String, dynamic> json) => Credit(
+    createby:
+    json.containsKey('createBy') ? asT<String>(json['createBy'])! : '',
+    createtime: json.containsKey('createTime')
+        ? asT<String>(json['createTime'])!
+        : '',
+    creditamount: json.containsKey('creditAmount')
+        ? asT<int>(json['creditAmount'])!
+        : 0,
+    creditid:
+    json.containsKey('creditId') ? asT<int>(json['creditId'])! : 0,
+    cumulativeamount: json.containsKey('cumulativeAmount')
+        ? asT<int>(json['cumulativeAmount'])!
+        : 0,
+    loanid: json.containsKey('loanId') ? asT<int>(json['loanId'])! : 0,
+    params: json.containsKey('params')
+        ? asT<Map<String, dynamic>?>(json['params'])
+        : null,
+    remark:
+    json.containsKey('remark') ? asT<Object?>(json['remark']) : null,
+    searchvalue: json.containsKey('searchValue')
+        ? asT<Object?>(json['searchValue'])
+        : null,
+    updateby: json.containsKey('updateBy')
+        ? asT<Object?>(json['updateBy'])
+        : null,
+    updatetime: json.containsKey('updateTime')
+        ? asT<Object?>(json['updateTime'])
+        : null,
+  );
+
+  String createby;
+  String createtime;
+  int creditamount;
+  int creditid;
+  int cumulativeamount;
+  int loanid;
+  Map<String, dynamic>? params;
+  Object? remark;
+  Object? searchvalue;
+  Object? updateby;
+  Object? updatetime;
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'createBy': createby,
+    'createTime': createtime,
+    'creditAmount': creditamount,
+    'creditId': creditid,
+    'cumulativeAmount': cumulativeamount,
+    'loanId': loanid,
+    'params': params,
+    'remark': remark,
+    'searchValue': searchvalue,
+    'updateBy': updateby,
+    'updateTime': updatetime,
   };
 }
