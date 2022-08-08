@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ckt/common/utils/common.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,7 +77,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入年龄",
-                              "", info.csage.toString(), "name", 1, info);
+                              "", checkNull(info.csage)? "":info.csage.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -86,7 +87,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "年龄",
-                            info.csage.toString(),
+                            checkNull(info.csage)? "-":info.csage.toString(),
                             true)),
 
                     GestureDetector(
@@ -96,7 +97,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入申请金额",
-                              "", info.loanamount.toString(), "name", 1, info);
+                              "", checkNull(info.loanamount)? "-":info.loanamount.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -106,7 +107,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "申请金额",
-                            info.loanamount.toString()+"万",
+                            checkNull(info.loanamount)? "-":info.loanamount.toString()+"万",
                             true)),
 
                     GestureDetector(
@@ -116,7 +117,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入申请期数",
-                              "", info.loancycle.toString(), "name", 1, info);
+                              "", checkNull(info.loancycle)? "-":info.loancycle.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -126,7 +127,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "申请期数",
-                            info.loancycle.toString()+"期",
+                            checkNull(info.loancycle)? "-":info.loancycle.toString()+"期",
                             true)),
 
                     GestureDetector(
@@ -136,7 +137,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入申请费率",
-                              "", info.loanrate.toString(), "name", 1, info);
+                              "", checkNull(info.loanrate)? "-":info.loanrate.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -146,7 +147,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "申请费率",
-                            info.loanrate.toString()+"%",
+                            checkNull(info.loanrate)? "-":info.loanrate.toString()+"%",
                             true)),
 
                     GestureDetector(
@@ -156,7 +157,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入房屋面积",
-                              "", info.housearea.toString(), "name", 1, info);
+                              "", checkNull(info.housearea)? "-":info.housearea.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -166,7 +167,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "房屋面积",
-                            info.housearea.toString()+"m²",
+                            checkNull(info.housearea)? "-":info.housearea.toString()+"m²",
                             true)),
 
 
@@ -252,7 +253,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入房屋面积",
-                              "", info.houseaddress.toString(), "name", 1, info);
+                              "", checkNull(info.houseaddress)? "-":info.houseaddress.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -262,7 +263,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "房屋地址",
-                            info.houseaddress.toString(),
+                            checkNull(info.houseaddress)? "-": info.houseaddress.toString(),
                             true)),
 
                     GestureDetector(
@@ -272,7 +273,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入房屋面积",
-                              "", info.channel!.cnname.toString(), "name", 1, info);
+                              "", checkNull(info.channel!.cnname)? "-":info.channel!.cnname.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -282,7 +283,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "来源渠道",
-                            info.channel!.cnname.toString(),
+                            checkNull(info.channel!.cnname)? "-":info.channel!.cnname.toString(),
                             true)),
                     GestureDetector(
                         onTap: () async {
@@ -291,7 +292,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入房屋面积",
-                              "", info.staff.toString(), "name", 1, info);
+                              "", checkNull(info.staff)? "-":info.staff.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -301,7 +302,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "当前员工",
-                            info.staff,
+                            checkNull(info.staff)? "-":info.staff,
                             true)),
                     GestureDetector(
                         onTap: () async {
@@ -310,7 +311,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             return;
                           }
                           var result = await showEditDialog(context, "请输入房屋面积",
-                              "", info.realamount.toString(), "name", 1, info);
+                              "", checkNull(info.realamount)? "-":info.realamount.toString(), "name", 1, info);
                           if (result != null) {
                             callSetState("base", true);
                           }
@@ -320,7 +321,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             Colors.black,
                             Icons.drive_file_rename_outline,
                             "实际贷款金额",
-                            info.realamount.toString()+"万",
+                            checkNull(info.realamount)? "-":info.realamount.toString()+"万",
                             true)),
 
                   ]),

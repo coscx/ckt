@@ -1735,7 +1735,7 @@ class _TimeLinePageState extends State<TimeLinePage>
     return Container();
   }
 
-  Widget buildButton(String name ,Function  call) {
+  Widget buildButton(String name ,Function  callFun) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -1754,7 +1754,7 @@ class _TimeLinePageState extends State<TimeLinePage>
             EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
-        call(detail!);
+        callFun(detail!);
       },
     );
   }
