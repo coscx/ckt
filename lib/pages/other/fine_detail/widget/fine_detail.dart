@@ -480,7 +480,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       getCard(l, i, circulations[i], detail!),
-                      i == 0 ? buildButton(doodle.name) : Container()
+                      i == 0 ? buildButton(doodle.name,(){
+                        showDialogs(detail!);
+                      }) : Container()
                     ],
                   )),
             ),
@@ -692,7 +694,7 @@ class _TimeLinePageState extends State<TimeLinePage>
         dd = "主管划分";
       }
       if (data.origin == 3) {
-        dd = data.updateby;
+        dd = data.channel!.cnname;
       }
 
       return Column(
@@ -1376,6 +1378,198 @@ class _TimeLinePageState extends State<TimeLinePage>
         ],
       );
     }
+    if (status == 10) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "提交人: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "是否办理: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "客户放弃",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Color(0xfff4f5f8),
+            padding: EdgeInsets.only(
+                left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
+            width: 320.w,
+            child: Text(
+              checkNull(doodle.remark) ? "暂无" : doodle.remark.toString(),
+              style: TextStyle(color: Color(0xff4a4a5a), fontSize: 24.sp),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作时间: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+    if (status == 11) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批人: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "审批结果: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "资质不符",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Color(0xfff4f5f8),
+            padding: EdgeInsets.only(
+                left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
+            width: 320.w,
+            child: Text(
+              checkNull(doodle.remark) ? "暂无" : doodle.remark.toString(),
+              style: TextStyle(color: Color(0xff4a4a5a), fontSize: 24.sp),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作时间: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
     if (status == 70) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1519,13 +1713,29 @@ class _TimeLinePageState extends State<TimeLinePage>
               ],
             ),
           ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作时间: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
         ],
       );
     }
     return Container();
   }
 
-  Widget buildButton(String name) {
+  Widget buildButton(String name ,Function  call) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -1544,7 +1754,7 @@ class _TimeLinePageState extends State<TimeLinePage>
             EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
-        showDialogs(detail!);
+        call(detail!);
       },
     );
   }

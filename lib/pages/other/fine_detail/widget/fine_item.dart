@@ -55,6 +55,129 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             showToastRed(context, "暂无权限修改", false);
                             return;
                           }
+                          var result = await showEditDialog(context, "请输入电话",
+                              "", info.csphone.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "电话",
+                            info.csphone.toString(),
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入年龄",
+                              "", info.csage.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "年龄",
+                            info.csage.toString(),
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入申请金额",
+                              "", info.loanamount.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "申请金额",
+                            info.loanamount.toString()+"万",
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入申请期数",
+                              "", info.loancycle.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "申请期数",
+                            info.loancycle.toString()+"期",
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入申请费率",
+                              "", info.loanrate.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "申请费率",
+                            info.loanrate.toString()+"%",
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入房屋面积",
+                              "", info.housearea.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "房屋面积",
+                            info.housearea.toString()+"m²",
+                            true)),
+
+
+
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
                           var result = await showPickerArray(
                               context,
                               [
@@ -73,7 +196,7 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             context,
                             Colors.black,
                             Icons.rice_bowl_outlined,
-                            "服务状态",
+                            "房屋状态",
                             info.paytype==null? "" : int.parse(info.paytype.toString()) == 0 ? "全款" :(int.parse(info.paytype.toString()) == 1? "贷款":"其他"),
                             true)),
 
@@ -117,10 +240,87 @@ Widget buildBase(BuildContext context, SaleManDetailDataData info, int canEdit, 
                             context,
                             Colors.black,
                             Icons.local_activity_outlined,
-                            "籍贯",
-                            (info.houseaddress == ""
+                            "房屋区域",
+                            (info.city == ""
                                 ? "-"
-                                : info.houseaddress.toString()),
+                                : info.city.toString()),
+                            true)),
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入房屋面积",
+                              "", info.houseaddress.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "房屋地址",
+                            info.houseaddress.toString(),
+                            true)),
+
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入房屋面积",
+                              "", info.channel!.cnname.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "来源渠道",
+                            info.channel!.cnname.toString(),
+                            true)),
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入房屋面积",
+                              "", info.staff.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "当前员工",
+                            info.staff,
+                            true)),
+                    GestureDetector(
+                        onTap: () async {
+                          if (canEdit == 0) {
+                            showToastRed(context, "暂无权限修改", false);
+                            return;
+                          }
+                          var result = await showEditDialog(context, "请输入房屋面积",
+                              "", info.realamount.toString(), "name", 1, info);
+                          if (result != null) {
+                            callSetState("base", true);
+                          }
+                        },
+                        child: _item_detail(
+                            context,
+                            Colors.black,
+                            Icons.drive_file_rename_outline,
+                            "实际贷款金额",
+                            info.realamount.toString()+"万",
                             true)),
 
                   ]),
@@ -164,7 +364,7 @@ Widget _item_detail(BuildContext context, Color color, IconData icon,
                 Visibility(
                     visible: true,
                     child: Container(
-                      width: ScreenUtil().screenWidth * 0.60,
+                      width: ScreenUtil().screenWidth * 0.50,
                       child: Text(
                         answer,
                         maxLines: 20,
