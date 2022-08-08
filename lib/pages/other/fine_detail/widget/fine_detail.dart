@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import '../../../../common/apis/common.dart';
-import '../../../../common/entities/loan/saleman_detail.dart';
 import '../../../../common/entities/loan/saleman_detail.dart';
 import '../../../../common/services/storage.dart';
 import '../../../../common/utils/common.dart';
@@ -70,7 +68,6 @@ class _TimeLinePageState extends State<TimeLinePage>
   int pageIx = 0;
   List<Circulations> circulations = <Circulations>[];
   SaleManDetailDataData? detail;
-
   List<Doodle> doodleList = <Doodle>[];
   String roleKey = "super";
   String selectDate = "";
@@ -92,109 +89,65 @@ class _TimeLinePageState extends State<TimeLinePage>
 
   String getTitle(Circulations data) {
     String status = "";
-    Color color = const Color(0xffFF6666);
-    String icon = "";
     if (data.status == 1) {
       status = "待联系";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 2) {
       status = "待提交(已联系)";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 3) {
       status = "待进件";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 4) {
       status = "待审批";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 5) {
       status = "待补件";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 6) {
       status = "待风控";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
     if (data.status == 7) {
       status = "待放款";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
     }
-
     if (data.status == 8) {
       status = "已放款";
-      color = const Color(0xffD8AA0F);
-      icon = "assets/images/default/fine_success.png";
     }
     if (data.status == 9) {
       status = "放款失败";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_fail.png";
     }
     if (data.status == 10) {
       status = "客户放弃";
-      color = const Color(0xff6360CA);
-      icon = "assets/images/default/fine_lost.png";
     }
     if (data.status == 11) {
       status = "资质不符";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 12) {
       status = "已联系";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 13) {
       status = "已提交";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 14) {
       status = "已进件";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
-
     if (data.status == 23) {
       status = "已接收";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 40) {
       status = "通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 50) {
       status = "不通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 50) {
       status = "不通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 60) {
       status = "联系中";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     if (data.status == 70) {
       status = "放款中";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
     }
     return status;
   }
@@ -232,13 +185,13 @@ class _TimeLinePageState extends State<TimeLinePage>
       List<Pic> p = <Pic>[];
       if (e.identificationurl != "" && e.identificationurl != null) {
         p.add(Pic(
-            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid!,
+            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid,
             picType: 1,
             picUrl: NEW_JAVA_SERVER_API_URL + e.identificationurl.toString()));
       }
       if (e.deedurl != "" && e.deedurl != null) {
         p.add(Pic(
-            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid!,
+            circulationId: checkNull(e.circulationid) ? 0 : e.circulationid,
             picType: 1,
             picUrl: NEW_JAVA_SERVER_API_URL + e.deedurl.toString()));
       }
@@ -255,15 +208,15 @@ class _TimeLinePageState extends State<TimeLinePage>
         loanResult: '',
         bankAddress: '',
         bankManager: '',
-        auditTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
-        operateTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
-        commitTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
-        receiveTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
-        thisLoanTime: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        auditTime: checkNull(e.credit) ? "" : e.credit!.createtime,
+        operateTime: checkNull(e.credit) ? "" : e.credit!.createtime,
+        commitTime: checkNull(e.credit) ? "" : e.credit!.createtime,
+        receiveTime: checkNull(e.credit) ? "" : e.credit!.createtime,
+        thisLoanTime: checkNull(e.credit) ? "" : e.credit!.createtime,
         lendingLoanAmount: '',
         thisLoanAmount: '',
-        commitUser: checkNull(e.credit) ? "" : e.credit!.createtime!,
-        auditUser: checkNull(e.credit) ? "" : e.credit!.createtime!,
+        commitUser: checkNull(e.credit) ? "" : e.credit!.createtime,
+        auditUser: checkNull(e.credit) ? "" : e.credit!.createtime,
         operateUser: '',
       );
     }).toList();
@@ -391,7 +344,9 @@ class _TimeLinePageState extends State<TimeLinePage>
       File? file = await imageFile.file;
       if (file?.path != null) {
         var d = await CommonAPI.uploadCktFile(file!.path);
-        return d.data!.data!.filename;
+        if (d.data != null&& d.data!.data != null) {
+          return d.data!.data!.filename;
+        }
       }
     }
     return "";
@@ -467,7 +422,7 @@ class _TimeLinePageState extends State<TimeLinePage>
 
   TimelineModel centerTimelineBuilder(BuildContext context, int i) {
     final doodle = doodleList[i];
-    final textTheme = Theme.of(context).textTheme;
+
     var picListView = <PicInfo>[];
     List<Pic>? p = doodle.pics;
     List<Widget> l = <Widget>[];
@@ -524,7 +479,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      getCard(l, i, circulations[i],detail!),
+                      getCard(l, i, circulations[i], detail!),
                       i == 0 ? buildButton(doodle.name) : Container()
                     ],
                   )),
@@ -570,7 +525,8 @@ class _TimeLinePageState extends State<TimeLinePage>
         icon: doodle.icon);
   }
 
-  Widget getCard(List<Widget> l, int i, Circulations doodle,SaleManDetailDataData data) {
+  Widget getCard(
+      List<Widget> l, int i, Circulations doodle, SaleManDetailDataData data) {
     var status = doodle.status;
 
     if (status == 5) {
@@ -587,19 +543,19 @@ class _TimeLinePageState extends State<TimeLinePage>
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+            margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
             child: Row(
               children: [
                 Text(
                   "补件人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -607,31 +563,29 @@ class _TimeLinePageState extends State<TimeLinePage>
           ),
           Container(
             color: Color(0xfff4f5f8),
-            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            padding: EdgeInsets.only(
+                left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
             width: 350.w,
-             child: Text(
-                  checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
-                  style: TextStyle(
-                      color: Color(0xff4a4a5a), fontSize: 24.sp),
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                ),
+            child: Text(
+              checkNull(doodle.remark) ? "暂无" : doodle.remark.toString(),
+              style: TextStyle(color: Color(0xff4a4a5a), fontSize: 24.sp),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+            margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
             child: Row(
               children: [
                 Text(
                   "接收时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -659,14 +613,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "提交人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.createby)?"暂无":data.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -677,33 +629,28 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.updateby)?"暂无":doodle.updateby!,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.updateby) ? "暂无" : doodle.updateby!,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
           ),
-
           Container(
             child: Row(
               children: [
                 Text(
                   "接收时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -713,7 +660,7 @@ class _TimeLinePageState extends State<TimeLinePage>
       );
     }
     if (status == 60) {
-      String d ="联系中";
+      String d = "联系中";
       return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -726,28 +673,26 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-
-
         ],
       );
     }
     if (status == 1) {
-      String d ="";
-      if(doodle.step ==1){
-        d ="获取客户";
+      String d = "";
+      if (doodle.step == 1) {
+        d = "获取客户";
       }
-      if(doodle.step ==2){
-        d ="待联系";
+      if (doodle.step == 2) {
+        d = "待联系";
       }
-      String dd ="";
-      if(data.origin ==1){
-        dd ="超管划分";
+      String dd = "";
+      if (data.origin == 1) {
+        dd = "超管划分";
       }
-      if(data.origin ==2){
-        dd ="主管划分";
+      if (data.origin == 2) {
+        dd = "主管划分";
       }
-      if(data.origin ==3){
-        dd ="我的渠道";
+      if (data.origin == 3) {
+        dd = data.updateby;
       }
 
       return Column(
@@ -762,43 +707,42 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-          doodle.step ==1  ? Container(
-            child: Row(
-              children: [
-                Text(
-                  "来源渠道: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  dd,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ):Container(),
-          doodle.step ==1  ? Container(
-            child: Row(
-              children: [
-                Text(
-                  "获取时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime ,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ):Container(),
-
+          doodle.step == 1
+              ? Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        "来源渠道: ",
+                        style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        dd,
+                        style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
+          doodle.step == 1
+              ? Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        "获取时间: ",
+                        style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                        style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
         ],
       );
     }
@@ -816,7 +760,6 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-
         ],
       );
     }
@@ -839,25 +782,22 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.createby)?"暂无":data.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
           ),
-
         ],
       );
     }
     if (status == 12) {
-      String d ="已联系";
+      String d = "已联系";
 
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -871,19 +811,17 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-           Container(
+          Container(
             child: Row(
               children: [
                 Text(
                   "联系时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -894,14 +832,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "耗时: ",
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -928,14 +864,14 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "提交人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -946,14 +882,14 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.updateby)?"暂无":doodle.updateby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.updateby)
+                      ? "暂无"
+                      : doodle.updateby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -961,12 +897,12 @@ class _TimeLinePageState extends State<TimeLinePage>
           ),
           Container(
             color: Color(0xfff4f5f8),
-            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            padding: EdgeInsets.only(
+                left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
             width: 350.w,
             child: Text(
-              checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
-              style: TextStyle(
-                  color: Color(0xff4a4a5a), fontSize: 24.sp),
+              checkNull(doodle.remark) ? "暂无" : doodle.remark.toString(),
+              style: TextStyle(color: Color(0xff4a4a5a), fontSize: 24.sp),
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
@@ -977,14 +913,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "耗时: ",
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1011,14 +945,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby)?"暂无":doodle.createby,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby) ? "暂无" : doodle.createby,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1029,14 +961,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行网点: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.bankbranch) ? "暂无" : data.bankbranch,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1047,14 +977,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行客户经理: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.accountmanager) ? "暂无" : data.accountmanager,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1063,22 +991,19 @@ class _TimeLinePageState extends State<TimeLinePage>
           doodle.identificationurl == null
               ? Container()
               : Row(
-            children: [...l],
-          ),
-
+                  children: [...l],
+                ),
           Container(
             child: Row(
               children: [
                 Text(
                   "提交时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1089,14 +1014,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "耗时: ",
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1124,20 +1047,17 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.createby)?"暂无":data.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
           ),
-
         ],
       );
     }
@@ -1159,14 +1079,14 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby)?"暂无":doodle.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1177,14 +1097,14 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批结果: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.status)?"暂无":(doodle.status ==40 ? "通过":"不通过"),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.status)
+                      ? "暂无"
+                      : (doodle.status == 40 ? "通过" : "不通过"),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1192,12 +1112,12 @@ class _TimeLinePageState extends State<TimeLinePage>
           ),
           Container(
             color: Color(0xfff4f5f8),
-            padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 10.h,bottom: 10.h),
+            padding: EdgeInsets.only(
+                left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
             width: 350.w,
             child: Text(
-              checkNull(doodle.remark)?"暂无":doodle.remark.toString(),
-              style: TextStyle(
-                  color: Color(0xff4a4a5a), fontSize: 24.sp),
+              checkNull(doodle.remark) ? "暂无" : doodle.remark.toString(),
+              style: TextStyle(color: Color(0xff4a4a5a), fontSize: 24.sp),
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
@@ -1208,14 +1128,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "审批时间: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createtime)?"暂无":doodle.createtime,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1226,14 +1144,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "耗时: ",
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.timeconsuming)?"暂无":doodle.timeconsuming,
-                  style: TextStyle(
-                      color: Colors.green, fontSize: 24.sp),
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1261,14 +1177,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "操作人: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.createby)?"暂无":data.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1279,14 +1193,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "放款状况: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "待放款",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1297,14 +1209,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行网点: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.bankbranch) ? "暂无" : data.bankbranch,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1315,26 +1225,157 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行客户经理: ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.accountmanager) ? "暂无" : data.accountmanager,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
           ),
-
-
         ],
       );
     }
-
-
+    if (status == 8) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              getTitle(doodle),
+              style: TextStyle(
+                  color: i == 0 ? Colors.blue : Colors.black, fontSize: 34.sp),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "累计放款金额： ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.credit)
+                      ? "暂无"
+                      : doodle.credit!.cumulativeamount.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "万元",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作人: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "放款状况: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "已放款",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行网点: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.bankbranch) ? "暂无" : data.bankbranch,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "银行客户经理: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(data.accountmanager) ? "暂无" : data.accountmanager,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "操作时间: ",
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.createtime) ? "暂无" : doodle.createtime,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "耗时: ",
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  checkNull(doodle.timeconsuming) ? "暂无" : doodle.timeconsuming,
+                  style: TextStyle(color: Colors.green, fontSize: 24.sp),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
     if (status == 70) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1353,20 +1394,19 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "本次放款金额： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.credit)?"暂无":doodle.credit!.creditamount.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.credit)
+                      ? "暂无"
+                      : doodle.credit!.creditamount.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "万元",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1377,17 +1417,16 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "本次放款时间： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.credit)?"暂无":doodle.credit!.createtime.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.credit)
+                      ? "暂无"
+                      : doodle.credit!.createtime.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
-
               ],
             ),
           ),
@@ -1396,20 +1435,19 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "累计放款金额： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.credit)?"暂无":doodle.credit!.cumulativeamount.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.credit)
+                      ? "暂无"
+                      : doodle.credit!.cumulativeamount.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "万元",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1420,14 +1458,14 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "操作人： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.credit)?"暂无":doodle.credit!.createby.toString(),
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(doodle.credit)
+                      ? "暂无"
+                      : doodle.credit!.createby.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1438,14 +1476,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "放款状况： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "放款中",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1456,14 +1492,12 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行网点： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.bankbranch)?"暂无":data.bankbranch,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.bankbranch) ? "暂无" : data.bankbranch,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
@@ -1474,20 +1508,17 @@ class _TimeLinePageState extends State<TimeLinePage>
               children: [
                 Text(
                   "银行客户经理： ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(data.accountmanager)?"暂无":data.accountmanager,
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 24.sp),
+                  checkNull(data.accountmanager) ? "暂无" : data.accountmanager,
+                  style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
           ),
-
         ],
       );
     }
@@ -1519,134 +1550,56 @@ class _TimeLinePageState extends State<TimeLinePage>
   }
 
   showDialogs(SaleManDetailDataData data) {
-    String status = "";
-    Color color = const Color(0xffFF6666);
-    String icon = "";
     if (data.status == 1) {
-      status = "待联系";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
-      salesmanStatus160Dialog("待联系", checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      salesmanStatus160Dialog("待联系", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
     if (data.status == 2) {
-      status = "待提交(已联系)";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
       salesmanStatus2Dialog(
           "待提交(已联系)",
-          checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+          checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
     if (data.status == 3) {
-      status = "待进件";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
-      salesmanStatus4Dialog("待进件", checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      salesmanStatus4Dialog("待进件", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
     if (data.status == 4) {
-      status = "待审批";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
-      salesmanStatusAuditDialog(
-          "待审批",
-          checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      salesmanStatusAuditDialog("待审批", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
     if (data.status == 5) {
-      status = "待补件";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
-
-      salesmanStatus5Dialog("待补件", checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      salesmanStatus5Dialog("待补件", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
-    if (data.status == 6) {
-      status = "待风控";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
-    }
+    if (data.status == 6) {}
     if (data.status == 7) {
-      status = "待放款";
-      color = const Color(0xff4DA1EE);
-      icon = "assets/images/default/fine_call.png";
       salesmanStatusAwaitLoaningDialog(
           "待放款",
-          checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+          checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
 
-    if (data.status == 8) {
-      status = "已放款";
-      color = const Color(0xffD8AA0F);
-      icon = "assets/images/default/fine_success.png";
-    }
-    if (data.status == 9) {
-      status = "放款失败";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_fail.png";
-    }
-    if (data.status == 10) {
-      status = "客户放弃";
-      color = const Color(0xff6360CA);
-      icon = "assets/images/default/fine_lost.png";
-    }
-    if (data.status == 11) {
-      status = "资质不符";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 12) {
-      status = "已联系";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 13) {
-      status = "已提交";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 14) {
-      status = "已进件";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
+    if (data.status == 8) {}
+    if (data.status == 9) {}
+    if (data.status == 10) {}
+    if (data.status == 11) {}
+    if (data.status == 12) {}
+    if (data.status == 13) {}
+    if (data.status == 14) {}
 
-    if (data.status == 23) {
-      status = "已接收";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 40) {
-      status = "通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 50) {
-      status = "不通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
-    if (data.status == 50) {
-      status = "不通过";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-    }
+    if (data.status == 23) {}
+    if (data.status == 40) {}
+    if (data.status == 50) {}
+    if (data.status == 50) {}
     if (data.status == 60) {
-      status = "联系中";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-      salesmanStatus160Dialog("联系中", checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      salesmanStatus160Dialog("联系中", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
 
     if (data.status == 70) {
-      status = "放款中";
-      color = const Color(0xff4CD070);
-      icon = "assets/images/default/fine_no.png";
-      lendingDialog("放款中", checkNull(data.loanid) ? 0 : data.loanid!,
-          checkNull(data.status) ? 0 : data.status!);
+      lendingDialog("放款中", checkNull(data.loanid) ? 0 : data.loanid,
+          checkNull(data.status) ? 0 : data.status);
     }
   }
 
@@ -1857,12 +1810,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 40.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   status = 70;
                                   changeAdminLoaningStatus(
@@ -2019,12 +1967,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   status = 4;
                                   changeSalesmanStatus(
@@ -2218,12 +2161,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   if (selectDate == "已联系") {
                                     status = 2;
@@ -2346,12 +2284,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 60.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   if (!isChecked) {
                                     showToastRed(
@@ -2555,10 +2488,13 @@ class _TimeLinePageState extends State<TimeLinePage>
                                 GestureDetector(
                                   onTap: () async {
                                     String? path = await uploadImg();
-                                    if (path != null) {
+                                    if (path != null && path !="") {
                                       creditPath = path;
+                                      state(() {});
+                                    }else{
+                                      showToastRed(Get.context!, "上传失败", true);
                                     }
-                                    state(() {});
+
                                   },
                                   child: Container(
                                     padding: EdgeInsets.only(
@@ -2596,8 +2532,10 @@ class _TimeLinePageState extends State<TimeLinePage>
                                 GestureDetector(
                                   onTap: () async {
                                     String? path = await uploadImg();
-                                    if (path != null) {
+                                    if (path != null && path!="") {
                                       housePath = path;
+                                    }else{
+                                      showToastRed(Get.context!, "上传失败", true);
                                     }
                                     state(() {});
                                   },
@@ -2639,12 +2577,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   height: 80.h,
                                   margin: EdgeInsets.only(
                                       top: 70.h, left: 40.w, right: 40.w),
-                                  child: RaisedButton(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(40.h))),
-                                    color: Colors.lightBlue,
+                                  child: ElevatedButton(
                                     onPressed: () {
                                       if (creditPath == "" && housePath == "") {
                                         showToastRed(
@@ -2922,12 +2855,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   if (selectDate == "通过") {
                                     status = 7;
@@ -3372,12 +3300,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   if (selectDate == "放款中") {
                                     status = 70;

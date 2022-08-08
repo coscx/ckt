@@ -45,7 +45,7 @@ T? asT<T extends Object?>(dynamic value, [T? defaultValue]) {
     }
   } catch (e, stackTrace) {
     log('asT<$T>', error: e, stackTrace: stackTrace);
-    return defaultValue;
+    //return defaultValue;
   }
   if ('' is T) {
     return '' as T;
