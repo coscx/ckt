@@ -19,7 +19,8 @@ editBaseInfo(
   BuildContext context,
   SaleManDetailDataData info,
   Map<String, dynamic> data,
-  void Function(SaleManDetailDataData tag, bool value,bool isEdit) callSetState,
+  void Function(SaleManDetailDataData tag, bool value, bool isEdit)
+      callSetState,
 ) async {
   getSubmitData(info, data);
   if (data.containsKey("csName")) {
@@ -50,19 +51,19 @@ editBaseInfo(
     info.houseaddress = data['houseAddress'];
   }
 
-  callSetState(info, false,true);
+  callSetState(info, false, true);
 }
 
 submitBaseInfo(
   BuildContext context,
   SaleManDetailDataData info,
-  void Function(SaleManDetailDataData detailData, bool value,bool isEdit) callSetState,
+  void Function(SaleManDetailDataData detailData, bool value, bool isEdit)
+      callSetState,
 ) async {
   var d = await CommonAPI.changeSaleBaseInfo(globalData);
   if (d.code == 200) {
-
     showToast(context, "修改成功", false);
-    callSetState(info, true,false);
+    callSetState(info, true, false);
   } else {
     showToastRed(context, d.msg, false);
   }
@@ -91,11 +92,13 @@ Widget buildBase(
     SaleManDetailDataData info,
     int canEdit,
     bool showControl,
-    void Function(SaleManDetailDataData detailData, bool value,bool isEdit) callSetState,
-    String name,bool isEdit) {
+    void Function(SaleManDetailDataData detailData, bool value, bool isEdit)
+        callSetState,
+    String name,
+    bool isEdit) {
   return Container(
     child: Container(
-      margin: EdgeInsets.only(left: 15.w, right: 5.w, bottom: 0.h,top: 0),
+      margin: EdgeInsets.only(left: 15.w, right: 5.w, bottom: 0.h, top: 0),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -127,8 +130,11 @@ Widget buildBase(
                               // }
 
                               await editDialog(context, "请输入姓名", "", () async {
-                                editBaseInfo(context, info,
-                                    {"csName": editController.text}, callSetState);
+                                editBaseInfo(
+                                    context,
+                                    info,
+                                    {"csName": editController.text},
+                                    callSetState);
                               }, null, TextInputType.text);
                             },
                             child: _item_detail(
@@ -160,8 +166,11 @@ Widget buildBase(
                               // }
 
                               await editDialog(context, "请输入年龄", "岁", () {
-                                editBaseInfo(context, info,
-                                    {"csAge": editController.text}, callSetState);
+                                editBaseInfo(
+                                    context,
+                                    info,
+                                    {"csAge": editController.text},
+                                    callSetState);
                               }, NumberInputLimit(digit: 0, max: 99),
                                   TextInputType.number);
                             },
@@ -235,8 +244,11 @@ Widget buildBase(
                               //   callSetState("base", true);
                               // }
                               await editDialog(context, "请输入申请期数", "期", () {
-                                editBaseInfo(context, info,
-                                    {"loanCycle": editController.text}, callSetState);
+                                editBaseInfo(
+                                    context,
+                                    info,
+                                    {"loanCycle": editController.text},
+                                    callSetState);
                               },
                                   NumberInputLimit(
                                     digit: 0,
@@ -273,8 +285,11 @@ Widget buildBase(
                               // }
 
                               await editDialog(context, "请输入申请费率", "%", () {
-                                editBaseInfo(context, info,
-                                    {"loanRate": editController.text}, callSetState);
+                                editBaseInfo(
+                                    context,
+                                    info,
+                                    {"loanRate": editController.text},
+                                    callSetState);
                               },
                                   NumberInputLimit(
                                     digit: 0,
@@ -310,8 +325,11 @@ Widget buildBase(
                               //   callSetState("base", true);
                               // }
                               await editDialog(context, "请输入房屋面积", "m²", () {
-                                editBaseInfo(context, info,
-                                    {"houseArea": editController.text}, callSetState);
+                                editBaseInfo(
+                                    context,
+                                    info,
+                                    {"houseArea": editController.text},
+                                    callSetState);
                               },
                                   NumberInputLimit(
                                     digit: 0,
@@ -340,13 +358,15 @@ Widget buildBase(
                                   ],
                                   info.paytype == null
                                       ? [1]
-                                      : [int.parse(info.paytype.toString())-1],
+                                      : [
+                                          int.parse(info.paytype.toString()) - 1
+                                        ],
                                   "gender",
                                   info,
                                   "",
                                   true, (a, b) {
-                                editBaseInfo(
-                                    context, info, {"payType": a+1}, callSetState);
+                                editBaseInfo(context, info, {"payType": a + 1},
+                                    callSetState);
                               });
                             },
                             child: _item_detail(
@@ -358,7 +378,8 @@ Widget buildBase(
                                     ? "-"
                                     : int.parse(info.paytype.toString()) == 1
                                         ? "全款"
-                                        : (int.parse(info.paytype.toString()) == 2
+                                        : (int.parse(info.paytype.toString()) ==
+                                                2
                                             ? "贷款"
                                             : "其他"),
                                 true)),
@@ -375,7 +396,8 @@ Widget buildBase(
                                       ? "320508"
                                       : info.district.toString(),
                                   cancelWidget: Container(
-                                    padding: EdgeInsets.only(top: 20.h, left: 20.w),
+                                    padding:
+                                        EdgeInsets.only(top: 20.h, left: 20.w),
                                     child: Text(
                                       "取消",
                                       style: TextStyle(
@@ -385,7 +407,8 @@ Widget buildBase(
                                     ),
                                   ),
                                   confirmWidget: Container(
-                                    padding: EdgeInsets.only(top: 20.h, right: 20.w),
+                                    padding:
+                                        EdgeInsets.only(top: 20.h, right: 20.w),
                                     child: Text(
                                       "确定",
                                       style: TextStyle(
@@ -399,7 +422,10 @@ Widget buildBase(
                                     context,
                                     info,
                                     {
-                                      "locationCode": [result.cityId, result.areaId],
+                                      "locationCode": [
+                                        result.cityId,
+                                        result.areaId
+                                      ],
                                       "city": result.cityId,
                                       "district": result.areaId
                                     },
@@ -505,13 +531,14 @@ Widget buildBase(
                                     top: 30.h, left: 50.w, right: 40.w),
                                 child: ElevatedButton(
                                   style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(StadiumBorder(
-                                        side: BorderSide(
+                                    shape:
+                                        MaterialStateProperty.all(StadiumBorder(
+                                            side: BorderSide(
                                       style: BorderStyle.solid,
                                       color: Colors.transparent,
                                     ))), //圆
-                                    shadowColor:
-                                        MaterialStateProperty.all(Colors.transparent),
+                                    shadowColor: MaterialStateProperty.all(
+                                        Colors.transparent),
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.green.withOpacity(0.9)), //背景颜色
                                     foregroundColor: MaterialStateProperty.all(
@@ -527,7 +554,9 @@ Widget buildBase(
                                           fontWeight: FontWeight.w400)),
                                 ),
                               )
-                            : Container(height: 0,),
+                            : Container(
+                                height: 0,
+                              ),
                       ]),
                 ),
               ],
