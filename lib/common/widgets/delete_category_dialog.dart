@@ -6,10 +6,10 @@ class DeleteCategoryDialog extends StatelessWidget {
   final String title;
   final String content;
   final Function() onSubmit;
-
+   Function()? onCancel;
 
   DeleteCategoryDialog({
-    this.title='', this.content ='',required this.onSubmit
+    this.title='', this.content ='',required this.onSubmit,this.onCancel
   });
 
   @override
@@ -70,7 +70,11 @@ class DeleteCategoryDialog extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: ()=>Navigator.of(context).pop(),
+            onTap: () {
+              if(onCancel !=null){
+                onCancel!();
+              }
+            },
             child: Container(
               alignment: Alignment.center,
               height: 40,
@@ -91,7 +95,11 @@ class DeleteCategoryDialog extends StatelessWidget {
     children: <Widget>[
       Spacer(),
       GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
+        onTap: () {
+          if(onCancel !=null){
+            onCancel!();
+          }
+        },
         child: Container(
           height: 30,
           alignment: Alignment.centerRight,

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 bool checkNull(dynamic data) {
-  if (data == null || data =="null" || data =="") {
+  if (data == null || data =="null" || data ==""|| data ==0) {
     return true;
   }
   return false ;

@@ -135,6 +135,7 @@ class SaleManDetailData {
 }
 
 class SaleManDetailDataData {
+
   SaleManDetailDataData({
     required this.csphone,
     required this.channel,
@@ -189,6 +190,7 @@ class SaleManDetailDataData {
     this.searchvalue,
     this.loanrate,
     required this.houseaddress,
+    required this.bankid,
   });
 
   factory SaleManDetailDataData.fromJson(Map<String, dynamic> json) {
@@ -268,6 +270,7 @@ class SaleManDetailDataData {
           ? asT<String>(json['creditTime'])!
           : '',
       loanid: json.containsKey('loanId') ? asT<int>(json['loanId'])! : 0,
+      bankid: json.containsKey('bankId') ? asT<int>(json['bankId'])! : 0,
       status: json.containsKey('status') ? asT<int>(json['status'])! : 0,
       city: json.containsKey('city') ? asT<Object?>(json['city']) : null,
       csage: json.containsKey('csAge') ? asT<Object?>(json['csAge']) : null,
@@ -374,7 +377,7 @@ class SaleManDetailDataData {
   Object? searchvalue;
   Object? loanrate;
   String houseaddress;
-
+  int   bankid;
   @override
   String toString() {
     return jsonEncode(this);
@@ -408,6 +411,7 @@ class SaleManDetailDataData {
     'identificationUrl': identificationurl,
     'creditTime': credittime,
     'loanId': loanid,
+    'bankId': bankid,
     'status': status,
     'city': city,
     'csAge': csage,

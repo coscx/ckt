@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 const double _kTabHeight = 46.0;
 
 class ButtonsTabBar extends StatefulWidget implements PreferredSizeWidget {
+
+
   ButtonsTabBar({
     Key? key,
     required this.tabs,
@@ -24,6 +26,7 @@ class ButtonsTabBar extends StatefulWidget implements PreferredSizeWidget {
     this.buttonMargin = const EdgeInsets.all(4),
     this.labelSpacing = 4.0,
     this.radius = 7.0,
+    this.backRadius = 20.0,
     this.elevation = 0,
     this.height = _kTabHeight,
     this.center = false,
@@ -123,7 +126,7 @@ class ButtonsTabBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// The value of the [BorderRadius.circular] applied to each button.
   final double radius;
-
+  final double backRadius;
   /// The value of the [elevation] applied to each button.
   final double elevation;
 
@@ -420,9 +423,10 @@ class _ButtonsTabBarState extends State<ButtonsTabBar>
             scrollDirection: Axis.horizontal,
             padding: widget.center ? _centerPadding : EdgeInsets.zero,
             child: Container(
+
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20)
+                color: Color(0xffeeeeee).withOpacity(0.3),
+                borderRadius: BorderRadius.circular(widget.backRadius)
               ),
               //padding:  EdgeInsets.only(left: 10,right: 10),
               child: Row(

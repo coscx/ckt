@@ -29,7 +29,7 @@ showToast(BuildContext ctx, String msg, bool collected) {
       child: Text(msg,style:  TextStyle(
           color: Colors.black, fontSize: 40.sp)),
     ),
-    duration: const Duration(seconds: 5),
+    duration: const Duration(milliseconds: 800),
 
     trailing: (cancel) => Container(
       child: IconButton(
@@ -56,7 +56,7 @@ showToastBottom(BuildContext ctx, String msg, bool collected) {
 }
 showToastRed(BuildContext ctx, String msg, bool collected) {
   if (msg ==""){
-    msg="ti";
+    msg="未知错误";
   }
   BotToast.showNotification(
     backgroundColor: Colors.white,
@@ -67,7 +67,7 @@ showToastRed(BuildContext ctx, String msg, bool collected) {
         )),
     title: (text)=>Text(msg,style:  TextStyle(
         color: Colors.black, fontSize: 30.sp)),
-    duration: const Duration(seconds: 5),
+    duration: const Duration(milliseconds: 800),
 
     trailing: (cancel) => Container(
       child: IconButton(

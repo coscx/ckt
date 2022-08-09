@@ -19,6 +19,7 @@ import '../../../../common/widgets/bottom_picker/resources/arrays.dart';
 import '../../../../common/widgets/chat_picture_preview.dart';
 import '../../../../common/widgets/checkbox/src/msh_checkbox.dart';
 import '../../../../common/widgets/checkbox/src/msh_checkbox_style.dart';
+import '../../../../common/widgets/delete_category_dialog.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
 import '../../../../common/widgets/extend_image.dart';
 import '../../../../common/widgets/im_util.dart';
@@ -64,6 +65,8 @@ class _TimeLinePageState extends State<TimeLinePage>
   TextEditingController loaningController = TextEditingController();
   FocusNode loaningFieldNode = FocusNode();
 
+
+  bool isEdit = false;
   GlobalKey status4Key = GlobalKey();
   int pageIx = 0;
   List<Circulations> circulations = <Circulations>[];
@@ -351,7 +354,28 @@ class _TimeLinePageState extends State<TimeLinePage>
     }
     return "";
   }
-
+  Future<bool> _exit(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (ctx) => Dialog(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.w))),
+          child: Container(
+            width: 100.w,
+            child: DeleteCategoryDialog(
+              title: '客户信息修改后没保存',
+              content: '是否确定继续执行?',
+              onSubmit: () {
+                  Navigator.of(context).pop(true);
+              },
+              onCancel: (){
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ),
+        ));
+  }
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
@@ -359,50 +383,79 @@ class _TimeLinePageState extends State<TimeLinePage>
       // timelineModel(TimelinePosition.Center),
       // timelineModel(TimelinePosition.Right)
     ];
-
-    return Scaffold(
-      appBar: AppBar(title: Text('详细信息')),
-      body: ScrollConfiguration(
-        behavior: DyBehaviorNull(),
-        child: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: <Widget>[
-              ButtonsTabBar(
-                radius: 40.w,
-                contentPadding: EdgeInsets.only(left: 40.w, right: 40.w),
-                backgroundColor: Colors.blue,
-                unselectedBackgroundColor: Color(0xffeeeeee),
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                labelStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                tabs: [
-                  Tab(
-                    text: "流程图",
-                  ),
-                  Tab(
-                    text: "个人信息",
-                  ),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: <Widget>[
-                    Center(
-                        child: PageView(
-                            onPageChanged: (i) => setState(() => pageIx = i),
-                            controller: pageController,
-                            children: pages)),
-                    Center(
-                      child: detail == null
-                          ? Container()
-                          : buildBase(
-                              Get.context!, detail!, 1, false, (a, b) {}, ""),
+    return WillPopScope(
+      onWillPop: () async {
+        if (isEdit ==true){
+          bool result = await _exit(context);
+          if(result){
+            return  true;
+          }else{
+            return  false;
+          }
+        }
+        return  true;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text('详细信息')),
+        resizeToAvoidBottomInset: false, //输入框抵住键盘 内容不随键盘滚动
+        body: ScrollConfiguration(
+          behavior: DyBehaviorNull(),
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: <Widget>[
+                ButtonsTabBar(
+                  height: 90.h,
+                  radius: 45.w,
+                  backRadius: 60.w,
+                  buttonMargin: EdgeInsets.only(left: 20.w, right: 20.w,top: 10.h,bottom:10.h),
+                  contentPadding: EdgeInsets.only(left: 80.w, right: 80.w),
+                  backgroundColor: Colors.blue,
+                  unselectedBackgroundColor: Color(0xffeeeeee),
+                  unselectedLabelStyle: TextStyle(color: Colors.black),
+                  labelStyle:
+                      TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  tabs: [
+                    Tab(
+                      text: "流程图",
+                    ),
+                    Tab(
+                      text: "个人信息",
                     ),
                   ],
                 ),
-              ),
-            ],
+                Expanded(
+                  child: TabBarView(
+                    children: <Widget>[
+                      Container(
+                          child: PageView(
+                              onPageChanged: (i) {
+                                setState(() => pageIx = i);
+                              } ,
+                              controller: pageController,
+                              children: pages)),
+                      Container(
+                        child: detail == null
+                            ? Container()
+                            : buildBase(
+                                Get.context!, detail!, 1, false, (a, b,c) {
+                                  if(b){
+                                    isEdit =false;
+                                    _getData();
+
+                                  }else{
+                                    setState(() {
+                                     detail = a;
+                                     isEdit =c;
+                                    });
+                                  }
+                        }, "",isEdit),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -480,7 +533,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       getCard(l, i, circulations[i], detail!),
-                      i == 0 ? buildButton(doodle.name,(){
+                      i == 0 ? buildButton(doodle.name,(data){
                         showDialogs(detail!);
                       }) : Container()
                     ],
@@ -1735,7 +1788,7 @@ class _TimeLinePageState extends State<TimeLinePage>
     return Container();
   }
 
-  Widget buildButton(String name ,Function  callFun) {
+  Widget buildButton(String name ,Function(dynamic data)  callFun) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -1754,7 +1807,7 @@ class _TimeLinePageState extends State<TimeLinePage>
             EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
-        callFun(detail!);
+         callFun(detail!);
       },
     );
   }
@@ -3540,4 +3593,6 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
+
+
 }
