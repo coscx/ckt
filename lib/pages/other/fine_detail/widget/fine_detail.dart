@@ -79,11 +79,12 @@ class _TimeLinePageState extends State<TimeLinePage>
   String creditPath = "";
   String housePath = "";
   bool showAuditCheck = false;
-  bool showCheckButton= false;
+  bool showCheckButton = false;
   String showAuditCheckResult = "";
   bool showLoaning = false;
   String loaningDate = "";
   int canEdit = 0;
+
   @override
   void initState() {
     _getData();
@@ -177,12 +178,19 @@ class _TimeLinePageState extends State<TimeLinePage>
       }
       var d1 = await CommonAPI.getLendingDetail(widget.loanId);
       lendingNum = d1.data!.data;
-      if (detail!.status > 5 ||detail!.status ==4 ){
-        canEdit =1;
+      if (detail!.status > 5 || detail!.status == 4) {
+        canEdit = 1;
         showCheckButton = true;
-      }else{
-        canEdit =0;
-        showCheckButton =false;
+        if (detail!.status == 8) {
+          canEdit = 0;
+          showCheckButton = false;
+        }
+      } else {
+        canEdit = 0;
+        showCheckButton = false;
+        if (detail!.status == 3) {
+          showCheckButton = true;
+        }
       }
     } else if (roleKey == "salesman") {
       var d = await CommonAPI.getSaleManDetail(widget.loanId);
@@ -190,16 +198,14 @@ class _TimeLinePageState extends State<TimeLinePage>
         circulations = d.data!.data!.circulations!.reversed.toList();
         detail = d.data!.data!;
       }
-      if (detail!.status < 3 ||detail!.status ==5 ){
-        canEdit =1;
-        showCheckButton =true;
-      }else{
-        canEdit =0;
-        showCheckButton =false;
+      if (detail!.status < 3 || detail!.status == 5 ||detail!.status == 60 ) {
+        canEdit = 1;
+        showCheckButton = true;
+      } else {
+        canEdit = 0;
+        showCheckButton = false;
       }
     } else {}
-
-
 
     doodleList = circulations.map((e) {
       List<Pic> p = <Pic>[];
@@ -207,13 +213,13 @@ class _TimeLinePageState extends State<TimeLinePage>
         p.add(Pic(
             circulationId: checkNull(e.circulationid) ? 0 : e.circulationid,
             picType: 1,
-            picUrl: NEW_JAVA_SERVER_API_URL + e.identificationurl.toString()));
+            picUrl: StorageService.to.getString("server_url") +StorageService.to.getString("url_tag")+ e.identificationurl.toString()));
       }
       if (e.deedurl != "" && e.deedurl != null) {
         p.add(Pic(
             circulationId: checkNull(e.circulationid) ? 0 : e.circulationid,
             picType: 1,
-            picUrl: NEW_JAVA_SERVER_API_URL + e.deedurl.toString()));
+            picUrl: StorageService.to.getString("server_url") +StorageService.to.getString("url_tag")+ e.deedurl.toString()));
       }
       return Doodle(
         current: 0,
@@ -365,7 +371,8 @@ class _TimeLinePageState extends State<TimeLinePage>
       if (file?.path != null) {
         var d = await CommonAPI.uploadCktFile(file!.path);
         if (d.data != null && d.data!.data != null) {
-          return d.data!.data!.filename;
+          var gg= StorageService.to.getString("url_tag");
+          return  gg+d.data!.data!.filename;
         }
       }
     }
@@ -553,9 +560,11 @@ class _TimeLinePageState extends State<TimeLinePage>
                     children: [
                       getCard(l, i, circulations[i], detail!),
                       i == 0
-                          ? (showCheckButton ?buildButton(doodle.name, (data) {
-                              showDialogs(detail!);
-                            }):Container())
+                          ? (showCheckButton
+                              ? buildButton(doodle.name, (data) {
+                                  showDialogs(detail!);
+                                })
+                              : Container())
                           : Container()
                     ],
                   )),
@@ -2101,12 +2110,11 @@ class _TimeLinePageState extends State<TimeLinePage>
                               margin: EdgeInsets.only(
                                   top: 40.h, left: 40.w, right: 40.w),
                               child: getEveButton(
-                                 () {
+                                () {
                                   status = 70;
                                   changeAdminLoaningStatus(
                                       loanId, status, remarkController.text);
                                 },
-
                               ),
                             ),
                           ],
@@ -2256,12 +2264,11 @@ class _TimeLinePageState extends State<TimeLinePage>
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
                               child: getEveButton(
-                              () {
+                                () {
                                   status = 4;
                                   changeSalesmanStatus(
                                       loanId, status, remarkController.text);
                                 },
-
                               ),
                             ),
                           ],
@@ -2590,7 +2597,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               margin: EdgeInsets.only(
                                   top: 60.h, left: 40.w, right: 40.w),
                               child: getEveButton(
-                               () {
+                                () {
                                   if (!isChecked) {
                                     showToastRed(
                                         Get.context!, "请勾选后再提交请求", true);
@@ -2600,7 +2607,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   changeSalesmanStatus(
                                       loanId, status, remarkController.text);
                                 },
-
                               ),
                             ),
                           ],
@@ -2648,6 +2654,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                                 onTap: () {
                                   loanController.text = "";
                                   selectDate = "";
+                                  creditPath="";
+                                  housePath ="";
+
                                   Navigator.of(context).pop();
                                 },
                                 child: Image.asset(
@@ -2798,7 +2807,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   },
                                   child: Container(
                                     padding: EdgeInsets.only(
-                                        left: 80.w, right: 10.w, top: 40.h),
+                                        left: 80.w, right: 10.w, top: 20.h),
                                     child: Row(
                                       children: [
                                         Text("上传身份证照片",
@@ -2816,13 +2825,14 @@ class _TimeLinePageState extends State<TimeLinePage>
                                                 ),
                                               )
                                             : Container(
+                                          width: 200.w,
+                                          height: 110.h,
                                                 padding:
                                                     EdgeInsets.only(left: 50.w),
-                                                child: Image.network(
-                                                  NEW_JAVA_SERVER_API_URL +
+                                                child: getCacheImage(
+                                                  StorageService.to.getString("server_url") +
                                                       creditPath,
-                                                  width: 100.w,
-                                                  height: 100.h,
+
                                                 ),
                                               ),
                                       ],
@@ -2859,13 +2869,14 @@ class _TimeLinePageState extends State<TimeLinePage>
                                                 ),
                                               )
                                             : Container(
+                                          width: 200.w,
+                                          height: 110.h,
                                                 padding:
                                                     EdgeInsets.only(left: 50.w),
-                                                child: Image.network(
-                                                  NEW_JAVA_SERVER_API_URL +
+                                                child: getCacheImage(
+                                                  StorageService.to.getString("server_url") +
                                                       housePath,
-                                                  width: 100.w,
-                                                  height: 100.h,
+
                                                 ),
                                               ),
                                       ],
@@ -2873,33 +2884,33 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   ),
                                 ),
                                 Container(
-                                  width: ScreenUtil().screenWidth,
-                                  height: 80.h,
-                                  margin: EdgeInsets.only(
-                                      top: 70.h, left: 40.w, right: 40.w),
-                                  child: getEveButton(
-                                   () {
-                                      if (creditPath == "" && housePath == "") {
-                                        showToastRed(
-                                            Get.context!, "请上传身份证", true);
-                                        return;
-                                      }
-                                      if (bankController.text == "") {
-                                        showToastRed(
-                                            Get.context!, "请填写银行网点", true);
-                                        return;
-                                      }
-                                      if (managerController.text == "") {
-                                        showToastRed(
-                                            Get.context!, "请填写银行客户经理", true);
-                                        return;
-                                      }
-                                      status = 4;
-                                      changeAdminStatus(loanId, status,
-                                          remarkController.text);
-                                    },
-                                  )
-                                ),
+                                    width: ScreenUtil().screenWidth,
+                                    height: 80.h,
+                                    margin: EdgeInsets.only(
+                                        top: 70.h, left: 40.w, right: 40.w),
+                                    child: getEveButton(
+                                      () {
+                                        if (creditPath == "" &&
+                                            housePath == "") {
+                                          showToastRed(
+                                              Get.context!, "请上传身份证", true);
+                                          return;
+                                        }
+                                        if (bankController.text == "") {
+                                          showToastRed(
+                                              Get.context!, "请填写银行网点", true);
+                                          return;
+                                        }
+                                        if (managerController.text == "") {
+                                          showToastRed(
+                                              Get.context!, "请填写银行客户经理", true);
+                                          return;
+                                        }
+                                        status = 4;
+                                        changeAdminStatus(loanId, status,
+                                            remarkController.text);
+                                      },
+                                    )),
                               ],
                             ),
                           ],
@@ -3170,7 +3181,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   auditAdmin(
                                       loanId, status, remarkController.text);
                                 },
-
                               ),
                             ),
                           ],
@@ -3595,7 +3605,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
                               child: getEveButton(
-                                 () {
+                                () {
                                   if (selectDate == "放款中") {
                                     status = 70;
                                   }
@@ -3608,7 +3618,6 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   changeAdminAwaitLoaningStatus(
                                       loanId, status, remarkController.text);
                                 },
-
                               ),
                             ),
                           ],

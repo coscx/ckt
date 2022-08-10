@@ -112,6 +112,8 @@ class LoginLogic extends GetxController {
       await StorageService.to.setString("roleName", result.data!.user!.roleName.toString());
       await StorageService.to.setString("roleKey", result.data!.user!.roleKey.toString());
       await StorageService.to.setString("mobile", result.data!.user!.mobile);
+      await StorageService.to.setString("server_url","https://finance.queqiaochina.com");
+      await StorageService.to.setString("url_tag","/prod-api");
       await UserStore.to.saveProfile(result);
       await UserStore.to.saveAccount(result);
       await UserStore.to.setToken(result.data!.token!.accessToken);

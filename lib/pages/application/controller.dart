@@ -243,6 +243,9 @@ class ApplicationController extends GetxController {
         await StorageService.to.remove("user_token");
         await StorageService.to.remove("user_profile");
         Get.offAllNamed(AppRoutes.LOGIN);
+      }else{
+        await StorageService.to.setString("server_url",result.data!.serverUrl);
+        await StorageService.to.setString("url_tag",result.data!.urlTag);
       }
     });
     super.onInit();

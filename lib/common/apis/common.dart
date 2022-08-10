@@ -24,6 +24,7 @@ import 'package:flutter_ckt/common/entities/loan/saleman.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman_detail.dart';
 import 'package:flutter_ckt/common/entities/loan/saleman_grid.dart';
 import 'package:flutter_ckt/common/entities/loan/super_director.dart';
+import 'package:flutter_ckt/common/entities/loan/user_status.dart';
 import 'package:flutter_ckt/common/entities/login/login_model.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -451,8 +452,8 @@ class CommonAPI {
   }
 
   static Future<AppVersionEntity> getVersion() async {
-    var response = await NewERPHttpUtil().post(
-      '/api/v1/auth/version',
+    var response = await NewLoanHttpUtil().post(
+      '/api/GetVersion',
       data: {},
     );
     return AppVersionEntity.fromJson(response);
@@ -833,12 +834,12 @@ class CommonAPI {
     return CommonResult.fromJson(response);
   }
 
-  static Future<CommonResult> getUserStatus() async {
+  static Future<UserStatus> getUserStatus() async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetUserStatus',
       queryParameters: {},
     );
-    return CommonResult.fromJson(response);
+    return UserStatus.fromJson(response);
   }
 
   static Future<Group> getGroupInfo(String id) async {

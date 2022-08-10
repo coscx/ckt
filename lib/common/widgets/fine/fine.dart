@@ -122,6 +122,11 @@ MyItem getStatus(SaleManDataData data) {
     color = const Color(0xff4CD070);
     icon = "assets/images/default/fine_no.png";
   }
+  if (data.status == 60) {
+    status = "联系中";
+    color = const Color(0xff4CD070);
+    icon = "assets/images/default/fine_no.png";
+  }
   if (data.status == 70) {
     status = "放款中";
     color = const Color(0xff4CD070);
