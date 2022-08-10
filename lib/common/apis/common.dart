@@ -335,7 +335,13 @@ class CommonAPI {
     );
     return Staff.fromJson(response);
   }
-
+  static Future<Staff> changeAdministrativeBaseInfo(Map<String, dynamic> data) async {
+    var response = await NewLoanHttpUtil().post(
+      '/api/ChangeAdministrativeBaseInfo',
+      data: data,
+    );
+    return Staff.fromJson(response);
+  }
   static Future<SaleManDetail> getSaleManDetail(int id) async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetSaleManDetail',

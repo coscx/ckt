@@ -68,7 +68,7 @@ showToastRed(BuildContext ctx, String msg, bool collected) {
     title: (text)=>Text(msg,style:  TextStyle(
         color: Colors.black, fontSize: 30.sp)),
     duration: const Duration(milliseconds: 800),
-
+    contentPadding: EdgeInsets.only(left: 10.w,right: 10.w),
     trailing: (cancel) => Container(
       child: IconButton(
         icon: const Icon(Icons.cancel),

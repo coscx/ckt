@@ -134,7 +134,7 @@ MyItem getStatus(SaleManDataData data) {
     status: status,
     money: data.loanamount.toString(),
     time: data.createtime,
-    count: data.loanamount.toString(),
+    count: data.loancycle.toString(),
     color: color,
   );
 }

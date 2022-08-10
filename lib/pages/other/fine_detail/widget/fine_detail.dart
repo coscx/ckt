@@ -65,7 +65,6 @@ class _TimeLinePageState extends State<TimeLinePage>
   TextEditingController loaningController = TextEditingController();
   FocusNode loaningFieldNode = FocusNode();
 
-
   bool isEdit = false;
   GlobalKey status4Key = GlobalKey();
   int pageIx = 0;
@@ -80,10 +79,11 @@ class _TimeLinePageState extends State<TimeLinePage>
   String creditPath = "";
   String housePath = "";
   bool showAuditCheck = false;
+  bool showCheckButton= false;
   String showAuditCheckResult = "";
   bool showLoaning = false;
   String loaningDate = "";
-
+  int canEdit = 0;
   @override
   void initState() {
     _getData();
@@ -177,13 +177,30 @@ class _TimeLinePageState extends State<TimeLinePage>
       }
       var d1 = await CommonAPI.getLendingDetail(widget.loanId);
       lendingNum = d1.data!.data;
+      if (detail!.status > 5 ||detail!.status ==4 ){
+        canEdit =1;
+        showCheckButton = true;
+      }else{
+        canEdit =0;
+        showCheckButton =false;
+      }
     } else if (roleKey == "salesman") {
       var d = await CommonAPI.getSaleManDetail(widget.loanId);
       if (d.data != null && d.data?.data != null) {
         circulations = d.data!.data!.circulations!.reversed.toList();
         detail = d.data!.data!;
       }
+      if (detail!.status < 3 ||detail!.status ==5 ){
+        canEdit =1;
+        showCheckButton =true;
+      }else{
+        canEdit =0;
+        showCheckButton =false;
+      }
     } else {}
+
+
+
     doodleList = circulations.map((e) {
       List<Pic> p = <Pic>[];
       if (e.identificationurl != "" && e.identificationurl != null) {
@@ -347,35 +364,37 @@ class _TimeLinePageState extends State<TimeLinePage>
       File? file = await imageFile.file;
       if (file?.path != null) {
         var d = await CommonAPI.uploadCktFile(file!.path);
-        if (d.data != null&& d.data!.data != null) {
+        if (d.data != null && d.data!.data != null) {
           return d.data!.data!.filename;
         }
       }
     }
     return "";
   }
+
   Future<bool> _exit(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (ctx) => Dialog(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.w))),
-          child: Container(
-            width: 100.w,
-            child: DeleteCategoryDialog(
-              title: '客户信息修改后没保存',
-              content: '是否确定继续执行?',
-              onSubmit: () {
-                  Navigator.of(context).pop(true);
-              },
-              onCancel: (){
-                Navigator.of(context).pop(false);
-              },
-            ),
-          ),
-        ));
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.w))),
+              child: Container(
+                width: 100.w,
+                child: DeleteCategoryDialog(
+                  title: '客户信息修改后没保存',
+                  content: '是否继续退出?',
+                  onSubmit: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  onCancel: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+              ),
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
@@ -385,15 +404,15 @@ class _TimeLinePageState extends State<TimeLinePage>
     ];
     return WillPopScope(
       onWillPop: () async {
-        if (isEdit ==true){
+        if (isEdit == true) {
           bool result = await _exit(context);
-          if(result){
-            return  true;
-          }else{
-            return  false;
+          if (result) {
+            return true;
+          } else {
+            return false;
           }
         }
-        return  true;
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(title: Text('详细信息')),
@@ -408,13 +427,14 @@ class _TimeLinePageState extends State<TimeLinePage>
                   height: 90.h,
                   radius: 45.w,
                   backRadius: 60.w,
-                  buttonMargin: EdgeInsets.only(left: 20.w, right: 20.w,top: 10.h,bottom:10.h),
+                  buttonMargin: EdgeInsets.only(
+                      left: 20.w, right: 20.w, top: 10.h, bottom: 10.h),
                   contentPadding: EdgeInsets.only(left: 80.w, right: 80.w),
                   backgroundColor: Colors.blue,
                   unselectedBackgroundColor: Color(0xffeeeeee),
                   unselectedLabelStyle: TextStyle(color: Colors.black),
-                  labelStyle:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                   tabs: [
                     Tab(
                       text: "流程图",
@@ -431,25 +451,24 @@ class _TimeLinePageState extends State<TimeLinePage>
                           child: PageView(
                               onPageChanged: (i) {
                                 setState(() => pageIx = i);
-                              } ,
+                              },
                               controller: pageController,
                               children: pages)),
                       Container(
                         child: detail == null
                             ? Container()
-                            : buildBase(
-                                Get.context!, detail!, 1, false, (a, b,c) {
-                                  if(b){
-                                    isEdit =false;
-                                    _getData();
-
-                                  }else{
-                                    setState(() {
-                                     detail = a;
-                                     isEdit =c;
-                                    });
-                                  }
-                        }, "",isEdit),
+                            : buildBase(Get.context!, detail!, canEdit, false,
+                                (a, b, c) {
+                                if (b) {
+                                  isEdit = false;
+                                  _getData();
+                                } else {
+                                  setState(() {
+                                    detail = a;
+                                    isEdit = c;
+                                  });
+                                }
+                              }, "", isEdit),
                       ),
                     ],
                   ),
@@ -533,9 +552,11 @@ class _TimeLinePageState extends State<TimeLinePage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       getCard(l, i, circulations[i], detail!),
-                      i == 0 ? buildButton(doodle.name,(data){
-                        showDialogs(detail!);
-                      }) : Container()
+                      i == 0
+                          ? (showCheckButton ?buildButton(doodle.name, (data) {
+                              showDialogs(detail!);
+                            }):Container())
+                          : Container()
                     ],
                   )),
             ),
@@ -672,7 +693,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
                   style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
@@ -841,7 +864,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
                   style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
@@ -1106,7 +1131,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
                   style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
@@ -1236,7 +1263,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  checkNull(doodle.createby) ? "暂无" : doodle.createby.toString(),
+                  checkNull(doodle.createby)
+                      ? "暂无"
+                      : doodle.createby.toString(),
                   style: TextStyle(color: Colors.black, fontSize: 24.sp),
                   textAlign: TextAlign.left,
                 ),
@@ -1444,7 +1473,6 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-
           Container(
             child: Row(
               children: [
@@ -1540,7 +1568,6 @@ class _TimeLinePageState extends State<TimeLinePage>
               textAlign: TextAlign.left,
             ),
           ),
-
           Container(
             child: Row(
               children: [
@@ -1788,7 +1815,7 @@ class _TimeLinePageState extends State<TimeLinePage>
     return Container();
   }
 
-  Widget buildButton(String name ,Function(dynamic data)  callFun) {
+  Widget buildButton(String name, Function(dynamic data) callFun) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -1807,7 +1834,7 @@ class _TimeLinePageState extends State<TimeLinePage>
             EdgeInsets.only(top: 20.h, left: 35.w, bottom: 20.h, right: 35.w),
       ),
       onPressed: () {
-         callFun(detail!);
+        callFun(detail!);
       },
     );
   }
@@ -2073,15 +2100,13 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 40.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: getEveButton(
+                                 () {
                                   status = 70;
                                   changeAdminLoaningStatus(
                                       loanId, status, remarkController.text);
                                 },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
+
                               ),
                             ),
                           ],
@@ -2230,15 +2255,13 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: getEveButton(
+                              () {
                                   status = 4;
                                   changeSalesmanStatus(
                                       loanId, status, remarkController.text);
                                 },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
+
                               ),
                             ),
                           ],
@@ -2424,27 +2447,22 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (selectDate == "已联系") {
-                                    status = 2;
-                                  }
-                                  if (selectDate == "联系中") {
-                                    status = 60;
-                                  }
-                                  if (selectDate == "客户放弃") {
-                                    status = 10;
-                                  }
-                                  if (selectDate == "资质不符") {
-                                    status = 11;
-                                  }
-                                  changeSalesmanStatus(
-                                      loanId, status, remarkController.text);
-                                },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
-                              ),
+                              child: getEveButton(() {
+                                if (selectDate == "已联系") {
+                                  status = 2;
+                                }
+                                if (selectDate == "联系中") {
+                                  status = 60;
+                                }
+                                if (selectDate == "客户放弃") {
+                                  status = 10;
+                                }
+                                if (selectDate == "资质不符") {
+                                  status = 11;
+                                }
+                                changeSalesmanStatus(
+                                    loanId, status, remarkController.text);
+                              }),
                             ),
                           ],
                         ),
@@ -2456,6 +2474,30 @@ class _TimeLinePageState extends State<TimeLinePage>
             );
           });
         });
+  }
+
+  getEveButton(Function callBack) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(StadiumBorder(
+            side: BorderSide(
+          style: BorderStyle.solid,
+          color: Colors.transparent,
+        ))), //圆
+        shadowColor: MaterialStateProperty.all(Colors.transparent),
+        backgroundColor:
+            MaterialStateProperty.all(Colors.green.withOpacity(0.9)), //背景颜色
+        foregroundColor: MaterialStateProperty.all(Colors.white), //字体颜色
+      ),
+      onPressed: () {
+        callBack();
+      },
+      child: Text("保存",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 36.sp,
+              fontWeight: FontWeight.w400)),
+    );
   }
 
   salesmanStatus2Dialog(String name, int loanId, int status) async {
@@ -2547,8 +2589,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 60.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: getEveButton(
+                               () {
                                   if (!isChecked) {
                                     showToastRed(
                                         Get.context!, "请勾选后再提交请求", true);
@@ -2557,12 +2599,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   status = 3;
                                   changeSalesmanStatus(
                                       loanId, status, remarkController.text);
-
-                                  Navigator.of(context).pop();
                                 },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
+
                               ),
                             ),
                           ],
@@ -2751,13 +2789,12 @@ class _TimeLinePageState extends State<TimeLinePage>
                                 GestureDetector(
                                   onTap: () async {
                                     String? path = await uploadImg();
-                                    if (path != null && path !="") {
+                                    if (path != null && path != "") {
                                       creditPath = path;
                                       state(() {});
-                                    }else{
+                                    } else {
                                       showToastRed(Get.context!, "上传失败", true);
                                     }
-
                                   },
                                   child: Container(
                                     padding: EdgeInsets.only(
@@ -2795,9 +2832,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                                 GestureDetector(
                                   onTap: () async {
                                     String? path = await uploadImg();
-                                    if (path != null && path!="") {
+                                    if (path != null && path != "") {
                                       housePath = path;
-                                    }else{
+                                    } else {
                                       showToastRed(Get.context!, "上传失败", true);
                                     }
                                     state(() {});
@@ -2840,8 +2877,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   height: 80.h,
                                   margin: EdgeInsets.only(
                                       top: 70.h, left: 40.w, right: 40.w),
-                                  child: ElevatedButton(
-                                    onPressed: () {
+                                  child: getEveButton(
+                                   () {
                                       if (creditPath == "" && housePath == "") {
                                         showToastRed(
                                             Get.context!, "请上传身份证", true);
@@ -2861,11 +2898,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                       changeAdminStatus(loanId, status,
                                           remarkController.text);
                                     },
-                                    child: Text("提交",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 36.sp)),
-                                  ),
+                                  )
                                 ),
                               ],
                             ),
@@ -3118,8 +3151,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: getEveButton(
+                                () {
                                   if (selectDate == "通过") {
                                     status = 7;
                                   }
@@ -3137,9 +3170,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   auditAdmin(
                                       loanId, status, remarkController.text);
                                 },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
+
                               ),
                             ),
                           ],
@@ -3563,8 +3594,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                               height: 80.h,
                               margin: EdgeInsets.only(
                                   top: 30.h, left: 40.w, right: 40.w),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: getEveButton(
+                                 () {
                                   if (selectDate == "放款中") {
                                     status = 70;
                                   }
@@ -3577,9 +3608,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   changeAdminAwaitLoaningStatus(
                                       loanId, status, remarkController.text);
                                 },
-                                child: Text("提交",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.sp)),
+
                               ),
                             ),
                           ],
@@ -3593,6 +3622,4 @@ class _TimeLinePageState extends State<TimeLinePage>
           });
         });
   }
-
-
 }

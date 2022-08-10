@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/apis/common.dart';
 import '../../../../common/entities/loan/saleman_detail.dart';
+import '../../../../common/services/storage.dart';
 import '../../../../common/widgets/city_pickers/modal/result.dart';
 import '../../../../common/widgets/city_pickers/src/city_picker.dart';
 import '../../../oa/user_detail/widget/common_dialog.dart';
@@ -60,13 +61,26 @@ submitBaseInfo(
   void Function(SaleManDetailDataData detailData, bool value, bool isEdit)
       callSetState,
 ) async {
-  var d = await CommonAPI.changeSaleBaseInfo(globalData);
-  if (d.code == 200) {
-    showToast(context, "修改成功", false);
-    callSetState(info, true, false);
-  } else {
-    showToastRed(context, d.msg, false);
+  String roleKey = StorageService.to.getString("roleKey");
+  if (roleKey == "salesman") {
+    var d = await CommonAPI.changeSaleBaseInfo(globalData);
+    if (d.code == 200) {
+      showToast(context, "修改成功", false);
+      callSetState(info, true, false);
+    } else {
+      showToastRed(context, d.msg, false);
+    }
   }
+  if (roleKey == "administration") {
+    var d = await CommonAPI.changeAdministrativeBaseInfo(globalData);
+    if (d.code == 200) {
+      showToast(context, "修改成功", false);
+      callSetState(info, true, false);
+    } else {
+      showToastRed(context, d.msg, false);
+    }
+  }
+
 }
 
 Map<String, dynamic> getSubmitData(
@@ -120,7 +134,6 @@ Widget buildBase(
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(context, "请输入姓名",
@@ -143,7 +156,7 @@ Widget buildBase(
                                 Icons.drive_file_rename_outline,
                                 "客户姓名",
                                 info.csname.toString(),
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {},
                             child: _item_detail(
@@ -156,7 +169,6 @@ Widget buildBase(
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(context, "请输入年龄",
@@ -182,11 +194,10 @@ Widget buildBase(
                                 checkNull(info.csage)
                                     ? "-"
                                     : info.csage.toString() + "岁",
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(
@@ -217,17 +228,16 @@ Widget buildBase(
                             },
                             child: _item_detail(
                                 context,
-                                Colors.black,
+                                Colors.redAccent,
                                 Icons.drive_file_rename_outline,
                                 "申请金额",
                                 checkNull(info.loanamount)
                                     ? "-"
                                     : info.loanamount.toString() + "万",
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(
@@ -263,11 +273,10 @@ Widget buildBase(
                                 checkNull(info.loancycle)
                                     ? "-"
                                     : info.loancycle.toString() + "期",
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(
@@ -304,11 +313,10 @@ Widget buildBase(
                                 checkNull(info.loanrate)
                                     ? "-"
                                     : info.loanrate.toString() + "%",
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(
@@ -338,17 +346,16 @@ Widget buildBase(
                             },
                             child: _item_detail(
                                 context,
-                                Colors.black,
+                                Colors.redAccent,
                                 Icons.drive_file_rename_outline,
                                 "房屋面积",
                                 checkNull(info.housearea)
                                     ? "-"
                                     : info.housearea.toString() + "m²",
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               await showPickerArray(
@@ -382,11 +389,10 @@ Widget buildBase(
                                                 2
                                             ? "贷款"
                                             : "其他"),
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               Result? result = await CityPickers.showCityPicker(
@@ -440,11 +446,10 @@ Widget buildBase(
                                 (checkNull(info.district)
                                     ? "-"
                                     : info.district.toString()),
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {
                               if (canEdit == 0) {
-                                showToastRed(context, "暂无权限修改", false);
                                 return;
                               }
                               // var result = await showEditDialog(
@@ -470,13 +475,13 @@ Widget buildBase(
                             },
                             child: _item_detail(
                                 context,
-                                Colors.black,
+                                Colors.redAccent,
                                 Icons.drive_file_rename_outline,
                                 "房屋地址",
                                 checkNull(info.houseaddress)
                                     ? "-"
                                     : info.houseaddress.toString(),
-                                true)),
+                                canEdit == 1)),
                         GestureDetector(
                             onTap: () async {},
                             child: _item_detail(
@@ -595,7 +600,7 @@ Widget _item_detail(BuildContext context, Color color, IconData icon,
                   child: Text(
                     name + " :",
                     style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
+                        color: color.withOpacity(0.7),
                         fontSize: 34.sp,
                         fontWeight: FontWeight.w600),
                   ),
@@ -877,6 +882,10 @@ editDialog(BuildContext context, String title, String suffix, Function callBack,
                                       Colors.white), //字体颜色
                                 ),
                                 onPressed: () {
+                                  if (editController.text == "") {
+                                    showToastRed(context, "请填写内容", true);
+                                    return;
+                                  }
                                   callBack();
                                   editController.text = "";
                                   editFieldNode.unfocus();
