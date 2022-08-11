@@ -21,6 +21,7 @@ import '../../../../common/widgets/checkbox/src/msh_checkbox.dart';
 import '../../../../common/widgets/checkbox/src/msh_checkbox_style.dart';
 import '../../../../common/widgets/delete_category_dialog.dart';
 import '../../../../common/widgets/dy_behavior_null.dart';
+import '../../../../common/widgets/eve_button.dart';
 import '../../../../common/widgets/extend_image.dart';
 import '../../../../common/widgets/im_util.dart';
 import '../../../../common/widgets/tabbar/buttons_tabbar.dart';
@@ -275,6 +276,9 @@ class _TimeLinePageState extends State<TimeLinePage>
         homeLogic.onRefresh();
       }
       _getData();
+      remarkController.text = "";
+      showAuditCheckResult = "";
+      selectDate = "";
       Navigator.of(context).pop();
     } else {
       showToastRed(Get.context!, d.msg, true);
@@ -2483,29 +2487,7 @@ class _TimeLinePageState extends State<TimeLinePage>
         });
   }
 
-  getEveButton(Function callBack) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(StadiumBorder(
-            side: BorderSide(
-          style: BorderStyle.solid,
-          color: Colors.transparent,
-        ))), //圆
-        shadowColor: MaterialStateProperty.all(Colors.transparent),
-        backgroundColor:
-            MaterialStateProperty.all(Colors.green.withOpacity(0.9)), //背景颜色
-        foregroundColor: MaterialStateProperty.all(Colors.white), //字体颜色
-      ),
-      onPressed: () {
-        callBack();
-      },
-      child: Text("保存",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w400)),
-    );
-  }
+
 
   salesmanStatus2Dialog(String name, int loanId, int status) async {
     await showDialog(
@@ -3180,6 +3162,7 @@ class _TimeLinePageState extends State<TimeLinePage>
                                   }
                                   auditAdmin(
                                       loanId, status, remarkController.text);
+
                                 },
                               ),
                             ),
@@ -3230,6 +3213,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                               thisController.text = "";
                               selectDate = "";
                               loaningDate = "";
+                              showLoaning =false;
+                              showRemark =false;
                               Navigator.of(context).pop();
                             },
                             child: Image.asset(
@@ -3523,7 +3508,9 @@ class _TimeLinePageState extends State<TimeLinePage>
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          thisFieldNode.unfocus();
                                           loanFieldNode.unfocus();
+                                          actualFieldNode.unfocus();
                                           BottomPicker.date(
                                                   initialDateTime:
                                                       DateTime.tryParse(
@@ -3547,6 +3534,8 @@ class _TimeLinePageState extends State<TimeLinePage>
                                                   },
                                                   onSubmit: (index) {
                                                     // print(index);
+
+
                                                     state(() {
                                                       loaningDate = DateFormat(
                                                               "yyyy-MM-dd")

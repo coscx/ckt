@@ -451,12 +451,12 @@ class CommonAPI {
     return CommonResult.fromJson(response);
   }
 
-  static Future<AppVersionEntity> getVersion() async {
+  static Future<Version> getVersion() async {
     var response = await NewLoanHttpUtil().post(
       '/api/GetVersion',
       data: {},
     );
-    return AppVersionEntity.fromJson(response);
+    return Version.fromJson(response);
   }
 
   static Future<LoginEntity> login(String username, String password) async {
@@ -495,13 +495,13 @@ class CommonAPI {
     return CktFile.fromJson(response);
   }
 
-  static Future<AppVersionEntity> getWxLogin() async {
+  static Future<Version> getWxLogin() async {
     var data = {};
     var response = await NewERPHttpUtil().post(
       '/api/GetWxStatus',
       data: data,
     );
-    return AppVersionEntity.fromJson(response);
+    return Version.fromJson(response);
   }
 
   static Future<LoginEntity> wxLogin(String code) async {

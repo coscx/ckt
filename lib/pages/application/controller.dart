@@ -7,12 +7,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_2d_amap/flutter_2d_amap.dart';
+import 'package:flutter_app_update/azhon_app_update.dart';
+import 'package:flutter_app_update/update_model.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/routers/routes.dart';
 import 'package:flutter_ckt/common/utils/utils.dart';
 import 'package:flutter_ckt/common/values/values.dart';
 import 'package:flutter_ckt/pages/conversion/logic.dart';
 import 'package:flutter_ckt/pages/peer_chat/logic.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import 'package:umeng_analytics_with_push/umeng_analytics_with_push.dart';
@@ -21,7 +25,7 @@ import 'package:uni_links/uni_links.dart';
 import '../../common/entities/im/Im_message.dart';
 import '../../common/services/storage.dart';
 import '../../common/values/key.dart';
-import '../../common/widgets/xupdate.dart';
+import '../../common/widgets/eve_button.dart';
 import '../calcucation/view.dart';
 import '../channel/view.dart';
 import '../conversion/view.dart';
@@ -46,7 +50,6 @@ class ApplicationController extends GetxController {
   // 页控制器
   late final PageController pageController;
   late final FltImPlugin im;
-  late final CheckUpdate checkUpdate;
 
   // 底部导航项目
   final List<BottomNavigationBarItem> bottomTabs = <BottomNavigationBarItem>[];
@@ -243,10 +246,13 @@ class ApplicationController extends GetxController {
         await StorageService.to.remove("user_token");
         await StorageService.to.remove("user_profile");
         Get.offAllNamed(AppRoutes.LOGIN);
-      }else{
-        await StorageService.to.setString("server_url",result.data!.serverUrl);
-        await StorageService.to.setString("url_tag",result.data!.urlTag);
+      } else {
+        await StorageService.to.setString("server_url", result.data!.serverUrl);
+        await StorageService.to.setString("url_tag", result.data!.urlTag);
       }
+    });
+    AzhonAppUpdate.listener((map) {
+      print(map['type']);
     });
     super.onInit();
   }
@@ -519,43 +525,182 @@ class ApplicationController extends GetxController {
     onNewMessage(result, 0);
   }
 
+  String url =
+      "https://imtt.dd.qq.com/16891/apk/FA48766BA12A41A1D619CB4B152889C6.apk?fsname=com.estrongs.android.pop_4.2.3.3_10089.apk&csr=1bbd";
+
   // 检查是否需要版本更新
   void _checkUpdateVersion() async {
     try {
-      var response = await CommonAPI.getVersion();
-      if (response.code != 0) {
-        Map<String, dynamic> versionData = {};
-        versionData['isForce'] = response.data.isforce;
-        versionData['hasUpdate'] = true;
-        versionData['isIgnorable'] = false;
-        versionData['versionCode'] = response.data.versioncode;
-        versionData['versionName'] = response.data.versionname;
-        versionData['updateLog'] = response.data.updatelog;
-        versionData['apkUrl'] = response.data.apkurl;
-        versionData['apkSize'] = response.data.apksize;
-        // 后台返回的版本号是带小数点的（2.8.1）所以去除小数点用于做对比
-        var targetVersion = response.data.versioncode.replaceAll(
-            '.', ''); //response["data"]["versionCode"].replaceAll('.', '');
-        var version = "120";
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String versions = packageInfo.version; //版本号
-        var appVersion = versions.replaceAll('.', '');
-        // 当前App运行版本
-        var currentVersion = appVersion; //.replaceAll('.', '');
-        if (int.parse(targetVersion) > int.parse(currentVersion)) {
-          if (Platform.isAndroid) {
-            // 安卓弹窗提示本地下载， 交由flutter_xupdate 处理，不用我们干嘛。
-            await checkUpdate.initXUpdate();
-            checkUpdate.checkUpdateByUpdateEntity(
-                versionData); // flutter_xupdate 自定义JSON 方式，
-          } else if (Platform.isIOS) {
-            // IOS 跳转 AppStore
-            //showIOSDialog(); // 弹出ios提示更新框
-          }
-        }
+    var response = await CommonAPI.getVersion();
+    if (response.code != 0) {
+      Map<String, dynamic> versionData = {};
+      versionData['isForce'] = response.data!.androidIsForce;
+      versionData['hasUpdate'] = true;
+      versionData['isIgnorable'] = false;
+      versionData['versionName'] = response.data!.androidVersion;
+      versionData['iosUrl'] = response.data!.iosUrl;
+      versionData['updateLog'] = response.data!.remark;
+      versionData['apkUrl'] = response.data!.androidUrl;
+      versionData['apkSize'] = response.data!.size;
+      // 后台返回的版本号是带小数点的（2.8.1）所以去除小数点用于做对比
+      var targetVersion = response.data!.androidVersion.replaceAll(
+          '.', ''); //response["data"]["versionCode"].replaceAll('.', '');
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String versions = packageInfo.version; //版本号
+      var appVersion = versions.replaceAll('.', '');
+      // 当前App运行版本
+      var currentVersion = appVersion; //.replaceAll('.', '');
+      if (int.parse(targetVersion) > int.parse(currentVersion)) {
+        if (Platform.isAndroid) {
+          _useOwnerDialog(versionData['apkUrl'],versionData['iosUrl'],versionData['updateLog'],versionData['isForce']==0);
+        } else {}
       }
+    }
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  //使用自己的对话框
+  _useOwnerDialog(String androidUrl ,String iosUrl,String remark,bool showBack) {
+    // showDialog(
+    //     context: Get.context!,
+    //     barrierDismissible: false,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: Text('发现新版本'),
+    //         content: Text(
+    //             '1.支持Android M N O P Q\n2.支持自定义下载过程\n3.支持 设备>=Android M 动态权限的申请\n4.支持通知栏进度条展示\n5.支持文字国际化'),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             child: Text('取消'),
+    //             onPressed: () => Navigator.of(context).pop(),
+    //           ),
+    //           TextButton(
+    //             child: Text('升级'),
+    //             onPressed: () {
+    //               _simpleUse(false);
+    //               Navigator.of(context).pop();
+    //             },
+    //           ),
+    //         ],
+    //       );
+    //     }).then((value) {});
+    SmartDialog.show(
+        backDismiss: false,
+        clickMaskDismiss: false,
+        builder: (c) {
+          return StatefulBuilder(builder: (context, state) {
+            return GestureDetector(
+              onTap: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: ScreenUtil().screenWidth * 0.95,
+                    height: 500.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                    ),
+                    child: Stack(
+                      //alignment: AlignmentDirectional.topCenter,
+                      children: <Widget>[
+                       showBack? Positioned(
+                          top: 30.h,
+                          right: 30.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              SmartDialog.dismiss();
+                            },
+                            child: Image.asset(
+                              'assets/images/btn_close_black.png',
+                              width: 40.w,
+                            ),
+                          ),
+                        ):Container(),
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top: 40.h, left: 40.w, right: 40.w),
+                                child: Text("新版本更新",
+                                    style: TextStyle(
+                                        fontSize: 36.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 40.h, left: 40.w, right: 40.w),
+                              child: Text(
+                                  getNewLineString(remark)),
+                            ),
+                            Container(
+                              width: ScreenUtil().screenWidth,
+                              height: 80.h,
+                              margin: EdgeInsets.only(
+                                  top: 40.h, left: 80.w, right: 80.w),
+                              child: Container(
+                                width: 200.w,
+                                child: getUpdateEveButton(
+                                      () {
+                                        _simpleUse(false, androidUrl , iosUrl);
+                                        SmartDialog.dismiss();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          });
+        });
+  }
+  String getNewLineString(String remark) {
+     var readLines = remark.split("\\n");
+    StringBuffer sb = new StringBuffer();
+    for (String line in readLines) {
+      sb.write(line + "\n");
+    }
+    return sb.toString();
+  }
+  ///使用内置对话框
+  _useBuiltInDialog(bool forcedUpgrade) {
+    UpdateModel model = UpdateModel(
+      url,
+      "flutterUpdate.apk",
+      "ic_launcher",
+      "1.支持Android M N O P Q\n2.支持自定义下载过程\n3.支持 设备>=Android M 动态权限的申请\n4.支持通知栏进度条展示\n5.支持文字国际化",
+      showNewerToast: true,
+      apkVersionCode: 2,
+      apkVersionName: "2.1.8",
+      apkSize: "20.4",
+      iOSUrl: 'https://itunes.apple.com/cn/app/抖音/id1142110895',
+      showiOSDialog: true,
+      forcedUpgrade: forcedUpgrade,
+    );
+    AzhonAppUpdate.update(model).then((value) => print(value));
+  }
+
+  ///简单使用
+  _simpleUse(bool showIOSDialog,String androidUrl ,String iosUrl) {
+    UpdateModel model = UpdateModel(
+      androidUrl,
+      "flutterUpdate.apk",
+      "ic_launcher",
+      "",
+      iOSUrl: iosUrl,
+      showiOSDialog: showIOSDialog,
+    );
+    AzhonAppUpdate.update(model).then((value) => print(value));
   }
 }

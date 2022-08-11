@@ -154,7 +154,7 @@ class ChangeAccountPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(e.name != "" ? e.name : "MSTAR",
+                              Text(e.name != "" ? e.name+"-"+e.roleName : "MSTAR",
                                   style: TextStyle(
                                       color: Color(0xff000000),
                                       fontSize: 30.sp,

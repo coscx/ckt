@@ -89,9 +89,7 @@ class LoginLogic extends GetxController {
 
     var result = await CommonAPI.getWxLogin();
     if (result.code == 200) {
-      if (result.data.hasupdate == true){
-        return true;
-      }
+
     }
     return false;
   }
