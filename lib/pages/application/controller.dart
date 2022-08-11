@@ -247,8 +247,11 @@ class ApplicationController extends GetxController {
         await StorageService.to.remove("user_profile");
         Get.offAllNamed(AppRoutes.LOGIN);
       } else {
-        await StorageService.to.setString("server_url", result.data!.serverUrl);
-        await StorageService.to.setString("url_tag", result.data!.urlTag);
+        if (result.code == 200) {
+          await StorageService.to
+              .setString("server_url", result.data!.serverUrl);
+          await StorageService.to.setString("url_tag", result.data!.urlTag);
+        }
       }
     });
     AzhonAppUpdate.listener((map) {
@@ -531,38 +534,40 @@ class ApplicationController extends GetxController {
   // 检查是否需要版本更新
   void _checkUpdateVersion() async {
     try {
-    var response = await CommonAPI.getVersion();
-    if (response.code != 0) {
-      Map<String, dynamic> versionData = {};
-      versionData['isForce'] = response.data!.androidIsForce;
-      versionData['hasUpdate'] = true;
-      versionData['isIgnorable'] = false;
-      versionData['versionName'] = response.data!.androidVersion;
-      versionData['iosUrl'] = response.data!.iosUrl;
-      versionData['updateLog'] = response.data!.remark;
-      versionData['apkUrl'] = response.data!.androidUrl;
-      versionData['apkSize'] = response.data!.size;
-      // 后台返回的版本号是带小数点的（2.8.1）所以去除小数点用于做对比
-      var targetVersion = response.data!.androidVersion.replaceAll(
-          '.', ''); //response["data"]["versionCode"].replaceAll('.', '');
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String versions = packageInfo.version; //版本号
-      var appVersion = versions.replaceAll('.', '');
-      // 当前App运行版本
-      var currentVersion = appVersion; //.replaceAll('.', '');
-      if (int.parse(targetVersion) > int.parse(currentVersion)) {
-        if (Platform.isAndroid) {
-          _useOwnerDialog(versionData['apkUrl'],versionData['iosUrl'],versionData['updateLog'],versionData['isForce']==0);
-        } else {}
+      var response = await CommonAPI.getVersion();
+      if (response.code != 0) {
+        Map<String, dynamic> versionData = {};
+        versionData['isForce'] = response.data!.androidIsForce;
+        versionData['hasUpdate'] = true;
+        versionData['isIgnorable'] = false;
+        versionData['versionName'] = response.data!.androidVersion;
+        versionData['iosUrl'] = response.data!.iosUrl;
+        versionData['updateLog'] = response.data!.remark;
+        versionData['apkUrl'] = response.data!.androidUrl;
+        versionData['apkSize'] = response.data!.size;
+        // 后台返回的版本号是带小数点的（2.8.1）所以去除小数点用于做对比
+        var targetVersion = response.data!.androidVersion.replaceAll(
+            '.', ''); //response["data"]["versionCode"].replaceAll('.', '');
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String versions = packageInfo.version; //版本号
+        var appVersion = versions.replaceAll('.', '');
+        // 当前App运行版本
+        var currentVersion = appVersion; //.replaceAll('.', '');
+        if (int.parse(targetVersion) > int.parse(currentVersion)) {
+          if (Platform.isAndroid) {
+            _useOwnerDialog(versionData['apkUrl'], versionData['iosUrl'],
+                versionData['updateLog'], versionData['isForce'] == 0);
+          } else {}
+        }
       }
-    }
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   //使用自己的对话框
-  _useOwnerDialog(String androidUrl ,String iosUrl,String remark,bool showBack) {
+  _useOwnerDialog(
+      String androidUrl, String iosUrl, String remark, bool showBack) {
     // showDialog(
     //     context: Get.context!,
     //     barrierDismissible: false,
@@ -606,19 +611,21 @@ class ApplicationController extends GetxController {
                     child: Stack(
                       //alignment: AlignmentDirectional.topCenter,
                       children: <Widget>[
-                       showBack? Positioned(
-                          top: 30.h,
-                          right: 30.h,
-                          child: GestureDetector(
-                            onTap: () {
-                              SmartDialog.dismiss();
-                            },
-                            child: Image.asset(
-                              'assets/images/btn_close_black.png',
-                              width: 40.w,
-                            ),
-                          ),
-                        ):Container(),
+                        showBack
+                            ? Positioned(
+                                top: 30.h,
+                                right: 30.h,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    SmartDialog.dismiss();
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/btn_close_black.png',
+                                    width: 40.w,
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         Column(
                           children: [
                             GestureDetector(
@@ -636,8 +643,7 @@ class ApplicationController extends GetxController {
                             Container(
                               margin: EdgeInsets.only(
                                   top: 40.h, left: 40.w, right: 40.w),
-                              child: Text(
-                                  getNewLineString(remark)),
+                              child: Text(getNewLineString(remark)),
                             ),
                             Container(
                               width: ScreenUtil().screenWidth,
@@ -647,9 +653,9 @@ class ApplicationController extends GetxController {
                               child: Container(
                                 width: 200.w,
                                 child: getUpdateEveButton(
-                                      () {
-                                        _simpleUse(false, androidUrl , iosUrl);
-                                        SmartDialog.dismiss();
+                                  () {
+                                    _simpleUse(false, androidUrl, iosUrl);
+                                    SmartDialog.dismiss();
                                   },
                                 ),
                               ),
@@ -665,14 +671,16 @@ class ApplicationController extends GetxController {
           });
         });
   }
+
   String getNewLineString(String remark) {
-     var readLines = remark.split("\\n");
+    var readLines = remark.split("\\n");
     StringBuffer sb = new StringBuffer();
     for (String line in readLines) {
       sb.write(line + "\n");
     }
     return sb.toString();
   }
+
   ///使用内置对话框
   _useBuiltInDialog(bool forcedUpgrade) {
     UpdateModel model = UpdateModel(
@@ -692,7 +700,7 @@ class ApplicationController extends GetxController {
   }
 
   ///简单使用
-  _simpleUse(bool showIOSDialog,String androidUrl ,String iosUrl) {
+  _simpleUse(bool showIOSDialog, String androidUrl, String iosUrl) {
     UpdateModel model = UpdateModel(
       androidUrl,
       "flutterUpdate.apk",
