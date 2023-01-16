@@ -220,11 +220,7 @@ class LoginPage extends StatelessWidget {
             .of(context)
             .size
             .width,
-        child: RaisedButton(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(35.w))),
-          color: Colors.blue,
+        child: ElevatedButton(
           onPressed: () {
             // if (!logic.privacy) {
             //   toastInfo(msg: '请勾选同意用户协议与隐私政策');

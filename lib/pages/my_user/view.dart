@@ -224,14 +224,7 @@ class MyUserPage extends StatelessWidget {
                                                     top: 40.h,
                                                     left: 40.w,
                                                     right: 40.w),
-                                                child: RaisedButton(
-                                                  elevation: 0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  40.h))),
-                                                  color: Colors.lightBlue,
+                                                child: ElevatedButton(
                                                   onPressed: () {
                                                     logic.remarkFieldNode
                                                         .unfocus();

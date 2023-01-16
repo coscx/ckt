@@ -303,12 +303,7 @@ class ChannelPage extends StatelessWidget {
                               height: 80.h,
                               margin:
                               EdgeInsets.only(top: 40.h,left: 40.w,right: 40.w),
-                              child: RaisedButton(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(40.h))),
-                                color: Colors.lightBlue,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   logic.addChannels();
                                 },

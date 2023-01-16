@@ -12,8 +12,7 @@ class DialogUtil {
         content:  Text(str),
         duration: Duration(milliseconds: 1500),
         backgroundColor: Colors.blue);
-    Scaffold.of(context).showSnackBar(
-        snackBar); //Scaffold.of(context)是一个state，context对应的state必须的暴露的
+
   }
 
   //如果context在Scaffold之前，弹不出请用这个
@@ -23,7 +22,7 @@ class DialogUtil {
         content:  Text(str),
         duration: Duration(milliseconds: 1500),
         backgroundColor: Colors.blue);
-    key.currentState!.showSnackBar(snackBar);
+
   }
 
   /*
@@ -57,7 +56,7 @@ class DialogUtil {
                           width: 0,
                           height: 15,
                         )
-                      : FlatButton(
+                      : ElevatedButton(
                           child:  Text(
                             left,
                             style: TextStyle(color: Colors.blue),
@@ -74,7 +73,7 @@ class DialogUtil {
                           width: 0,
                           height: 15,
                         )
-                      : FlatButton(
+                      : ElevatedButton(
                           child:  Text(
                             right,
                             style: TextStyle(color: Colors.blue),

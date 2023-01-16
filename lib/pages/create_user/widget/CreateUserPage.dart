@@ -296,11 +296,7 @@ class _CreateUserPageState extends State<CreateUserPages> {
                                         child: Container(
                                           width: ScreenUtil().screenWidth*0.89,
                                           height: 70.h,
-                                          child: RaisedButton(
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(40.w))),
-                                            color: Colors.lightBlue,
+                                          child: ElevatedButton(
                                             onPressed: () async {
                                               mobile = _mobileController.text;
                                               name = _usernameController.text;

@@ -176,11 +176,7 @@ class _WxSearchPageState extends State<WxSearchPage> {
                           child: Container(
                             width: ScreenUtil().screenWidth*0.7,
                             height: 70.h,
-                            child: RaisedButton(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(40.w))),
-                              color: Colors.lightBlue,
+                            child: ElevatedButton(
                               onPressed: (){
                                 setState(() {
                                   changed =true;

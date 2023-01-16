@@ -363,12 +363,7 @@ Future<bool> appointDialog(BuildContext context, String uuid) async {
                                 Padding(
                                   padding:
                                       EdgeInsets.only(top: 10.h, bottom: 0.h),
-                                  child: RaisedButton(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20.w))),
-                                    color: Colors.lightBlue,
+                                  child: ElevatedButton(
                                     onPressed: () {
                                       customer_uuid = uuid;
                                       if (_usernameController.text.isEmpty) {
@@ -826,12 +821,7 @@ Future<bool> commentDialog(
                                   Padding(
                                     padding:
                                         EdgeInsets.only(top: 20.h, bottom: 5.h),
-                                    child: RaisedButton(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(40.w))),
-                                      color: Colors.lightBlue,
+                                    child: ElevatedButton(
                                       onPressed: () {
                                         customer_uuid =uuid;
                                         if (_Controller.text.isEmpty) {

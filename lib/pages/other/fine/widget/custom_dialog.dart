@@ -314,11 +314,7 @@ class QrCodeDialog extends Dialog {
       child: Container(
         width: ScreenUtil().screenWidth * 0.6,
         height: 70.h,
-        child: RaisedButton(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.w))),
-          color: Colors.lightBlue,
+        child: ElevatedButton(
           onPressed: () async {
             var d = await _shareUiImage();
 

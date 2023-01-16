@@ -201,12 +201,7 @@ class _NaviPageState extends State<ErpUserPage> {
                         color: Colors.white,
                         width: ScreenUtil().screenWidth * 0.89,
                         height: 70.h,
-                        child: RaisedButton(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(40.w))),
-                          color: Colors.lightBlue,
+                        child: ElevatedButton(
                           onPressed: () async {
                             if (selectId == 0) {
                               showToastRed(context, '请选择用户', true);

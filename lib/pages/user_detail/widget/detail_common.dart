@@ -726,11 +726,7 @@ Widget buildBackSubmit(BuildContext context,int id,String uuid,int canEdit) {
     child: Container(
       width: ScreenUtil().screenWidth * 0.4,
       height: 60.h,
-      child: RaisedButton(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.w))),
-        color: Colors.lightBlue,
+      child: ElevatedButton(
         onPressed: () async {
           if(canEdit ==0){
             showToastRed(context, "暂无权限", false);
