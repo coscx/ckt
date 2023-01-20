@@ -47,9 +47,14 @@ class ConversionLogic extends GetxController {
     super.onReady();
   }
 
-  void onTapDeleteConversion(String cid) {
+  void onTapDeleteConversion(String cid,ConversionType? type) {
     FltImPlugin im = FltImPlugin();
-    im.deleteConversation(cid: cid);
+    if (type == ConversionType.CONVERSATION_GROUP) {
+      im.deleteConversation(cid: cid,type: "1");
+    } else if (type == ConversionType.CONVERSATION_PEER) {
+      im.deleteConversation(cid: cid);
+    }
+
   }
 
   Future<void> receiveMsgFresh() async {

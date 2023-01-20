@@ -347,7 +347,7 @@ class ConversionPage extends StatelessWidget {
         callback: (value) {
           DialogUtil.showBaseDialog(context, '即将删除该对话的全部聊天记录',
               right: '删除', left: '再想想', rightClick: (res) {
-                logic.onTapDeleteConversion(cid);
+                logic.onTapDeleteConversion(cid,conversation.type);
               });
         },
         user: Container(
