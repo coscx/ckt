@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flui_nullsafety/flui_nullsafety.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
@@ -608,116 +607,116 @@ _showAppointBottom(
     String remark,
     String feedback,
     String customerId,int id,String uuid,int canEdit) {
-  showFLBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ScrollConfiguration(
-            behavior: DyBehaviorNull(),
-            child: FLCupertinoActionSheet(
-              child: Container(
-                color: Colors.white,
-                constraints: BoxConstraints(
-                  minHeight: 450.h,
-                  // minWidth: double.infinity, // //宽度尽可能大
-                ),
-                padding: EdgeInsets.only(
-                    left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        "服务红娘:" + userName,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "约会对象:" + otherName + "(id:" + customerId + ")",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "约会时间:" + time,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "约会地点:" + ( address),
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "约会备注:" + remark,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "回访记录:" +
-                            (feedback),
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    feedback == ""
-                        ? (canEdit ==0 ?Container() :buildBackSubmit(context,id,uuid,canEdit))
-                        : Container()
-                  ],
-                ),
-              ),
-              cancelButton: CupertinoActionSheetAction(
-                child: const Text('关闭'),
-                isDefaultAction: true,
-                onPressed: () {
-                  Navigator.pop(context, 'Cancel');
-                },
-              ),
-            ));
-      }).then((value) {
-    //print(value);
-  });
+  // showFLBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return ScrollConfiguration(
+  //           behavior: DyBehaviorNull(),
+  //           child: FLCupertinoActionSheet(
+  //             child: Container(
+  //               color: Colors.white,
+  //               constraints: BoxConstraints(
+  //                 minHeight: 450.h,
+  //                 // minWidth: double.infinity, // //宽度尽可能大
+  //               ),
+  //               padding: EdgeInsets.only(
+  //                   left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: <Widget>[
+  //                   Container(
+  //                     child: Text(
+  //                       "服务红娘:" + userName,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "约会对象:" + otherName + "(id:" + customerId + ")",
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "约会时间:" + time,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "约会地点:" + ( address),
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "约会备注:" + remark,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "回访记录:" +
+  //                           (feedback),
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   feedback == ""
+  //                       ? (canEdit ==0 ?Container() :buildBackSubmit(context,id,uuid,canEdit))
+  //                       : Container()
+  //                 ],
+  //               ),
+  //             ),
+  //             cancelButton: CupertinoActionSheetAction(
+  //               child: const Text('关闭'),
+  //               isDefaultAction: true,
+  //               onPressed: () {
+  //                 Navigator.pop(context, 'Cancel');
+  //               },
+  //             ),
+  //           ));
+  //     }).then((value) {
+  //   //print(value);
+  // });
 }
 
 Widget buildBackSubmit(BuildContext context,int id,String uuid,int canEdit) {
@@ -747,160 +746,160 @@ Widget buildBackSubmit(BuildContext context,int id,String uuid,int canEdit) {
 
 _showActionBottom(BuildContext context, String userName, String otherName,
     String time, String address, String remark, String feedback) {
-  showFLBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ScrollConfiguration(
-            behavior: DyBehaviorNull(),
-            child: FLCupertinoActionSheet(
-              child: Container(
-                color: Colors.white,
-                constraints: BoxConstraints(
-                  minHeight: 450.h,
-                  // minWidth: double.infinity, // //宽度尽可能大
-                ),
-                padding: EdgeInsets.only(
-                    left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        "操作人:" + userName,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "操作时间:" + time,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "操作类型:" + ( address),
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        "操作内容:" + remark,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              cancelButton: CupertinoActionSheetAction(
-                child: const Text('关闭'),
-                isDefaultAction: true,
-                onPressed: () {
-                  Navigator.pop(context, 'Cancel');
-                },
-              ),
-            ));
-      }).then((value) {
-    //print(value);
-  });
+  // showFLBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return ScrollConfiguration(
+  //           behavior: DyBehaviorNull(),
+  //           child: FLCupertinoActionSheet(
+  //             child: Container(
+  //               color: Colors.white,
+  //               constraints: BoxConstraints(
+  //                 minHeight: 450.h,
+  //                 // minWidth: double.infinity, // //宽度尽可能大
+  //               ),
+  //               padding: EdgeInsets.only(
+  //                   left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: <Widget>[
+  //                   Container(
+  //                     child: Text(
+  //                       "操作人:" + userName,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "操作时间:" + time,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "操作类型:" + ( address),
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       "操作内容:" + remark,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 28.sp,
+  //                           color: Colors.black,
+  //                           fontWeight: FontWeight.w800),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             cancelButton: CupertinoActionSheetAction(
+  //               child: const Text('关闭'),
+  //               isDefaultAction: true,
+  //               onPressed: () {
+  //                 Navigator.pop(context, 'Cancel');
+  //               },
+  //             ),
+  //           ));
+  //     }).then((value) {
+  //   //print(value);
+  // });
 }
 
 _showBottom(BuildContext context, String text, String status, String type) {
-  showFLBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ScrollConfiguration(
-            behavior: DyBehaviorNull(),
-            child: FLCupertinoActionSheet(
-              child: Container(
-                color: Colors.white,
-                constraints: BoxConstraints(
-                  minHeight: 450.h,
-                  // minWidth: double.infinity, // //宽度尽可能大
-                ),
-                padding: EdgeInsets.only(
-                    left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Opacity(
-                            opacity: 0.2,
-                            child: Container(
-                              child: Text(
-                                "沟通方式:" + (type == "1" ? "电话" : "到店"),
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 24.sp,
-                                    color: type == "2"
-                                        ? Colors.redAccent
-                                        : Colors.green,
-                                    fontWeight: FontWeight.w300),
-                              ),
-                            )),
-                        Opacity(
-                            opacity: 0.2,
-                            child: Container(
-                              child: Text(
-                                "沟通状态:" + status,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 24.sp,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w300),
-                              ),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      child: Text(
-                        text,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 32.sp, fontWeight: FontWeight.w900),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              cancelButton: CupertinoActionSheetAction(
-                child: const Text('关闭'),
-                isDefaultAction: true,
-                onPressed: () {
-                  Navigator.pop(context, 'Cancel');
-                },
-              ),
-            ));
-      }).then((value) {
-    //print(value);
-  });
+  // showFLBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return ScrollConfiguration(
+  //           behavior: DyBehaviorNull(),
+  //           child: FLCupertinoActionSheet(
+  //             child: Container(
+  //               color: Colors.white,
+  //               constraints: BoxConstraints(
+  //                 minHeight: 450.h,
+  //                 // minWidth: double.infinity, // //宽度尽可能大
+  //               ),
+  //               padding: EdgeInsets.only(
+  //                   left: 25.w, right: 25.w, top: 25.h, bottom: 20.h),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: <Widget>[
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Opacity(
+  //                           opacity: 0.2,
+  //                           child: Container(
+  //                             child: Text(
+  //                               "沟通方式:" + (type == "1" ? "电话" : "到店"),
+  //                               textAlign: TextAlign.left,
+  //                               style: TextStyle(
+  //                                   fontSize: 24.sp,
+  //                                   color: type == "2"
+  //                                       ? Colors.redAccent
+  //                                       : Colors.green,
+  //                                   fontWeight: FontWeight.w300),
+  //                             ),
+  //                           )),
+  //                       Opacity(
+  //                           opacity: 0.2,
+  //                           child: Container(
+  //                             child: Text(
+  //                               "沟通状态:" + status,
+  //                               textAlign: TextAlign.left,
+  //                               style: TextStyle(
+  //                                   fontSize: 24.sp,
+  //                                   color: Colors.black54,
+  //                                   fontWeight: FontWeight.w300),
+  //                             ),
+  //                           )),
+  //                     ],
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10.h,
+  //                   ),
+  //                   Container(
+  //                     child: Text(
+  //                       text,
+  //                       textAlign: TextAlign.left,
+  //                       style: TextStyle(
+  //                           fontSize: 32.sp, fontWeight: FontWeight.w900),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //             cancelButton: CupertinoActionSheetAction(
+  //               child: const Text('关闭'),
+  //               isDefaultAction: true,
+  //               onPressed: () {
+  //                 Navigator.pop(context, 'Cancel');
+  //               },
+  //             ),
+  //           ));
+  //     }).then((value) {
+  //   //print(value);
+  // });
 }

@@ -367,13 +367,6 @@ packages:
       url: "https://github.com/coscx/lat.git"
     source: git
     version: "1.0.0"
-  flui_nullsafety:
-    dependency: "direct main"
-    description:
-      name: flui_nullsafety
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -659,13 +652,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.4"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.5.0"
   just_audio:
     dependency: "direct main"
     description:
@@ -1544,5 +1530,5 @@ packages:
     source: hosted
     version: "6.1.0"
 sdks:
-  dart: ">=2.18.6 <3.0.0"
+  dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
