@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:badges/badges.dart' as badges;
 /// 说明: 自定义底部导航栏
 
 class UnitBottomBar extends StatefulWidget {
@@ -153,8 +153,7 @@ class _UnitBottomBarState extends State<UnitBottomBar>
                 ),
                 height: 40,
                 width: 40,
-                child: Badge(
-                    elevation: 0,
+                child: badges.Badge(
                     showBadge: i == 1
                         ? (bar2 == 0 ? false : true)
                         : (bar3 == 0 ? false : true),
@@ -168,7 +167,6 @@ class _UnitBottomBarState extends State<UnitBottomBar>
                     position: BadgePosition.topEnd(
                         top: -ScreenUtil().setHeight(5),
                         end: -ScreenUtil().setWidth(5)),
-                    toAnimate: false,
                     child: first == 0
                         ? SvgPicture.asset(
                             i == 0

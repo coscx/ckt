@@ -6,25 +6,44 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ckt/common/entities/loan/test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_ckt/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget( MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test("Counter Class test", () {
+    var json = {
+      "code": 23,
+      "msg": "588",
+      "data": [
+        {
+          "posId": 1018,
+          "initPos": 0,
+          "posInterval": 0,
+          "sourceCode": [
+            {
+              "code": "250",
+              "impressionInterval": "60",
+              "misRate": 0,
+              "misCount": 0,
+              "viewCount": 0,
+              "adnId": 100
+            }
+          ]
+        }
+      ]
+    };
+    var json1 = {
+      "code": 0,
+      "msg": "hello",
+      "data": "null"
+    };
+   var  object = Root.fromJson(json);
+   print(object);
+    //expect(counter, 1);
   });
+
 }

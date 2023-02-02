@@ -133,11 +133,27 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
             padding:
                 EdgeInsets.only(left: 10.w, right: 10.w, top: 0, bottom: 0),
             itemBuilder: (BuildContext context, int index) {
-              String uuid = "";
-              uuid = widget.messageList[index].content!['uuid'];
+              String uuids = "";
+              var content =widget.messageList[index].content;
+              if(content !=null){
+                if(content.containsKey("uuid")){
+                  if(widget.messageList[index].content!['uuid'] !=null){
+                    uuids = widget.messageList[index].content!['uuid'];
+                  }else{
+                    final now = DateTime.now();
+                    uuids = now.microsecondsSinceEpoch.toString();
+                  }
+
+                }
+              }else{
+                final now = DateTime.now();
+                uuids = now.microsecondsSinceEpoch.toString();
+              }
+
+
               if (index == widget.messageList.length - 1) {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
-                globalKeyMap[uuid] = key;
+                globalKeyMap[uuids] = key;
                 return Column(
                   children: <Widget>[
                     Container(
@@ -158,7 +174,7 @@ class _GroupMessageListViewState extends State<GroupMessageListView> {
                 );
               } else {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
-                globalKeyMap[uuid] = key;
+                globalKeyMap[uuids] = key;
                 return Column(
                   children: <Widget>[
                     _messageListViewItem(

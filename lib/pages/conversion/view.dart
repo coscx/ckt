@@ -7,6 +7,7 @@ import 'package:flutter_ckt/common/routers/routes.dart';
 import 'package:flutter_ckt/pages/conversion/widget/date.dart';
 import 'package:flutter_ckt/pages/conversion/widget/dialog_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../common/widgets/dy_behavior_null.dart';
@@ -131,7 +132,7 @@ class ConversionPage extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Badge(
+              badges.Badge(
                 showBadge: true,
                 badgeContent: Text(
                   '1',
@@ -387,7 +388,7 @@ class ConversionPage extends StatelessWidget {
                               .image),
                     ),
                   )
-                      : Badge(
+                      : badges.Badge(
                     badgeContent: Text(
                       '${conversation.newMsgCount}',
                       style:

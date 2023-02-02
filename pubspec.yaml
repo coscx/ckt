@@ -27,7 +27,7 @@ dependencies:
     git: https://github.com/coscx/umeng_push.git
   another_xlider: ^1.1.2
   adaptive_action_sheet: ^2.0.1
-  badges: ^2.0.2
+  badges: ^3.0.2
   bot_toast: ^4.0.2
   cupertino_icons: ^1.0.4
   cookie_jar: ^3.0.1

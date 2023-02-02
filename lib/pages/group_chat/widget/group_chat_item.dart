@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:async';
 import 'dart:io';
@@ -364,6 +365,20 @@ class GroupChatItemWidgetState extends State<GroupChatItemWidget> {
         content =entity.content!['master'].toString()+"创建了群组"+entity.content!['groupID'].toString();
       }
 
+    }
+    if(type==4){
+      var data = entity.content!['raw'];
+      data = jsonDecode(data);
+      data = jsonDecode(data["notification"]);
+      data = (data["quit_group"]);
+      content =data['member_id'].toString()+"离开群";
+    }
+    if(type==3){
+      var data = entity.content!['raw'];
+      data = jsonDecode(data);
+      data = jsonDecode(data["notification"]);
+      data = (data["add_member"]);
+      content =data['member_id'].toString()+"加入群";
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.w),
