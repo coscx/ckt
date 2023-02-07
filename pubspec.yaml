@@ -50,7 +50,7 @@ dependencies:
   flutter_markdown: ^0.6.9 #NO
   flutter_star: ^1.0.2 # 星星组件
   flutter_app_update: ^1.0.5
-  flutter_local_notifications: ^9.4.0 #NO
+  #flutter_local_notifications: ^9.4.0 #NO
   card_swiper: ^2.0.4
   flare_flutter: ^3.0.2
   flutter_image_compress: ^1.1.0
@@ -81,7 +81,7 @@ dependencies:
   multi_image_picker: ^4.8.1
   menu_button: ^1.4.2+1
   multiselect_scope: ^0.2.0
-  modal_bottom_sheet: ^2.1.0
+  modal_bottom_sheet: ^3.0.0-pre
   media_asset_utils: ^0.1.0 #鲁班压缩
   overlay_support: ^1.2.1
   pull_to_refresh_flutter3: ^2.0.1

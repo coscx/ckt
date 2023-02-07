@@ -403,7 +403,7 @@ class _CreateUserPageState extends State<CreateUserPages> {
         magnification: 1.2,
         selectionOverlay:CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
         smooth: 50,
-        adapter: PickerDataAdapter<String>(pickerdata: pickerData, isArray: true),
+        adapter: PickerDataAdapter<String>(pickerData: pickerData, isArray: true),
         hideHeader: true,
         title:  Text("请选择"+title),
         cancelText: "取消",

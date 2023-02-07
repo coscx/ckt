@@ -2317,7 +2317,7 @@ Future<bool> showPickerArray(
       selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
         background: Colors.transparent,
       ),
-      adapter: PickerDataAdapter<String>(pickerdata: pickerData, isArray: true),
+      adapter: PickerDataAdapter<String>(pickerData: pickerData, isArray: true),
       hideHeader: true,
       title: Text("请选择" + title),
       cancelText: "取消",
@@ -2367,7 +2367,7 @@ Future<bool> showPickerArrayDemand(
       selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
         background: Colors.transparent,
       ),
-      adapter: PickerDataAdapter<String>(pickerdata: pickerData, isArray: true),
+      adapter: PickerDataAdapter<String>(pickerData: pickerData, isArray: true),
       hideHeader: true,
       title: Text("请选择" + title),
       cancelText: "取消",

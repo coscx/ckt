@@ -244,7 +244,7 @@ class _WxSearchPageState extends State<WxSearchPage> {
                         textStyle:
                         TextStyle(fontSize: 25.sp, color: Colors.black),
                         adapter: PickerDataAdapter<String>(
-                            pickerdata: pickerStoreData),
+                            pickerData: pickerStoreData),
                         changeToFirst: true,
                         hideHeader: false,
                         onConfirm: (Picker picker, List value) {

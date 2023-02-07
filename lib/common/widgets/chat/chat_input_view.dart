@@ -376,7 +376,7 @@ class _ChatInputViewState extends State<ChatInputView> {
                         indicatorColor: Colors.blue,
                         iconColor: Colors.grey,
                         iconColorSelected: Colors.blue,
-                        progressIndicatorColor: Colors.blue,
+
                         backspaceColor: Colors.blue,
                         skinToneDialogBgColor: Colors.white,
                         skinToneIndicatorColor: Colors.grey,
@@ -387,7 +387,7 @@ class _ChatInputViewState extends State<ChatInputView> {
                         tabIndicatorAnimDuration: kTabScrollDuration,
                         categoryIcons: const CategoryIcons(),
                         buttonMode: ButtonMode.MATERIAL),
-                    onEmojiSelected: (Category category, Emoji emoji) {
+                    onEmojiSelected: (Category? category, Emoji emoji) {
                       controller.text = controller.text + emoji.emoji;
                       controller.selection = TextSelection.fromPosition(
                           TextPosition(offset: controller.text.length));

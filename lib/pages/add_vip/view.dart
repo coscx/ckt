@@ -443,7 +443,7 @@ class AddVipPage extends StatelessWidget {
                           textStyle: TextStyle(
                               fontSize: 25.sp, color: Colors.black),
                           adapter: PickerDataAdapter<String>(
-                              pickerdata: logic.pickerStoreData),
+                              pickerData: logic.pickerStoreData),
                           changeToFirst: true,
                           hideHeader: false,
                           onConfirm: (Picker picker, List value) {

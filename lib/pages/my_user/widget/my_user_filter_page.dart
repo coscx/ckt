@@ -433,7 +433,7 @@ class _GZXFilterGoodsPageState extends State<MyUserFilterPage> {
                       textStyle:
                           TextStyle(fontSize: 25.sp, color: Colors.black),
                       adapter: PickerDataAdapter<String>(
-                          pickerdata: pickerStoreData),
+                          pickerData: pickerStoreData),
                       changeToFirst: true,
                       hideHeader: false,
                       onConfirm: (Picker picker, List value) {
