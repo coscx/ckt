@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
 
+import '../../../../common/widgets/photo_view/photo_view.dart';
 class PhotoViewSimpleScreen extends StatelessWidget {
    const PhotoViewSimpleScreen({Key? key,
     required this.imageProvider, //图片

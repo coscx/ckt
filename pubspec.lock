@@ -1024,15 +1024,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.5.2"
-  photo_view:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "7e8c335ad718c71e22402a920c939d949106d508"
-      url: "https://github.com/bluefireteam/photo_view"
-    source: git
-    version: "0.14.0"
   platform:
     dependency: transitive
     description:

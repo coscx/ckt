@@ -3,8 +3,8 @@
  */
 
 import 'package:flutter/cupertino.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
+import '../photo_view/photo_view.dart';
+import '../photo_view/photo_view_gallery.dart';
 
 /// Created by box on 2020/4/21.
 ///
