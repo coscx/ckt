@@ -19,8 +19,6 @@ dependencies:
     git: https://github.com/coscx/flutter_2d_amap.git
   flutter_gifimage:
     git: https://github.com/coscx/flutter_gifimage.git
-  flutter_my_picker_null_safety:
-    git: https://github.com/coscx/flutter_my_picker_null_safety.git
   photo_view:
     git: https://github.com/bluefireteam/photo_view
   umeng_analytics_with_push:

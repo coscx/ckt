@@ -2,7 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
-import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,6 +11,7 @@ import 'package:menu_button/menu_button.dart';
 import '../../../common/routers/names.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
+import '../../../common/widgets/flutter_my_picker/flutter_my_picker.dart';
 import '../../../common/widgets/record.dart';
 import '../../oa/user_detail/logic.dart';
 import '../logic.dart';

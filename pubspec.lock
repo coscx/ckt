@@ -518,15 +518,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.13+1"
-  flutter_my_picker_null_safety:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: c8f261db33cb8cde0b3fcb8d9f05e43f97a881b3
-      url: "https://github.com/coscx/flutter_my_picker_null_safety.git"
-    source: git
-    version: "0.0.1"
   flutter_picker:
     dependency: "direct main"
     description:

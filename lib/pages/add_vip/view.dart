@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
-
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../common/widgets/dy_behavior_null.dart';
 import 'package:another_xlider/another_xlider.dart';
+import '../../common/widgets/flutter_my_picker/flutter_my_picker.dart';
 import 'logic.dart';
 
 class AddVipPage extends StatelessWidget {

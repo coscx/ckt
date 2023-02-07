@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ckt/common/apis/common.dart';
 import 'package:flutter_ckt/common/entities/loan/step.dart';
-import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
+
 import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,7 @@ import '../../../common/entities/home/only_store.dart';
 import '../../../common/utils/common.dart';
 import '../../../common/utils/gzx_style.dart';
 import '../../../common/widgets/custom_date_range_picker/custom_date_range_picker.dart';
+import '../../../common/widgets/flutter_my_picker/flutter_my_picker.dart';
 import '../../select_result/widget/select_result_page.dart';
 import '../../user_detail/widget/common_dialog.dart';
 import '../logic.dart';
