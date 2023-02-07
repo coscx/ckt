@@ -17,8 +17,6 @@ dependencies:
     git: https://github.com/coscx/lat.git
   flutter_2d_amap:
     git: https://github.com/coscx/flutter_2d_amap.git
-  flutter_gifimage:
-    git: https://github.com/coscx/flutter_gifimage.git
   umeng_analytics_with_push:
     git: https://github.com/coscx/umeng_push.git
   another_xlider: ^1.1.2

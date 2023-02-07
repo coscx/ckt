@@ -1,9 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gifimage/flutter_gifimage.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:badges/badges.dart' as badges;
+
+import 'flutter_gifimage/flutter_gifimage.dart';
 /// 说明: 自定义底部导航栏
 
 class UnitBottomBar extends StatefulWidget {
