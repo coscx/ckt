@@ -43,4 +43,5 @@ class AppRoutes {
   static const MyUser = '/my_user';
   static const LostUser = '/lost_user';
   static const AuditUser = '/audit_user';
+  static const Sms = '/sms';
 }

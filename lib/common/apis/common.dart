@@ -37,15 +37,23 @@ import '../entities/home/search_erp.dart';
 import '../entities/loan/audit.dart';
 import '../entities/loan/friend.dart';
 import '../entities/loan/loan.dart';
+import '../entities/loan/note.dart';
 import '../entities/loan/quota.dart';
 import '../entities/loan/staff.dart';
 import '../entities/loan/step.dart';
 import '../entities/mine/mine.dart';
 import '../utils/loan_http.dart';
 import '../utils/new_common_http.dart';
-
+import '../utils/sms_http.dart';
 /// 用户
 class CommonAPI {
+  static Future<Note> getSmsList(Map<String, dynamic> data) async {
+    var response = await NewSmsHttpUtil().post(
+      '/api/order/getsms',
+      data: data,
+    );
+    return Note.fromJson(response);
+  }
   static Future<Loan> getLoanList(
       int page, int status, String userId, int cnId) async {
     var response = await NewLoanHttpUtil().post(

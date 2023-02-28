@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import '../audit_user/logic.dart';
 import '../lost_user/logic.dart';
 import '../mine/logic.dart';
+import '../sms_page/logic.dart';
 import 'controller.dart';
 
 class ApplicationBinding implements Bindings {
@@ -29,5 +30,6 @@ class ApplicationBinding implements Bindings {
     Get.lazyPut<HomeLogic>(() => HomeLogic());
     Get.lazyPut<MineLogic>(() => MineLogic());
     Get.lazyPut<ConversionLogic>(() => ConversionLogic());
+    Get.lazyPut<SmsPageLogic>(() => SmsPageLogic());
   }
 }

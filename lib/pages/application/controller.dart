@@ -31,6 +31,7 @@ import '../channel/view.dart';
 import '../conversion/view.dart';
 import '../group_chat/logic.dart';
 import '../mine/view.dart';
+import '../sms_page/view.dart';
 import '../total_user/view.dart';
 import 'index.dart';
 
@@ -116,19 +117,19 @@ class ApplicationController extends GetxController {
   Future<void> onInit() async {
     String roleKey = StorageService.to.getString("roleKey");
     if (roleKey != "administration") {
-      tabTitles = ['首页', '渠道', '计算器', '消息', '我的'];
+      tabTitles = ['首页', '渠道', '短信', '消息', '我的'];
       pages = [
         TotalUserPage(),
         ChannelPage(),
-        CalcucationPage(),
+        SmsPage(),
         ConversionPage(),
         MinePage()
       ];
     } else {
-      tabTitles = ['首页', '计算器', '消息', '我的'];
+      tabTitles = ['首页', '短信', '消息', '我的'];
       pages = [
         TotalUserPage(),
-        CalcucationPage(),
+        SmsPage(),
         ConversionPage(),
         MinePage()
       ];
