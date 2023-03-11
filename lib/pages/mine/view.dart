@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/services/services.dart';
@@ -7,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/routers/names.dart';
+import '../../common/utils/encrypts.dart';
+import '../../common/utils/radom.dart';
 import '../../common/widgets/delete_category_dialog.dart';
 import '../../common/widgets/extend_image.dart';
 import 'logic.dart';
@@ -181,9 +185,13 @@ class MinePage extends StatelessWidget {
                                 bottom: 70.h
                             ),
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 //Navigator.pushNamed(context, UnitRouter.setting);
-                                Get.toNamed(AppRoutes.Setting);
+                                //Get.toNamed(AppRoutes.Setting);
+
+                                var data = {"tel":"17755088996"};
+                                var formData = await EncryptUtils.enc("OneGenerate",data);
+                                print((formData));
                               },
                               child: Container(
                                 width: 50.h,
