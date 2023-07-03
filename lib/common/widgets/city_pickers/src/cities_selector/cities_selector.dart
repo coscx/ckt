@@ -368,7 +368,7 @@ class _CitiesSelectorState extends State<CitiesSelector> {
                   child: ListTileTheme(
                     selectedColor:
                         widget.itemSelectFontColor ?? theme.primaryColor,
-                    textColor: widget.itemFontColor ?? theme.accentColor,
+                    textColor: widget.itemFontColor ?? theme.cardColor,
                     child: ListTile(
                       selected: selected,
                       title: Text(_cities[index].name,

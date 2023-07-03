@@ -527,7 +527,6 @@ class _ImagePreviewViewState extends State<ImagePreviewView> with SingleTickerPr
                 ),
                 child: AnimatedSize(
                   duration: widget.duration!,
-                  vsync: this,
                   alignment: Alignment.topCenter,
                   child: ClipRect(
                     child: _buildBottomBar(),
