@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:lottie/lottie.dart';
+import 'package:uuid/uuid.dart';
 import '../../../common/widgets/chat/voice.dart';
 import '../../../common/widgets/dy_behavior_null.dart';
 import '../../conversion/widget/colors.dart';
@@ -132,7 +133,13 @@ class _MessageListViewState extends State<MessageListView> {
                 EdgeInsets.only(left: 10.w, right: 10.w, top: 0, bottom: 0),
             itemBuilder: (BuildContext context, int index) {
               String uuid ="";
-              uuid = widget.messageList[index].content!['uuid'];
+              if(widget.messageList[index].content!['uuid']==null){
+                var uuids = Uuid();
+                uuid = uuids.v4();
+              }else{
+                uuid = widget.messageList[index].content!['uuid'];
+              }
+
               if (index == widget.messageList.length - 1) {
                 GlobalKey<PeerChatItemWidgetState> key = GlobalKey();
                 globalKeyMap[uuid] = key;
