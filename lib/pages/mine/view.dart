@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/services/services.dart';
@@ -192,6 +193,15 @@ class MinePage extends StatelessWidget {
                                 var data = {"tel":"17755088996"};
                                 var formData = await EncryptUtils.enc("OneGenerate",data);
                                 print((formData));
+                                FltImPlugin im = FltImPlugin();
+                                var res = await im.createCustomerConversion(
+                                  currentUID: "2",
+                                  peerUID: "1000",
+                                );
+                                Map? result = await im.sendFlutterCustomerTextMessage(secret: false, customer_id: '2', customer_appid: '1', seller_id: '1000', store_id: '2', rawContent: '000'
+
+                                );
+
                               },
                               child: Container(
                                 width: 50.h,

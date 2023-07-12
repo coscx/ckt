@@ -335,7 +335,15 @@ class ApplicationController extends GetxController {
           onGroupMessage(result);
         } else if (type == 'onGroupMessageACK') {
           onGroupMessageACK(result);
-        } else if (type == 'onImageUploadSuccess') {
+        }else if (type == 'onCustomerSupportMessage') {
+          onCustomerSupportMessage(result);
+        } else if (type == 'onCustomerMessage') {
+          onCustomerMessage(result);
+        } else if (type == 'onCustomerMessageACK') {
+          onCustomerMessageACK(result);
+        } else if (type == 'onCustomerMessageFailure') {
+          onCustomerMessageFailure(result);
+        }else if (type == 'onImageUploadSuccess') {
           String url = ValueUtil.toStr(data['URL']);
           onImageUploadSuccess(result, url);
         } else if (type == 'onAudioDownloadSuccess') {
@@ -483,7 +491,26 @@ class ApplicationController extends GetxController {
     //BlocProvider.of<GroupBloc>(context)
     //    .add(EventGroupReceiveNewMessageAck(message));
   }
-
+  void onCustomerMessage(result) {
+    Map<String, dynamic> message = Map<String, dynamic>.from(result);
+    print("onCustomerMessage");
+    print(message);
+  }
+  void onCustomerMessageACK(result) {
+    Map<String, dynamic> message = Map<String, dynamic>.from(result);
+    print("onCustomerMessageACK");
+    print(message);
+  }
+  void onCustomerMessageFailure(result) {
+    Map<String, dynamic> message = Map<String, dynamic>.from(result);
+    print("onCustomerMessageFailure");
+    print(message);
+  }
+  void onCustomerSupportMessage(result) {
+    Map<String, dynamic> message = Map<String, dynamic>.from(result);
+    print("onCustomerSupportMessage");
+    print(message);
+  }
   void onPeerSecretMessage(result) {}
 
   void onNewMessage(result, int error) async {
