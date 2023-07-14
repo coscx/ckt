@@ -195,13 +195,13 @@ class MinePage extends StatelessWidget {
                                 print((formData));
                                 FltImPlugin im = FltImPlugin();
                                 var res = await im.createCustomerConversion(
-                                  currentUID: "2",
-                                  peerUID: "1000",
+                                  currentUID: "1000",
+                                  peerUID: "2",
                                 );
-                                Map? result = await im.sendFlutterCustomerTextMessage(secret: false, customer_id: '2', customer_appid: '1', seller_id: '1000', store_id: '2', rawContent: '000'
-
+                                Map? result = await im.sendFlutterCustomerTextMessage(secret: false, sender: '2', sender_appid: '1', receiver: '1000', receiver_appid: '2', rawContent: '000'
                                 );
-
+                                Map? response = await im.loadCustomerData(appId: "2",uid:"1000",messageID: '0');
+                                print(response);
                               },
                               child: Container(
                                 width: 50.h,

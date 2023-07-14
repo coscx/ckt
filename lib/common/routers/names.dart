@@ -16,6 +16,7 @@ class AppRoutes {
   static const Distribute = '/distribute';
   static const Peer = '/peer';
   static const Group = '/group';
+  static const Customer = '/customer';
   static const Setting = '/setting';
   static const CreateUser = '/create_user';
   static const SearchUser = '/search_user';

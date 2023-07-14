@@ -112,7 +112,7 @@ class ConversionPage extends StatelessWidget {
                  logic.onTap(logic.state.conversion[index]);
                 },
                 child: _buildListItem(
-                    context, state.conversion[index], state.conversion[index].cid!));
+                    context, state.conversion[index],state.conversion[index].appid! ,state.conversion[index].cid!));
           }),
     );
   }
@@ -343,12 +343,12 @@ class ConversionPage extends StatelessWidget {
 
 
   Widget _buildListItem(
-      BuildContext context, Conversion conversation, String cid) {
+      BuildContext context, Conversion conversation, String appid,String cid) {
     return PopupMenu(
         callback: (value) {
           DialogUtil.showBaseDialog(context, '即将删除该对话的全部聊天记录',
               right: '删除', left: '再想想', rightClick: (res) {
-                logic.onTapDeleteConversion(cid,conversation.type);
+                logic.onTapDeleteConversion(conversation.rowid.toString(),cid,conversation.type,conversation.appid!);
               });
         },
         user: Container(
@@ -377,15 +377,15 @@ class ConversionPage extends StatelessWidget {
                       // image url 去要到自己的服务器上去请求回来再赋值，这里使用一张默认值即可
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                          image: conversation.type ==
-                              ConversionType.CONVERSATION_PEER
-                              ? conversation.sex ==0 ? Image.asset(
-                              "assets/images/default/ic_user_male.png").image:Image.asset(
-                              "assets/images/default/ic_user_female.png")
-                              .image
-                              : Image.asset(
-                              "assets/images/ckt/team.png")
-                              .image),
+                          image: (conversation.type ==
+                              ConversionType.CONVERSATION_PEER )
+                              ? (conversation.sex ==0 ? Image.asset("assets/images/default/ic_user_male.png").image:
+                          Image.asset("assets/images/default/ic_user_female.png").image)
+                              : (conversation.type == ConversionType.CONVERSATION_CUSTOMER_SERVICE  ? Image.asset(
+                              "assets/images/ckt/user_set.png").image:
+                          Image.asset("assets/images/ckt/team.png")
+                              .image)
+                      ),
                     ),
                   )
                       : badges.Badge(
@@ -395,7 +395,7 @@ class ConversionPage extends StatelessWidget {
                       TextStyle(color: Colors.white, fontSize: 26.sp),
                     ),
                     child: Container(
-                      margin: EdgeInsets.only(left: 20.w, top: 7.h),
+                      margin: EdgeInsets.only(left: 0.w, top: 7.h),
                       padding: EdgeInsets.all(10.w),
                       height: 92.h,
                       width: 92.w,
@@ -403,15 +403,15 @@ class ConversionPage extends StatelessWidget {
                         color: Colors.white,
                         // image url 去要到自己的服务器上去请求回来再赋值，这里使用一张默认值即可
                         image: DecorationImage(
-                            image: conversation.type ==
-                                ConversionType.CONVERSATION_PEER
-                                ? conversation.sex ==0 ? Image.asset(
-                                "assets/images/default/ic_user_male.png").image:Image.asset(
-                                "assets/images/default/ic_user_female.png")
-                                .image
-                                : Image.asset(
-                                "assets/images/ckt/team.png")
-                                .image),
+                          image: (conversation.type ==
+                              ConversionType.CONVERSATION_PEER )
+                              ? (conversation.sex ==0 ? Image.asset("assets/images/default/ic_user_male.png").image:
+                          Image.asset("assets/images/default/ic_user_female.png").image)
+                              : (conversation.type == ConversionType.CONVERSATION_CUSTOMER_SERVICE  ? Image.asset(
+                              "assets/images/ckt/user_set.png").image:
+                          Image.asset("assets/images/ckt/team.png")
+                              .image)
+                        )
                       ),
                     ),
                   ),

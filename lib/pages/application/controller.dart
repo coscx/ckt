@@ -29,6 +29,7 @@ import '../../common/widgets/eve_button.dart';
 import '../calcucation/view.dart';
 import '../channel/view.dart';
 import '../conversion/view.dart';
+import '../customer/logic.dart';
 import '../group_chat/logic.dart';
 import '../mine/view.dart';
 import '../sms_page/view.dart';
@@ -230,14 +231,14 @@ class ApplicationController extends GetxController {
     // handleInitialUri();
     // handleIncomingLinks();
     // 准备一些静态数据
-    await UmengAnalyticsWithPush.initialize(
-        logEnabled: false, pushEnabled: true);
-    try {
-      final deviceToken = await UmengAnalyticsWithPush.deviceToken;
-      print("push_token: " + deviceToken.toString());
-    } catch (e) {
-      print(e);
-    }
+    // await UmengAnalyticsWithPush.initialize(
+    //     logEnabled: false, pushEnabled: true);
+    // try {
+    //   final deviceToken = await UmengAnalyticsWithPush.deviceToken;
+    //   print("push_token: " + deviceToken.toString());
+    // } catch (e) {
+    //   print(e);
+    // }
     Future.delayed(const Duration(seconds: 5)).then((e) async {
       var result = await CommonAPI.getUserStatus();
       if (result.code == 402) {
@@ -494,12 +495,27 @@ class ApplicationController extends GetxController {
   void onCustomerMessage(result) {
     Map<String, dynamic> message = Map<String, dynamic>.from(result);
     print("onCustomerMessage");
+    var conversionLogic = Get.find<ConversionLogic>();
+    conversionLogic.receiveMsgFresh();
+    bool gg = Get.isRegistered<CustomerLogic>();
+    if (gg) {
+      var customerLogic = Get.find<CustomerLogic>();
+      customerLogic.receiveMsgFresh();
+    }
     print(message);
   }
   void onCustomerMessageACK(result) {
     Map<String, dynamic> message = Map<String, dynamic>.from(result);
+    var conversionLogic = Get.find<ConversionLogic>();
+    conversionLogic.receiveMsgFresh();
+    bool gg = Get.isRegistered<CustomerLogic>();
+    if (gg) {
+      var customerLogic = Get.find<CustomerLogic>();
+      customerLogic.receiveMsgAck(message);
+    }
     print("onCustomerMessageACK");
     print(message);
+
   }
   void onCustomerMessageFailure(result) {
     Map<String, dynamic> message = Map<String, dynamic>.from(result);

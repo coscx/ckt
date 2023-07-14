@@ -47,14 +47,16 @@ class ConversionLogic extends GetxController {
     super.onReady();
   }
 
-  void onTapDeleteConversion(String cid,ConversionType? type) {
+  void onTapDeleteConversion(String rowid,String cid,ConversionType? type,String appid) {
     FltImPlugin im = FltImPlugin();
     if (type == ConversionType.CONVERSATION_GROUP) {
-      im.deleteConversation(cid: cid,type: "1");
+      im.deleteConversation(rowid: rowid,cid: cid,appid: "0");
     } else if (type == ConversionType.CONVERSATION_PEER) {
-      im.deleteConversation(cid: cid);
+      im.deleteConversation(rowid: rowid,cid: cid,appid: "0");
     }
-
+    else if (type == ConversionType.CONVERSATION_CUSTOMER_SERVICE) {
+      im.deleteConversation(rowid: rowid,cid: cid,appid: appid);
+    }
   }
 
   Future<void> receiveMsgFresh() async {
@@ -113,7 +115,18 @@ class ConversionLogic extends GetxController {
       }).toList();
       // state.conversion.addAll(message);
     }
-
+    if (msg.type == ConversionType.CONVERSATION_CUSTOMER_SERVICE) {
+      im.clearCustomerReadCount(appid:msg.appid!,cid: msg.cid!);
+      var message = state.conversion.map((e) {
+        if (e.type == ConversionType.CONVERSATION_CUSTOMER_SERVICE) {
+          e.newMsgCount = 0;
+          return e;
+        } else {
+          return e;
+        }
+      }).toList();
+      // state.conversion.addAll(message);
+    }
     var count = 0;
     state.conversion.map((e) {
       count += e.newMsgCount!;
@@ -127,7 +140,7 @@ class ConversionLogic extends GetxController {
     }
 
     final Conversion model = Conversion.fromMap(
-        {"memId": memberId, "cid": msg.cid, "name": msg.name});
+        {"memId": memberId, "cid": msg.cid, "name": msg.name,"appid":msg.appid});
     if (msg.type == ConversionType.CONVERSATION_GROUP) {
       receiveMsgFresh();
       var name = StorageService.to.getString("group_" + msg.cid.toString());
@@ -143,6 +156,14 @@ class ConversionLogic extends GetxController {
         model.name = name;
       }
       Get.toNamed(AppRoutes.Peer, arguments: model);
+    }
+    if (msg.type == ConversionType.CONVERSATION_CUSTOMER_SERVICE) {
+      receiveMsgFresh();
+      var name = StorageService.to.getString("peer_" + msg.cid.toString());
+      if (name != "") {
+        model.name = name;
+      }
+      Get.toNamed(AppRoutes.Customer, arguments: model);
     }
   }
 

@@ -68,6 +68,8 @@ import '../../pages/audit_user/view.dart';
 import '../../pages/calcucation_prepare/binding.dart';
 import '../../pages/calcucation_result/binding.dart';
 import '../../pages/calcucation_result/view.dart';
+import '../../pages/customer/binding.dart';
+import '../../pages/customer/view.dart';
 import '../../pages/friend/binding.dart';
 import '../../pages/friend/view.dart';
 import '../../pages/home/binding.dart';
@@ -348,6 +350,12 @@ class AppPages {
         name: AppRoutes.Sms,
         page: () => SmsPage(),
         binding: SmsPageBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.Customer,
+        page: () => CustomerPage(),
+        binding: CustomerBinding(),
         transition: Transition.rightToLeft
     ),
   ];
