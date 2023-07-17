@@ -28,6 +28,7 @@ import '../../common/values/key.dart';
 import '../../common/widgets/eve_button.dart';
 import '../calcucation/view.dart';
 import '../channel/view.dart';
+import '../conversation/conversation_view.dart';
 import '../conversion/view.dart';
 import '../customer/logic.dart';
 import '../group_chat/logic.dart';
@@ -123,7 +124,7 @@ class ApplicationController extends GetxController {
         TotalUserPage(),
         ChannelPage(),
         SmsPage(),
-        ConversionPage(),
+        ConversationPage(),
         MinePage()
       ];
     } else {
@@ -131,7 +132,7 @@ class ApplicationController extends GetxController {
       pages = [
         TotalUserPage(),
         SmsPage(),
-        ConversionPage(),
+        ConversationPage(),
         MinePage()
       ];
     }

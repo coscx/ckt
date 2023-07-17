@@ -17,6 +17,7 @@ import 'package:flutter_ckt/pages/change_jump/binding.dart';
 import 'package:flutter_ckt/pages/change_jump/view.dart';
 import 'package:flutter_ckt/pages/channel/binding.dart';
 import 'package:flutter_ckt/pages/channel/view.dart';
+import 'package:flutter_ckt/pages/conversation/conversation_binding.dart';
 import 'package:flutter_ckt/pages/create_user/binding.dart';
 import 'package:flutter_ckt/pages/create_user/view.dart';
 import 'package:flutter_ckt/pages/distribute/binding.dart';
@@ -68,6 +69,8 @@ import '../../pages/audit_user/view.dart';
 import '../../pages/calcucation_prepare/binding.dart';
 import '../../pages/calcucation_result/binding.dart';
 import '../../pages/calcucation_result/view.dart';
+import '../../pages/conversation/conversation_view.dart';
+import '../../pages/conversion/view.dart';
 import '../../pages/customer/binding.dart';
 import '../../pages/customer/view.dart';
 import '../../pages/friend/binding.dart';
@@ -356,6 +359,12 @@ class AppPages {
         name: AppRoutes.Customer,
         page: () => CustomerPage(),
         binding: CustomerBinding(),
+        transition: Transition.rightToLeft
+    ),
+    GetPage(
+        name: AppRoutes.Conversation,
+        page: () => ConversationPage(),
+        binding: ConversationBinding(),
         transition: Transition.rightToLeft
     ),
   ];

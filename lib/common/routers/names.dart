@@ -17,6 +17,7 @@ class AppRoutes {
   static const Peer = '/peer';
   static const Group = '/group';
   static const Customer = '/customer';
+  static const Conversation = '/conversation';
   static const Setting = '/setting';
   static const CreateUser = '/create_user';
   static const SearchUser = '/search_user';

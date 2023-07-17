@@ -10,6 +10,7 @@ import 'package:flutter_ckt/pages/other/fine/logic.dart';
 import 'package:flutter_ckt/pages/total_user/logic.dart';
 import 'package:get/get.dart';
 import '../audit_user/logic.dart';
+import '../conversation/conversation_logic.dart';
 import '../lost_user/logic.dart';
 import '../mine/logic.dart';
 import '../sms_page/logic.dart';
@@ -31,5 +32,6 @@ class ApplicationBinding implements Bindings {
     Get.lazyPut<MineLogic>(() => MineLogic());
     Get.lazyPut<ConversionLogic>(() => ConversionLogic());
     Get.lazyPut<SmsPageLogic>(() => SmsPageLogic());
+    Get.lazyPut<ConversationLogic>(() => ConversationLogic());
   }
 }

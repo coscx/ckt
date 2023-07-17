@@ -11,7 +11,7 @@ import 'chat_picture_preview.dart';
 class IMUtil {
   IMUtil._();
 
-  static Future<File?> uCrop(String path) {
+  static Future<CroppedFile?> uCrop(String path) {
     return ImageCropper().cropImage(
       sourcePath: path,
       aspectRatioPresets: Platform.isAndroid
@@ -32,17 +32,6 @@ class IMUtil {
               CropAspectRatioPreset.ratio7x5,
               CropAspectRatioPreset.ratio16x9
             ],
-      androidUiSettings: AndroidUiSettings(
-        toolbarTitle: 'Cropper',
-        toolbarColor: Colors.deepOrange,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.square,
-        lockAspectRatio: false,
-      ),
-      iosUiSettings: IOSUiSettings(
-        title: 'Cropper',
-        minimumAspectRatio: 1.0,
-      ),
     );
   }
 

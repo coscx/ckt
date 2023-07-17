@@ -2565,7 +2565,7 @@ Widget _buildLinkTo(BuildContext context, Data userdetail,
         //     .getImage(source: ImageSource.gallery, imageQuality: 50);
         // File? imageFile = pickedImage != null ? File(pickedImage.path) : null;
         if (file?.path != null) {
-          File? croppedFile = await ImageCropper().cropImage(
+          CroppedFile? croppedFile = await ImageCropper().cropImage(
               aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 2),
               sourcePath: file!.path,
               aspectRatioPresets: Platform.isAndroid
@@ -2585,17 +2585,7 @@ Widget _buildLinkTo(BuildContext context, Data userdetail,
                 CropAspectRatioPreset.ratio5x4,
                 CropAspectRatioPreset.ratio7x5,
                 CropAspectRatioPreset.ratio16x9
-              ],
-              androidUiSettings: const AndroidUiSettings(
-                  hideBottomControls: true,
-                  toolbarTitle: '图片裁剪',
-                  toolbarColor: Colors.deepOrange,
-                  toolbarWidgetColor: Colors.white,
-                  initAspectRatio: CropAspectRatioPreset.original,
-                  lockAspectRatio: true),
-              iosUiSettings: const IOSUiSettings(
-                title: '图片裁剪',
-              ));
+              ]);
           if (croppedFile != null) {
             final logic = Get.find<OAUserDetailLogic>();
             logic.uploadPhoto(croppedFile.path);
