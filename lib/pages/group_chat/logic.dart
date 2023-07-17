@@ -4,6 +4,7 @@ import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 import '../../common/apis/common.dart';
 import '../../common/utils/chat_util.dart';
 import 'state.dart';
@@ -149,7 +150,9 @@ class GroupChatLogic extends GetxController {
     update();
   }
   void sendImgMessage(String path) async {
-    var url = await CommonAPI.uploadAppFile(1, path);
+    var uuids = Uuid();
+    var uuid = uuids.v4();
+    var url = await CommonAPI.uploadAppFile(1, path,uuid+".jpg");
     Map? result = await im.sendFlutterGroupImageMessage(
       secret: false,
       sender: model.memId!,

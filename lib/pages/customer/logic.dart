@@ -6,6 +6,7 @@ import 'package:flt_im_plugin/message.dart';
 import 'package:flt_im_plugin/value_util.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../common/apis/common.dart';
 import '../../common/utils/chat_util.dart';
@@ -109,7 +110,7 @@ class CustomerLogic extends GetxController {
         peerUID: model.cid!,
       );
       var localId = messageList.last.msgLocalID.toString();
-      Map? response = await im.loadCustomerData(appId:model.appid!,uid:model.cid!,messageID: localId);
+      Map? response = await im.loadCustomerEarlierData(appId:model.appid!,uid:model.cid!,messageID: localId);
       var messages = ValueUtil.toArr(response!["data"])
           .map((e) => Message.fromMap(ValueUtil.toMap(e)))
           .toList();
@@ -142,7 +143,9 @@ class CustomerLogic extends GetxController {
 
   void sendImgMessage(String path) async {
     EasyLoading.show(status: "上传中", maskType: EasyLoadingMaskType.none);
-    var url = await CommonAPI.uploadAppFile(1, path);
+    var uuids = Uuid();
+    var uuid = uuids.v4();
+    var url = await CommonAPI.uploadAppFile(1, path,uuid+".jpg");
     Map? result = await im.sendFlutterCustomerImageMessage(
         secret: false,
         sender_appid: "1",
@@ -155,8 +158,10 @@ class CustomerLogic extends GetxController {
   }
 
   sendVoiceMessage(File file, int length) async {
+    var uuids = Uuid();
+    var uuid = uuids.v4();
     //EasyLoading.show(status: "上传中",maskType: EasyLoadingMaskType.none);
-    var url = await CommonAPI.uploadAppFile(1, file.path);
+    var url = await CommonAPI.uploadAppFile(1, file.path,uuid+".mp3");
     Map? result = await im.sendFlutterCustomerAudioMessage(
         secret: false,
         sender_appid: "1",

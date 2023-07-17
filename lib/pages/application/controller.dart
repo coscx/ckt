@@ -212,15 +212,15 @@ class ApplicationController extends GetxController {
     if (imSender != "") {
       tfSender = imSender;
     }
-
+    String appId ="1";
     String imToken = StorageService.to.getString(STORAGE_IM_TOKEN);
     if (imToken == "") {
-      login(tfSender, success: () {
+      login(appId,tfSender, success: () {
         listenNative();
         //BlocProvider.of<ChatBloc>(context).add(EventNewMessage());
       });
     } else {
-      loginByToken(imToken, tfSender, success: () {
+      loginByToken(imToken,appId, tfSender, success: () {
         listenNative();
         //BlocProvider.of<ChatBloc>(context).add(EventNewMessage());
       });
@@ -269,12 +269,12 @@ class ApplicationController extends GetxController {
     super.dispose();
   }
 
-  login(String tfSender, {void Function()? success}) async {
+  login(String tfSenderAppId, String tfSender, {void Function()? success}) async {
     if (tfSender == "") {
       debugPrint('发送用户id 必须填写');
       return;
     }
-    final res = await FltImPlugin().login(uid: tfSender, token: "");
+    final res = await FltImPlugin().login(appid:tfSenderAppId,uid: tfSender, token: "");
     debugPrint(res.toString());
     int code = ValueUtil.toInt(res!['code']);
     if (code == 0) {
@@ -286,13 +286,13 @@ class ApplicationController extends GetxController {
     }
   }
 
-  loginByToken(String token, String tfSender,
+  loginByToken(String token,String tfSenderAppId, String tfSender,
       {void Function()? success}) async {
     if (tfSender == "") {
       debugPrint('发送用户id 必须填写');
       return;
     }
-    final res = await FltImPlugin().login(uid: tfSender, token: token);
+    final res = await FltImPlugin().login(appid:tfSenderAppId,uid: tfSender, token: token);
     debugPrint(res.toString());
     int code = ValueUtil.toInt(res!['code']);
     if (code == 0) {

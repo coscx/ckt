@@ -110,6 +110,7 @@ class Voice {
         await _voicePlayer.setUrl(p);
       }
       await _voicePlayer.load();
+      _voicePlayer.setVolume(1.0);
       _isPlaying=true;
       _voicePlayer.playerStateStream.listen((state) {
 

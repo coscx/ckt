@@ -137,6 +137,6 @@ class _CustomerInlinePageState extends State<CustomerInlinePage> {
   }
 
   _onItemClick(_entity) {
-    debugPrint(_entity);
+    print(_entity);
   }
 }

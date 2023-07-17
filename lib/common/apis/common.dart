@@ -92,11 +92,11 @@ class CommonAPI {
     return QuotaList.fromJson(response);
   }
 
-  static Future<CommonResult> uploadAppFile(int type, String path) async {
+  static Future<CommonResult> uploadAppFile(int type, String path,String name) async {
     MultipartFile multipartFile = MultipartFile.fromFileSync(
       path,
       // 文件名
-      filename: 'some-file-name.jpg',
+      filename: name,
       // 文件类型
       contentType: MediaType("image", "jpg"),
     );
