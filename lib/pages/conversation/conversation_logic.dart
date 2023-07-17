@@ -331,7 +331,7 @@ class ConversationLogic extends GetxController {
     return info.isValid;
   }
 
-  // use this if total item count is known
+  // ause this if total item count is known
   int scrollListenerWithItemCount() {
     int itemCount = list.length;
     double scrollOffset = scrollController.position.pixels;
