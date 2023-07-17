@@ -74,10 +74,7 @@ class ConversationLogic extends GetxController {
 
   /// 置顶会话
   void pinConversation(ConversationInfo info) async {
-    OpenIM.iMManager.conversationManager.pinConversation(
-      conversationID: info.conversationID,
-      isPinned: !info.isPinned!,
-    );
+
   }
 
   /// 删除会话
