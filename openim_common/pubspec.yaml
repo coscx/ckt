@@ -90,9 +90,6 @@ dependencies:
   flutter_download_manager:
     git:
       url: https://github.com/hrxiang/flutter_download_manager.git
-  r_scan:
-    git:
-      url: https://github.com/coscx/r_scan.git
   flutter_openim_sdk:
     path: ../openim_sdk
 

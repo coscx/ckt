@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:openim_common/openim_common.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:r_scan/r_scan.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'qr_scan_box.dart';
@@ -96,8 +95,7 @@ class _QrcodeViewState extends State<QrcodeView> with TickerProviderStateMixin {
         source: ImageSource.gallery,
       );
       if (null != image) {
-        final result = await RScan.scanImagePath(image.path);
-        _parse(result.message);
+
       }
     });
   }
