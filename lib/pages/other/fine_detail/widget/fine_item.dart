@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ckt/common/utils/common.dart';
-import 'package:flutter_picker/Picker.dart';
+import 'package:flutter_picker/picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/apis/common.dart';

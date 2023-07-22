@@ -6,7 +6,7 @@ import 'package:flutter_ckt/common/entities/detail/user_detail.dart';
 import 'package:flutter_ckt/pages/user_detail/logic.dart';
 import 'package:flutter_ckt/pages/user_detail/widget/tag.dart';
 import 'package:flutter_ckt/pages/user_detail/widget/widget_node_panel.dart';
-import 'package:flutter_picker/Picker.dart';
+import 'package:flutter_picker/picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';

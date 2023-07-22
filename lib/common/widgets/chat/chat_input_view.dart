@@ -381,7 +381,6 @@ class _ChatInputViewState extends State<ChatInputView> {
                         skinToneDialogBgColor: Colors.white,
                         skinToneIndicatorColor: Colors.grey,
                         enableSkinTones: true,
-                        showRecentsTab: true,
                         recentsLimit: 28,
                         noRecents: Container(child: Text("暂无更多"),),
                         tabIndicatorAnimDuration: kTabScrollDuration,

@@ -5,7 +5,7 @@ import 'package:flutter_ckt/common/entities/loan/step.dart';
 import 'package:flutter_ckt/common/routers/names.dart';
 import 'package:flutter_ckt/pages/select_result/view.dart';
 
-import 'package:flutter_picker/Picker.dart';
+import 'package:flutter_picker/picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
