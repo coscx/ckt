@@ -13,6 +13,9 @@ class ConversationInfo {
   /// 参与会话的userID
   String? userID;
 
+  /// 参与会话的userID
+  String? appID;
+
   /// 参与会话的groupID
   String? groupID;
 
@@ -87,8 +90,8 @@ class ConversationInfo {
     this.msgDestructTime,
   });
 
-  ConversationInfo.fromMap(Map json) : conversationID = json['rowid']{
-    var typeObj = json['type'];
+  ConversationInfo.fromMap(Map jsonData) : conversationID = ValueUtil.toStr(jsonData['rowid']){
+    var typeObj = jsonData['type'];
     if (typeObj is num) {
       conversationType = ValueUtil.toInt(typeObj);
     }
@@ -112,30 +115,33 @@ class ConversationInfo {
     // sex=0;
     // message = Message.fromMap(ValueUtil.toMap(json['message']));
 
-    userID = json['userID'];
-    groupID = json['groupID'];
-    showName = json['showName'];
-    faceURL = json['faceURL'];
-    recvMsgOpt = json['recvMsgOpt'];
-    unreadCount = json['unreadCount'];
+    userID = ValueUtil.toStr(jsonData['cid']);
+    appID = ValueUtil.toStr(jsonData['appid']);
+    groupID = "0";
+    showName = ValueUtil.toStr(jsonData['cid']);
+    faceURL = "";
+    recvMsgOpt = 0;
+    unreadCount = ValueUtil.toInt(jsonData['unreadCount']);
     try {
-      if (json['latestMsg'] is String) {
-        latestMsg = Message.fromJson(jsonDecode(json['latestMsg']));
-      } else if (json['latestMsg'] is Map) {
-        latestMsg = Message.fromJson(json['latestMsg']);
+      if (jsonData['message'] is String) {
+        latestMsg = Message.fromMap(jsonDecode(jsonData['message']));
+      } else if (jsonData['message'] is Map) {
+        latestMsg = Message.fromMap(((jsonData['message']).cast<String, dynamic>()));
       }
-    } catch (e) {}
-    latestMsgSendTime = json['latestMsgSendTime'];
-    draftText = json['draftText'];
-    draftTextTime = json['draftTextTime'];
-    isPinned = json['isPinned'];
-    isPrivateChat = json['isPrivateChat'];
-    burnDuration = json['burnDuration'];
-    isNotInGroup = json['isNotInGroup'];
-    groupAtType = json['groupAtType'];
-    ex = json['ex'];
-    isMsgDestruct = json['isMsgDestruct'];
-    msgDestructTime = json['msgDestructTime'];
+    } catch (e) {
+      print(e);
+    }
+    latestMsgSendTime = latestMsg !=null ?(latestMsg!.createTime! * 1000) :0;
+    draftText = "";
+    draftTextTime = 1689664549;
+    isPinned = false;
+    isPrivateChat = false;
+    burnDuration = 0;
+    isNotInGroup = false;
+    groupAtType = 0;
+    ex = "json['ex']";
+    isMsgDestruct = false;
+    msgDestructTime = 0;
   }
   ConversationInfo.fromJson(Map<String, dynamic> json)
       : conversationID = json['conversationID'] {

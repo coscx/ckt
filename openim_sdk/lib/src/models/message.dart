@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
+
+import '../util/value_util.dart';
 
 class Message {
   /// 消息id，唯一标识
@@ -164,6 +167,46 @@ class Message {
     this.typingElem,
   });
 
+  Message.fromMap(Map<String, dynamic> jsonData) {
+    clientMsgID = ValueUtil.toStr(jsonData['msgLocalID']);
+    serverMsgID = ValueUtil.toStr(jsonData['msgLocalID']);
+    createTime = ValueUtil.toInt(jsonData['timestamp']);
+    sendTime = ValueUtil.toInt(jsonData['timestamp']);
+    sendID = ValueUtil.toStr(jsonData['sender']);
+    recvID =  ValueUtil.toStr(jsonData['receiver']);
+    msgFrom = 0;
+    contentType = 101;
+    platformID = 1;
+    senderNickname = "json['senderNickname']";
+    senderFaceUrl = "json['senderFaceUrl']";
+    groupID = "0";
+    // content = json['content'];
+    seq = ValueUtil.toInt(jsonData['seq']);
+    isRead = false;
+    status = 1;
+    offlinePush =null;
+    attachedInfo = "";
+    ex = "";
+    exMap =  {};
+    sessionType = 1;
+    pictureElem = null;
+    soundElem =null;
+    videoElem  =null;
+    fileElem = null;
+    atTextElem =  null;
+    locationElem =  null;
+    customElem =  null;
+    quoteElem =  null;
+    mergeElem =  null;
+    notificationElem =null;
+    faceElem =null;
+    hasReadTime = 1685555555000;
+    isReact =false;
+    textElem = TextElem.fromMap(jsonData['content'].cast<String, dynamic>());
+    cardElem = null;
+    advancedTextElem =  null;
+    typingElem =null;
+  }
   Message.fromJson(Map<String, dynamic> json) {
     clientMsgID = json['clientMsgID'];
     serverMsgID = json['serverMsgID'];
@@ -880,7 +923,10 @@ class TextElem {
   TextElem.fromJson(Map<String, dynamic> json) {
     content = json['content'];
   }
-
+  TextElem.fromMap(Map<String, dynamic> jsonData) {
+    var u=  json.decode(jsonData['raw']);
+    content = u['text'];
+  }
   Map<String, dynamic> toJson() {
     final data = Map<String, dynamic>();
     data['content'] = content;
