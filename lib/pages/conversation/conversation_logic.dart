@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flt_im_plugin/flt_im_plugin.dart';
+import 'package:flt_im_plugin/value_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:get/get.dart';
@@ -79,10 +81,8 @@ class ConversationLogic extends GetxController {
 
   /// 删除会话
   void deleteConversation(ConversationInfo info) async {
-    await OpenIM.iMManager.conversationManager
-        .deleteConversationAndDeleteAllMsg(
-      conversationID: info.conversationID,
-    );
+    FltImPlugin im = FltImPlugin();
+    im.deleteConversation(rowid: info.conversationID,cid: info.userID!,appid: info.appID!);
     list.remove(info);
   }
 
@@ -321,12 +321,15 @@ class ConversationLogic extends GetxController {
     }
   }
 
-  _request(int offset) =>
-      OpenIM.iMManager.conversationManager.getConversationListSplit(
-        offset: offset,
-        count: pageSize,
-      );
+  _request(int offset) async {
 
+    FltImPlugin im = FltImPlugin();
+    Map? response = await im.getConversations();
+    var conversions = ValueUtil.toArr(response!["data"])
+        .map((e) => ConversationInfo.fromMap(ValueUtil.toMap(e)))
+        .toList();
+    return conversions;
+  }
   bool isValidConversation(ConversationInfo info) {
     return info.isValid;
   }
@@ -413,10 +416,18 @@ class ConversationLogic extends GetxController {
     Message? searchMessage,
   }) async {
     // 获取会话信息，若不存在则创建
-    conversationInfo ??= await _createConversation(
-      sourceID: userID ?? groupID!,
-      sessionType: userID == null ? sessionType! : ConversationType.single,
+    // conversationInfo ??= await _createConversation(
+    //   sourceID: userID ?? groupID!,
+    //   sessionType: userID == null ? sessionType! : ConversationType.single,
+    // );
+    userID =conversationInfo!.userID;
+    groupID =conversationInfo.groupID;
+    FltImPlugin im = FltImPlugin();
+    var res = await im.createCustomerConversion(
+      currentUID: "0",
+      peerUID: userID ?? groupID!,
     );
+
 
     // 标记已读
     // _markMessageHasRead(conversationID: conversationInfo.conversationID);
@@ -455,14 +466,14 @@ class ConversationLogic extends GetxController {
     // 回到会话列表
     // homeLogic.switchTab(0);
 
-    bool equal(e) => e.conversationID == conversationInfo?.conversationID;
+    bool equal(e) => e.conversationID == conversationInfo.conversationID;
     // 删除所有@标识/公告标识
     var groupAtType = list.firstWhereOrNull(equal)?.groupAtType;
-    if (groupAtType != GroupAtType.atNormal) {
-      OpenIM.iMManager.conversationManager.resetConversationGroupAtType(
-        conversationID: conversationInfo.conversationID,
-      );
-    }
+    // if (groupAtType != GroupAtType.atNormal) {
+    //   OpenIM.iMManager.conversationManager.resetConversationGroupAtType(
+    //     conversationID: conversationInfo.conversationID,
+    //   );
+    // }
   }
 
   scan()  {

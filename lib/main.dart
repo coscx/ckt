@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ckt/common/langs/translation_service.dart';
 import 'package:flutter_ckt/common/routers/pages.dart';
 import 'package:flutter_ckt/common/store/store.dart';
 import 'package:flutter_ckt/common/style/style.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:openim_common/openim_common.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 Future<void> main() async {
@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           title: '财客通',
           theme: AppTheme.light,
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
+          enableLog: true,
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
           builder: FlutterSmartDialog.init(
@@ -58,9 +59,12 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: ConfigStore.to.languages,
           locale: ConfigStore.to.locale,
+          localeResolutionCallback: (locale, list) {
+            Get.locale ??= locale;
+            return locale;
+          },
           fallbackLocale: const Locale('en', 'US'),
-          enableLog: false,
-          logWriterCallback: Logger.write,
+          logWriterCallback: Logger.print,
         ),
       ),
     );

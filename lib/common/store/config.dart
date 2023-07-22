@@ -12,7 +12,7 @@ class ConfigStore extends GetxController {
   PackageInfo? _platform;
   String get version => _platform?.version ?? '-';
   bool get isRelease => bool.fromEnvironment("dart.vm.product");
-  Locale locale = Locale('en', 'US');
+  Locale locale = Locale('zh', 'CN');
   List<Locale> languages = [
     Locale('en', 'US'),
     Locale('zh', 'CN'),

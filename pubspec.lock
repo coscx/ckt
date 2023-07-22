@@ -559,7 +559,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4795d0095982319e31596bd38a8c7ded795c0e92"
+      resolved-ref: "27c6303b35e321e668fb9b8a123882d9f7cb614c"
       url: "https://github.com/coscx/lat.git"
     source: git
     version: "1.0.0"
@@ -1631,14 +1631,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.2.1"
-  r_scan:
-    dependency: transitive
-    description:
-      name: r_scan
-      sha256: "61812b19db9b0a930fc12cd0d1d5e0ff44295439cc65d8916035c5dc7cfbb9ff"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.6+1"
   rational:
     dependency: transitive
     description:

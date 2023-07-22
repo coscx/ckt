@@ -28,6 +28,7 @@ import '../../common/values/key.dart';
 import '../../common/widgets/eve_button.dart';
 import '../calcucation/view.dart';
 import '../channel/view.dart';
+import '../conversation/conversation_logic.dart';
 import '../conversation/conversation_view.dart';
 import '../conversion/view.dart';
 import '../customer/logic.dart';
@@ -124,7 +125,7 @@ class ApplicationController extends GetxController {
         TotalUserPage(),
         ChannelPage(),
         SmsPage(),
-        ConversationPage(),
+        ConversionPage(),
         MinePage()
       ];
     } else {
@@ -132,7 +133,7 @@ class ApplicationController extends GetxController {
       pages = [
         TotalUserPage(),
         SmsPage(),
-        ConversationPage(),
+        ConversionPage(),
         MinePage()
       ];
     }
@@ -503,6 +504,8 @@ class ApplicationController extends GetxController {
       var customerLogic = Get.find<CustomerLogic>();
       customerLogic.receiveMsgFresh();
     }
+    var conversationLogic = Get.find<ConversationLogic>();
+    conversationLogic.onRefresh();
     print(message);
   }
   void onCustomerMessageACK(result) {
@@ -514,6 +517,8 @@ class ApplicationController extends GetxController {
       var customerLogic = Get.find<CustomerLogic>();
       customerLogic.receiveMsgAck(message);
     }
+    var conversationLogic = Get.find<ConversationLogic>();
+    conversationLogic.onRefresh();
     print("onCustomerMessageACK");
     print(message);
 

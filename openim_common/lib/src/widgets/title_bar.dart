@@ -76,12 +76,12 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
             AvatarView(
               width: 42.w,
               height: 42.h,
-              text: OpenIM.iMManager.userInfo.nickname,
-              url: OpenIM.iMManager.userInfo.faceURL,
+              text: "客服",
+              url: "https://p.qpic.cn/qidian_pic/2852139634/202002211691d6dfe1cb69f5bf6ce01427f63d12/0",
             ),
             10.horizontalSpace,
-            if (null != OpenIM.iMManager.userInfo.nickname)
-              OpenIM.iMManager.userInfo.nickname!.toText
+            if (null != "OpenIM.iMManager.userInfo.nickname")
+              "客服".toText
                 ..style = Styles.ts_0C1C33_17sp
                 ..maxLines = 1
                 ..overflow = TextOverflow.ellipsis,
