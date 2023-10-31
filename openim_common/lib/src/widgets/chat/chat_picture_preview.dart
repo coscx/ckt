@@ -51,7 +51,6 @@ class ChatPicturePreview extends StatelessWidget {
   Widget get _pageView => ExtendedImageGesturePageView.builder(
         controller: controller,
         onPageChanged: (int index) {},
-        preloadPagesCount: 2,
         itemCount: images.length,
         itemBuilder: (BuildContext context, int index) {
           return _networkGestureImage(images.elementAt(index));

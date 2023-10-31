@@ -36,6 +36,7 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
   String roleKey ="super";
   @override
   void onInit() {
+    super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       this._overlayEntry = this._createOverlayEntry();
     });
@@ -76,7 +77,7 @@ class TotalUserLogic extends GetxController with SingleGetTickerProviderMixin {
   }
 
   showMyMenu() {
-    Overlay.of(Get.context!)?.insert(this._overlayEntry);
+    Overlay.of(Get.context!).insert(this._overlayEntry);
     bool gg = Get.isRegistered<MyUserLogic>();
     if (gg) {
       var homeLogic = Get.find<MyUserLogic>();
