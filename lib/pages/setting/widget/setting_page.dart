@@ -137,8 +137,7 @@ class SettingPages extends StatelessWidget {
 
               ),
           style: ElevatedButton.styleFrom(
-              onPrimary: Colors.white,
-              primary: Theme.of(context).primaryColor,
+
               shadowColor: Colors.black12,
               shape: StadiumBorder(),
               padding: EdgeInsets.symmetric(horizontal: 65.w, vertical: 15.h)),
@@ -159,8 +158,7 @@ class SettingPages extends StatelessWidget {
 
           ),
           style: ElevatedButton.styleFrom(
-              onPrimary: Colors.white,
-              primary: Theme.of(context).primaryColor,
+
               shadowColor: Colors.black12,
               shape: StadiumBorder(),
               padding: EdgeInsets.symmetric(horizontal: 65.w, vertical: 15.h)),

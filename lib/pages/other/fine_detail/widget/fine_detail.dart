@@ -1832,7 +1832,6 @@ class _TimeLinePageState extends State<TimeLinePage>
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
-        primary: Colors.blue.withOpacity(0.7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(70.w),
         ),

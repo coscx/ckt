@@ -286,10 +286,7 @@ class _WxSearchPageState extends State<WxSearchPage> {
                         storeName == "选择门店" ? Colors.black : Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: storeName == "选择门店"
-                          ? Colors.grey.withAlpha(33)
-                          : Colors.blue,
+
                       shadowColor: Colors.black12,
                       shape: StadiumBorder(),
                       padding: EdgeInsets.symmetric(

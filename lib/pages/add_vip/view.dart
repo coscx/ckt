@@ -383,10 +383,6 @@ class AddVipPage extends StatelessWidget {
                               : Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white,
-                        primary: logic.startBirthDayValue.value == ""
-                            ? Colors.grey.withAlpha(33)
-                            : Colors.blue,
                         shadowColor: Colors.black12,
                         shape: const StadiumBorder(),
                         padding: EdgeInsets.symmetric(
@@ -490,10 +486,6 @@ class AddVipPage extends StatelessWidget {
                               : Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white,
-                        primary: logic.storeName.value == "选择会员套餐"
-                            ? Colors.grey.withAlpha(33)
-                            : Colors.blue,
                         shadowColor: Colors.black12,
                         shape: const StadiumBorder(),
                         padding: EdgeInsets.symmetric(

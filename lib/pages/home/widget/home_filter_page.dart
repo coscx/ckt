@@ -319,10 +319,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                           : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: startBirthDayValue == ""
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -378,10 +375,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                           endBirthDayValue == "" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: endBirthDayValue == ""
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -487,10 +481,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       color: storeName == "选择门店" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: storeName == "选择门店"
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -645,10 +636,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       color: fromUserName == "选择用户" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: fromUserName == "选择用户"
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -803,10 +791,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       color: currentUserName == "选择用户" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: currentUserName == "选择用户"
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -960,10 +945,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       color: userChannelName == "选择渠道" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: userChannelName == "选择渠道"
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -1082,10 +1064,7 @@ class _GZXFilterGoodsPageState extends State<HomesFilterPage> {
                       color: channelName == "选择渠道" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: channelName == "选择渠道"
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
@@ -1514,10 +1493,7 @@ class _DateRangeState extends State<DateRange> {
                       endBirthDayValue == "" ? Colors.black : Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: endBirthDayValue == ""
-                        ? Colors.grey.withAlpha(33)
-                        : Colors.blue,
+
                     shadowColor: Colors.black12,
                     shape: const StadiumBorder(),
                     padding:
