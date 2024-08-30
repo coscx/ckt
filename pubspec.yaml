@@ -115,6 +115,11 @@ dependencies:
     path: openim_sdk
   openim_common:
     path: openim_common
+dependency_overrides:
+  win32: ^5.5.4
+  archive: ^3.6.1
+  intl: ^0.19.0 # dep by jiffy: ^6.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
