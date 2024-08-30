@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:openim_common/openim_common.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class FontSizeSlider extends StatelessWidget {
   const FontSizeSlider({
@@ -24,37 +22,37 @@ class FontSizeSlider extends StatelessWidget {
       child: Column(
         children: [
           _buildIndicatorLabel(),
-          SfSliderTheme(
-            data: SfSliderThemeData(
-              activeTrackHeight: 1,
-              inactiveTrackHeight: 1,
-              activeTrackColor: Styles.c_8E9AB0_opacity30,
-              inactiveTrackColor: Styles.c_8E9AB0_opacity30,
-              activeTickColor: Styles.c_8E9AB0_opacity30,
-              inactiveTickColor: Styles.c_8E9AB0_opacity30,
-              activeMinorTickColor: Styles.c_8E9AB0_opacity30,
-              inactiveMinorTickColor: Styles.c_8E9AB0_opacity30,
-              thumbColor: Styles.c_FFFFFF,
-              tickOffset: Offset(0, -10.h),
-              // labelOffset: Offset(0, -45.h),
-            ),
-            child: SfSlider(
-              min: 0,
-              max: 2,
-              value: value,
-              interval: 1,
-              showTicks: true,
-              showLabels: false,
-              labelFormatterCallback: (actualValue, formattedText) {
-                return '打';
-              },
-              // enableTooltip: false,
-              minorTicksPerInterval: 1,
-              labelPlacement: LabelPlacement.onTicks,
-              edgeLabelPlacement: EdgeLabelPlacement.inside,
-              onChanged: onChanged,
-            ),
-          ),
+          // SfSliderTheme(
+          //   data: SfSliderThemeData(
+          //     activeTrackHeight: 1,
+          //     inactiveTrackHeight: 1,
+          //     activeTrackColor: Styles.c_8E9AB0_opacity30,
+          //     inactiveTrackColor: Styles.c_8E9AB0_opacity30,
+          //     activeTickColor: Styles.c_8E9AB0_opacity30,
+          //     inactiveTickColor: Styles.c_8E9AB0_opacity30,
+          //     activeMinorTickColor: Styles.c_8E9AB0_opacity30,
+          //     inactiveMinorTickColor: Styles.c_8E9AB0_opacity30,
+          //     thumbColor: Styles.c_FFFFFF,
+          //     tickOffset: Offset(0, -10.h),
+          //     // labelOffset: Offset(0, -45.h),
+          //   ),
+          //   child: SfSlider(
+          //     min: 0,
+          //     max: 2,
+          //     value: value,
+          //     interval: 1,
+          //     showTicks: true,
+          //     showLabels: false,
+          //     labelFormatterCallback: (actualValue, formattedText) {
+          //       return '打';
+          //     },
+          //     // enableTooltip: false,
+          //     minorTicksPerInterval: 1,
+          //     labelPlacement: LabelPlacement.onTicks,
+          //     edgeLabelPlacement: EdgeLabelPlacement.inside,
+          //     onChanged: onChanged,
+          //   ),
+          //),
         ],
       ),
     );

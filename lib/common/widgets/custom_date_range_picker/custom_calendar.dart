@@ -124,7 +124,7 @@ class CustomCalendarState extends State<CustomCalendar> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
-                      color: Theme.of(context).textTheme.headline1!.color,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
